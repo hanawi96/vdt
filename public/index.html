@@ -128,7 +128,7 @@
 
         <main>
             <!-- Products View -->
-            <div x-show="view === 'products'" x-transition.opacity>
+            <div x-show="!loading && !error && view === 'products'" x-transition.opacity>
 
                 <h2 class="text-2xl font-bold text-center text-gray-800 mb-4">Danh mục sản phẩm</h2>
 
