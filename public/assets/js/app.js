@@ -320,9 +320,12 @@ document.addEventListener('alpine:init', () => {
 
 
         openImageModal(imageUrl) {
+            console.log('openImageModal function called.');
             this.currentImage = imageUrl;
             this.isImageModalOpen = true;
+            console.log('isImageModalOpen set to:', this.isImageModalOpen);
             document.body.style.overflow = 'hidden';
+            console.log('Body overflow set to hidden.');
         },
 
         closeImageModal() {
@@ -385,9 +388,16 @@ document.addEventListener('alpine:init', () => {
             }
         },
         buyNow(product) {
-            this.cart = [];
-            this.resetDiscount();
-            this.cart.push({ ...product, quantity: 1 });
+            // Thêm sản phẩm vào giỏ hàng hiện có (không xóa giỏ hàng cũ)
+            const existingItem = this.cart.find(item => item.id === product.id);
+            if (existingItem) {
+                existingItem.quantity++;
+            } else {
+                const savedNote = this.productNotes[product.id] || '';
+                this.cart.push({ ...product, quantity: 1, weight: savedNote });
+            }
+
+            // Chuyển thẳng đến trang giỏ hàng
             this.view = 'cart';
             window.scrollTo(0, 0);
         },

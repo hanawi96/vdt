@@ -1,3 +1,7 @@
+.custom-input-indent {
+    text-indent: 5px;
+}
+
 /* Custom styles can be added here */
 body {
     -webkit-font-smoothing: antialiased;
