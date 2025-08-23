@@ -1,0 +1,504 @@
+[
+  {
+    "id": "mix-bac-001",
+    "name": "Vòng Bạc Trơn Tinh Tế",
+    "category": "mix-bac",
+    "price": 250000,
+    "image": "./assets/images/demo.jpg",
+    "description": "Thiết kế bạc trơn đơn giản nhưng không kém phần sang trọng, phù hợp cho mọi bé.",
+    "rating": 4.8,
+    "purchases": 150
+  },
+  {
+    "id": "mix-bac-002",
+    "name": "Vòng Bạc Charm Cỏ 4 Lá",
+    "category": "mix-bac",
+    "original_price": 320000,
+    "price": 280000,
+    "image": "./assets/images/demo.jpg",
+    "description": "Charm cỏ 4 lá bằng bạc mang lại may mắn và bình an cho bé yêu.",
+    "rating": 4.9,
+    "purchases": 210
+  },
+  {
+    "id": "mix-bac-003",
+    "name": "Vòng Bạc Khắc Tên Bé",
+    "category": "mix-bac",
+    "price": 350000,
+    "image": "./assets/images/demo.jpg",
+    "description": "Món quà ý nghĩa với tên bé được khắc laser tinh xảo trên thanh bạc.",
+    "rating": 5,
+    "purchases": 300
+  },
+  {
+    "id": "mix-bac-004",
+    "name": "Vòng Bạc Hạt Bi Lấp Lánh",
+    "category": "mix-bac",
+    "price": 270000,
+    "image": "./assets/images/demo.jpg",
+    "description": "Các hạt bi bạc nhỏ tạo hiệu ứng lấp lánh, thu hút ánh nhìn.",
+    "rating": 4.7,
+    "purchases": 180
+  },
+  {
+    "id": "mix-bac-005",
+    "name": "Vòng Bạc Charm 12 Con Giáp",
+    "category": "mix-bac",
+    "price": 330000,
+    "image": "./assets/images/demo.jpg",
+    "description": "Chọn charm con giáp theo năm sinh của bé, một vật phẩm hộ mệnh độc đáo.",
+    "rating": 4.9,
+    "purchases": 250
+  },
+  {
+    "id": "mix-ho-phach-001",
+    "name": "Hổ Phách Vàng Mật Ong",
+    "category": "mix-ho-phach",
+    "price": 450000,
+    "image": "./assets/images/demo.jpg",
+    "description": "Hổ phách màu vàng mật ong tự nhiên, giúp bé ngủ ngon và giảm đau khi mọc răng.",
+    "rating": 5,
+    "purchases": 420
+  },
+  {
+    "id": "mix-ho-phach-002",
+    "name": "Hổ Phách Nâu Đỏ Cổ Điển",
+    "category": "mix-ho-phach",
+    "price": 480000,
+    "image": "./assets/images/demo.jpg",
+    "description": "Màu nâu đỏ ấm áp của hổ phách, mang vẻ đẹp cổ điển và sang trọng.",
+    "rating": 4.8,
+    "purchases": 190
+  },
+  {
+    "id": "mix-ho-phach-003",
+    "name": "Hổ Phách Mix Bạc Tinh Xảo",
+    "category": "mix-ho-phach",
+    "original_price": 550000,
+    "price": 500000,
+    "image": "./assets/images/demo.jpg",
+    "description": "Sự kết hợp hoàn hảo giữa năng lượng của hổ phách và vẻ đẹp của bạc.",
+    "rating": 4.9,
+    "purchases": 150
+  },
+  {
+    "id": "mix-ho-phach-004",
+    "name": "Hổ Phách Hạt Tròn Đều",
+    "category": "mix-ho-phach",
+    "price": 460000,
+    "image": "./assets/images/demo.jpg",
+    "description": "Các hạt hổ phách được tuyển chọn kỹ lưỡng, tròn đều và bóng đẹp.",
+    "rating": 4.8,
+    "purchases": 280
+  },
+  {
+    "id": "mix-ho-phach-005",
+    "name": "Hổ Phách Tự Nhiên Baltic",
+    "category": "mix-ho-phach",
+    "price": 600000,
+    "image": "./assets/images/demo.jpg",
+    "description": "Dòng hổ phách cao cấp từ vùng biển Baltic, chứa hàm lượng axit succinic cao.",
+    "rating": 5,
+    "purchases": 120
+  },
+  {
+    "id": "dau-tam-thuan-001",
+    "name": "Vòng Dâu Tằm Hạt Gốc",
+    "category": "dau-tam-thuan",
+    "price": 150000,
+    "image": "./assets/images/demo.jpg",
+    "description": "Làm từ cành dâu tằm gốc, giữ nguyên vẹn năng lượng tự nhiên.",
+    "rating": 4.9,
+    "purchases": 500
+  },
+  {
+    "id": "dau-tam-thuan-002",
+    "name": "Vòng Dâu Tằm Đánh Bóng",
+    "category": "dau-tam-thuan",
+    "price": 180000,
+    "image": "./assets/images/demo.jpg",
+    "description": "Hạt dâu tằm được đánh bóng thủ công, an toàn cho làn da nhạy cảm của bé.",
+    "rating": 4.8,
+    "purchases": 350
+  },
+  {
+    "id": "dau-tam-thuan-003",
+    "name": "Vòng Dâu Tằm 108 Hạt",
+    "category": "dau-tam-thuan",
+    "price": 250000,
+    "image": "./assets/images/demo.jpg",
+    "description": "Chuỗi 108 hạt dâu tằm, mang ý nghĩa tâm linh và bình an.",
+    "rating": 4.7,
+    "purchases": 180
+  },
+  {
+    "id": "dau-tam-thuan-004",
+    "name": "Vòng Dâu Tằm Kèm Dây Đỏ",
+    "category": "dau-tam-thuan",
+    "price": 160000,
+    "image": "./assets/images/demo.jpg",
+    "description": "Kết hợp với sợi chỉ đỏ may mắn, nhân đôi tác dụng bảo vệ.",
+    "rating": 4.9,
+    "purchases": 450
+  },
+  {
+    "id": "dau-tam-thuan-005",
+    "name": "Vòng Dâu Tằm Mộc Tự Nhiên",
+    "category": "dau-tam-thuan",
+    "price": 140000,
+    "image": "./assets/images/demo.jpg",
+    "description": "Vẻ đẹp mộc mạc, tự nhiên, không qua xử lý hóa chất.",
+    "rating": 5,
+    "purchases": 600
+  },
+  {
+    "id": "mix-da-quy-001",
+    "name": "Mix Thạch Anh Tím",
+    "category": "mix-da-quy",
+    "price": 380000,
+    "image": "./assets/images/demo.jpg",
+    "description": "Thạch anh tím giúp tăng cường trí tuệ và sự tập trung.",
+    "rating": 4.8,
+    "purchases": 130
+  },
+  {
+    "id": "mix-da-quy-002",
+    "name": "Mix Mã Não Xanh",
+    "category": "mix-da-quy",
+    "price": 350000,
+    "image": "./assets/images/demo.jpg",
+    "description": "Mã não xanh mang lại sự cân bằng và làm dịu cảm xúc.",
+    "rating": 4.7,
+    "purchases": 110
+  },
+  {
+    "id": "mix-da-quy-003",
+    "name": "Mix Đá Mắt Hổ",
+    "category": "mix-da-quy",
+    "price": 400000,
+    "image": "./assets/images/demo.jpg",
+    "description": "Đá mắt hổ mang lại dũng khí và sự tự tin.",
+    "rating": 4.9,
+    "purchases": 200
+  },
+  {
+    "id": "mix-da-quy-004",
+    "name": "Mix Cẩm Thạch",
+    "category": "mix-da-quy",
+    "price": 550000,
+    "image": "./assets/images/demo.jpg",
+    "description": "Cẩm thạch biểu tượng cho sức khỏe và sự trường thọ.",
+    "rating": 5,
+    "purchases": 90
+  },
+  {
+    "id": "mix-da-quy-005",
+    "name": "Mix Ngọc Bích",
+    "category": "mix-da-quy",
+    "price": 520000,
+    "image": "./assets/images/demo.jpg",
+    "description": "Ngọc bích Nephrite tự nhiên, thu hút vượng khí và tài lộc.",
+    "rating": 4.9,
+    "purchases": 115
+  },
+  {
+    "id": "mix-vang-001",
+    "name": "Vòng Vàng Charm Kim Tiền",
+    "category": "mix-vang",
+    "price": 999000,
+    "image": "./assets/images/demo.jpg",
+    "description": "Charm kim tiền bằng vàng 18K, thu hút tài lộc và may mắn.",
+    "rating": 5,
+    "purchases": 50
+  },
+  {
+    "id": "mix-vang-002",
+    "name": "Vòng Vàng Hạt Gạo",
+    "category": "mix-vang",
+    "price": 890000,
+    "image": "./assets/images/demo.jpg",
+    "description": "Hạt gạo vàng biểu tượng cho sự no đủ, sung túc.",
+    "rating": 4.8,
+    "purchases": 70
+  },
+  {
+    "id": "mix-vang-003",
+    "name": "Vòng Vàng 18K Chữ Phúc",
+    "category": "mix-vang",
+    "price": 1200000,
+    "image": "./assets/images/demo.jpg",
+    "description": "Chữ Phúc bằng vàng mang lại phước lành và hạnh phúc.",
+    "rating": 5,
+    "purchases": 45
+  },
+  {
+    "id": "mix-vang-004",
+    "name": "Vòng Vàng Mix Ngọc Trai",
+    "category": "mix-vang",
+    "price": 1500000,
+    "image": "./assets/images/demo.jpg",
+    "description": "Sự kết hợp đẳng cấp giữa vàng và ngọc trai Akoya.",
+    "rating": 5,
+    "purchases": 30
+  },
+  {
+    "id": "mix-vang-005",
+    "name": "Vòng Vàng Thiết Kế Tối Giản",
+    "category": "mix-vang",
+    "price": 790000,
+    "image": "./assets/images/demo.jpg",
+    "description": "Vẻ đẹp tinh tế từ những chi tiết vàng nhỏ, hiện đại.",
+    "rating": 4.7,
+    "purchases": 85
+  },
+  {
+    "id": "size-nho-001",
+    "name": "Vòng Sơ Sinh An Toàn",
+    "category": "size-nho",
+    "price": 150000,
+    "image": "./assets/images/demo.jpg",
+    "description": "Thiết kế đặc biệt an toàn cho trẻ sơ sinh từ 0-6 tháng tuổi.",
+    "rating": 5,
+    "purchases": 800
+  },
+  {
+    "id": "size-nho-002",
+    "name": "Vòng Dâu Tằm Hạt Nhỏ",
+    "category": "size-nho",
+    "price": 160000,
+    "image": "./assets/images/demo.jpg",
+    "description": "Hạt dâu tằm kích thước nhỏ, phù hợp với cổ tay bé xinh.",
+    "rating": 4.9,
+    "purchases": 750
+  },
+  {
+    "id": "size-nho-003",
+    "name": "Vòng Mix Bạc Cho Bé Trai",
+    "category": "size-nho",
+    "price": 280000,
+    "image": "./assets/images/demo.jpg",
+    "description": "Charm bạc hình ô tô, máy bay, mạnh mẽ và đáng yêu.",
+    "rating": 4.8,
+    "purchases": 400
+  },
+  {
+    "id": "size-nho-004",
+    "name": "Vòng Mix Bạc Cho Bé Gái",
+    "category": "size-nho",
+    "price": 280000,
+    "image": "./assets/images/demo.jpg",
+    "description": "Charm bạc hình nơ, vương miện, điệu đà và xinh xắn.",
+    "rating": 4.9,
+    "purchases": 480
+  },
+  {
+    "id": "size-nho-005",
+    "name": "Vòng Dâu Tằm Mềm Mại",
+    "category": "size-nho",
+    "price": 170000,
+    "image": "./assets/images/demo.jpg",
+    "description": "Dây dù siêu mềm, không gây hằn lên da bé.",
+    "rating": 5,
+    "purchases": 600
+  },
+  {
+    "id": "size-vua-001",
+    "name": "Vòng Tập Đi Mix Chuông Bạc",
+    "category": "size-vua",
+    "price": 300000,
+    "image": "./assets/images/demo.jpg",
+    "description": "Tiếng chuông bạc leng keng vui tai mỗi khi bé bước đi.",
+    "rating": 4.8,
+    "purchases": 320
+  },
+  {
+    "id": "size-vua-002",
+    "name": "Vòng Hổ Phách Giảm Đau Mọc Răng",
+    "category": "size-vua",
+    "price": 480000,
+    "image": "./assets/images/demo.jpg",
+    "description": "Hỗ trợ giảm các triệu chứng khó chịu khi bé mọc răng.",
+    "rating": 5,
+    "purchases": 550
+  },
+  {
+    "id": "size-vua-003",
+    "name": "Vòng Dâu Tằm Chắc Chắn",
+    "category": "size-vua",
+    "price": 190000,
+    "image": "./assets/images/demo.jpg",
+    "description": "Dây đan chắc chắn, phù hợp cho các bé hiếu động.",
+    "rating": 4.9,
+    "purchases": 410
+  },
+  {
+    "id": "size-vua-004",
+    "name": "Vòng Mix Đá Quý Cho Bé",
+    "category": "size-vua",
+    "price": 390000,
+    "image": "./assets/images/demo.jpg",
+    "description": "Kết hợp các loại đá quý an lành, bảo vệ năng lượng cho bé.",
+    "rating": 4.7,
+    "purchases": 210
+  },
+  {
+    "id": "size-vua-005",
+    "name": "Vòng Khắc Tên Kỷ Niệm",
+    "category": "size-vua",
+    "price": 360000,
+    "image": "./assets/images/demo.jpg",
+    "description": "Ghi dấu những kỷ niệm đầu đời của bé trên chiếc vòng tay.",
+    "rating": 5,
+    "purchases": 380
+  },
+  {
+    "id": "size-lon-001",
+    "name": "Vòng Dâu Tằm Bền Đẹp",
+    "category": "size-lon",
+    "price": 220000,
+    "image": "./assets/images/demo.jpg",
+    "description": "Chất liệu bền bỉ, đồng hành cùng bé trong các hoạt động hàng ngày.",
+    "rating": 4.9,
+    "purchases": 300
+  },
+  {
+    "id": "size-lon-002",
+    "name": "Vòng Mix Charm Bạc Cá Tính",
+    "category": "size-lon",
+    "price": 350000,
+    "image": "./assets/images/demo.jpg",
+    "description": "Bé có thể tự chọn charm bạc theo sở thích, thể hiện cá tính riêng.",
+    "rating": 4.8,
+    "purchases": 250
+  },
+  {
+    "id": "size-lon-003",
+    "name": "Vòng Phong Thủy Theo Mệnh",
+    "category": "size-lon",
+    "price": 420000,
+    "image": "./assets/images/demo.jpg",
+    "description": "Tư vấn chọn đá phong thủy hợp mệnh, hỗ trợ học tập và sức khỏe.",
+    "rating": 5,
+    "purchases": 180
+  },
+  {
+    "id": "size-lon-004",
+    "name": "Vòng Hổ Phách Cho Trẻ Lớn",
+    "category": "size-lon",
+    "price": 550000,
+    "image": "./assets/images/demo.jpg",
+    "description": "Hổ phách giúp tăng cường sự tập trung và năng lượng tích cực.",
+    "rating": 4.9,
+    "purchases": 150
+  },
+  {
+    "id": "size-lon-005",
+    "name": "Vòng Cặp Mẹ và Bé",
+    "category": "size-lon",
+    "price": 650000,
+    "image": "./assets/images/demo.jpg",
+    "description": "Thiết kế đồng điệu, gắn kết tình mẫu tử thiêng liêng.",
+    "rating": 5,
+    "purchases": 220
+  },
+  {
+    "id": "phong-thuy-001",
+    "name": "Vòng Mệnh Kim (Bạc, Trắng)",
+    "category": "phong-thuy",
+    "price": 400000,
+    "image": "./assets/images/demo.jpg",
+    "description": "Kết hợp đá thạch anh trắng, đá mặt trăng và charm bạc.",
+    "rating": 4.9,
+    "purchases": 110
+  },
+  {
+    "id": "phong-thuy-002",
+    "name": "Vòng Mệnh Mộc (Xanh Lá)",
+    "category": "phong-thuy",
+    "price": 400000,
+    "image": "./assets/images/demo.jpg",
+    "description": "Kết hợp đá cẩm thạch, mã não xanh, mang lại sự tươi mới.",
+    "rating": 4.8,
+    "purchases": 130
+  },
+  {
+    "id": "phong-thuy-003",
+    "name": "Vòng Mệnh Thủy (Xanh Dương, Đen)",
+    "category": "phong-thuy",
+    "price": 400000,
+    "image": "./assets/images/demo.jpg",
+    "description": "Kết hợp đá aquamarine, thạch anh đen, mang lại sự bình an.",
+    "rating": 4.9,
+    "purchases": 150
+  },
+  {
+    "id": "phong-thuy-004",
+    "name": "Vòng Mệnh Hỏa (Đỏ, Tím, Hồng)",
+    "category": "phong-thuy",
+    "price": 400000,
+    "image": "./assets/images/demo.jpg",
+    "description": "Kết hợp đá thạch anh hồng, thạch anh tím, mã não đỏ.",
+    "rating": 5,
+    "purchases": 180
+  },
+  {
+    "id": "phong-thuy-005",
+    "name": "Vòng Mệnh Thổ (Vàng, Nâu)",
+    "category": "phong-thuy",
+    "price": 400000,
+    "image": "./assets/images/demo.jpg",
+    "description": "Kết hợp đá mắt hổ, thạch anh vàng, mang lại sự vững chắc.",
+    "rating": 4.8,
+    "purchases": 140
+  },
+  {
+    "id": "cao-cap-001",
+    "name": "Vòng Dâu Tằm Lõi Bạc",
+    "category": "cao-cap",
+    "price": 800000,
+    "image": "./assets/images/demo.jpg",
+    "description": "Lõi bạc 999 bên trong hạt dâu tằm, tăng cường khả năng bảo vệ.",
+    "rating": 5,
+    "purchases": 60
+  },
+  {
+    "id": "cao-cap-002",
+    "name": "Vòng Mix Vàng 24K",
+    "category": "cao-cap",
+    "price": 2500000,
+    "image": "./assets/images/demo.jpg",
+    "description": "Charm vàng 24K nguyên chất, đẳng cấp và giá trị.",
+    "rating": 5,
+    "purchases": 25
+  },
+  {
+    "id": "cao-cap-003",
+    "name": "Vòng Hổ Phách Baltic Cao Cấp",
+    "category": "cao-cap",
+    "price": 1200000,
+    "image": "./assets/images/demo.jpg",
+    "description": "Tuyển chọn từ những viên hổ phách Baltic chất lượng nhất.",
+    "rating": 5,
+    "purchases": 80
+  },
+  {
+    "id": "cao-cap-004",
+    "name": "Vòng Mix Kim Cương Nhân Tạo",
+    "category": "cao-cap",
+    "price": 1800000,
+    "image": "./assets/images/demo.jpg",
+    "description": "Vẻ đẹp lấp lánh và sang trọng từ kim cương nhân tạo Moissanite.",
+    "rating": 4.9,
+    "purchases": 40
+  },
+  {
+    "id": "cao-cap-005",
+    "name": "Vòng Thiết Kế Riêng",
+    "category": "cao-cap",
+    "price": 3000000,
+    "image": "./assets/images/demo.jpg",
+    "description": "Liên hệ để tạo ra một chiếc vòng độc nhất theo yêu cầu của bạn.",
+    "rating": 5,
+    "purchases": 15
+  }
+]

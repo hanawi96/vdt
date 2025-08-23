@@ -1,0 +1,11 @@
+/* Custom styles can be added here */
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Style for when the modal is open to prevent background scroll */
+body.modal-open {
+    overflow: hidden;
+}
+
