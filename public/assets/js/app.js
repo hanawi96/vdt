@@ -142,6 +142,22 @@ document.addEventListener('alpine:init', () => {
                 this.addressData = await addressRes.json();
                 this.discounts = await discountRes.json(); // Lưu mã giảm giá
 
+                // --- TÍNH TOÁN CHỈ SỐ THỐNG KÊ ĐỘNG ---
+                if (this.products.length > 0) {
+                    const totalSales = this.products.reduce((sum, product) => sum + (product.purchases || 0), 0);
+                    const totalRatingSum = this.products.reduce((sum, product) => sum + (product.rating || 0), 0);
+                    const productsWithRating = this.products.filter(p => p.rating > 0).length;
+                    const averageRating = productsWithRating > 0 ? (totalRatingSum / productsWithRating).toFixed(1) : 0;
+
+                    // Gộp các chỉ số mới vào shopInfo.stats
+                    this.shopInfo.stats = {
+                        ...this.shopInfo.stats,
+                        products: this.products.length, // Ghi đè số sản phẩm bằng số lượng thực tế
+                        totalSales: totalSales,
+                        averageRating: averageRating
+                    };
+                }
+
             } catch (error) {
                 console.error('Lỗi tải dữ liệu:', error);
                 this.error = error.message;
