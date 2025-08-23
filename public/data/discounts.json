@@ -1,0 +1,24 @@
+[
+  {
+    "code": "FREESHIP",
+    "type": "free_shipping",
+    "description": "Miễn phí vận chuyển cho mọi đơn hàng.",
+    "active": true
+  },
+  {
+    "code": "GG10K",
+    "type": "fixed_amount",
+    "value": 10000,
+    "description": "Giảm trực tiếp 10,000đ vào tổng đơn hàng.",
+    "active": true
+  },
+  {
+    "code": "KHAITRUONG",
+    "type": "fixed_amount",
+    "value": 15000,
+    "min_order_value": 100000,
+    "description": "Giảm 15,000đ cho đơn hàng từ 100,000đ.",
+    "active": false
+  }
+]
+

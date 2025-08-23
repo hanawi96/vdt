@@ -231,6 +231,14 @@
                         </div>
                     </template>
                 </div>
+
+                <!-- Nút Xem Thêm -->
+                <div x-show="canLoadMore()" class="text-center mt-10">
+                    <button @click="loadMoreProducts()"
+                            class="bg-white hover:bg-pink-50 text-pink-600 font-semibold py-3 px-8 border border-pink-200 rounded-full shadow-sm transition-all duration-300 transform hover:scale-105">
+                        Xem thêm sản phẩm
+                    </button>
+                </div>
             </div>
 
             <!-- Cart View -->

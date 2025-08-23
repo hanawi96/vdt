@@ -11,6 +11,8 @@ document.addEventListener('alpine:init', () => {
         cart: Alpine.$persist([]).as('shoppingCart'),
         currentCategory: { id: 'all', name: 'Tất cả sản phẩm', description: 'Khám phá tất cả sản phẩm độc đáo của An Nhiên.' },
         activeFilter: 'best_selling', // 'best_selling', 'newest', 'top_rated'
+        visibleProductCount: 10, // Số sản phẩm hiển thị ban đầu
+        productsPerLoad: 10, // Số sản phẩm tải thêm mỗi lần
         loading: true,
         error: null,
         isSubmitting: false,
@@ -33,6 +35,7 @@ document.addEventListener('alpine:init', () => {
         },
 
         // Discount properties
+        discounts: [], // Danh sách mã giảm giá hợp lệ
         discountCode: '',
         appliedDiscountCode: '',
         discountAmount: 0,
@@ -119,22 +122,25 @@ document.addEventListener('alpine:init', () => {
             this.loading = true;
             this.error = null;
             try {
-                const [catRes, prodRes, infoRes, addressRes] = await Promise.all([
+                const [catRes, prodRes, infoRes, addressRes, discountRes] = await Promise.all([
                     fetch('./data/categories.json'),
                     fetch('./data/products.json'),
                     fetch('./data/shop-info.json'),
-                    fetch('./data/vietnamAddress.json') // Fetch address data
+                    fetch('./data/vietnamAddress.json'),
+                    fetch('./data/discounts.json') // Tải file mã giảm giá
                 ]);
                 if (!catRes.ok) throw new Error('Không thể tải danh mục.');
                 if (!prodRes.ok) throw new Error('Không thể tải sản phẩm.');
                 if (!infoRes.ok) throw new Error('Không thể tải thông tin shop.');
                 if (!addressRes.ok) throw new Error('Không thể tải dữ liệu địa chỉ.');
+                if (!discountRes.ok) throw new Error('Không thể tải mã giảm giá.');
 
                 const categoryData = await catRes.json();
                 this.categories = [{ id: 'all', name: 'Tất cả' }, ...categoryData];
                 this.products = await prodRes.json();
                 this.shopInfo = await infoRes.json();
-                this.addressData = await addressRes.json(); // Store address data
+                this.addressData = await addressRes.json();
+                this.discounts = await discountRes.json(); // Lưu mã giảm giá
 
             } catch (error) {
                 console.error('Lỗi tải dữ liệu:', error);
@@ -145,7 +151,7 @@ document.addEventListener('alpine:init', () => {
         },
 
         // --- COMPUTED ---
-        filteredProducts() {
+        _fullProductList() {
             if (!this.currentCategory) return [];
 
             // Lọc sản phẩm: nếu là 'all' thì lấy tất cả, ngược lại lọc theo id
@@ -171,6 +177,14 @@ document.addEventListener('alpine:init', () => {
             }
 
             return sortedProducts;
+        },
+
+        filteredProducts() {
+            return this._fullProductList().slice(0, this.visibleProductCount);
+        },
+
+        canLoadMore() {
+            return this.visibleProductCount < this._fullProductList().length;
         },
 
         // Đếm số sản phẩm trong một danh mục
@@ -238,7 +252,12 @@ document.addEventListener('alpine:init', () => {
         },
 
         // --- VIEW LOGIC ---
+        loadMoreProducts() {
+            this.visibleProductCount += this.productsPerLoad;
+        },
+
         selectCategory(category) {
+            this.visibleProductCount = 10; // Reset lại khi chọn danh mục mới
             this.currentCategory = category;
             this.view = 'products';
             window.scrollTo(0, 0);
@@ -318,11 +337,7 @@ document.addEventListener('alpine:init', () => {
         },
 
         applyDiscount() {
-            this.discountError = '';
-            this.appliedDiscountCode = '';
-            this.discountAmount = 0;
-            this.freeShipping = false;
-
+            this.resetDiscount(); // Reset trạng thái trước khi áp dụng mã mới
             const code = this.discountCode.trim().toUpperCase();
 
             if (!code) {
@@ -330,51 +345,31 @@ document.addEventListener('alpine:init', () => {
                 return;
             }
 
-            // Kiểm tra mã FREESHIP
-            if (code === 'FREESHIP') {
-                this.freeShipping = true;
-                this.appliedDiscountCode = code;
-                return;
-            }
+            const discount = this.discounts.find(d => d.code.toUpperCase() === code);
 
-            // Kiểm tra mã GG5K, GG10K, GG15K... đến GG100K
-            const ggMatch = code.match(/^GG(\d+)K$/);
-            if (ggMatch) {
-                const discountValue = parseInt(ggMatch[1]) * 1000; // Chuyển từ K sang đồng
-
-                // Kiểm tra giới hạn từ 5K đến 100K và phải chia hết cho 5K
-                if (discountValue >= 5000 && discountValue <= 100000 && discountValue % 5000 === 0) {
-                    this.discountAmount = discountValue;
-                    this.appliedDiscountCode = code;
-
-                    // Giới hạn giảm giá không vượt quá tổng tiền hàng
-                    if (this.discountAmount > this.cartSubtotal()) {
-                        this.discountAmount = this.cartSubtotal();
-                    }
-                    return;
-                }
-            }
-
-            // Giữ lại các mã cũ để tương thích
-            if (code === 'SALE10') {
-                this.discountAmount = this.cartSubtotal() * 0.10;
-                this.appliedDiscountCode = code;
-            } else if (code === 'GIAM20K') {
-                if (this.cartSubtotal() < 20000) {
-                    this.discountError = 'Đơn hàng phải có giá trị tối thiểu 20,000đ để áp dụng mã này.';
-                    return;
-                }
-                this.discountAmount = 20000;
-                this.appliedDiscountCode = code;
-            } else {
+            if (!discount || !discount.active) {
                 this.discountError = 'Mã khuyến mãi không hợp lệ hoặc đã hết hạn.';
                 return;
             }
 
-            // Giới hạn giảm giá không vượt quá tổng tiền hàng
-            if (this.discountAmount > this.cartSubtotal()) {
-                this.discountAmount = this.cartSubtotal();
+            // Kiểm tra điều kiện giá trị đơn hàng tối thiểu
+            if (discount.min_order_value && this.cartSubtotal() < discount.min_order_value) {
+                this.discountError = `Mã này chỉ áp dụng cho đơn hàng từ ${this.formatCurrency(discount.min_order_value)}.`
+                return;
             }
+
+            // Áp dụng mã giảm giá dựa trên loại
+            if (discount.type === 'free_shipping') {
+                this.freeShipping = true;
+            } else if (discount.type === 'fixed_amount') {
+                this.discountAmount = discount.value;
+                // Đảm bảo giảm giá không vượt quá tổng tiền hàng
+                if (this.discountAmount > this.cartSubtotal()) {
+                    this.discountAmount = this.cartSubtotal();
+                }
+            }
+
+            this.appliedDiscountCode = code;
         },
 
         resetDiscount() {
