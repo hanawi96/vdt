@@ -16,8 +16,8 @@ document.addEventListener('alpine:init', () => {
         loading: true,
         error: null,
         isSubmitting: false,
-        searchQuery: '',
-        hasSearched: false, // Cờ để chỉ cuộn khi tìm kiếm lần đầu
+        searchQuery: '', // Từ khóa đang gõ
+        activeSearchQuery: '', // Từ khóa đã được áp dụng để lọc
 
         // --- MODAL STATES ---
         isImageModalOpen: false,
@@ -71,19 +71,7 @@ document.addEventListener('alpine:init', () => {
             this.$watch('selectedWard', () => this.updateFullAddress());
             this.$watch('streetAddress', () => this.updateFullAddress());
 
-            this.$watch('searchQuery', (newValue) => {
-                if (newValue.trim() !== '' && !this.hasSearched) {
-                    this.hasSearched = true; // Đánh dấu đã tìm kiếm
-                    this.$nextTick(() => {
-                        const element = document.getElementById('product-list-anchor');
-                        if (element) {
-                            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                        }
-                    });
-                } else if (newValue.trim() === '') {
-                    this.hasSearched = false; // Reset khi người dùng xóa hết chữ
-                }
-            });
+
 
 
             // Theo dõi sự thay đổi ghi chú trong giỏ hàng và lưu lại
@@ -191,10 +179,10 @@ document.addEventListener('alpine:init', () => {
                 ? this.products
                 : this.products.filter(p => p.category === this.currentCategory.id);
 
-            // Lọc sản phẩm theo từ khóa tìm kiếm
+            // Lọc sản phẩm theo từ khóa tìm kiếm đã áp dụng
             let searchedProducts = filteredByCategory;
-            if (this.searchQuery.trim() !== '') {
-                const lowerCaseQuery = this.searchQuery.trim().toLowerCase();
+            if (this.activeSearchQuery !== '') {
+                const lowerCaseQuery = this.activeSearchQuery.toLowerCase();
                 searchedProducts = filteredByCategory.filter(p =>
                     p.name.toLowerCase().includes(lowerCaseQuery)
                 );
@@ -293,6 +281,21 @@ document.addEventListener('alpine:init', () => {
         },
 
         // --- VIEW LOGIC ---
+        performSearch() {
+            this.activeSearchQuery = this.searchQuery.trim();
+            this.visibleProductCount = 10; // Reset lại danh sách sản phẩm
+
+            // Chỉ cuộn khi có từ khóa được tìm
+            if (this.activeSearchQuery) {
+                this.$nextTick(() => {
+                    const element = document.getElementById('product-list-anchor');
+                    if (element) {
+                        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            }
+        },
+
         loadMoreProducts() {
             this.visibleProductCount += this.productsPerLoad;
         },
@@ -300,8 +303,8 @@ document.addEventListener('alpine:init', () => {
         selectCategory(category) {
             this.visibleProductCount = 10; // Reset lại khi chọn danh mục mới
             this.currentCategory = category;
-            this.searchQuery = ''; // Xóa từ khóa tìm kiếm khi chọn danh mục mới
-            this.hasSearched = false; // Reset cờ tìm kiếm
+            this.searchQuery = ''; // Xóa từ khóa đang gõ
+            this.activeSearchQuery = ''; // Xóa từ khóa đã tìm
             this.view = 'products';
             window.scrollTo(0, 0);
         },
