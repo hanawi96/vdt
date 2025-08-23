@@ -91,7 +91,7 @@
                     </div>
 
                     <!-- CTA Buttons -->
-                    <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                    <div class="grid grid-cols-2 sm:flex gap-3 justify-center">
                         <a :href="'https://zalo.me/' + shopInfo.zalo_phone" target="_blank"
                            class="bg-blue-500 hover:bg-blue-600 text-white px-8 py-3 rounded-full font-semibold text-sm transition-all duration-300 transform hover:scale-105 flex items-center justify-center shadow-lg hover:shadow-blue-500/30">
                             <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24"><path d="M16.25,10.25H14.38V8.38a.5.5,0,0,0-.5-.5H12.38a.5.5,0,0,0-.5.5v1.87H10.38a.5.5,0,0,0-.5.5v1.5a.5.5,0,0,0,.5.5h1.5v3.25a.5.5,0,0,0,.5.5h1.5a.5.5,0,0,0,.5-.5V12.75h1.87a.5.5,0,0,0,.5-.5v-1.5A.5.5,0,0,0,16.25,10.25ZM12,2A10,10,0,1,0,22,12,10,10,0,0,0,12,2Zm0,18a8,8,0,1,1,8-8A8,8,0,0,1,12,20Z"/></svg>
@@ -143,10 +143,14 @@
             <!-- Products View -->
             <div x-show="!loading && !error && view === 'products'" x-transition.opacity>
 
-                <h2 class="text-2xl font-bold text-center text-gray-800 mb-4">Danh mục sản phẩm</h2>
+                <!-- Section Title: Categories -->
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-gray-800">Khu Vườn Sản Phẩm</h2>
+                    <p class="text-gray-500 mt-2">Khám phá thế giới vòng dâu cho bé yêu của mẹ</p>
+                </div>
 
                 <!-- Category Filters -->
-                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-8">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
                     <template x-for="category in categories" :key="category.id">
                         <div @click="selectCategory(category)"
                              class="flex items-center bg-white rounded-lg shadow-sm overflow-hidden cursor-pointer border transition-all duration-200"
