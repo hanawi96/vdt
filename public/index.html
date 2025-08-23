@@ -9,6 +9,7 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
         [x-cloak] { display: none !important; }
+        .view-hidden { display: none !important; }
     </style>
     <link rel="stylesheet" href="./assets/css/style.css">
 </head>
@@ -143,7 +144,7 @@
 
         <main>
             <!-- Products View -->
-            <div x-show="!loading && !error && view === 'products'" x-transition.opacity>
+            <div x-show="!loading && !error && view === 'products'" :class="{'view-hidden': view !== 'products'}">
 
 
 
@@ -264,7 +265,7 @@
 
 
             <!-- Cart View -->
-            <div x-show="view === 'cart'" x-transition.opacity style="display: none;">
+            <div x-show="view === 'cart'" :class="{'view-hidden': view !== 'cart'}" style="display: none;">
                 <!-- Header -->
                 <div class="flex items-center justify-between mb-8">
                     <h2 class="text-3xl font-bold text-gray-800">Giỏ Hàng Của Bạn</h2>
