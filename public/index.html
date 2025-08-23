@@ -179,7 +179,7 @@
                     </template>
                 </div>
 
-                <h2 id="product-list-anchor" class="text-3xl font-bold text-center text-gray-800 mb-2" x-text="searchQuery ? `Kết quả cho '${searchQuery}'` : currentCategory?.name"></h2>
+                <h2 id="product-list-anchor" class="text-3xl font-bold text-center text-gray-800 mb-2" x-text="activeSearchQuery ? `Kết quả cho '${activeSearchQuery}'` : currentCategory?.name"></h2>
                 <p class="text-center text-gray-500 mb-8" x-text="currentCategory?.description"></p>
 
                 <!-- Sorting Filters -->

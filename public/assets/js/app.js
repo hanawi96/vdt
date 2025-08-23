@@ -339,7 +339,7 @@ document.addEventListener('alpine:init', () => {
                 const savedNote = this.productNotes[product.id] || '';
                 this.cart.push({ ...product, quantity: 1, weight: savedNote });
             }
-            this.showAlert(`Đã thêm "${product.name}" vào giỏ hàng!`);
+            this.showAlert('Đã thêm thành công sản phẩm vào giỏ hàng');
         },
         removeFromCart(productId) {
             this.cart = this.cart.filter(item => item.id !== productId);
