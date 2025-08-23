@@ -19,6 +19,7 @@ document.addEventListener('alpine:init', () => {
         searchQuery: '', // Từ khóa đang gõ
         activeSearchQuery: '', // Từ khóa đã được áp dụng để lọc
 
+        selectedProduct: null, // Lưu trữ sản phẩm đang được chọn xem chi tiết
         // --- MODAL STATES ---
         isImageModalOpen: false,
         currentImage: '',
@@ -27,6 +28,8 @@ document.addEventListener('alpine:init', () => {
         alertModalType: 'success', // 'success' or 'error'
         isConfirmModalOpen: false,
         isSuccessModalOpen: false,
+        isMiniCartOpen: false,
+        miniCartTimeout: null,
         lastOrderId: '', // Lưu mã đơn hàng cuối cùng để hiển thị
         isBankTransferModalOpen: false,
 
@@ -315,6 +318,13 @@ document.addEventListener('alpine:init', () => {
         },
 
         // --- IMAGE MODAL LOGIC ---
+
+        selectProduct(product) {
+            this.selectedProduct = product;
+            this.view = 'productDetail';
+            window.scrollTo(0, 0);
+        },
+
         openImageModal(imageUrl) {
             this.currentImage = imageUrl;
             this.isImageModalOpen = true;
@@ -329,17 +339,23 @@ document.addEventListener('alpine:init', () => {
 
         // --- CART LOGIC ---
         addToCart(product) {
-            // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
             const existingItem = this.cart.find(item => item.id === product.id);
             if (existingItem) {
-                // Nếu có, chỉ tăng số lượng
                 existingItem.quantity++;
             } else {
-                // Nếu chưa có, thêm mới và tự động điền ghi chú đã lưu
                 const savedNote = this.productNotes[product.id] || '';
                 this.cart.push({ ...product, quantity: 1, weight: savedNote });
             }
-            this.showAlert('Đã thêm thành công sản phẩm vào giỏ hàng');
+
+            // Mở Mini Cart và tự động đóng sau 4 giây
+            this.isMiniCartOpen = true;
+            // Xóa timeout cũ nếu có
+            if (this.miniCartTimeout) {
+                clearTimeout(this.miniCartTimeout);
+            }
+            this.miniCartTimeout = setTimeout(() => {
+                this.isMiniCartOpen = false;
+            }, 4000);
         },
         removeFromCart(productId) {
             this.cart = this.cart.filter(item => item.id !== productId);
