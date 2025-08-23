@@ -297,7 +297,7 @@
                         <!-- Cart Items Card -->
                         <div class="bg-white p-6 rounded-lg shadow-sm">
                             <h3 class="text-xl font-semibold mb-4 pb-4">Sản phẩm trong giỏ (<span x-text="cart.length"></span>)</h3>
-                            <div class="space-y-4 divide-y">
+                            <div class="space-y-4 divide-y max-h-[500px] overflow-y-auto pr-2 pb-4">
                                 <template x-for="item in cart" :key="item.id">
                                     <div class="bg-white rounded-xl shadow-md p-4 mb-4">
                                         <div class="flex space-x-4">
