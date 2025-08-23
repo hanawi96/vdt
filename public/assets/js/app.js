@@ -19,7 +19,6 @@ document.addEventListener('alpine:init', () => {
         searchQuery: '', // Từ khóa đang gõ
         activeSearchQuery: '', // Từ khóa đã được áp dụng để lọc
 
-        selectedProduct: null, // Lưu trữ sản phẩm đang được chọn xem chi tiết
         // --- MODAL STATES ---
         isImageModalOpen: false,
         currentImage: '',
@@ -319,11 +318,6 @@ document.addEventListener('alpine:init', () => {
 
         // --- IMAGE MODAL LOGIC ---
 
-        selectProduct(product) {
-            this.selectedProduct = product;
-            this.view = 'productDetail';
-            window.scrollTo(0, 0);
-        },
 
         openImageModal(imageUrl) {
             this.currentImage = imageUrl;

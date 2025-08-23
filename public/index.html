@@ -204,10 +204,10 @@
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
                     <template x-for="product in filteredProducts()" :key="product.id">
                         <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-                            <div class="relative">
+                                                        <div class="relative group">
                                 <img :src="product.image" :alt="product.name" class="w-full aspect-square object-cover">
-                                <div @click="openImageModal(product.image)" class="absolute inset-0 cursor-pointer">
-                                    <div class="absolute bottom-2 right-2 bg-black bg-opacity-50 text-white p-1.5 rounded-full">
+                                <div @click="openImageModal(product.image)" class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 cursor-pointer flex items-center justify-center">
+                                    <div class="absolute bottom-2 right-2 bg-black bg-opacity-50 text-white p-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                                             <path d="M10 12a2 2 0 100-4 2 2 0 000 4z"></path>
                                             <path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.022 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"></path>
@@ -262,11 +262,6 @@
                 </div>
             </div>
 
-            <!-- Product Detail View -->
-            <div x-show="view === 'productDetail'" x-transition.opacity style="display: none;">
-                <!-- Nội dung chi tiết sản phẩm sẽ được thêm vào đây -->
-                <p>Trang chi tiết sản phẩm đang được xây dựng...</p>
-            </div>
 
             <!-- Cart View -->
             <div x-show="view === 'cart'" x-transition.opacity style="display: none;">
@@ -810,6 +805,8 @@
                 </button>
             </div>
         </div>
+    </div>
+
     </div>
 
     <script src="./assets/js/app.js"></script>
