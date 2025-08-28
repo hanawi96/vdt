@@ -27,7 +27,7 @@
             x-transition:leave-start="opacity-100 transform translate-y-0 sm:scale-100"
             x-transition:leave-end="opacity-0 transform translate-y-4 sm:translate-y-0 sm:scale-95"
             class="fixed top-5 left-1/2 -translate-x-1/2 sm:left-auto sm:translate-x-0 sm:right-5 z-50 bg-white rounded-lg shadow-lg p-4 flex items-center space-x-3 w-11/12 max-w-sm sm:w-auto border"
-            :class="{ 'border-green-400': alertModalType === 'success', 'border-red-400': alertModalType === 'error' }"
+            :class="{ 'border-green-400': alertModalType === 'success', 'border-red-400': alertModalType === 'error', 'border-blue-400': alertModalType === 'info' }"
             style="display: none;"
         >
             <!-- Success Icon -->
@@ -37,6 +37,10 @@
             <!-- Error Icon -->
             <svg x-show="alertModalType === 'error'" style="display: none;" class="h-8 w-8 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <!-- Info Icon -->
+            <svg x-show="alertModalType === 'info'" style="display: none;" class="h-8 w-8 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             <p class="text-gray-700 font-medium" x-text="alertModalMessage"></p>
         </div>
@@ -95,14 +99,11 @@
                     <div class="w-full max-w-lg">
                         <div class="relative flex items-center">
                             <input type="text" x-model="searchQuery" @keydown.enter="performSearch()" placeholder="Tìm vòng cho bé, vòng mix bạc..."
-                                   class="w-full h-12 pl-12 pr-28 rounded-full border-2 border-white/80 bg-white/50 focus:border-pink-400 focus:ring-pink-400 transition-colors duration-300 shadow-sm">
-                            <div class="absolute left-4 top-1/2 -translate-y-1/2">
-                                <svg class="w-5 h-5 text-gray-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                   class="w-full h-12 pl-4 pr-16 rounded-full border-2 border-white/80 bg-white/50 focus:border-pink-400 focus:ring-pink-400 transition-colors duration-300 shadow-sm">
+                            <button @click="performSearch()" class="absolute right-2 h-9 w-9 bg-pink-500 text-white rounded-full hover:bg-pink-600 transition-colors shadow-md flex items-center justify-center">
+                                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                     <path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd" />
                                 </svg>
-                            </div>
-                            <button @click="performSearch()" class="absolute right-2 h-9 px-5 bg-pink-500 text-white rounded-full text-sm font-semibold hover:bg-pink-600 transition-colors shadow-md">
-                                Tìm kiếm
                             </button>
                         </div>
                     </div>
@@ -133,7 +134,9 @@
             </a>
 
             <!-- Cart Icon -->
-            <div @click="view = 'cart'" class="relative bg-pink-600 text-white w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center shadow-lg cursor-pointer transform hover:scale-110 transition-transform">
+            <div @click="toggleMiniCart()"
+     :class="{ 'cart-bounce': isCartAnimating }"
+     class="relative bg-pink-600 text-white w-14 h-14 sm:w-16 sm:h-16 rounded-full flex items-center justify-center shadow-lg cursor-pointer transform hover:scale-110 transition-transform">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 sm:h-8 sm:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
@@ -286,15 +289,25 @@
                     <button @click="view = 'products'" class="mt-6 bg-pink-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-pink-700 transition-colors">Bắt đầu mua sắm</button>
                 </div>
 
+                <!-- No Selected Products Message -->
+                <div x-show="cart.length > 0 && selectedCartProducts.length === 0" class="text-center text-gray-500 py-16 bg-white rounded-lg shadow-md">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <p class="mt-4 text-lg">Bạn chưa chọn sản phẩm nào để thanh toán.</p>
+                    <p class="mt-2 text-sm text-gray-400">Hãy quay lại mini cart để chọn sản phẩm bạn muốn mua nhé!</p>
+                    <button @click="view = 'products'" class="mt-6 bg-pink-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-pink-700 transition-colors">Tiếp tục mua sắm nào</button>
+                </div>
+
                 <!-- Cart Content -->
-                <div x-show="cart.length > 0" class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+                <div x-show="cart.length > 0 && selectedCartProducts.length > 0" class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
                     <!-- Left Column: Cart Items & Shipping Form -->
                     <div class="lg:col-span-2 space-y-6">
                         <!-- Cart Items Card -->
                         <div class="bg-white p-6 rounded-lg shadow-sm">
-                            <h3 class="text-xl font-semibold mb-4 pb-4">Sản phẩm trong giỏ (<span x-text="cart.length"></span>)</h3>
+                            <h3 class="text-xl font-semibold mb-4 pb-4">Sản phẩm đã chọn (<span x-text="selectedCartProducts.length"></span>)</h3>
                             <div class="space-y-4 divide-y max-h-[500px] overflow-y-auto pr-2 pb-4">
-                                <template x-for="item in cart" :key="item.id">
+                                <template x-for="item in selectedCartProducts" :key="item.id">
                                     <div class="bg-white rounded-xl shadow-md p-4 mb-4">
                                         <div class="flex space-x-4">
                                             <!-- Product Image -->
@@ -337,6 +350,46 @@
                                 </template>
                             </div>
                         </div>
+
+                        <!-- Sản phẩm bán kèm ở trang thanh toán -->
+                        <div class="bg-white p-6 rounded-lg shadow-sm">
+                            <div class="text-center mb-4 pb-4 border-b">
+                                <p class="text-sm font-medium text-green-600">
+                                    Mua kèm để <strong class="font-bold">TIẾT KIỆM 21.000đ</strong> phí ship!
+                                </p>
+                                <p class="text-xs text-gray-500 mt-1">
+                                    Ưu đãi kết thúc sau:
+                                    <span x-text="countdownTimer.display" class="font-mono font-semibold text-gray-700 bg-gray-100 px-1.5 py-0.5 rounded"></span>
+                                </p>
+                            </div>
+                            <div class="space-y-3">
+                                <template x-for="(addon, index) in addonProducts" :key="addon.id">
+                                    <div class="relative flex items-center space-x-4 p-3 bg-pink-50 rounded-lg border border-pink-100">
+                                        <template x-if="index === 0">
+                                            <div class="absolute -top-2 -left-2 bg-pink-500 text-white text-xs font-semibold px-2 py-0.5 rounded-full shadow-md">✨ Gợi ý</div>
+                                        </template>
+                                        <img :src="addon.image" :alt="addon.name" class="w-14 h-14 rounded-lg object-cover border flex-shrink-0 cursor-pointer hover:opacity-80 transition-opacity" @click="openAddonDetail(addon)">
+                                        <div class="flex-grow">
+                                            <p class="font-semibold text-gray-800 leading-tight" x-text="addon.name"></p>
+                                                                                        <div class="flex items-baseline space-x-1.5">
+                                                <p class="text-sm text-pink-600 font-bold" x-text="formatCurrency(addon.price)"></p>
+                                                <template x-if="addon.original_price">
+                                                    <s class="text-xs text-gray-500" x-text="formatCurrency(addon.original_price)"></s>
+                                                </template>
+                                            </div>
+                                            <button @click="openAddonDetail(addon)" class="text-xs text-blue-600 hover:text-blue-800 underline mt-1">
+                                                Xem chi tiết
+                                            </button>
+                                        </div>
+                                        <button @click="addAddonToCart(addon)" :disabled="isAddonInCart(addon.id)" class="flex-shrink-0 text-xs font-medium rounded-lg transition-colors h-9 w-24 flex items-center justify-center"
+                                                :class="isAddonInCart(addon.id) ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-pink-600 text-white hover:bg-pink-700'">
+                                            <span x-text="isAddonInCart(addon.id) ? '✓ Đã thêm' : 'Thêm'"></span>
+                                        </button>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+
                         <!-- Shipping Info Card -->
                         <div class="bg-white p-6 rounded-lg shadow-sm">
                                                         <div class="border-b pb-4 mb-6">
@@ -420,13 +473,11 @@
                         <!-- Coupon Code Input - First -->
                         <div class="bg-white p-6 rounded-lg shadow-sm">
                             <h3 class="text-xl font-semibold mb-4">Mã khuyến mãi</h3>
-                            <div class="flex space-x-2">
-                                <input type="text" x-model="discountCode" placeholder="Nhập mã của bạn"
-                                       class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-0 focus:border-gray-300 focus:outline-none text-sm custom-input-indent">
-                                <button @click="applyDiscount()" class="bg-gray-800 text-white font-semibold px-5 py-2 rounded-md hover:bg-gray-900 transition-colors text-sm whitespace-nowrap">
-                                    Áp dụng
-                                </button>
-                            </div>
+                            <button @click="openDiscountModal()" class="w-full bg-white border-2 border-dashed border-pink-300 text-pink-600 font-semibold py-3 px-4 rounded-lg hover:bg-pink-50 transition-colors flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" /></svg>
+                                <span x-show="!appliedDiscountCode">Chọn hoặc nhập mã</span>
+                                <span x-show="appliedDiscountCode" x-text="`Mã đang áp dụng: ${appliedDiscountCode}`"></span>
+                            </button>
                             <p x-show="discountError" x-text="discountError" class="text-red-500 text-sm mt-2"></p>
                             <p x-show="appliedDiscountCode && !discountError" class="text-green-600 text-sm mt-2">✓ Áp dụng mã thành công!</p>
                         </div>
@@ -438,9 +489,14 @@
                                     <span>Tạm tính</span>
                                     <span x-text="formatCurrency(cartSubtotal())"></span>
                                 </div>
-                                <div class="flex justify-between text-gray-600">
+                                <div class="flex justify-between text-gray-600 transition-colors duration-300" :class="{ 'text-green-600 font-bold': freeShipping }">
                                     <span>Phí vận chuyển</span>
-                                    <span x-text="shippingFee() === 0 ? (freeShipping ? 'Miễn phí (FREESHIP)' : 'Miễn phí') : formatCurrency(shippingFee())"></span>
+                                    <template x-if="freeShipping">
+                                        <span class="flex items-center">Miễn phí <span class="ml-1.5">🎁</span></span>
+                                    </template>
+                                    <template x-if="!freeShipping">
+                                        <span x-text="formatCurrency(shippingFee())"></span>
+                                    </template>
                                 </div>
                                 <template x-if="discountAmount > 0">
                                     <div class="flex justify-between text-green-600 font-medium">
@@ -516,7 +572,7 @@
                     <div>
                         <h3 class="font-semibold text-lg text-gray-700 mb-3 border-b pb-2">Sản phẩm đã chọn</h3>
                         <div class="space-y-4">
-                            <template x-for="item in cart" :key="item.id">
+                            <template x-for="item in selectedCartProducts" :key="item.id">
                                 <div class="flex items-start space-x-4">
                                     <img :src="item.image" class="w-16 h-16 rounded-lg object-cover border">
                                     <div class="flex-grow">
@@ -820,41 +876,270 @@
         </div>
     </div>
 
+    <!-- Addon Detail Modal -->
+    <div x-show="isAddonDetailModalOpen" @keydown.escape.window="closeAddonDetail()"
+         class="fixed inset-0 bg-black bg-opacity-80 backdrop-blur-sm flex items-center justify-center p-4 z-[60]"
+         style="display: none;"
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0">
+        <div @click.outside="closeAddonDetail()"
+             class="bg-white rounded-2xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto transform transition-all"
+             x-show="isAddonDetailModalOpen"
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 scale-95"
+             x-transition:enter-end="opacity-100 scale-100"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100 scale-100"
+             x-transition:leave-end="opacity-0 scale-95">
+
+            <template x-if="currentAddonDetail">
+                <div>
+                    <!-- Header with Image -->
+                    <div class="relative">
+                        <img :src="currentAddonDetail.image" :alt="currentAddonDetail.name"
+                             class="w-full h-64 object-cover rounded-t-2xl">
+                        <button @click="closeAddonDetail()"
+                                class="absolute top-4 right-4 bg-white bg-opacity-90 text-gray-700 w-10 h-10 rounded-full flex items-center justify-center shadow-lg hover:bg-opacity-100 transition-all">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="p-6">
+                        <!-- Title and Price -->
+                        <div class="flex items-start justify-between mb-4">
+                            <div>
+                                <h2 class="text-2xl font-bold text-gray-800" x-text="currentAddonDetail.name"></h2>
+                                <p class="text-lg text-gray-600 mt-1" x-text="currentAddonDetail.description"></p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-2xl font-bold text-pink-600" x-text="formatCurrency(currentAddonDetail.price)"></p>
+                            </div>
+                        </div>
+
+                        <!-- Full Description -->
+                        <div class="mb-6">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3">📝 Mô tả chi tiết</h3>
+                            <p class="text-gray-700 leading-relaxed" x-text="currentAddonDetail.detailedInfo?.fullDescription"></p>
+                        </div>
+
+                        <!-- Benefits -->
+                        <div class="mb-6">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3">✨ Lợi ích</h3>
+                            <div class="space-y-2">
+                                <template x-for="benefit in currentAddonDetail.detailedInfo?.benefits || []" :key="benefit">
+                                    <div class="flex items-start space-x-2">
+                                        <span class="text-green-500 mt-1">•</span>
+                                        <span class="text-gray-700" x-text="benefit"></span>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+
+                        <!-- Usage -->
+                        <div class="mb-6">
+                            <h3 class="text-lg font-semibold text-gray-800 mb-3">📋 Cách sử dụng</h3>
+                            <p class="text-gray-700 leading-relaxed" x-text="currentAddonDetail.detailedInfo?.usage"></p>
+                        </div>
+
+                        <!-- Materials and Origin -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                            <div>
+                                <h4 class="font-semibold text-gray-800 mb-2">🧱 Chất liệu</h4>
+                                <p class="text-gray-700 text-sm" x-text="currentAddonDetail.detailedInfo?.materials"></p>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-800 mb-2">🏭 Xuất xứ</h4>
+                                <p class="text-gray-700 text-sm" x-text="currentAddonDetail.detailedInfo?.origin"></p>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="flex space-x-3 pt-4 border-t">
+                            <button @click="closeAddonDetail()"
+                                    class="flex-1 bg-gray-200 text-gray-700 font-semibold py-3 px-4 rounded-lg hover:bg-gray-300 transition-colors">
+                                Đóng
+                            </button>
+                            <button @click="addAddonToCart(currentAddonDetail); closeAddonDetail()"
+                                    :disabled="isAddonInCart(currentAddonDetail.id)"
+                                    class="flex-1 font-semibold py-3 px-4 rounded-lg transition-colors"
+                                    :class="isAddonInCart(currentAddonDetail.id) ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-pink-600 text-white hover:bg-pink-700'">
+                                <span x-show="!isAddonInCart(currentAddonDetail.id)">🛒 Thêm vào giỏ</span>
+                                <span x-show="isAddonInCart(currentAddonDetail.id)">✓ Đã có trong giỏ</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </div>
+
+    <!-- Discount Code Modal -->
+    <div x-show="isDiscountModalOpen" @keydown.escape.window="closeDiscountModal()"
+         class="fixed inset-0 bg-gray-800 bg-opacity-75 backdrop-blur-sm flex items-center justify-center p-4 z-[60]"
+         style="display: none;"
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0">
+        <div @click.outside="closeDiscountModal()"
+             class="bg-white rounded-2xl shadow-xl w-full max-w-lg max-h-[90vh] flex flex-col transform transition-all"
+             x-show="isDiscountModalOpen"
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 scale-95"
+             x-transition:enter-end="opacity-100 scale-100"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100 scale-100"
+             x-transition:leave-end="opacity-0 scale-95">
+
+            <!-- Header -->
+            <div class="flex items-center justify-between p-6 border-b">
+                <h3 class="text-xl font-bold text-gray-800">🎫 Chọn mã giảm giá</h3>
+                <button @click="closeDiscountModal()" class="text-gray-500 hover:text-gray-800">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Discount Codes List -->
+            <div class="flex-grow p-6 overflow-y-auto">
+                <!-- Manual Input -->
+                <div class="mb-6">
+                    <div class="flex space-x-2">
+                        <input type="text" x-model="discountCode" placeholder="Nhập mã giảm giá tại đây"
+                               class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-0 focus:border-pink-400 focus:outline-none text-sm h-11">
+                        <button @click="applySelectedDiscount()"
+                                class="bg-pink-600 text-white font-semibold px-5 rounded-md hover:bg-pink-700 transition-colors text-sm whitespace-nowrap">
+                            Áp dụng
+                        </button>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <template x-for="discount in availableDiscounts" :key="discount.code">
+                        <div class="border border-gray-200 rounded-lg p-4 hover:border-pink-300 transition-colors cursor-pointer"
+                             @click="selectDiscountCode(discount.code)"
+                             :class="{ 'border-pink-500 bg-pink-50': discountCode === discount.code }">
+                            <div class="flex items-start justify-between">
+                                <div class="flex-grow">
+                                    <div class="flex items-center space-x-2 mb-2">
+                                        <span class="bg-gradient-to-r from-pink-500 to-purple-500 text-white px-3 py-1 rounded-full text-sm font-bold"
+                                              x-text="discount.code"></span>
+                                        <span class="bg-red-100 text-red-600 px-2 py-1 rounded text-xs font-medium"
+                                              x-text="discount.discount + '% OFF'"></span>
+                                    </div>
+                                    <p class="text-gray-600 text-sm mb-2" x-text="discount.description"></p>
+                                    <p class="text-xs text-gray-500">
+                                        Đơn tối thiểu: <span x-text="formatCurrency(discount.minOrder)"></span>
+                                    </p>
+                                </div>
+                                <div class="ml-4 flex-shrink-0">
+                                    <div class="w-6 h-6 rounded-full border-2 flex items-center justify-center"
+                                         :class="discountCode === discount.code ? 'border-pink-500 bg-pink-500' : 'border-gray-300'">
+                                        <svg x-show="discountCode === discount.code" class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="p-6 border-t bg-gray-50 rounded-b-2xl flex space-x-3">
+                <button @click="closeDiscountModal()" class="flex-1 bg-gray-200 text-gray-700 font-semibold py-3 px-4 rounded-lg hover:bg-gray-300 transition-colors">
+                    Hủy
+                </button>
+                <button @click="applySelectedDiscount()" class="flex-1 bg-pink-600 text-white font-semibold py-3 px-4 rounded-lg hover:bg-pink-700 transition-colors">
+                    Áp dụng mã
+                </button>
+            </div>
+        </div>
+    </div>
+
     </div>
 
     <script src="./assets/js/app.js"></script>
 
-        <!-- Mini Cart Fly-out -->
-        <div x-show="isMiniCartOpen" @click.outside="isMiniCartOpen = false"
-             x-transition:enter="transition ease-in-out duration-300"
-             x-transition:enter-start="transform translate-x-full"
-             x-transition:enter-end="transform translate-x-0"
-             x-transition:leave="transition ease-in-out duration-300"
-             x-transition:leave-start="transform translate-x-0"
-             x-transition:leave-end="transform translate-x-full"
-             class="fixed top-0 right-0 h-full w-full max-w-sm bg-white shadow-2xl z-50 flex flex-col" style="display: none;">
+        <!-- Mini Cart Modal -->
+        <div x-show="isMiniCartOpen" @keydown.escape.window="isMiniCartOpen = false"
+             class="fixed inset-0 bg-gray-800 bg-opacity-75 backdrop-blur-sm flex items-center justify-center p-4 z-50"
+             style="display: none;"
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0"
+             x-transition:enter-end="opacity-100"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0">
+            <div @click.outside="if (!preventMiniCartCloseOnClickOutside) isMiniCartOpen = false"
+                 class="bg-white rounded-2xl shadow-xl w-full max-w-md sm:max-w-2xl max-h-[90vh] flex flex-col transform transition-all"
+                 x-show="isMiniCartOpen"
+                 x-transition:enter="transition ease-out duration-300"
+                 x-transition:enter-start="opacity-0 scale-95"
+                 x-transition:enter-end="opacity-100 scale-100"
+                 x-transition:leave="transition ease-in duration-200"
+                 x-transition:leave-start="opacity-100 scale-100"
+                 x-transition:leave-end="opacity-0 scale-95">
 
-            <!-- Header -->
-            <div class="flex items-center justify-between p-4 border-b bg-gray-50">
-                <h3 class="text-lg font-semibold text-gray-800">Giỏ Hàng Của Bạn</h3>
-                <button @click="isMiniCartOpen = false" class="text-gray-500 hover:text-gray-800">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
-                </button>
-            </div>
+                <!-- Header -->
+                <div class="flex items-center justify-between p-6 border-b">
+                    <h3 class="text-xl font-bold text-gray-800">Giỏ Hàng Của Bạn</h3>
+                    <button @click="isMiniCartOpen = false" class="text-gray-500 hover:text-gray-800">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+                    </button>
+                </div>
 
-            <!-- Cart Items -->
-            <div class="flex-grow p-4 overflow-y-auto">
+                <!-- Cart Items -->
+                <div class="flex-grow p-6 overflow-y-auto">
                 <template x-if="cart.length === 0">
-                    <p class="text-center text-gray-500 py-10">Giỏ hàng của bạn đang trống.</p>
+                    <div class="text-center py-10 px-6">
+                        <div class="flex justify-center mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-lg font-semibold text-gray-700 mb-2">Giỏ hàng của bạn đang trống</h3>
+                        <p class="text-gray-500 text-sm mb-6">Hãy để chúng tôi gợi ý những sản phẩm được yêu thích nhất nhé!</p>
+                        <button @click="showBestSellers()"
+                                class="bg-gradient-to-r from-pink-500 to-purple-500 text-white font-bold py-3 px-6 rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 ease-in-out">
+                            <span class="flex items-center justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.28 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                                </svg>
+                                10 sản phẩm bán chạy nhất
+                            </span>
+                        </button>
+                    </div>
                 </template>
                 <template x-if="cart.length > 0">
                     <div class="space-y-4">
+                        <!-- Checkbox Chọn tất cả -->
+                        <div class="flex items-center space-x-3 pb-3 border-b border-gray-200">
+                            <input type="checkbox" :checked="isAllSelected" @change="toggleSelectAll()" class="h-4 w-4 text-pink-600 focus:ring-pink-500 border-gray-300 rounded">
+                            <label class="text-sm font-medium text-gray-700 cursor-pointer" @click="toggleSelectAll()">Chọn tất cả</label>
+                        </div>
                         <template x-for="item in cart" :key="item.id">
-                            <div class="flex items-start space-x-4">
+                            <div class="flex items-start space-x-3">
+                                <input type="checkbox" :checked="selectedCartItems.includes(item.id)" @change="toggleCartItemSelection(item.id)" class="mt-1 h-4 w-4 text-pink-600 focus:ring-pink-500 border-gray-300 rounded">
                                 <img :src="item.image" class="w-16 h-16 rounded-lg object-cover border flex-shrink-0">
                                 <div class="flex-grow">
                                     <p class="font-semibold text-gray-800 text-sm" x-text="item.name"></p>
-                                    <p class="text-xs text-gray-500 mt-1" x-text="`Số lượng: ${item.quantity}`"></p>
+                                    <!-- Quantity Adjuster -->
+                                    <div class="flex items-center space-x-2 mt-2">
+                                        <button @click="decreaseQuantity(item.id)" class="w-6 h-6 bg-gray-200 text-gray-700 rounded-full flex items-center justify-center hover:bg-gray-300 transition-colors text-lg font-bold leading-none pb-1">-</button>
+                                        <span x-text="item.quantity" class="font-semibold text-sm text-gray-800 w-5 text-center"></span>
+                                        <button @click="increaseQuantity(item.id)" class="w-6 h-6 bg-gray-200 text-gray-700 rounded-full flex items-center justify-center hover:bg-gray-300 transition-colors text-base font-bold">+</button>
+                                    </div>
                                     <p class="font-bold text-pink-600 text-sm mt-2" x-text="formatCurrency(item.price * item.quantity)"></p>
                                 </div>
                                 <button @click="removeFromCart(item.id)" class="text-gray-400 hover:text-red-500">
@@ -864,24 +1149,95 @@
                         </template>
                     </div>
                 </template>
-            </div>
-
-            <!-- Footer -->
-            <div class="p-4 border-t bg-gray-50 space-y-4">
-                <div class="flex justify-between font-semibold">
-                    <span>Tạm tính:</span>
-                    <span x-text="formatCurrency(cartSubtotal())"></span>
                 </div>
-                <div class="grid grid-cols-2 gap-3">
-                    <button @click="view = 'cart'; isMiniCartOpen = false" class="w-full bg-white border border-gray-300 text-gray-800 font-semibold py-3 px-4 rounded-lg hover:bg-gray-100 transition-colors text-sm">
-                        Xem giỏ hàng
-                    </button>
-                    <button @click="view = 'cart'; isMiniCartOpen = false" class="w-full bg-pink-600 text-white font-semibold py-3 px-4 rounded-lg hover:bg-pink-700 transition-colors text-sm">
+
+                <!-- Sản phẩm bán kèm -->
+                <div x-show="cart.length > 0" class="px-6 py-4 border-t border-gray-100">
+                    <div class="text-center mb-3">
+                        <p class="text-sm font-medium text-green-600">
+                            Mua kèm để <strong class="font-bold">TIẾT KIỆM 21.000đ</strong> phí ship!
+                        </p>
+                        <p class="text-xs text-gray-500 mt-1.5">
+                            Ưu đãi kết thúc sau:
+                            <span x-text="countdownTimer.display" class="font-mono font-semibold text-gray-700 bg-gray-100 px-1.5 py-0.5 rounded"></span>
+                        </p>
+                    </div>
+                    <div class="space-y-2">
+                        <template x-for="(addon, index) in addonProducts" :key="addon.id">
+                            <div class="relative flex items-center space-x-3 p-2.5 bg-pink-50 rounded-lg border border-pink-100">
+                                <template x-if="index === 0">
+                                    <div class="absolute -top-2 -left-2 bg-pink-500 text-white text-xs font-semibold px-2 py-0.5 rounded-full shadow-md">✨ Gợi ý</div>
+                                </template>
+                                <img :src="addon.image" :alt="addon.name" class="w-12 h-12 rounded-md object-cover border flex-shrink-0 cursor-pointer hover:opacity-80 transition-opacity" @click="openAddonDetail(addon)">
+                                <div class="flex-grow">
+                                    <p class="font-semibold text-gray-800 text-sm leading-tight" x-text="addon.name"></p>
+                                                                        <div class="flex items-baseline space-x-1.5">
+                                        <p class="text-sm text-pink-600 font-bold" x-text="formatCurrency(addon.price)"></p>
+                                        <template x-if="addon.original_price">
+                                            <s class="text-xs text-gray-500" x-text="formatCurrency(addon.original_price)"></s>
+                                        </template>
+                                    </div>
+                                    <button @click="openAddonDetail(addon)" class="text-xs text-blue-600 hover:text-blue-800 underline mt-1">
+                                        Xem chi tiết
+                                    </button>
+                                </div>
+                                <button @click="addAddonToCart(addon)" :disabled="isAddonInCart(addon.id)" class="flex-shrink-0 text-xs font-medium rounded-lg transition-colors h-8 w-20 flex items-center justify-center"
+                                        :class="isAddonInCart(addon.id) ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-pink-600 text-white hover:bg-pink-700'">
+                                    <span x-text="isAddonInCart(addon.id) ? '✓' : 'Thêm'"></span>
+                                </button>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div class="p-6 border-t bg-gray-50 rounded-b-2xl space-y-4">
+                    <!-- Error Message -->
+                    <div x-show="miniCartError" class="bg-red-50 border border-red-200 text-red-700 px-3 py-2 rounded-lg text-sm">
+                        <p x-text="miniCartError"></p>
+                    </div>
+
+                    <!-- Mã giảm giá -->
+                    <div x-show="cart.length > 0">
+                        <button @click="openDiscountModal()" class="w-full bg-white border-2 border-dashed border-pink-300 text-pink-600 font-semibold py-2 px-4 rounded-lg hover:bg-pink-50 transition-colors text-sm flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" /></svg>
+                            Thêm mã giảm giá
+                        </button>
+                        <p x-show="discountError" x-text="discountError" class="text-red-500 text-sm mt-2"></p>
+                        <p x-show="appliedDiscountCode && !discountError" class="text-green-600 text-sm mt-2">✓ Áp dụng mã thành công!</p>
+                    </div>
+
+                    <div x-show="cart.length > 0" class="space-y-3 pt-4 border-t">
+                        <div class="flex justify-between text-gray-600">
+                            <span>Tạm tính</span>
+                            <span x-text="formatCurrency(cartSubtotal())"></span>
+                        </div>
+                        <div class="flex justify-between text-gray-600 transition-colors duration-300" :class="{ 'text-green-600 font-bold': freeShipping }">
+                            <span>Phí vận chuyển</span>
+                            <template x-if="freeShipping">
+                                <span class="flex items-center">Miễn phí <span class="ml-1.5">🎁</span></span>
+                            </template>
+                            <template x-if="!freeShipping">
+                                <span x-text="formatCurrency(shippingFee())"></span>
+                            </template>
+                        </div>
+                        <template x-if="discountAmount > 0">
+                            <div class="flex justify-between text-green-600 font-medium">
+                                <span>Giảm giá (<span class="font-semibold" x-text="appliedDiscountCode"></span>)</span>
+                                <span x-text="'-' + formatCurrency(discountAmount)"></span>
+                            </div>
+                        </template>
+                        <div class="flex justify-between font-bold text-lg pt-3 border-t mt-3">
+                            <span>Tổng cộng</span>
+                            <span class="text-pink-600" x-text="formatCurrency(cartTotal())"></span>
+                        </div>
+                    </div>
+                    <button x-show="cart.length > 0" @click="checkoutSelected()" class="w-full bg-pink-600 text-white font-semibold py-3 px-4 rounded-lg hover:bg-pink-700 transition-colors text-sm">
                         Thanh toán
                     </button>
                 </div>
-            </div>
         </div>
+    </div>
 
 </body>
 
