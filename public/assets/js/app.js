@@ -43,7 +43,7 @@ document.addEventListener('alpine:init', () => {
                     ],
                     usage: 'Đặt túi dâu tằm gần gối hoặc trong cũi của bé. Có thể bóp nhẹ để tỏa hương thơm tự nhiên. Thay thế sau 3-6 tháng sử dụng.',
                     materials: 'Cành dâu tằm tự nhiên, túi nhung cotton cao cấp',
-                    origin: 'Làng nghề truyền thống Việt Nam'
+                    origin: 'Thôn Đông Cao, Tráng Việt, Hà Nội'
                 }
             },
             {
@@ -64,7 +64,7 @@ document.addEventListener('alpine:init', () => {
                     ],
                     usage: 'Gắn vào chùm chìa khóa, túi xách hoặc balo. Có thể sử dụng làm vật phẩm trang trí hoặc quà lưu niệm.',
                     materials: 'Khúc dâu tằm tự nhiên, dây móc inox không gỉ',
-                    origin: 'Thủ công truyền thống Việt Nam'
+                    origin: 'Thôn Đông Cao, Tráng Việt, Hà Nội'
                 }
             }
         ],
@@ -95,6 +95,11 @@ document.addEventListener('alpine:init', () => {
         isShowingBestSellers: false, // Cờ trạng thái cho chức năng xem sản phẩm bán chạy
         preventMiniCartCloseOnClickOutside: false, // Ngăn mini cart đóng khi modal khác mở
 
+        // --- QUICK VIEW MODAL ---
+        isQuickViewOpen: false,
+        quickViewProduct: null,
+        sharedDetails: {},
+
         // --- COUNTDOWN TIMER ---
         freeshipOfferEndTime: Alpine.$persist(0).as('freeshipOfferEndTime'),
         countdownTimer: {
@@ -114,61 +119,12 @@ document.addEventListener('alpine:init', () => {
         },
 
         // Discount properties
-        discounts: [], // Danh sách mã giảm giá hợp lệ
-        discountCode: '',
-        appliedDiscountCode: '',
+        availableDiscounts: [], // Danh sách mã giảm giá sẽ được tải từ file JSON
+        discountCode: Alpine.$persist('').as('discountCode'),
+        appliedDiscountCode: Alpine.$persist('').as('appliedDiscountCode'),
+        appliedGift: Alpine.$persist(null).as('appliedGift'),
         discountAmount: 0,
         discountError: '',
-
-
-        // Available discount codes for modal
-        availableDiscounts: [
-            {
-                code: 'WELCOME10',
-                title: 'Chào mừng khách hàng mới',
-                description: 'Giảm 10% cho đơn hàng đầu tiên',
-                type: 'percentage',
-                value: 10,
-                minOrder: 100000,
-                expiry: '31/12/2024'
-            },
-            {
-                code: 'FREESHIP50',
-                title: 'Miễn phí vận chuyển',
-                description: 'Miễn phí ship cho đơn từ 500k',
-                type: 'shipping',
-                value: 21000,
-                minOrder: 500000,
-                expiry: '31/12/2024'
-            },
-            {
-                code: 'SAVE20K',
-                title: 'Giảm 20.000đ',
-                description: 'Giảm ngay 20k cho đơn từ 300k',
-                type: 'fixed',
-                value: 20000,
-                minOrder: 300000,
-                expiry: '15/01/2025'
-            },
-            {
-                code: 'COMBO15',
-                title: 'Combo ưu đãi',
-                description: 'Giảm 15% khi mua từ 2 sản phẩm',
-                type: 'percentage',
-                value: 15,
-                minOrder: 200000,
-                expiry: '28/02/2025'
-            },
-            {
-                code: 'FLASH30',
-                title: 'Flash Sale cuối tuần',
-                description: 'Giảm 30k cho đơn hàng từ 400k',
-                type: 'fixed',
-                value: 30000,
-                minOrder: 400000,
-                expiry: '31/01/2025'
-            }
-        ],
 
         // --- CUSTOMER INFO & ADDRESS ---
         productNotes: Alpine.$persist({}).as('productNotes'), // Lưu ghi chú cho từng sản phẩm
@@ -254,25 +210,28 @@ document.addEventListener('alpine:init', () => {
             this.loading = true;
             this.error = null;
             try {
-                const [catRes, prodRes, infoRes, addressRes, discountRes] = await Promise.all([
+                const [catRes, prodRes, infoRes, addressRes, discountRes, sharedDetailsRes] = await Promise.all([
                     fetch('./data/categories.json'),
                     fetch('./data/products.json'),
                     fetch('./data/shop-info.json'),
                     fetch('./data/vietnamAddress.json'),
-                    fetch('./data/discounts.json') // Tải file mã giảm giá
+                    fetch('./data/discounts.json'),
+                    fetch('./data/shared-details.json') // Tải thông tin mô tả chung
                 ]);
                 if (!catRes.ok) throw new Error('Không thể tải danh mục.');
                 if (!prodRes.ok) throw new Error('Không thể tải sản phẩm.');
                 if (!infoRes.ok) throw new Error('Không thể tải thông tin shop.');
                 if (!addressRes.ok) throw new Error('Không thể tải dữ liệu địa chỉ.');
                 if (!discountRes.ok) throw new Error('Không thể tải mã giảm giá.');
+                if (!sharedDetailsRes.ok) throw new Error('Không thể tải thông tin chi tiết.');
 
                 const categoryData = await catRes.json();
                 this.categories = [{ id: 'all', name: 'Tất cả' }, ...categoryData];
                 this.products = await prodRes.json();
                 this.shopInfo = await infoRes.json();
                 this.addressData = await addressRes.json();
-                this.discounts = await discountRes.json(); // Lưu mã giảm giá
+                this.availableDiscounts = await discountRes.json(); // Tải mã giảm giá vào biến được sử dụng bởi modal
+                this.sharedDetails = await sharedDetailsRes.json(); // Lưu thông tin mô tả chung
 
                 // --- TÍNH TOÁN CHỈ SỐ THỐNG KÊ ĐỘNG ---
                 if (this.products.length > 0) {
@@ -368,15 +327,37 @@ document.addEventListener('alpine:init', () => {
             return totalPurchases;
         },
         cartSubtotal() {
-            // Luôn tính theo sản phẩm đã chọn
-            return this.selectedCartProducts.reduce((total, item) => total + (item.price * item.quantity), 0);
+            // Luôn tính theo sản phẩm đã chọn và bỏ qua các sản phẩm quà tặng
+            return this.selectedCartProducts
+                .filter(item => !item.isGift)
+                .reduce((total, item) => total + (item.price * item.quantity), 0);
         },
+
+
+        // --- LOGIC KHUYẾN MÃI ---
+        get addonDiscount() {
+            // Giảm 5,000đ nếu chọn mua Móc Chìa Khóa
+            const hasKeychain = this.selectedCartItems.includes('addon_moc_chia_khoa');
+            return hasKeychain ? 5000 : 0;
+        },
+
+        get tuiDauTamBonusDiscount() {
+            const hasTuiDauTam = this.selectedCartItems.includes('addon_tui_dau_tam');
+            const isFreeshipAppliedByCode = this.isFreeshippingFromDiscount();
+
+            // Giảm 8k nếu khách mua túi dâu tằm TRONG KHI đã được freeship bằng MÃ GIẢM GIÁ
+            if (hasTuiDauTam && isFreeshipAppliedByCode) {
+                return 8000;
+            }
+            return 0;
+        },
+
+        // --- KẾT THÚC LOGIC KHUYẾN MÃI ---
+
         get freeShipping() {
-            // Freeship nếu có sản phẩm bán kèm *được chọn* trong giỏ hàng
-            const hasSelectedAddon = this.selectedCartItems.some(itemId =>
-                this.addonProducts.some(addon => addon.id === itemId)
-            );
-            if (hasSelectedAddon) return true;
+            // Freeship nếu mua "Túi Dâu Tằm"
+            const hasTuiDauTam = this.selectedCartItems.includes('addon_tui_dau_tam');
+            if (hasTuiDauTam) return true;
 
             // Freeship nếu có mã giảm giá vận chuyển
             const discount = this.availableDiscounts.find(d => d.code === this.appliedDiscountCode);
@@ -385,12 +366,25 @@ document.addEventListener('alpine:init', () => {
             return false;
         },
 
+        // Luôn trả về phí ship gốc để hiển thị
         shippingFee() {
-            return this.freeShipping ? 0 : this.SHIPPING_FEE;
+            return this.SHIPPING_FEE;
         },
+
+        // Tính toán tiền giảm giá ship
+        get shippingDiscount() {
+            return this.freeShipping ? this.SHIPPING_FEE : 0;
+        },
+
         cartTotal() {
-            const total = this.cartSubtotal() + this.shippingFee() - this.discountAmount;
+            const subtotal = this.cartSubtotal();
+            const total = subtotal + this.shippingFee() - this.discountAmount - this.addonDiscount - this.shippingDiscount - this.tuiDauTamBonusDiscount;
             return total > 0 ? total : 0;
+        },
+
+        get totalCartQuantity() {
+            // Tính tổng số lượng của tất cả các sản phẩm đã chọn
+            return this.selectedCartProducts.reduce((total, item) => total + item.quantity, 0);
         },
 
         // --- ADDRESS COMPUTED PROPERTIES ---
@@ -526,6 +520,15 @@ document.addEventListener('alpine:init', () => {
             }
             this.currentAddonDetail = addon;
             this.isAddonDetailModalOpen = true;
+
+            // Cập nhật tên sản phẩm trong banner freeship để hiển thị sản phẩm đang xem
+            this.$nextTick(() => {
+                const addonNameElement = document.getElementById('addon-product-name');
+                if (addonNameElement && addon) {
+                    addonNameElement.textContent = addon.name;
+                }
+            });
+
             document.body.style.overflow = 'hidden';
         },
 
@@ -671,45 +674,52 @@ document.addEventListener('alpine:init', () => {
             }
         },
 
-        // Tăng giảm số lượng sản phẩm
         increaseQuantity(productId) {
             const item = this.cart.find(item => item.id === productId);
-            if (item) item.quantity++;
+            if (item) {
+                item.quantity++;
+                this.revalidateAppliedDiscount();
+            }
         },
+
         decreaseQuantity(productId) {
             const item = this.cart.find(item => item.id === productId);
             if (item && item.quantity > 1) {
                 item.quantity--;
+                this.revalidateAppliedDiscount();
             } else if (item) {
                 this.removeFromCart(productId);
             }
         },
-        increaseQuantity(productId) {
-            const item = this.cart.find(item => item.id === productId);
-            if (item) item.quantity++;
-        },
-        decreaseQuantity(productId) {
-            const item = this.cart.find(item => item.id === productId);
-            if (item && item.quantity > 1) {
-                item.quantity--;
-            } else if (item && item.quantity === 1) {
-                // Optional: ask for confirmation before removing
-                this.removeFromCart(productId);
-            }
-        },
+
         buyNow(product) {
-            // Thêm sản phẩm vào giỏ hàng hiện có (không xóa giỏ hàng cũ)
             const existingItem = this.cart.find(item => item.id === product.id);
             if (existingItem) {
                 existingItem.quantity++;
             } else {
                 const savedNote = this.productNotes[product.id] || '';
                 this.cart.push({ ...product, quantity: 1, weight: savedNote });
+                this.selectedCartItems.push(product.id);
             }
-
-            // Chuyển thẳng đến trang giỏ hàng
+            this.revalidateAppliedDiscount();
             this.view = 'cart';
             window.scrollTo(0, 0);
+        },
+
+        clearCart() {
+            this.cart = [];
+            this.selectedCartItems = [];
+            this.resetDiscount();
+        },
+
+        backToShopping() {
+            this.view = 'products';
+            this.$nextTick(() => {
+                const productList = document.getElementById('product-list');
+                if (productList) {
+                    productList.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
         },
 
         applyDiscount() {
@@ -762,12 +772,9 @@ document.addEventListener('alpine:init', () => {
         resetDiscount() {
             this.discountCode = '';
             this.appliedDiscountCode = '';
+            this.appliedGift = null;
             this.discountAmount = 0;
             this.discountError = '';
-
-
-
-
         },
 
         // --- DISCOUNT MODAL FUNCTIONS ---
@@ -785,70 +792,83 @@ document.addEventListener('alpine:init', () => {
             }, 100);
         },
 
-        selectDiscountCode(code) {
+        selectDiscount(code) {
             this.discountCode = code;
-            this.applySelectedDiscount(true); // true để tự động đóng modal sau khi áp dụng
         },
 
         applySelectedDiscount(andClose = false) {
-            // Lưu trạng thái freeship từ sản phẩm bán kèm trước khi reset
-            const hasAddonProducts = this.cart.some(item =>
-                this.addonProducts.some(addon => addon.id === item.id)
-            );
-
-            // Chỉ reset lỗi và số tiền, không reset code đang nhập
-            this.appliedDiscountCode = '';
-            this.discountAmount = 0;
-            this.discountError = '';
-
-            // Khôi phục freeship nếu có sản phẩm bán kèm
-            if (hasAddonProducts) {
-                this.freeShipping = true;
-            }
-
             const code = this.discountCode.trim().toUpperCase();
-
             if (!code) {
                 this.discountError = 'Vui lòng nhập hoặc chọn một mã khuyến mãi.';
                 return;
             }
 
-            // Tìm mã giảm giá trong danh sách available
-            const discount = this.availableDiscounts.find(d => d.code.toUpperCase() === code);
-
-            if (!discount) {
-                this.discountError = 'Mã khuyến mãi không hợp lệ.';
+            const promotion = this.availableDiscounts.find(d => d.code.toUpperCase() === code);
+            if (!promotion || !promotion.active) {
+                this.discountError = 'Mã khuyến mãi không hợp lệ hoặc đã hết hạn.';
                 return;
             }
 
-            // Kiểm tra điều kiện đơn hàng tối thiểu
-            if (this.cartSubtotal() < discount.minOrder) {
-                this.discountError = `Mã này chỉ áp dụng cho đơn hàng từ ${this.formatCurrency(discount.minOrder)}.`;
+            // Kiểm tra điều kiện
+            if (this.cartSubtotal() < promotion.minOrder) {
+                this.discountError = `Ưu đãi này chỉ áp dụng cho đơn hàng từ ${this.formatCurrency(promotion.minOrder)}.`;
+                return;
+            }
+            if (promotion.minItems && this.totalCartQuantity < promotion.minItems) {
+                this.discountError = `Ưu đãi này chỉ áp dụng cho đơn hàng có từ ${promotion.minItems} sản phẩm trở lên.`;
                 return;
             }
 
-            // Áp dụng mã giảm giá dựa trên loại
-            if (discount.type === 'shipping') {
-                this.freeShipping = true;
-            } else if (discount.type === 'fixed') {
-                this.discountAmount = discount.value;
-            } else if (discount.type === 'percentage') {
-                this.discountAmount = Math.floor(this.cartSubtotal() * discount.value / 100);
+            // Reset tất cả khuyến mãi trước khi áp dụng cái mới
+            this.resetDiscount();
+
+            // Áp dụng khuyến mãi mới
+            if (promotion.type === 'gift') {
+                this.appliedGift = { title: promotion.title, value: promotion.value };
+            } else {
+                // Xử lý các loại mã giảm giá khác
+                if (promotion.type === 'shipping') {
+                    this.freeShipping = true;
+                } else if (promotion.type === 'fixed') {
+                    this.discountAmount = promotion.value;
+                } else if (promotion.type === 'percentage') {
+                    this.discountAmount = Math.floor(this.cartSubtotal() * promotion.value / 100);
+                }
+                this.appliedDiscountCode = code;
             }
 
-            // Đảm bảo giảm giá không vượt quá tổng tiền hàng
+            // Đảm bảo giảm giá không vượt quá tổng tiền hàng (chỉ áp dụng cho mã giảm giá, không phải quà tặng)
             if (this.discountAmount > this.cartSubtotal()) {
                 this.discountAmount = this.cartSubtotal();
             }
 
-            this.appliedDiscountCode = code;
             this.discountCode = code; // Giữ mã trong input
-
             if (andClose) {
                 this.closeDiscountModal();
             }
         },
 
+
+        getDiscountAvailability(discount) {
+            const subtotal = this.cartSubtotal();
+            const quantity = this.totalCartQuantity;
+
+            if (subtotal < discount.minOrder) {
+                return {
+                    available: false,
+                    reason: `Cần mua thêm ${this.formatCurrency(discount.minOrder - subtotal)}.`
+                };
+            }
+
+            if (discount.minItems && quantity < discount.minItems) {
+                return {
+                    available: false,
+                    reason: `Cần thêm ${discount.minItems - quantity} sản phẩm.`
+                };
+            }
+
+            return { available: true, reason: '' };
+        },
         // --- ACTIONS ---
         validateAndShowConfirmModal() {
             // --- VALIDATION ---
@@ -893,12 +913,23 @@ document.addEventListener('alpine:init', () => {
 
             const orderDetails = {
                 orderId: newOrderId,
-                cart: this.cart.map(item => ({
-                    name: item.name,
-                    price: this.formatCurrency(item.price),
-                    quantity: item.quantity,
-                    weight: item.weight
-                })),
+                cart: (() => {
+                    let orderItems = this.cart.map(item => ({
+                        name: item.name,
+                        price: this.formatCurrency(item.price),
+                        quantity: item.quantity,
+                        weight: item.weight
+                    }));
+                    if (this.appliedGift) {
+                        orderItems.push({
+                            name: this.appliedGift.title,
+                            price: 'Miễn phí',
+                            quantity: 1,
+                            weight: 0
+                        });
+                    }
+                    return orderItems;
+                })(),
                 customer: {
                     name: this.customer.name,
                     phone: this.customer.phone,
@@ -1021,6 +1052,25 @@ document.addEventListener('alpine:init', () => {
                     `${seconds.toString().padStart(2, '0')}`;
 
             }, 1000);
+        },
+
+        // --- QUICK VIEW MODAL LOGIC ---
+        openQuickView(product) {
+            this.quickViewProduct = product;
+            this.isQuickViewOpen = true;
+            document.body.style.overflow = 'hidden';
+        },
+
+        closeQuickView() {
+            this.isQuickViewOpen = false;
+            // Chỉ khôi phục scroll nếu không còn modal nào khác đang mở
+            if (!this.isMiniCartOpen) {
+                 document.body.style.overflow = 'auto';
+            }
+            // Delay clearing the product to allow for closing animation
+            setTimeout(() => {
+                this.quickViewProduct = null;
+            }, 300);
         }
     }));
 });

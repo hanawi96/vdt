@@ -26,7 +26,18 @@
     "category": "mix-bac",
     "price": 350000,
     "image": "./assets/images/demo.jpg",
-    "description": "Món quà ý nghĩa với tên bé được khắc laser tinh xảo trên thanh bạc.",
+    "gallery_images": ["./assets/images/demo.jpg", "./assets/images/demo.jpg", "./assets/images/demo.jpg"],
+    "benefits": [
+      "Lưu giữ dấu ấn riêng của bé",
+      "Bạc ta nguyên chất, an toàn cho da",
+      "Món quà thôi nôi, sinh nhật độc đáo",
+      "Giúp bé kỵ gió, bảo vệ sức khỏe"
+    ],
+    "details": {
+      "full_description": "Tạo nên một món quà độc nhất vô nhị với Vòng Bạc Khắc Tên Bé. Tên của bé yêu sẽ được khắc laser tinh xảo lên thanh bạc, tạo nên một kỷ vật ý nghĩa sẽ đi theo bé suốt những năm tháng đầu đời. Đây không chỉ là trang sức, mà còn là lời chúc phúc và sự bảo vệ dành cho con.",
+      "materials": "Bạc ta 999, dây dù siêu bền",
+      "origin": "Làng nghề vàng bạc Châu Khê, Hải Dương"
+    },
     "rating": 5,
     "purchases": 300
   },
@@ -36,7 +47,18 @@
     "category": "mix-bac",
     "price": 270000,
     "image": "./assets/images/demo.jpg",
-    "description": "Các hạt bi bạc nhỏ tạo hiệu ứng lấp lánh, thu hút ánh nhìn.",
+    "gallery_images": ["./assets/images/demo.jpg", "./assets/images/demo.jpg", "./assets/images/demo.jpg"],
+    "benefits": [
+      "Thiết kế lấp lánh, thu hút ánh nhìn",
+      "Chất liệu bạc ta an toàn cho bé",
+      "Kiểu dáng hiện đại, dễ thương",
+      "Bảo vệ sức khỏe, tránh gió cho bé"
+    ],
+    "details": {
+      "full_description": "Với những hạt bi bạc nhỏ được đánh bóng tỉ mỉ, chiếc vòng tạo ra hiệu ứng lấp lánh vui mắt mỗi khi bé cử động. Vòng Bạc Hạt Bi không chỉ là một món phụ kiện thời trang đáng yêu mà còn là vật phẩm kỵ gió, đồng hành cùng bé trong mọi hoạt động.",
+      "materials": "Bạc ta 999, dây dù siêu bền",
+      "origin": "Làng nghề vàng bạc Châu Khê, Hải Dương"
+    },
     "rating": 4.7,
     "purchases": 180
   },
@@ -46,7 +68,18 @@
     "category": "mix-bac",
     "price": 330000,
     "image": "./assets/images/demo.jpg",
-    "description": "Chọn charm con giáp theo năm sinh của bé, một vật phẩm hộ mệnh độc đáo.",
+    "gallery_images": ["./assets/images/demo.jpg", "./assets/images/demo.jpg", "./assets/images/demo.jpg"],
+    "benefits": [
+      "Vật phẩm hộ mệnh theo tuổi của bé",
+      "Thiết kế charm con giáp tinh xảo",
+      "Bạc ta nguyên chất, an toàn tuyệt đối",
+      "Món quà ý nghĩa, độc đáo cho bé"
+    ],
+    "details": {
+      "full_description": "Chọn một vật phẩm hộ mệnh ý nghĩa cho bé với Vòng Bạc Charm 12 Con Giáp. Mỗi con giáp được chế tác tinh xảo, đại diện cho năm sinh của bé, mang theo lời chúc phúc về sự may mắn, bình an và một tương lai tươi sáng. Đây là món quà vừa đẹp, vừa mang đậm giá trị tinh thần.",
+      "materials": "Bạc ta 999, dây dù siêu bền",
+      "origin": "Làng nghề vàng bạc Châu Khê, Hải Dương"
+    },
     "rating": 4.9,
     "purchases": 250
   },
@@ -56,7 +89,18 @@
     "category": "mix-ho-phach",
     "price": 450000,
     "image": "./assets/images/demo.jpg",
-    "description": "Hổ phách màu vàng mật ong tự nhiên, giúp bé ngủ ngon và giảm đau khi mọc răng.",
+    "gallery_images": ["./assets/images/demo.jpg", "./assets/images/demo.jpg", "./assets/images/demo.jpg"],
+    "benefits": [
+      "Hỗ trợ giảm đau, sốt khi bé mọc răng",
+      "Giúp bé ngủ sâu giấc, an lành hơn",
+      "Năng lượng tự nhiên, tốt cho sức khỏe",
+      "Màu vàng mật ong ấm áp, sang trọng"
+    ],
+    "details": {
+      "full_description": "Vòng Hổ Phách Vàng Mật Ong là một món quà quý giá từ thiên nhiên dành cho bé. Hổ phách tự nhiên được biết đến với khả năng hỗ trợ giảm các triệu chứng khó chịu khi bé mọc răng, giúp bé ăn ngon, ngủ yên. Màu vàng mật ong không chỉ đẹp mắt mà còn mang lại cảm giác ấm áp, an lành.",
+      "materials": "Hổ phách tự nhiên, gỗ dâu tằm, dây dù siêu bền",
+      "origin": "Hổ phách vùng Baltic, chế tác tại Việt Nam"
+    },
     "rating": 5,
     "purchases": 420
   },
@@ -66,7 +110,18 @@
     "category": "mix-ho-phach",
     "price": 480000,
     "image": "./assets/images/demo.jpg",
-    "description": "Màu nâu đỏ ấm áp của hổ phách, mang vẻ đẹp cổ điển và sang trọng.",
+    "gallery_images": ["./assets/images/demo.jpg", "./assets/images/demo.jpg", "./assets/images/demo.jpg"],
+    "benefits": [
+      "Màu nâu đỏ độc đáo, mang vẻ đẹp cổ điển",
+      "Hỗ trợ hệ tiêu hóa và miễn dịch của bé",
+      "Giúp bé cảm thấy an toàn, ngủ ngon",
+      "Là vật phẩm phong thủy mang lại may mắn"
+    ],
+    "details": {
+      "full_description": "Mang một vẻ đẹp cổ điển và ấm áp, Vòng Hổ Phách Nâu Đỏ là lựa chọn cho những ai yêu thích sự độc đáo. Năng lượng từ hổ phách giúp cân bằng cảm xúc, hỗ trợ sức khỏe và mang lại giấc ngủ sâu cho bé.",
+      "materials": "Hổ phách tự nhiên, gỗ dâu tằm, dây dù siêu bền",
+      "origin": "Hổ phách vùng Baltic, chế tác tại Việt Nam"
+    },
     "rating": 4.8,
     "purchases": 190
   },
@@ -77,7 +132,18 @@
     "original_price": 550000,
     "price": 500000,
     "image": "./assets/images/demo.jpg",
-    "description": "Sự kết hợp hoàn hảo giữa năng lượng của hổ phách và vẻ đẹp của bạc.",
+    "gallery_images": ["./assets/images/demo.jpg", "./assets/images/demo.jpg", "./assets/images/demo.jpg"],
+    "benefits": [
+      "Kết hợp công dụng của hổ phách và bạc",
+      "Vừa giảm đau mọc răng, vừa kỵ gió",
+      "Thiết kế tinh xảo, sang trọng",
+      "Bảo vệ sức khỏe bé một cách toàn diện"
+    ],
+    "details": {
+      "full_description": "Nhân đôi khả năng bảo vệ với sự kết hợp hoàn hảo giữa Hổ Phách và Bạc. Chiếc vòng vừa phát huy tác dụng giảm đau, an thần của hổ phách, vừa có khả năng kỵ gió, kháng khuẩn của bạc, mang lại sự bảo vệ toàn diện cho sức khỏe của bé.",
+      "materials": "Hổ phách tự nhiên, Bạc ta 999, dây dù siêu bền",
+      "origin": "Hổ phách vùng Baltic, chế tác tại Việt Nam"
+    },
     "rating": 4.9,
     "purchases": 150
   },
@@ -87,7 +153,18 @@
     "category": "mix-ho-phach",
     "price": 460000,
     "image": "./assets/images/demo.jpg",
-    "description": "Các hạt hổ phách được tuyển chọn kỹ lưỡng, tròn đều và bóng đẹp.",
+    "gallery_images": ["./assets/images/demo.jpg", "./assets/images/demo.jpg", "./assets/images/demo.jpg"],
+    "benefits": [
+      "Các hạt được tuyển chọn kỹ, tròn đều bóng đẹp",
+      "Tiếp xúc da tốt, phát huy tối đa công dụng",
+      "Mang lại cảm giác dễ chịu khi đeo",
+      "Hỗ trợ giảm các triệu chứng mọc răng"
+    ],
+    "details": {
+      "full_description": "Mỗi hạt hổ phách trên chiếc vòng đều được tuyển chọn và mài tròn một cách tỉ mỉ, đảm bảo tiếp xúc tối đa với làn da của bé để phát huy hiệu quả tốt nhất. Vẻ ngoài bóng đẹp, đều đặn cũng làm tăng thêm tính thẩm mỹ cho sản phẩm.",
+      "materials": "Hổ phách tự nhiên, gỗ dâu tằm, dây dù siêu bền",
+      "origin": "Hổ phách vùng Baltic, chế tác tại Việt Nam"
+    },
     "rating": 4.8,
     "purchases": 280
   },
@@ -97,7 +174,18 @@
     "category": "mix-ho-phach",
     "price": 600000,
     "image": "./assets/images/demo.jpg",
-    "description": "Dòng hổ phách cao cấp từ vùng biển Baltic, chứa hàm lượng axit succinic cao.",
+    "gallery_images": ["./assets/images/demo.jpg", "./assets/images/demo.jpg", "./assets/images/demo.jpg"],
+    "benefits": [
+      "Hổ phách Baltic cao cấp, chất lượng vượt trội",
+      "Hàm lượng axit succinic cao, hiệu quả tối ưu",
+      "Giúp bé khỏe mạnh, ngủ ngon, ít quấy khóc",
+      "Món quà giá trị cho sức khỏe của con"
+    ],
+    "details": {
+      "full_description": "Dành cho những ai tìm kiếm chất lượng tốt nhất, Vòng Hổ Phách Baltic được làm từ loại hổ phách cao cấp nhất từ vùng biển Baltic. Với hàm lượng axit succinic (chất giảm đau tự nhiên) cao, chiếc vòng mang lại hiệu quả vượt trội trong việc hỗ trợ bé vượt qua giai đoạn mọc răng một cách nhẹ nhàng.",
+      "materials": "Hổ phách Baltic cao cấp, gỗ dâu tằm, dây dù siêu bền",
+      "origin": "Hổ phách vùng Baltic, chế tác tại Việt Nam"
+    },
     "rating": 5,
     "purchases": 120
   },

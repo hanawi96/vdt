@@ -1,24 +1,110 @@
 [
   {
-    "code": "FREESHIP",
-    "type": "free_shipping",
-    "description": "Miễn phí vận chuyển cho mọi đơn hàng.",
-    "active": true
+    "code": "FREESHIP150",
+    "title": "Miễn phí vận chuyển",
+    "description": "Freeship cho đơn từ 150k (có 2 sản phẩm trở lên)",
+    "type": "shipping",
+    "value": 21000,
+    "minOrder": 150000,
+    "minItems": 2,
+    "expiry": "31/12/2025",
+    "active": true,
+    "visible": true
+  },
+  {
+    "code": "QUATANGMK",
+    "title": "Tặng Móc khóa Dâu Tằm",
+    "description": "Nhận ngay 1 Móc khóa Dâu Tằm xinh xắn trị giá 35.000đ khi mua từ 2 sản phẩm",
+    "type": "gift",
+    "value": { "id": "addon_moc_chia_khoa", "name": "Móc khóa Dâu Tằm" },
+    "minOrder": 150000,
+    "minItems": 2,
+    "expiry": "31/12/2025",
+    "active": true,
+    "visible": true
+  },
+  {
+    "code": "QUATANGTDT",
+    "title": "Tặng 1 Túi Dâu Tằm",
+    "description": "Nhận ngay 1 túi dâu tằm trị giá 45.000đ khi mua từ 2 sản phẩm",
+    "type": "gift",
+    "value": { "id": "addon_tui_dau_tam", "name": "Túi Dâu Tằm" },
+    "minOrder": 250000,
+    "minItems": 2,
+    "expiry": "31/12/2025",
+    "active": true,
+    "visible": true
+  },
+  {
+    "code": "GG5K",
+    "title": "Giảm 5.000đ",
+    "description": "Giảm trực tiếp 5.000đ vào tổng giá trị đơn hàng.",
+    "type": "fixed",
+    "value": 5000,
+    "minOrder": 0,
+    "minItems": 1,
+    "expiry": "31/12/2025",
+    "active": true,
+    "visible": false
   },
   {
     "code": "GG10K",
-    "type": "fixed_amount",
+    "title": "Giảm 10.000đ",
+    "description": "Giảm trực tiếp 10.000đ vào tổng giá trị đơn hàng.",
+    "type": "fixed",
     "value": 10000,
-    "description": "Giảm trực tiếp 10,000đ vào tổng đơn hàng.",
-    "active": true
+    "minOrder": 0,
+    "minItems": 1,
+    "expiry": "31/12/2025",
+    "active": true,
+    "visible": false
   },
   {
-    "code": "KHAITRUONG",
-    "type": "fixed_amount",
+    "code": "GG15K",
+    "title": "Giảm 15.000đ",
+    "description": "Giảm trực tiếp 15.000đ vào tổng giá trị đơn hàng.",
+    "type": "fixed",
     "value": 15000,
-    "min_order_value": 100000,
-    "description": "Giảm 15,000đ cho đơn hàng từ 100,000đ.",
-    "active": false
+    "minOrder": 0,
+    "minItems": 1,
+    "expiry": "31/12/2025",
+    "active": true,
+    "visible": false
+  },
+  {
+    "code": "GG20K",
+    "title": "Giảm 20.000đ",
+    "description": "Giảm trực tiếp 20.000đ vào tổng giá trị đơn hàng.",
+    "type": "fixed",
+    "value": 20000,
+    "minOrder": 0,
+    "minItems": 1,
+    "expiry": "31/12/2025",
+    "active": true,
+    "visible": false
+  },
+  {
+    "code": "GG25K",
+    "title": "Giảm 25.000đ",
+    "description": "Giảm trực tiếp 25.000đ vào tổng giá trị đơn hàng.",
+    "type": "fixed",
+    "value": 25000,
+    "minOrder": 0,
+    "minItems": 1,
+    "expiry": "31/12/2025",
+    "active": true,
+    "visible": false
+  },
+  {
+    "code": "GG30K",
+    "title": "Giảm 30.000đ",
+    "description": "Giảm trực tiếp 30.000đ vào tổng giá trị đơn hàng.",
+    "type": "fixed",
+    "value": 30000,
+    "minOrder": 0,
+    "minItems": 1,
+    "expiry": "31/12/2025",
+    "active": true,
+    "visible": false
   }
 ]
-
