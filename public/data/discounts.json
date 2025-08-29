@@ -1,5 +1,17 @@
 [
   {
+    "code": "GIAM2K",
+    "title": "Giảm 2.000đ",
+    "description": "Giảm ngay 2.000đ cho mọi đơn hàng.",
+    "type": "fixed",
+    "value": 2000,
+    "minOrder": 0,
+    "minItems": 0,
+    "expiry": "31/12/2025",
+    "active": true,
+    "visible": true
+  },
+  {
     "code": "FREESHIP150",
     "title": "Miễn phí vận chuyển",
     "description": "Freeship cho đơn từ 150k (có 2 sản phẩm trở lên)",
@@ -25,10 +37,10 @@
   },
   {
     "code": "QUATANGTDT",
-    "title": "Tặng 1 Túi Dâu Tằm",
-    "description": "Nhận ngay 1 túi dâu tằm trị giá 45.000đ khi mua từ 2 sản phẩm",
+    "title": "Tặng 1 Túi Dâu Tằm Để Phòng",
+    "description": "Nhận ngay 1 túi dâu tằm để phòng trị giá 45.000đ khi mua từ 2 sản phẩm",
     "type": "gift",
-    "value": { "id": "addon_tui_dau_tam", "name": "Túi Dâu Tằm" },
+    "value": { "id": "addon_tui_dau_tam", "name": "Túi Dâu Tằm Để Phòng" },
     "minOrder": 250000,
     "minItems": 2,
     "expiry": "31/12/2025",
@@ -106,5 +118,44 @@
     "expiry": "31/12/2025",
     "active": true,
     "visible": false
+  }
+,
+  {
+    "code": "VDT6K",
+    "title": "Giảm 6.000đ",
+    "description": "Giảm 6.000đ cho đơn hàng từ 120.000đ và có từ 2 sản phẩm chính.",
+    "type": "fixed",
+    "value": 6000,
+    "minOrder": 120000,
+    "minItems": 2,
+    "expiry": "31/12/2025",
+    "active": true,
+    "visible": true
+  }
+,
+  {
+    "code": "VDT8K",
+    "title": "Giảm 8.000đ",
+    "description": "Giảm 8.000đ cho đơn hàng từ 150.000đ và có từ 2 sản phẩm chính.",
+    "type": "fixed",
+    "value": 8000,
+    "minOrder": 150000,
+    "minItems": 2,
+    "expiry": "31/12/2025",
+    "active": true,
+    "visible": true
+  }
+,
+  {
+    "code": "VDT10K",
+    "title": "Giảm 10.000đ",
+    "description": "Giảm 10.000đ cho đơn hàng từ 180.000đ và có từ 2 sản phẩm chính.",
+    "type": "fixed",
+    "value": 10000,
+    "minOrder": 180000,
+    "minItems": 2,
+    "expiry": "31/12/2025",
+    "active": true,
+    "visible": true
   }
 ]
