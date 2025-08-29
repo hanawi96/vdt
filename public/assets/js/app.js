@@ -89,6 +89,14 @@ document.addEventListener('alpine:init', () => {
     isCartAnimating: false,
     isShowingBestSellers: false,
     preventMiniCartCloseOnClickOutside: false,
+    isFaqModalOpen: false,
+    isItemOptionsModalOpen: false,
+    currentItemForOptions: null,
+    itemOptions: { quantity: 1, note: '' },
+
+    /* ========= FAQ ========= */
+    faqItems: [],
+    openFaqIndex: null,
 
     /* ========= QUICK VIEW ========= */
     isQuickViewOpen: false,
@@ -106,6 +114,7 @@ document.addEventListener('alpine:init', () => {
 
     /* ========= SOCIAL PROOF ========= */
     notification: { visible: false, message: '' },
+    socialProofCount: 0,
 
     /* ========= DISCOUNTS ========= */
     availableDiscounts: [],
@@ -135,6 +144,7 @@ document.addEventListener('alpine:init', () => {
       this.revalidateAppliedDiscount(); // Re-apply discount on load
       this.startNotificationLoop();
       this.startFreeshipCountdown();
+      this.startSocialProofLoop();
 
       // Watch địa chỉ
       this.$watch('selectedProvince', () => {
@@ -153,6 +163,11 @@ document.addEventListener('alpine:init', () => {
         // Loại bỏ ID không còn trong cart
         this.selectedCartItems = this.selectedCartItems.filter(id => idSet.has(id));
       }, { deep: true });
+
+      // Watch selected items để revalidate discount
+      this.$watch('selectedCartItems', () => {
+        this.revalidateAppliedDiscount();
+      });
 
       // Dọn cart dữ liệu cũ trùng ID
       if (this.cart.length > 0) {
@@ -188,13 +203,14 @@ document.addEventListener('alpine:init', () => {
     async loadData() {
       this.loading = true; this.error = null;
       try {
-        const [catRes, prodRes, infoRes, addrRes, discountRes, sharedRes] = await Promise.all([
+        const [catRes, prodRes, infoRes, addrRes, discountRes, sharedRes, faqRes] = await Promise.all([
           fetch('./data/categories.json'),
           fetch('./data/products.json'),
           fetch('./data/shop-info.json'),
           fetch('./data/vietnamAddress.json'),
           fetch('./data/discounts.json'),
-          fetch('./data/shared-details.json')
+          fetch('./data/shared-details.json'),
+          fetch('./data/faq.json')
         ]);
 
         if (!catRes.ok) throw new Error('Không thể tải danh mục.');
@@ -203,6 +219,7 @@ document.addEventListener('alpine:init', () => {
         if (!addrRes.ok) throw new Error('Không thể tải dữ liệu địa chỉ.');
         if (!discountRes.ok) throw new Error('Không thể tải mã giảm giá.');
         if (!sharedRes.ok) throw new Error('Không thể tải thông tin chi tiết.');
+        if (!faqRes.ok) throw new Error('Không thể tải dữ liệu FAQ.');
 
         const categoryData = await catRes.json();
         this.categories = [{ id: 'all', name: 'Tất cả' }, ...(Array.isArray(categoryData) ? categoryData : [])];
@@ -212,6 +229,7 @@ document.addEventListener('alpine:init', () => {
         this.addressData = await addrRes.json();
         this.availableDiscounts = await discountRes.json();
         this.sharedDetails = await sharedRes.json();
+        this.faqItems = await faqRes.json();
 
         // Tính stats động
         if (this.products?.length) {
@@ -303,6 +321,7 @@ document.addEventListener('alpine:init', () => {
     get shippingDiscount() { return this.freeShipping ? this.SHIPPING_FEE : 0; },
 
     cartTotal() {
+      if (this.selectedCartItems.length === 0) return 0;
       const total = this.cartSubtotal()
         + this.shippingFee()
         - this.discountAmount
@@ -311,8 +330,17 @@ document.addEventListener('alpine:init', () => {
         - this.tuiDauTamBonusDiscount;
       return total > 0 ? total : 0;
     },
+
+    get totalSavings() {
+      return this.shippingDiscount + this.discountAmount + this.addonDiscount + this.tuiDauTamBonusDiscount;
+    },
+
     get totalCartQuantity() {
       return this.selectedCartProducts.reduce((t, i) => t + i.quantity, 0);
+    },
+
+    get trueTotalCartQuantity() {
+      return this.cart.reduce((t, i) => t + i.quantity, 0);
     },
 
     /* ========= ADDRESS ========= */
@@ -414,22 +442,59 @@ document.addEventListener('alpine:init', () => {
       setTimeout(() => { this.currentAddonDetail = null; }, 300);
     },
 
+    /* ========= Item Options Modal Logic ========= */
+    openItemOptionsModal(product) {
+      this.currentItemForOptions = product;
+      this.itemOptions = { quantity: 1, note: '' };
+      this.isItemOptionsModalOpen = true;
+      document.body.style.overflow = 'hidden';
+    },
+
+    closeItemOptionsModal() {
+      this.isItemOptionsModalOpen = false;
+      document.body.style.overflow = 'auto';
+      setTimeout(() => {
+        this.currentItemForOptions = null;
+      }, 300);
+    },
+
+    addItemWithOptions() {
+      if (!this.currentItemForOptions) return;
+      const { id } = this.currentItemForOptions;
+      const { quantity, note } = this.itemOptions;
+      const cartId = `${id}-${Date.now()}`;
+      this.addToCart({ ...this.currentItemForOptions, cartId: cartId, quantity: quantity, weight: note.trim() });
+      this.closeItemOptionsModal();
+    },
+
     /* ========= CART ========= */
+    // product object can be a standard product or a pre-filled cart item from options modal
     addToCart(product) {
-      const ex = this.cart.find(i => i.id === product.id);
-      if (ex) {
-        ex.quantity++;
+      // If it's a new item from the options modal, it will have a unique cartId
+      if (product.cartId) {
+        this.cart.push(product);
+        this.selectedCartItems.push(product.cartId);
       } else {
-        const savedNote = this.productNotes[product.id] || '';
-        this.cart.push({ ...product, quantity: 1, weight: savedNote });
-        this.selectedCartItems.push(product.id); // auto chọn item mới thêm
+        // Standard behavior: find by product ID and increment quantity
+        const existingItem = this.cart.find(item => item.id === product.id && !item.weight); // Only merge if there's no note
+        if (existingItem) {
+          existingItem.quantity++;
+        } else {
+          const cartId = `${product.id}-${Date.now()}`;
+          const newItem = { ...product, cartId: cartId, quantity: 1, weight: '' };
+          this.cart.push(newItem);
+          this.selectedCartItems.push(cartId);
+        }
       }
       this.triggerCartAnimation();
       this.showAlert('Đã thêm sản phẩm vào giỏ hàng!', 'success');
     },
     toggleMiniCart() {
       this.isMiniCartOpen = !this.isMiniCartOpen;
-      if (this.isMiniCartOpen) this.miniCartError = '';
+      if (this.isMiniCartOpen) {
+        this.miniCartError = '';
+        this.selectedCartItems = this.cart.map(item => item.id);
+      }
     },
     toggleCartItemSelection(productId) {
       const idx = this.selectedCartItems.indexOf(productId);
@@ -494,16 +559,9 @@ document.addEventListener('alpine:init', () => {
       else if (item) { this.removeFromCart(productId); }
     },
     buyNow(product) {
-      const ex = this.cart.find(i => i.id === product.id);
-      if (ex) { ex.quantity++; }
-      else {
-        const savedNote = this.productNotes[product.id] || '';
-        this.cart.push({ ...product, quantity: 1, weight: savedNote });
-        this.selectedCartItems.push(product.id);
-      }
-      this.revalidateAppliedDiscount();
-      this.view = 'cart';
-      window.scrollTo(0, 0);
+      this.openItemOptionsModal(product);
+      // Logic to proceed to checkout after adding will be handled by a flag if needed
+      // For now, it just opens the modal for consistency.
     },
     clearCart() { this.cart = []; this.selectedCartItems = []; this.resetDiscount(); },
     backToShopping() {
@@ -549,6 +607,8 @@ document.addEventListener('alpine:init', () => {
     closeDiscountModal() {
       this.isDiscountModalOpen = false;
       this.discountError = '';
+      // Đồng bộ lại code hiển thị với code đã áp dụng, xoá code lỗi
+      this.discountCode = this.appliedDiscountCode;
       setTimeout(() => { this.preventMiniCartCloseOnClickOutside = false; }, 100);
     },
     selectDiscount(code) { this.discountCode = code; },
@@ -644,12 +704,46 @@ document.addEventListener('alpine:init', () => {
       if (d.minItems && mainQty < d.minItems) return { available: false, reason: `Cần thêm ${d.minItems - mainQty} sản phẩm chính.` };
       return { available: true, reason: '' };
     },
-    get hasAnyApplicableDiscounts() {
-      // buộc tính lại khi cart thay đổi
-      void this.cartSubtotal(); void this.totalCartQuantity;
-      return this.availableDiscounts
-        .filter(d => (d.active !== false) && (d.visible !== false))
-        .some(d => this.getDiscountAvailability(d).available);
+    getDiscountEffectiveValue(discount) {
+      const p = this._normalizeDiscount(discount);
+      switch (p.type) {
+        case 'fixed':
+        case 'addon_discount':
+          return p.value;
+        case 'percentage':
+          return Math.floor(this.cartSubtotal() * p.value / 100);
+        case 'shipping':
+          return this.shippingFee();
+        case 'gift':
+          const giftProduct = this.products.find(prod => prod.sku === p.giftSku);
+          return giftProduct ? giftProduct.price : 0;
+        default: return 0;
+      }
+    },
+
+    get sortedDiscounts() {
+      const allVisible = this.availableDiscounts.filter(d => d.active && d.visible);
+
+      const mapped = allVisible.map(d => ({
+        ...d,
+        availability: this.getDiscountAvailability(d),
+        effectiveValue: this.getDiscountEffectiveValue(d)
+      }));
+
+      return mapped.sort((a, b) => {
+        // Ưu tiên các mã có sẵn lên trên
+        if (a.availability.available && !b.availability.available) return -1;
+        if (!a.availability.available && b.availability.available) return 1;
+
+        // Nếu cả hai đều có sẵn hoặc không, sắp xếp theo giá trị giảm dần
+        return b.effectiveValue - a.effectiveValue;
+      });
+    },
+
+    get isEligibleForAnyDiscount() {
+      // Chỉ hiển thị nếu chưa có mã nào được áp dụng và có mã hợp lệ
+      if (this.appliedDiscountCode || this.appliedGift) return false;
+      return this.hasAnyApplicableDiscounts;
     },
 
     /* ========= CHECKOUT ========= */
@@ -760,6 +854,15 @@ document.addEventListener('alpine:init', () => {
       }, 5000);
     },
 
+    startSocialProofLoop() {
+      const update = () => {
+        this.socialProofCount = Math.floor(Math.random() * 4) + 2; // Random number between 2 and 5
+        const randomInterval = Math.floor(Math.random() * (7000 - 3000 + 1)) + 3000; // between 3-7 seconds
+        setTimeout(update, randomInterval);
+      };
+      setTimeout(update, 2500); // Initial delay
+    },
+
     /* ========= COUNTDOWN ========= */
     startFreeshipCountdown() {
       if (!this.freeshipOfferEndTime || this.freeshipOfferEndTime < Date.now()) {
@@ -792,6 +895,19 @@ document.addEventListener('alpine:init', () => {
       this.isQuickViewOpen = false;
       if (!this.isMiniCartOpen) document.body.style.overflow = 'auto';
       setTimeout(() => { this.quickViewProduct = null; }, 300);
+    },
+
+    /* ========= FAQ MODAL ========= */
+    openFaqModal() {
+      this.isFaqModalOpen = true;
+      document.body.style.overflow = 'hidden';
+    },
+    closeFaqModal() {
+      this.isFaqModalOpen = false;
+      document.body.style.overflow = 'auto';
+    },
+    toggleFaq(index) {
+      this.openFaqIndex = this.openFaqIndex === index ? null : index;
     },
 
     revalidateAppliedDiscount() {
