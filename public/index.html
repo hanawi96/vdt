@@ -1425,34 +1425,57 @@
                             </div>
                         </template>
 
-                        <!-- Upsell Section -->
-                        <div class="pt-4">
-                            <div class="text-center mb-3">
-                                <p class="text-sm font-medium text-green-600">Các mẹ mua kèm để <strong class="font-bold">TIẾT KIỆM 21.000đ</strong> phí ship!</p>
-                                <p class="text-xs text-gray-500 mt-1.5">Ưu đãi kết thúc sau: <span x-text="countdownTimer.display" class="font-mono font-semibold text-gray-700 bg-gray-100 px-1.5 py-0.5 rounded"></span></p>
-                            </div>
-                            <div class="space-y-2">
-                                <template x-for="(addon, index) in addonProducts" :key="addon.id">
-                                    <div class="relative flex items-center space-x-3 p-2.5 bg-pink-50 rounded-lg border border-pink-100">
-                                        <template x-if="index === 0"><div class="absolute -top-2 -left-2 bg-pink-500 text-white text-xs font-semibold px-2 py-0.5 rounded-full shadow-md">✨ Đừng bỏ lỡ...</div></template>
-                                        <img :src="addon.image" :alt="addon.name" class="w-12 h-12 rounded-md object-cover border flex-shrink-0 cursor-pointer hover:opacity-80 transition-opacity" @click="openAddonDetail(addon)">
-                                        <div class="flex-grow">
-                                            <p class="font-semibold text-gray-800 text-sm leading-tight" x-text="addon.name"></p>
-                                            <div class="flex items-baseline space-x-1.5">
-                                                <p class="text-sm text-pink-600 font-bold" x-text="formatCurrency(addon.price)"></p>
-                                                <template x-if="addon.original_price"><s class="text-xs text-gray-500" x-text="formatCurrency(addon.original_price)"></s></template>
+                        <!-- Upsell and Discount Section -->
+                        <div class="pt-4 space-y-4">
+                            <!-- Upsell -->
+                            <div>
+                                <div class="text-center mb-3">
+                                    <p class="text-sm font-medium text-green-600">Các mẹ mua kèm để <strong class="font-bold">TIẾT KIỆM 21.000đ</strong> phí ship!</p>
+                                    <p class="text-xs text-gray-500 mt-1.5">Ưu đãi kết thúc sau: <span x-text="countdownTimer.display" class="font-mono font-semibold text-gray-700 bg-gray-100 px-1.5 py-0.5 rounded"></span></p>
+                                </div>
+                                <div class="space-y-2">
+                                    <template x-for="(addon, index) in addonProducts" :key="addon.id">
+                                        <div class="relative flex items-center space-x-3 p-2.5 bg-pink-50 rounded-lg border border-pink-100">
+                                            <template x-if="index === 0"><div class="absolute -top-2 -left-2 bg-pink-500 text-white text-xs font-semibold px-2 py-0.5 rounded-full shadow-md">✨ Đừng bỏ lỡ...</div></template>
+                                            <img :src="addon.image" :alt="addon.name" class="w-12 h-12 rounded-md object-cover border flex-shrink-0 cursor-pointer hover:opacity-80 transition-opacity" @click="openAddonDetail(addon)">
+                                            <div class="flex-grow">
+                                                <p class="font-semibold text-gray-800 text-sm leading-tight" x-text="addon.name"></p>
+                                                <div class="flex items-baseline space-x-1.5">
+                                                    <p class="text-sm text-pink-600 font-bold" x-text="formatCurrency(addon.price)"></p>
+                                                    <template x-if="addon.original_price"><s class="text-xs text-gray-500" x-text="formatCurrency(addon.original_price)"></s></template>
+                                                </div>
+                                                <button @click="openAddonDetail(addon)" class="text-xs text-blue-600 hover:text-blue-800 underline mt-1">Xem chi tiết</button>
                                             </div>
-                                            <button @click="openAddonDetail(addon)" class="text-xs text-blue-600 hover:text-blue-800 underline mt-1">Xem chi tiết</button>
+                                            <div class="flex flex-col items-center w-20 text-center">
+                                                <button @click="addAddonToCart(addon)" :disabled="isAddonInCart(addon.id)" class="flex-shrink-0 text-xs font-medium rounded-lg transition-colors h-8 w-full flex items-center justify-center" :class="isAddonInCart(addon.id) ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-pink-600 text-white hover:bg-pink-700'">
+                                                    <span x-text="isAddonInCart(addon.id) ? '✓' : 'Thêm'"></span>
+                                                </button>
+                                                <template x-if="addon.id === 'addon_tui_dau_tam'"><p class="text-xs text-green-600 font-semibold mt-1" x-text="isFreeshippingFromDiscount() ? '- 8.000đ' : '+ Freeship'"></p></template>
+                                                <template x-if="addon.id === 'addon_moc_chia_khoa'"><p class="text-xs text-green-600 font-semibold mt-1">- 5.000đ</p></template>
+                                            </div>
                                         </div>
-                                        <div class="flex flex-col items-center w-20 text-center">
-                                            <button @click="addAddonToCart(addon)" :disabled="isAddonInCart(addon.id)" class="flex-shrink-0 text-xs font-medium rounded-lg transition-colors h-8 w-full flex items-center justify-center" :class="isAddonInCart(addon.id) ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-pink-600 text-white hover:bg-pink-700'">
-                                                <span x-text="isAddonInCart(addon.id) ? '✓' : 'Thêm'"></span>
-                                            </button>
-                                            <template x-if="addon.id === 'addon_tui_dau_tam'"><p class="text-xs text-green-600 font-semibold mt-1" x-text="isFreeshippingFromDiscount() ? '- 8.000đ' : '+ Freeship'"></p></template>
-                                            <template x-if="addon.id === 'addon_moc_chia_khoa'"><p class="text-xs text-green-600 font-semibold mt-1">- 5.000đ</p></template>
-                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+
+                            <!-- Discount Code -->
+                            <div class="pt-4 border-t">
+                                <p x-show="isEligibleForAnyDiscount" class="text-green-700 text-sm text-center font-medium mb-2">🎉 Đủ điều kiện nhận mã giảm giá và quà tặng!</p>
+                                <div class="border border-dashed border-pink-300 p-3 rounded-lg flex justify-between items-center">
+                                    <div class="flex items-center">
+                                        <svg x-show="!discountCode" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" /></svg>
+                                        <svg x-show="discountCode && !appliedGift" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                                        <svg x-show="appliedGift" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" /></svg>
+                                        <p class="font-semibold text-gray-700 text-sm"><span x-show="!discountCode">Mã giảm giá / Quà tặng</span><span x-show="discountCode" x-text="discountCode"></span></p>
                                     </div>
-                                </template>
+                                    <button @click="openDiscountModal()" class="bg-pink-600 text-white font-bold py-2 px-3 rounded-lg hover:bg-pink-700 transition-colors text-xs sm:text-sm flex-shrink-0">
+                                        <span x-show="!appliedDiscountCode && !appliedGift">Chọn</span><span x-show="appliedDiscountCode || appliedGift">Thay đổi</span>
+                                    </button>
+                                </div>
+                                <div x-show="appliedGift" class="text-gray-600 text-sm flex items-center space-x-2 mt-2">
+                                    <span>🎁</span>
+                                    <span>Quà tặng: <strong class="font-semibold text-blue-600" x-text="appliedGift?.title"></strong></span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1463,24 +1486,6 @@
                     <div x-show="cart.length > 0">
                         <!-- Error Message -->
                         <div x-show="miniCartError" class="bg-red-50 border border-red-200 text-red-700 px-3 py-2 rounded-lg text-sm"><p x-text="miniCartError"></p></div>
-
-                        <!-- Discount Code -->
-                        <p x-show="isEligibleForAnyDiscount" class="text-green-700 text-sm text-center font-medium">🎉 Đủ điều kiện nhận mã giảm giá và quà tặng!</p>
-                        <div class="border border-dashed border-pink-300 p-3 rounded-lg flex justify-between items-center">
-                            <div class="flex items-center">
-                                <svg x-show="!discountCode" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" /></svg>
-                                <svg x-show="discountCode && !appliedGift" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                                <svg x-show="appliedGift" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" /></svg>
-                                <p class="font-semibold text-gray-700 text-sm"><span x-show="!discountCode">Mã giảm giá / Quà tặng</span><span x-show="discountCode" x-text="discountCode"></span></p>
-                            </div>
-                            <button @click="openDiscountModal()" class="bg-pink-600 text-white font-bold py-2 px-3 rounded-lg hover:bg-pink-700 transition-colors text-xs sm:text-sm flex-shrink-0">
-                                <span x-show="!appliedDiscountCode && !appliedGift">Chọn</span><span x-show="appliedDiscountCode || appliedGift">Thay đổi</span>
-                            </button>
-                        </div>
-                                                <div x-show="appliedGift" class="text-gray-600 text-sm flex items-center space-x-2">
-                            <span>🎁</span>
-                            <span>Quà tặng: <strong class="font-semibold text-blue-600" x-text="appliedGift?.title"></strong></span>
-                        </div>
 
                         <!-- Order Summary -->
                         <div class="space-y-2 pt-4 border-t">
