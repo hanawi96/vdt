@@ -81,6 +81,7 @@ document.addEventListener('alpine:init', () => {
     alertModalType: 'success',
     isConfirmModalOpen: false,
     isSuccessModalOpen: false,
+    isCheckoutModalOpen: false,
     isMiniCartOpen: false,
     miniCartTimeout: null,
     lastOrderId: '',
