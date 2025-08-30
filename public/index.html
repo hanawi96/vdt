@@ -26,7 +26,7 @@
             x-transition:leave="transition ease-in duration-200"
             x-transition:leave-start="opacity-100 transform translate-y-0 scale-100"
             x-transition:leave-end="opacity-0 transform translate-y-[-20px] scale-95"
-            class="fixed top-6 left-1/2 -translate-x-1/2 sm:left-auto sm:translate-x-0 sm:right-6 z-[9999] w-11/12 max-w-md sm:w-auto min-w-[320px]"
+            class="fixed top-6 left-1/2 -translate-x-1/2 sm:left-auto sm:translate-x-0 sm:right-6 z-[10002] w-11/12 max-w-md sm:w-auto min-w-[320px]"
             style="display: none;"
         >
             <div class="bg-white rounded-xl shadow-2xl border-0 overflow-hidden backdrop-blur-sm"
@@ -155,7 +155,7 @@
         </div>
 
         <!-- Floating Action Buttons -->
-        <div class="fixed right-4 sm:right-5 z-40 flex flex-col items-center space-y-3 transition-all duration-300" :class="cart.length > 0 ? 'bottom-24 sm:bottom-20' : 'bottom-4 sm:bottom-5'">
+        <div class="fixed right-4 sm:right-5 z-50 flex flex-col items-center space-y-3 transition-all duration-300" :class="cart.length > 0 && view === 'products' ? 'bottom-32 sm:bottom-28' : 'bottom-4 sm:bottom-5'">
             <!-- FAQ Icon -->
             <div @click="openFaqModal()" class="bg-white text-gray-700 w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center shadow-lg cursor-pointer transform hover:scale-110 transition-transform border">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 sm:h-7 sm:h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
@@ -331,276 +331,14 @@
             </div>
 
 
-            <!-- Checkout Modal -->
-            <div x-show="isCheckoutModalOpen" x-cloak class="fixed inset-0 z-50 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-                <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-                    <!-- Overlay -->
-                    <div x-show="isCheckoutModalOpen"
-                         x-transition:enter="ease-out duration-300"
-                         x-transition:enter-start="opacity-0"
-                         x-transition:enter-end="opacity-100"
-                         x-transition:leave="ease-in duration-200"
-                         x-transition:leave-start="opacity-100"
-                         x-transition:leave-end="opacity-0"
-                         class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
-                         @click="isCheckoutModalOpen = false; isMiniCartOpen = true" aria-hidden="true"></div>
-
-                    <!-- Modal Panel -->
-                    <div x-show="isCheckoutModalOpen"
-                         x-transition:enter="ease-out duration-300"
-                         x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                         x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
-                         x-transition:leave="ease-in duration-200"
-                         x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
-                         x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                         class="w-full h-full sm:h-auto sm:inline-block sm:align-middle bg-gray-50 sm:rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:max-w-5xl">
-
-                        <!-- Modal Header -->
-                        <div class="flex items-center justify-between p-4 border-b bg-gray-100 rounded-t-lg">
-                            <h3 class="text-xl font-bold text-gray-800">Thông tin thanh toán</h3>
-                            <button @click="isCheckoutModalOpen = false; isMiniCartOpen = true" class="text-gray-500 hover:text-gray-800">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                                </svg>
-                            </button>
-                        </div>
-                        <!-- Modal Content -->
-                        <div class="p-4 sm:p-6 pb-24 sm:pb-28">
-            <!-- Cart View Content -->
-            <div>
 
 
-                <!-- Empty Cart Message -->
-                <div x-show="cart.length === 0" class="text-center text-gray-500 py-16 bg-white rounded-lg shadow-md">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                    </svg>
-                    <p class="mt-4 text-lg">Giỏ hàng của bạn đang trống.</p>
-                    <button @click="backToShopping()" class="mt-6 bg-pink-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-pink-700 transition-colors">Bắt đầu mua sắm</button>
-                </div>
-
-                <!-- No Selected Products Message -->
-                <div x-show="cart.length > 0 && selectedCartProducts.length === 0" class="text-center text-gray-500 py-16 bg-white rounded-lg shadow-md">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    <p class="mt-4 text-lg">Bạn chưa chọn sản phẩm nào để thanh toán.</p>
-                    <p class="mt-2 text-sm text-gray-400">Hãy quay lại mini cart để chọn sản phẩm bạn muốn mua nhé!</p>
-                    <button @click="view = 'products'" class="mt-6 bg-pink-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-pink-700 transition-colors">Tiếp tục mua sắm nào</button>
-                </div>
-
-                <!-- Cart Content -->
-                <div x-show="cart.length > 0 && selectedCartProducts.length > 0" class="grid grid-cols-1 gap-8 items-start">
-                    <!-- Left Column: Addons & Shipping Form -->
-                    <div class="space-y-6">
-
-
-                        <!-- Sản phẩm bán kèm ở trang thanh toán - OPTIMIZED -->
-                        <div class="checkout-card">
-                            <div class="text-center mb-4 pb-4 border-b border-gray-100">
-                                <h3 class="checkout-subtitle text-green-600 mb-2">
-                                    Các mẹ mua kèm để <strong class="font-bold text-base">TIẾT KIỆM 21.000đ</strong> phí ship!
-                                </h3>
-                                <p class="text-xs text-gray-500">
-                                    Ưu đãi kết thúc sau:
-                                    <span x-text="countdownTimer.display" class="font-mono font-semibold text-gray-700 bg-gray-100 px-2 py-1 rounded ml-1"></span>
-                                </p>
-                            </div>
-                            <div class="space-y-3">
-                                <template x-for="(addon, index) in addonProducts" :key="addon.id">
-                                    <div class="addon-card">
-                                        <template x-if="index === 0">
-                                            <div class="absolute -top-2 -left-2 bg-pink-500 text-white text-xs font-semibold px-2 py-0.5 rounded-full shadow-md z-10">✨ Đừng bỏ lỡ</div>
-                                        </template>
-
-                                        <!-- Product Image -->
-                                        <img :src="addon.image" :alt="addon.name"
-                                             class="addon-image cursor-pointer hover:opacity-80 transition-opacity border border-gray-200"
-                                             @click="openAddonDetail(addon)">
-
-                                        <!-- Product Info -->
-                                        <div class="addon-content">
-                                            <h4 class="product-name-truncate text-gray-800 text-sm mb-1" x-text="addon.name"></h4>
-                                            <div class="flex items-baseline space-x-2 mb-1">
-                                                <span class="text-sm text-pink-600 font-bold" x-text="formatCurrency(addon.price)"></span>
-                                                <template x-if="addon.original_price">
-                                                    <s class="text-xs text-gray-400" x-text="formatCurrency(addon.original_price)"></s>
-                                                </template>
-                                            </div>
-                                            <button @click="openAddonDetail(addon)" class="text-xs text-blue-600 hover:text-blue-800 underline">
-                                                Xem chi tiết
-                                            </button>
-                                        </div>
-
-                                        <!-- Actions -->
-                                        <div class="addon-actions">
-                                            <button @click="addAddonToCart(addon)"
-                                                    :disabled="isAddonInCart(addon.id)"
-                                                    class="addon-button"
-                                                    :class="isAddonInCart(addon.id) ? 'addon-button:disabled' : ''">
-                                                <span x-text="isAddonInCart(addon.id) ? '✓ Đã thêm' : 'Thêm'"></span>
-                                            </button>
-
-                                            <!-- Benefits -->
-                                            <template x-if="addon.id === 'addon_tui_dau_tam'">
-                                                <div class="addon-benefit" x-text="isFreeshippingFromDiscount() ? '- 8.000đ' : '+ Freeship'"></div>
-                                            </template>
-                                            <template x-if="addon.id === 'addon_moc_chia_khoa'">
-                                                <div class="addon-benefit">- 10.000đ</div>
-                                            </template>
-                                        </div>
-                                    </div>
-                                </template>
-                            </div>
-                        </div>
-
-                        <!-- Shipping Info Card -->
-                        <div class="checkout-card">
-                            <div class="border-b pb-4 mb-6 border-gray-100">
-                                <h3 class="checkout-title">Thông tin nhận hàng</h3>
-                                <div class="mt-3 flex items-start p-3 bg-yellow-50 border-l-4 border-yellow-400 rounded-r-lg">
-                                    <svg class="h-5 w-5 text-yellow-600 mr-3 mt-0.5 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
-                                    </svg>
-                                    <p class="text-sm text-yellow-800">
-                                        <strong>Lưu ý:</strong> Hiện tại đơn vị vận chuyển chưa cập nhật địa chỉ hành chính mới, nên vẫn sử dụng địa chỉ hành chính cũ.
-                                    </p>
-                                </div>
-                            </div>
-                            <form id="shipping-form" @submit.prevent="validateAndShowConfirmModal()" class="space-y-6">
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
-                                    <div>
-                                        <label for="fullName" class="block text-sm font-medium text-gray-700">Họ và tên</label>
-                                        <div class="mt-1">
-                                            <input type="text" x-model="customer.name" id="fullName" placeholder="Ví dụ: Nguyễn Thị An" class="block w-full border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-transparent custom-input-indent" required>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <label for="phone" class="block text-sm font-medium text-gray-700">Số điện thoại</label>
-                                        <div class="mt-1">
-                                            <input type="tel" x-model="customer.phone" id="phone" placeholder="SĐT 10 số để shop gọi xác nhận" class="block w-full border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-transparent custom-input-indent" required pattern="(0[35789])+([0-9]{8})\b" title="Vui lòng nhập số điện thoại hợp lệ (10 số)." oninput="this.value = this.value.replace(/[^0-9]/g, '')">
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="space-y-5">
-                                    <div>
-                                        <label for="province" class="block text-sm font-medium text-gray-700">Tỉnh/Thành phố</label>
-                                        <select id="province" x-model="selectedProvince" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-transparent custom-input-indent" required>
-                                            <option value="">-- Chọn Tỉnh/Thành phố --</option>
-                                            <template x-for="province in provinces" :key="province.Id">
-                                                <option :value="province.Id" x-text="province.Name"></option>
-                                            </template>
-                                        </select>
-                                    </div>
-                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-5">
-                                        <div>
-                                            <label for="district" class="block text-sm font-medium text-gray-700">Quận/Huyện</label>
-                                            <select id="district" x-model="selectedDistrict" :disabled="!selectedProvince" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-transparent disabled:bg-gray-100 custom-input-indent" required>
-                                                <option value="">-- Chọn Quận/Huyện --</option>
-                                                <template x-for="district in districts" :key="district.Id">
-                                                    <option :value="district.Id" x-text="district.Name"></option>
-                                                </template>
-                                            </select>
-                                        </div>
-                                        <div>
-                                            <label for="ward" class="block text-sm font-medium text-gray-700">Phường/Xã</label>
-                                            <select id="ward" x-model="selectedWard" :disabled="!selectedDistrict" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-transparent disabled:bg-gray-100 custom-input-indent" required>
-                                                <option value="">-- Chọn Phường/Xã --</option>
-                                                <template x-for="ward in wards" :key="ward.Id">
-                                                    <option :value="ward.Id" x-text="ward.Name"></option>
-                                                </template>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <label for="streetAddress" class="block text-sm font-medium text-gray-700">Số nhà, tên đường</label>
-                                        <div class="mt-1">
-                                            <input type="text" x-model="streetAddress" id="streetAddress" placeholder="Ví dụ: 123 Đường ABC" class="block w-full border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-transparent custom-input-indent" required>
-                                        </div>
-                                    </div>
-                                    <input type="hidden" x-model="customer.address">
-                                </div>
-
-                                <div>
-                                    <label for="notes" class="block text-sm font-medium text-gray-700">Ghi chú (tùy chọn)</label>
-                                    <div class="mt-1">
-                                        <textarea x-model="customer.notes" id="notes" rows="3" placeholder="Ví dụ: Bé trai 5kg, quấn thêm chỉ đỏ..." class="block w-full border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-transparent custom-input-indent"></textarea>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-
-                    <div class="space-y-6">
-                        <!-- Social Proof -->
-                        <div x-show="socialProofCount > 0"
-                             class="bg-green-50 border border-green-200 text-green-900 px-4 py-3 rounded-lg text-sm flex items-start space-x-3 shadow-sm"
-                             x-transition:enter="transition ease-out duration-300"
-                             x-transition:enter-start="opacity-0 transform -translate-y-2"
-                             x-transition:enter-end="opacity-100 transform translate-y-0">
-                            <svg class="w-5 h-5 mt-0.5 flex-shrink-0 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.934l.643 2.113a1 1 0 01-.814 1.259l-2.113-.643a1 1 0 00-.934.822c-.276.587-.558.915-.934 1.45a1 1 0 00.386 1.45l2.113.643a1 1 0 01-.643 2.113l-1.259-.814a1 1 0 00-1.259.814l-.643 2.113a1 1 0 00.822.934c.587.276.915.558 1.45.934a1 1 0 001.45-.385c.345-.23.614-.558.822-.934l-.643-2.113a1 1 0 01.814-1.259l2.113.643a1 1 0 00.934-.822c.276-.587.558-.915.934-1.45a1 1 0 00-.386-1.45l-2.113-.643a1 1 0 01.643-2.113l1.259.814a1 1 0 001.259-.814l.643-2.113a1 1 0 00-.822-.934c-.587-.276-.915-.558-1.45-.934zM7 12a1 1 0 11-2 0 1 1 0 012 0zm3 3a1 1 0 11-2 0 1 1 0 012 0zm2-5a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
-                            </svg>
-                            <p>Có <strong class="font-bold" x-text="socialProofCount"></strong> người đang thêm sản phẩm giống bạn vào giỏ hàng.</p>
-                        </div>
-
-
-
-
-                        <!-- Payment Method -->
-                        <div class="bg-white p-6 rounded-lg shadow-sm">
-                            <h3 class="text-xl font-semibold mb-4">Phương thức thanh toán</h3>
-                            <div class="space-y-3">
-                                <label class="flex items-center p-3 border rounded-lg cursor-pointer transition-all" :class="{ 'bg-pink-50 border-pink-500': paymentMethod === 'cod' }">
-                                    <input type="radio" x-model="paymentMethod" value="cod" name="paymentMethod" class="h-4 w-4 text-pink-600 focus:ring-pink-500 border-gray-300">
-                                    <span class="ml-3 text-sm font-medium text-gray-700">Thanh toán khi nhận hàng (COD)</span>
-                                </label>
-                                <label class="flex items-center p-3 border rounded-lg cursor-pointer transition-all" :class="{ 'bg-pink-50 border-pink-500': paymentMethod === 'bank_transfer' }">
-                                    <input type="radio" x-model="paymentMethod" value="bank_transfer" name="paymentMethod" class="h-4 w-4 text-pink-600 focus:ring-pink-500 border-gray-300">
-                                    <span class="ml-3 text-sm font-medium text-gray-700">Chuyển khoản ngân hàng</span>
-                                </label>
-                            </div>
-                        </div>
-
-
-
-
-                    </div>
-                        <!-- Checkout Modal Footer -->
-                                                <div class="absolute bottom-0 left-0 right-0 bg-white/80 backdrop-blur-sm border-t border-gray-200 px-4 py-3 sm:px-6 sm:py-4 shadow-[0_-2px_10px_rgba(0,0,0,0.05)] sm:rounded-b-lg">
-                            <div class="flex items-center justify-between gap-4">
-                                <div>
-                                    <p class="text-sm text-gray-600">Tổng cộng</p>
-                                    <p class="text-xl sm:text-2xl font-bold text-pink-600" x-text="formatCurrency(cartTotal())"></p>
-                                </div>
-                                <button type="submit" form="shipping-form" class="bg-pink-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-pink-700 transition-colors shadow-md text-base sm:text-lg flex items-center justify-center flex-grow sm:flex-grow-0 sm:w-auto" :disabled="isSubmitting" :class="{ 'opacity-50 cursor-not-allowed': isSubmitting }">
-                                    <svg x-show="isSubmitting" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" style="display: none;">
-                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                    </svg>
-                                    <span x-show="!isSubmitting">
-                                        Đặt Hàng
-                                    </span>
-                                    <span x-show="isSubmitting" style="display: none;">
-                                        Đang xử lý...
-                                    </span>
-                                </button>
-                            </div>
-                        </div>
-
-                </div> <!-- End Cart Content Grid -->
-            </div> <!-- End Cart View -->
-        </div> <!-- End Modal Content -->
-    </div> <!-- End Modal Panel -->
-</div> <!-- End Checkout Modal -->
 
         <!-- Order Confirmation Modal -->
-        <div x-show="isConfirmModalOpen" @keydown.escape.window="isConfirmModalOpen = false" class="fixed inset-0 bg-gray-800 bg-opacity-75 backdrop-blur-sm flex items-center justify-center p-4 z-50" style="display: none;" x-transition.opacity>
+        <div x-show="isConfirmModalOpen" @keydown.escape.window="isConfirmModalOpen = false" class="fixed inset-0 bg-gray-800 bg-opacity-75 backdrop-blur-sm flex items-center justify-center p-4 z-[10000]" style="display: none;" x-transition.opacity>
             <div @click.outside="isConfirmModalOpen = false" class="bg-white rounded-2xl shadow-xl w-full max-w-2xl max-h-[90vh] flex flex-col">
                 <div class="p-6 border-b">
                     <h2 class="text-2xl font-bold text-gray-800">Xác nhận thông tin đơn hàng</h2>
-                    <p class="text-base font-semibold text-red-600 mt-1">Vui lòng kiểm tra thật kĩ thông tin một lần nữa!</p>
                 </div>
                 <div class="p-6 space-y-6 overflow-y-auto">
                     <!-- Customer Info -->
@@ -633,6 +371,9 @@
                     <!-- Cart Items -->
                     <div>
                         <h3 class="font-semibold text-lg text-gray-700 mb-3 border-b pb-2">Sản phẩm đã chọn</h3>
+
+
+
                         <div class="space-y-4">
                             <template x-for="item in selectedCartProducts" :key="item.id">
                                 <div class="flex items-start space-x-4">
@@ -692,13 +433,13 @@
                         <p class="text-sm" x-text="paymentMethod === 'cod' ? 'Thanh toán khi nhận hàng (COD)' : 'Chuyển khoản ngân hàng'"></p>
                     </div>
                 </div>
-                <div class="p-6 bg-gray-50 border-t rounded-b-2xl flex flex-col sm:flex-row-reverse gap-3">
-                    <button @click="confirmAndSubmitOrder()" :disabled="isSubmitting" class="w-full sm:w-auto bg-pink-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-pink-700 transition-colors flex items-center justify-center" :class="{ 'opacity-50 cursor-not-allowed': isSubmitting }">
-                        <svg x-show="isSubmitting" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" style="display: none;"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                <div class="p-4 sm:p-6 bg-gray-50 border-t rounded-b-2xl flex flex-row-reverse gap-2 sm:gap-3">
+                    <button @click="confirmAndSubmitOrder()" :disabled="isSubmitting" class="flex-1 sm:w-auto bg-pink-600 text-white font-semibold py-3 px-3 sm:px-6 rounded-lg hover:bg-pink-700 transition-colors flex items-center justify-center text-sm sm:text-base" :class="{ 'opacity-50 cursor-not-allowed': isSubmitting }">
+                        <svg x-show="isSubmitting" class="animate-spin -ml-1 mr-2 h-4 w-4 sm:h-5 sm:w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" style="display: none;"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
                         <span x-show="isSubmitting" style="display: none;">Đang xử lý...</span>
                         <span x-show="!isSubmitting">Xác nhận đặt hàng</span>
                     </button>
-                    <button @click="isConfirmModalOpen = false" class="w-full sm:w-auto bg-white text-gray-700 font-semibold py-3 px-6 rounded-lg hover:bg-gray-100 transition-colors border">
+                    <button @click="checkoutOpenedFromConfirm = true; isCheckoutModalOpen = true; setTimeout(() => isConfirmModalOpen = false, 50)" class="flex-1 sm:w-auto bg-white text-gray-700 font-semibold py-3 px-3 sm:px-6 rounded-lg hover:bg-gray-100 transition-colors border text-sm sm:text-base">
                         Sửa lại thông tin
                     </button>
                 </div>
@@ -707,7 +448,7 @@
 
         <!-- Order Success Modal -->
         <div x-show="isSuccessModalOpen"
-             class="fixed inset-0 bg-gray-900 bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-4 z-[60]"
+             class="fixed inset-0 bg-gray-900 bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-4 z-[10002]"
              style="display: none;"
              x-transition:enter="transition ease-out duration-300"
              x-transition:enter-start="opacity-0"
@@ -753,15 +494,20 @@
                     </div>
                 </div>
 
-                <button @click="closeSuccessModal()" class="w-full bg-pink-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-pink-700 transition-colors duration-300 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-pink-500 focus:ring-opacity-50">
-                    Tiếp tục mua sắm
-                </button>
+                <div class="flex flex-col sm:flex-row-reverse gap-3">
+                    <button @click="continueShoppingAndScroll()" class="w-full sm:w-auto flex-1 bg-pink-600 text-white font-semibold py-3 px-6 rounded-lg hover:bg-pink-700 transition-colors">
+                        Tiếp tục mua sắm
+                    </button>
+                    <button @click="closeSuccessModal()" class="w-full sm:w-auto flex-1 bg-gray-200 text-gray-800 font-semibold py-3 px-6 rounded-lg hover:bg-gray-300 transition-colors">
+                        Đóng
+                    </button>
+                </div>
             </div>
         </div>
 
         <!-- Bank Transfer Info Modal -->
         <div x-show="isBankTransferModalOpen"
-             class="fixed inset-0 bg-gray-900 bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-4 z-[60]"
+             class="fixed inset-0 bg-gray-900 bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-4 z-[10001]"
              style="display: none;"
              x-transition:enter="transition ease-out duration-300"
              x-transition:enter-start="opacity-0"
@@ -771,7 +517,7 @@
              x-transition:leave-end="opacity-0">
             <div @click.outside="closeBankTransferModal()"
                  class="bg-white rounded-2xl shadow-2xl w-full max-w-md text-center p-8 transform transition-all"
-                 x-show="isBankTransferModalOpen"
+
                  x-transition:enter="transition ease-out duration-300"
                  x-transition:enter-start="opacity-0 scale-95"
                  x-transition:enter-end="opacity-100 scale-100"
@@ -927,7 +673,7 @@
         <!-- Image Viewer Modal -->
 
         <!-- Social Proof Notification -->
-        <div x-show="notification.visible"
+        <div x-show="notification.visible && !isMiniCartOpen && !isCheckoutModalOpen"
              x-transition:enter="transition ease-out duration-300 transform"
              x-transition:enter-start="-translate-y-10 opacity-0"
              x-transition:enter-end="translate-y-0 opacity-100"
@@ -1167,7 +913,7 @@
 
     <!-- Discount Code Modal -->
     <div x-show="isDiscountModalOpen" @keydown.escape.window="closeDiscountModal()"
-         class="fixed inset-0 bg-gray-800 bg-opacity-75 backdrop-blur-sm flex items-center justify-center p-4 z-[60]"
+         class="fixed inset-0 bg-gray-800 bg-opacity-75 backdrop-blur-sm flex items-center justify-center p-4 z-[9991]"
          style="display: none;"
          x-transition:enter="transition ease-out duration-300"
          x-transition:enter-start="opacity-0"
@@ -1286,7 +1032,7 @@
 
         <!-- Mini Cart Modal -->
         <div x-show="isMiniCartOpen" @keydown.escape.window="isMiniCartOpen = false"
-             class="fixed inset-0 bg-gray-800 bg-opacity-75 backdrop-blur-sm flex items-center justify-center p-4 z-50"
+             class="fixed inset-0 bg-gray-800 bg-opacity-75 backdrop-blur-sm flex items-center justify-center p-4 z-[9990]"
              style="display: none;"
              x-transition:enter="transition ease-out duration-300"
              x-transition:enter-start="opacity-0"
@@ -1375,7 +1121,6 @@
                                 <div class="space-y-2">
                                     <template x-for="(addon, index) in addonProducts" :key="addon.id">
                                         <div class="relative flex items-center space-x-3 p-2.5 bg-pink-50 rounded-lg border border-pink-100">
-                                            <template x-if="index === 0"><div class="absolute -top-2 -left-2 bg-pink-500 text-white text-xs font-semibold px-2 py-0.5 rounded-full shadow-md">✨ Đừng bỏ lỡ...</div></template>
                                             <img :src="addon.image" :alt="addon.name" class="w-12 h-12 rounded-md object-cover border flex-shrink-0 cursor-pointer hover:opacity-80 transition-opacity" @click="openAddonDetail(addon)">
                                             <div class="flex-grow">
                                                 <p class="font-semibold text-gray-800 text-sm leading-tight" x-text="addon.name"></p>
@@ -1438,7 +1183,7 @@
                         <div x-show="miniCartError" class="bg-red-50 border border-red-200 text-red-700 px-3 py-2 rounded-lg text-sm mb-3"><p x-text="miniCartError"></p></div>
 
                         <!-- Checkout Button -->
-                        <button @click="isMiniCartOpen = false; isCheckoutModalOpen = true;" class="w-full bg-pink-600 text-white font-semibold py-3 px-4 rounded-lg hover:bg-pink-700 transition-colors text-base">
+                        <button @click="openCheckout()" class="w-full bg-pink-600 text-white font-semibold py-3 px-4 rounded-lg hover:bg-pink-700 transition-colors text-base">
                             Thanh toán
                         </button>
                     </div>
@@ -1572,6 +1317,295 @@
             <!-- Footer -->
             <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b">
                 <button @click="addItemWithOptions()" class="w-full text-white bg-pink-600 hover:bg-pink-700 focus:ring-4 focus:outline-none focus:ring-pink-300 font-bold rounded-lg text-base px-5 py-3 text-center">Thêm vào giỏ</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Modal - Tối ưu cho mẹ bỉm sữa -->
+    <div x-show="isCheckoutModalOpen"
+         @keydown.escape.window="isCheckoutModalOpen = false"
+         class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-end sm:items-center justify-center p-3 sm:p-4 z-[9999]"
+         style="display: none;"
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0">
+
+        <div class="bg-white rounded-3xl sm:rounded-2xl shadow-2xl w-full max-w-md sm:max-w-2xl max-h-[95vh] sm:max-h-[85vh] flex flex-col relative"
+             x-show="isCheckoutModalOpen"
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 translate-y-full sm:scale-95"
+             x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
+             x-transition:leave-end="opacity-0 translate-y-full sm:scale-95">
+
+            <!-- Header - Compact -->
+            <div class="bg-gradient-to-r from-pink-500 to-purple-600 text-white p-4 rounded-t-3xl sm:rounded-t-2xl flex-shrink-0">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="text-lg font-bold">Thông Tin Nhận Hàng</h2>
+                        </div>
+                    </div>
+                    <button @click="isCheckoutModalOpen = false"
+                            class="w-8 h-8 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full flex items-center justify-center transition-all">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Body - Scrollable content -->
+            <div class="flex-1 overflow-y-auto p-4 pb-24">
+                <div class="space-y-4">
+
+                    <!-- Thông tin cá nhân - Compact -->
+                    <div class="space-y-3">
+                        <h3 class="text-base font-semibold text-gray-800 mb-3 flex items-center">
+                            <svg class="w-4 h-4 text-pink-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                            </svg>
+                            Thông tin người nhận
+                        </h3>
+
+                        <div class="space-y-3">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">
+                                    <span class="text-red-500">*</span> Họ và tên
+                                </label>
+                                <input type="text" x-model="customer.name"
+                                       placeholder="Nhập họ và tên"
+                                       class="w-full px-3 py-2 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-all">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">
+                                    <span class="text-red-500">*</span> Số điện thoại
+                                </label>
+                                <input type="tel" x-model="customer.phone"
+                                       placeholder="0987 654 321"
+                                       class="w-full px-3 py-2 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-all">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Địa chỉ giao hàng - Compact -->
+                    <div class="space-y-3">
+                        <h3 class="text-base font-semibold text-gray-800 mb-3 flex items-center">
+                            <svg class="w-4 h-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            </svg>
+                            Địa chỉ giao hàng
+                        </h3>
+
+                        <div class="space-y-3">
+                            <!-- Tỉnh/Thành phố -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">
+                                    <span class="text-red-500">*</span> Tỉnh/Thành phố
+                                </label>
+                                <select x-model="selectedProvince" @change="updateFullAddress()"
+                                        class="w-full px-3 py-2 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-all">
+                                    <option value="">Chọn tỉnh/thành phố</option>
+                                    <template x-for="province in provinces" :key="province.Id">
+                                        <option :value="province.Id" x-text="province.Name"></option>
+                                    </template>
+                                </select>
+                            </div>
+
+                            <!-- Quận/Huyện và Phường/Xã trên cùng 1 hàng -->
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                                        <span class="text-red-500">*</span> Quận/Huyện
+                                    </label>
+                                    <select x-model="selectedDistrict" @change="updateFullAddress()"
+                                            :disabled="!selectedProvince"
+                                            class="w-full px-3 py-2 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-all disabled:bg-gray-100">
+                                        <option value="">Chọn quận/huyện</option>
+                                        <template x-for="district in districts" :key="district.Id">
+                                            <option :value="district.Id" x-text="district.Name"></option>
+                                        </template>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                                        <span class="text-red-500">*</span> Phường/Xã
+                                    </label>
+                                    <select x-model="selectedWard" @change="updateFullAddress()"
+                                            :disabled="!selectedDistrict"
+                                            class="w-full px-3 py-2 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-all disabled:bg-gray-100">
+                                        <option value="">Chọn phường/xã</option>
+                                        <template x-for="ward in wards" :key="ward.Id">
+                                            <option :value="ward.Id" x-text="ward.Name"></option>
+                                        </template>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <!-- Địa chỉ cụ thể -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">
+                                    <span class="text-red-500">*</span> Địa chỉ cụ thể
+                                </label>
+                                <input type="text" x-model="streetAddress" @input="updateFullAddress()"
+                                       placeholder="Số nhà, đường..."
+                                       class="w-full px-3 py-2 text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-all">
+                            </div>
+
+                            <!-- Preview địa chỉ - Compact -->
+                            <div x-show="customer.address" class="p-2 bg-green-50 border border-green-200 rounded-lg">
+                                <p class="text-xs text-green-800">
+                                    <strong>Giao đến:</strong> <span x-text="customer.address"></span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Ghi chú - Compact -->
+                    <div class="space-y-3">
+                        <h3 class="text-base font-semibold text-gray-800 mb-2 flex items-center">
+                            <svg class="w-4 h-4 text-blue-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                            </svg>
+                            Ghi chú (tùy chọn)
+                        </h3>
+
+                        <textarea x-model="customer.notes"
+                                  placeholder="Ghi chú thời gian giao hàng..."
+                                  rows="2"
+                                  class="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-all resize-none"></textarea>
+                    </div>
+
+                    <!-- Sản phẩm đã chọn - Compact -->
+                    <div class="space-y-3">
+                        <h3 class="text-base font-semibold text-gray-800 mb-2 flex items-center">
+                            <svg class="w-4 h-4 text-purple-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                            </svg>
+                            Sản phẩm (<span x-text="cart.length"></span>)
+                        </h3>
+
+                        <div class="space-y-2 max-h-32 overflow-y-auto bg-gray-50 rounded-lg p-3">
+                            <template x-for="item in cart" :key="item.id">
+                                <div class="flex items-center space-x-2 p-2 bg-white rounded">
+                                    <img :src="item.image" :alt="item.name" class="w-8 h-8 object-cover rounded">
+                                    <div class="flex-1 min-w-0">
+                                        <p class="text-xs font-medium text-gray-800 truncate" x-text="item.name"></p>
+                                        <p class="text-xs text-gray-500" x-text="`SL: ${item.quantity}`"></p>
+                                    </div>
+                                    <p class="text-xs font-bold text-pink-600" x-text="formatCurrency(item.price * item.quantity)"></p>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+
+                    <!-- Phương thức thanh toán - Compact -->
+                    <div class="space-y-3">
+                        <h3 class="text-base font-semibold text-gray-800 mb-2 flex items-center">
+                            <svg class="w-4 h-4 text-indigo-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                            </svg>
+                            Thanh toán
+                        </h3>
+
+                        <div class="space-y-2">
+                            <label class="block cursor-pointer">
+                                <input type="radio" x-model="paymentMethod" value="cod" class="sr-only">
+                                <div class="p-3 border-2 rounded-lg transition-all"
+                                     :class="paymentMethod === 'cod' ? 'border-pink-500 bg-pink-50' : 'border-gray-200'">
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-4 h-4 border-2 rounded-full flex items-center justify-center"
+                                             :class="paymentMethod === 'cod' ? 'border-pink-500 bg-pink-500' : 'border-gray-300'">
+                                            <div x-show="paymentMethod === 'cod'" class="w-1.5 h-1.5 bg-white rounded-full"></div>
+                                        </div>
+                                        <div>
+                                            <div class="text-sm font-medium text-gray-800">COD - Thanh toán khi nhận</div>
+                                            <div class="text-xs text-gray-600">Kiểm tra hàng trước khi thanh toán</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </label>
+
+                            <label class="block cursor-pointer">
+                                <input type="radio" x-model="paymentMethod" value="bank_transfer" class="sr-only">
+                                <div class="p-3 border-2 rounded-lg transition-all"
+                                     :class="paymentMethod === 'bank_transfer' ? 'border-pink-500 bg-pink-50' : 'border-gray-200'">
+                                    <div class="flex items-center space-x-2">
+                                        <div class="w-4 h-4 border-2 rounded-full flex items-center justify-center"
+                                             :class="paymentMethod === 'bank_transfer' ? 'border-pink-500 bg-pink-500' : 'border-gray-300'">
+                                            <div x-show="paymentMethod === 'bank_transfer'" class="w-1.5 h-1.5 bg-white rounded-full"></div>
+                                        </div>
+                                        <div>
+                                            <div class="text-sm font-medium text-gray-800">Chuyển khoản ngân hàng</div>
+                                            <div class="text-xs text-gray-600">Giao nhanh hơn, ưu đãi phí ship</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Tổng kết - Compact -->
+                    <div class="bg-gradient-to-r from-pink-50 to-purple-50 rounded-lg p-3 border border-pink-200">
+                        <div class="space-y-2">
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-600">Tạm tính:</span>
+                                <span class="font-medium" x-text="formatCurrency(cartSubtotal())"></span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-600">Phí ship:</span>
+                                <span class="font-medium" x-text="formatCurrency(shippingFee())"></span>
+                            </div>
+
+                            <template x-if="shippingDiscount > 0">
+                                <div class="flex justify-between text-sm text-green-600">
+                                    <span>Freeship:</span>
+                                    <span class="font-medium" x-text="'-' + formatCurrency(shippingDiscount)"></span>
+                                </div>
+                            </template>
+
+                            <template x-if="discountAmount > 0">
+                                <div class="flex justify-between text-sm text-green-600">
+                                    <span>Giảm giá:</span>
+                                    <span class="font-medium" x-text="'-' + formatCurrency(discountAmount)"></span>
+                                </div>
+                            </template>
+
+                            <div class="border-t border-pink-200 pt-2">
+                                <div class="flex justify-between text-base font-bold">
+                                    <span>Tổng cộng:</span>
+                                    <span class="text-pink-600" x-text="formatCurrency(cartTotal())"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer - Fixed at bottom, Mobile optimized -->
+            <div class="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-3 rounded-b-3xl sm:rounded-b-2xl shadow-lg">
+                <div class="flex gap-2">
+                    <button @click="isCheckoutModalOpen = false"
+                            class="px-4 py-3 bg-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-300 transition-all text-sm">
+                        Quay lại
+                    </button>
+                    <button @click="validateAndShowConfirmModal()"
+                            class="flex-1 px-4 py-3 bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold rounded-lg hover:from-pink-600 hover:to-purple-700 transition-all text-sm">
+                        Đặt hàng - <span x-text="formatCurrency(cartTotal())"></span>
+                    </button>
+                </div>
             </div>
         </div>
     </div>

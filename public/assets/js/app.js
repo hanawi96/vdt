@@ -83,6 +83,7 @@ document.addEventListener('alpine:init', () => {
     isSuccessModalOpen: false,
     isCheckoutModalOpen: false,
     isMiniCartOpen: false,
+    checkoutOpenedFromConfirm: false,
     miniCartTimeout: null,
     lastOrderId: '',
     isBankTransferModalOpen: false,
@@ -94,6 +95,7 @@ document.addEventListener('alpine:init', () => {
     isItemOptionsModalOpen: false,
     currentItemForOptions: null,
     itemOptions: { quantity: 1, note: '' },
+    socialProofViewers: 0,
 
     /* ========= FAQ ========= */
     faqItems: [],
@@ -127,13 +129,21 @@ document.addEventListener('alpine:init', () => {
 
     /* ========= CUSTOMER & ADDRESS ========= */
     productNotes: Alpine.$persist({}).as('productNotes'),
-    customer: Alpine.$persist({ name: '', phone: '', address: '', notes: '' }).as('customerInfo'),
+    customer: Alpine.$persist({ name: '', phone: '', email: '', address: '', notes: '' }).as('customerInfo'),
     paymentMethod: 'cod',
     addressData: [],
     selectedProvince: Alpine.$persist('').as('selectedProvince'),
     selectedDistrict: Alpine.$persist('').as('selectedDistrict'),
     selectedWard: Alpine.$persist('').as('selectedWard'),
     streetAddress: Alpine.$persist('').as('streetAddress'),
+
+    /* ========= FORM VALIDATION ========= */
+    formErrors: {
+      name: '',
+      phone: '',
+      email: '',
+      address: ''
+    },
 
     /* ========= PRIVATE/HELPERS ========= */
     _CURRENCY: new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }),
@@ -645,9 +655,12 @@ document.addEventListener('alpine:init', () => {
       if (promotion.type === 'gift') {
         this.appliedGift = { title: promotion.title, value: promotion.value };
       } else {
+        // Đặt appliedDiscountCode cho tất cả các loại mã (trừ gift)
+        this.appliedDiscountCode = code;
+
         if (promotion.type === 'shipping') {
           // freeship được phản ánh qua getter freeShipping bằng appliedDiscountCode
-          this.appliedDiscountCode = code;
+          // appliedDiscountCode đã được đặt ở trên
         } else if (promotion.type === 'fixed') {
           this.discountAmount = promotion.value;
         } else if (promotion.type === 'percentage') {
@@ -746,6 +759,13 @@ document.addEventListener('alpine:init', () => {
       if (this.appliedDiscountCode || this.appliedGift) return false;
       return this.hasAnyApplicableDiscounts;
     },
+    openCheckout() {
+      // Không đóng miniCart để có thể quay lại (stack modal)
+      this.preventMiniCartCloseOnClickOutside = true;
+      this.socialProofViewers = Math.floor(Math.random() * 5) + 1;
+      this.isCheckoutModalOpen = true;
+    },
+
 
     /* ========= CHECKOUT ========= */
     validateAndShowConfirmModal() {
@@ -753,11 +773,20 @@ document.addEventListener('alpine:init', () => {
       if (!this.customer.name || !this.customer.phone || !this.selectedProvince || !this.selectedDistrict || !this.selectedWard || !this.streetAddress) {
         this.showAlert('Vui lòng điền đầy đủ thông tin nhận hàng.', 'error'); return;
       }
+      
+      // Validate phone number
       const phoneRegex = /(0[3|5|7|8|9])+([0-9]{8})\b/;
-      if (!phoneRegex.test(this.customer.phone)) { this.showAlert('Số điện thoại không hợp lệ. Vui lòng kiểm tra lại.', 'error'); return; }
-      const missingWeight = this.cart.some(item => !String(item.weight ?? '').trim());
-      if (missingWeight) { this.showAlert('Vui lòng nhập cân nặng cho tất cả các sản phẩm trong giỏ hàng.', 'error'); return; }
+      if (!phoneRegex.test(this.customer.phone)) { 
+        this.showAlert('Số điện thoại không hợp lệ. Vui lòng kiểm tra lại.', 'error'); 
+        return; 
+      }
+      
+
+
       if (!this.paymentMethod) { this.showAlert('Vui lòng chọn phương thức thanh toán.', 'error'); return; }
+
+      // Giữ checkout modal mở để có thể quay lại (stack modal)
+      // Chỉ mở confirm modal chồng lên trên
       this.isConfirmModalOpen = true;
     },
 
@@ -777,7 +806,7 @@ document.addEventListener('alpine:init', () => {
           if (this.appliedGift) items.push({ name: this.appliedGift.title, price: 'Miễn phí', quantity: 1, weight: 0 });
           return items;
         })(),
-        customer: { name: this.customer.name, phone: this.customer.phone, address: this.customer.address, notes: this.customer.notes },
+        customer: { name: this.customer.name, phone: this.customer.phone, email: this.customer.email, address: this.customer.address, notes: this.customer.notes },
         orderDate: new Date().toISOString(),
         subtotal: this.formatCurrency(this.cartSubtotal()),
         shipping: this.shippingFee() === 0 ? (this.freeShipping ? 'Miễn phí (FREESHIP)' : 'Miễn phí') : this.formatCurrency(this.shippingFee()),
@@ -800,9 +829,18 @@ document.addEventListener('alpine:init', () => {
           throw new Error(msg);
         }
 
-        this.isConfirmModalOpen = false;
-        if (this.paymentMethod === 'bank_transfer') this.isBankTransferModalOpen = true;
-        else this.isSuccessModalOpen = true;
+        // Clear giỏ hàng ngay khi đặt hàng thành công
+        this.cart = [];
+        this.resetDiscount();
+
+        // Không đóng confirm modal, để success modal hiển thị chồng lên
+        this.$nextTick(() => {
+            if (this.paymentMethod === 'bank_transfer') {
+                this.isBankTransferModalOpen = true;
+            } else {
+                this.isSuccessModalOpen = true;
+            }
+        });
 
       } catch (e) {
         console.error('Lỗi gửi đơn hàng:', e);
@@ -812,6 +850,11 @@ document.addEventListener('alpine:init', () => {
       }
     },
 
+
+    continueShoppingAndScroll() {
+      // Tải lại trang để reset hoàn toàn
+      window.location.reload();
+    },
     cleanupAfterOrder() {
       this.cart = [];
       this.resetDiscount();
@@ -819,8 +862,8 @@ document.addEventListener('alpine:init', () => {
       window.scrollTo(0, 0);
     },
     closeSuccessModal() {
-      this.isSuccessModalOpen = false;
-      setTimeout(() => this.cleanupAfterOrder(), 250);
+      // Tải lại trang để reset hoàn toàn
+      window.location.reload();
     },
     closeBankTransferModal() {
       this.isBankTransferModalOpen = false;
@@ -841,6 +884,7 @@ document.addEventListener('alpine:init', () => {
       ];
 
       const showOnce = () => {
+        if (this.isMiniCartOpen || this.isCheckoutModalOpen) return;
         const name = names[Math.floor(Math.random() * names.length)];
         const action = actions[Math.floor(Math.random() * actions.length)];
         this.notification.message = `${name} ${action}`;
