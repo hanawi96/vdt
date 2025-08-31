@@ -74,19 +74,28 @@ document.addEventListener('alpine:init', () => {
     activeSearchQuery: '',
 
     /* ========= MODALS ========= */
+    // Z-index hierarchy: 9000 (base modals) -> 9400 (discount) -> 9500 (mini cart) -> 9600 (checkout) -> 9900 (quick buy) -> 9950 (quick buy transfer) -> 9990 (confirm) -> 9999 (success)
+    // All modals use consistent backdrop: bg-black bg-opacity-60 backdrop-blur-sm
+    // Success Modal stacks on top of Confirm Modal (both visible simultaneously)
+    // Bank transfer info is now inline in checkout/quick buy modals (no separate modal)
+
+    // Core modals (z-9000)
     isImageModalOpen: false,
     currentImage: '',
     isAlertModalOpen: false,
     alertModalMessage: '',
     alertModalType: 'success',
-    isConfirmModalOpen: false,
+
+    // Order flow modals (z-9900+)
     isSuccessModalOpen: false,
+    isConfirmModalOpen: false,
+    lastOrderId: '',
+
+    // Shopping modals (z-9500-9600)
     isCheckoutModalOpen: false,
     isMiniCartOpen: false,
     checkoutOpenedFromConfirm: false,
     miniCartTimeout: null,
-    lastOrderId: '',
-    isBankTransferModalOpen: false,
     isDiscountModalOpen: false,
     isCartAnimating: false,
     isShowingBestSellers: false,
@@ -97,6 +106,94 @@ document.addEventListener('alpine:init', () => {
     itemOptions: { quantity: 1, note: '' },
     socialProofViewers: Math.floor(Math.random() * 5) + 1,
     socialProofInterval: null,
+
+    // Copy success states
+    quickBuyCopySuccess: false,
+    checkoutCopySuccess: false,
+
+    // Quick Buy state
+    isQuickBuyModalOpen: false,
+    quickBuyProduct: null,
+    quickBuyQuantity: 1,
+    quickBuyWeight: '',
+    quickBuyNotes: '',
+    quickBuyPaymentMethod: 'cod', // Phương thức thanh toán cho quick buy
+    isQuickBuySubmitting: false,
+    isQuickBuyTransferConfirmed: false, // Flag để track đã xác nhận chuyển khoản ở quick buy
+    isCheckoutTransferConfirmed: false, // Flag để track đã xác nhận chuyển khoản ở checkout
+    isCheckoutConfirmTransferModalOpen: false, // Modal xác nhận chuyển khoản cho checkout
+    isDiscountModalFromQuickBuy: false, // Flag để biết modal discount được mở từ đâu
+    preventQuickBuyCloseOnEscape: false, // Flag để ngăn đóng Quick Buy khi có modal con
+
+    // Weight options từ 3kg đến 12kg (tăng 0.5kg)
+    get weightOptions() {
+      const options = [];
+      for (let weight = 3; weight <= 12; weight += 0.5) {
+        options.push(`${weight}kg`);
+      }
+      return options;
+    },
+
+    // Quick Buy calculations - tính riêng cho mua ngay
+    get quickBuySubtotal() {
+      return (this.quickBuyProduct?.price || 0) * this.quickBuyQuantity;
+    },
+
+    get quickBuyAvailableDiscounts() {
+      return this.availableDiscounts.map(discount => {
+        const promotion = this._normalizeDiscount(discount);
+        if (!promotion || !promotion.active) {
+          return { ...discount, availability: { available: false, reason: 'Mã không hợp lệ' } };
+        }
+
+        // Tính theo Quick Buy subtotal thay vì cart subtotal
+        const available = this.quickBuySubtotal >= promotion.minOrder &&
+                         (!promotion.minItems || this.quickBuyQuantity >= promotion.minItems);
+
+        const reason = !available
+          ? (this.quickBuySubtotal < promotion.minOrder
+             ? `Cần mua thêm ${this.formatCurrency(promotion.minOrder - this.quickBuySubtotal)}`
+             : `Cần thêm ${promotion.minItems - this.quickBuyQuantity} sản phẩm`)
+          : '';
+
+        return {
+          ...discount,
+          availability: { available, reason },
+          effectiveValue: available ? this.calculateQuickBuyDiscountValue(promotion) : 0
+        };
+      });
+    },
+
+    calculateQuickBuyDiscountValue(promotion) {
+      if (promotion.type === 'shipping') return this.SHIPPING_FEE;
+      if (promotion.type === 'fixed') return Math.min(promotion.value, this.quickBuySubtotal);
+      if (promotion.type === 'percentage') return Math.floor(this.quickBuySubtotal * promotion.value / 100);
+      return 0;
+    },
+
+    // Quick Buy shipping logic - riêng biệt với cart
+    get quickBuyFreeShipping() {
+      // Chỉ freeship khi có mã type=shipping được áp dụng
+      const d = this.availableDiscounts.find(d => d.code?.toUpperCase() === this.appliedDiscountCode);
+      return !!(d && d.type === 'shipping');
+    },
+
+    get quickBuyShippingFee() {
+      return this.quickBuyFreeShipping ? 0 : this.SHIPPING_FEE;
+    },
+
+    get quickBuyShippingDiscount() {
+      return this.quickBuyFreeShipping ? this.SHIPPING_FEE : 0;
+    },
+
+    get quickBuyTotal() {
+      const subtotal = this.quickBuySubtotal;
+      const shipping = this.SHIPPING_FEE; // Luôn cộng phí ship đầy đủ
+      const shippingDiscount = this.quickBuyShippingDiscount; // Rồi trừ freeship nếu có
+      const discount = this.discountAmount;
+      const total = subtotal + shipping - shippingDiscount - discount;
+      return total > 0 ? total : 0;
+    },
 
     /* ========= FAQ ========= */
     faqItems: [],
@@ -147,7 +244,8 @@ document.addEventListener('alpine:init', () => {
       district: '',
       ward: '',
       streetAddress: '',
-      paymentMethod: ''
+      paymentMethod: '',
+      weight: ''
     },
 
     /* ========= PRIVATE/HELPERS ========= */
@@ -233,14 +331,57 @@ document.addEventListener('alpine:init', () => {
       });
 
       this.$watch('paymentMethod', (newValue) => {
+        console.log('🔍 paymentMethod watcher (form validation) triggered:', newValue);
+        console.log('🔍 isMiniCartOpen trong form validation watcher:', this.isMiniCartOpen);
         if (newValue) {
           this.formErrors.paymentMethod = '';
+          // Reset trạng thái xác nhận chuyển khoản khi thay đổi phương thức thanh toán
+          this.isCheckoutTransferConfirmed = false;
         }
       });
 
       // Watch selected items để revalidate discount
       this.$watch('selectedCartItems', () => {
         this.revalidateAppliedDiscount();
+      });
+
+      // Watch Quick Buy quantity để revalidate discount
+      this.$watch('quickBuyQuantity', () => {
+        this.revalidateQuickBuyDiscount();
+      });
+
+      // Watch quickBuyPaymentMethod để reset trạng thái xác nhận chuyển khoản
+      this.$watch('quickBuyPaymentMethod', (newValue) => {
+        if (newValue) {
+          // Reset trạng thái xác nhận chuyển khoản khi thay đổi phương thức thanh toán
+          this.isQuickBuyTransferConfirmed = false;
+        }
+      });
+
+      // Watch modal states để debug
+      this.$watch('isMiniCartOpen', (newValue, oldValue) => {
+        console.log('🔍 isMiniCartOpen changed:', oldValue, '->', newValue);
+        console.log('🔍 Tại thời điểm này - isCheckoutModalOpen:', this.isCheckoutModalOpen, 'isConfirmModalOpen:', this.isConfirmModalOpen);
+        console.trace('🔍 Stack trace cho isMiniCartOpen change');
+      });
+
+      this.$watch('isCheckoutModalOpen', (newValue, oldValue) => {
+        console.log('🔍 isCheckoutModalOpen changed:', oldValue, '->', newValue);
+        console.trace('🔍 Stack trace cho isCheckoutModalOpen change');
+      });
+
+      // Watch paymentMethod để debug
+      this.$watch('paymentMethod', (newValue, oldValue) => {
+        console.log('🔍 paymentMethod changed:', oldValue, '->', newValue);
+        console.log('🔍 Sau khi thay đổi paymentMethod - isMiniCartOpen:', this.isMiniCartOpen);
+        console.trace('🔍 Stack trace cho paymentMethod change');
+      });
+
+      // Watch isCheckoutTransferConfirmed để debug
+      this.$watch('isCheckoutTransferConfirmed', (newValue, oldValue) => {
+        console.log('🔍 isCheckoutTransferConfirmed changed:', oldValue, '->', newValue);
+        console.log('🔍 Sau khi thay đổi isCheckoutTransferConfirmed - isMiniCartOpen:', this.isMiniCartOpen);
+        console.trace('🔍 Stack trace cho isCheckoutTransferConfirmed change');
       });
 
       // Dọn cart dữ liệu cũ trùng ID
@@ -495,6 +636,7 @@ document.addEventListener('alpine:init', () => {
     },
 
     showBestSellers() {
+      console.log('🔍 showBestSellers() đóng isMiniCartOpen');
       this.isMiniCartOpen = false;
       this.currentCategory = { id: 'all', name: 'Top bán chạy' };
       this.activeFilter = 'best_selling';
@@ -617,8 +759,35 @@ document.addEventListener('alpine:init', () => {
       else this.selectedCartItems = this.cart.map(i => i.id);
     },
     get isAllSelected() { return this.cart.length > 0 && this.selectedCartItems.length === this.cart.length; },
+
+    // Computed property để kiểm tra có thể đặt hàng không (checkout)
+    get canPlaceOrder() {
+      // Nếu chọn COD thì luôn có thể đặt hàng
+      if (this.paymentMethod === 'cod') return true;
+
+      // Nếu chọn chuyển khoản thì phải xác nhận chuyển khoản trước
+      if (this.paymentMethod === 'bank_transfer') {
+        return this.isCheckoutTransferConfirmed;
+      }
+
+      return true;
+    },
+
+    // Computed property để kiểm tra có thể đặt hàng không (quick buy)
+    get canPlaceQuickBuyOrder() {
+      // Nếu chọn COD thì luôn có thể đặt hàng
+      if (this.quickBuyPaymentMethod === 'cod') return true;
+
+      // Nếu chọn chuyển khoản thì phải xác nhận chuyển khoản trước
+      if (this.quickBuyPaymentMethod === 'bank_transfer') {
+        return this.isQuickBuyTransferConfirmed;
+      }
+
+      return true;
+    },
     checkoutSelected() {
       if (!this.selectedCartItems.length) { this.miniCartError = 'Vui lòng chọn 1 sản phẩm để mua hàng'; return; }
+      console.log('🔍 checkoutSelected() đóng isMiniCartOpen');
       this.miniCartError = ''; this.view = 'cart'; this.isMiniCartOpen = false;
     },
     get selectedCartProducts() { return this.cart.filter(i => this.selectedCartItems.includes(i.id)); },
@@ -670,9 +839,259 @@ document.addEventListener('alpine:init', () => {
       else if (item) { this.removeFromCart(productId); }
     },
     buyNow(product) {
-      this.openItemOptionsModal(product);
-      // Logic to proceed to checkout after adding will be handled by a flag if needed
-      // For now, it just opens the modal for consistency.
+      // Mua ngay - bỏ qua giỏ hàng hoàn toàn
+      this.quickBuyProduct = { ...product };
+      this.quickBuyQuantity = 1;
+      this.quickBuyWeight = '';
+      this.quickBuyNotes = '';
+      this.isQuickBuyModalOpen = true;
+      this.startSocialProofTimer();
+
+      // Revalidate mã giảm giá với sản phẩm và số lượng mới
+      this.$nextTick(() => {
+        this.revalidateQuickBuyDiscount();
+      });
+
+      // Auto-focus vào field đầu tiên
+      this.$nextTick(() => {
+        setTimeout(() => {
+          const firstInput = document.querySelector('#quickBuyModal input[type="text"]');
+          if (firstInput && !this.customer.name) {
+            firstInput.focus();
+          }
+        }, 300);
+      });
+    },
+    closeQuickBuyModal() {
+      this.isQuickBuyModalOpen = false;
+      this.quickBuyProduct = null;
+      this.quickBuyQuantity = 1;
+      this.quickBuyWeight = '';
+      this.quickBuyNotes = '';
+      this.quickBuyPaymentMethod = 'cod'; // Reset về COD
+      this.isQuickBuyTransferConfirmed = false; // Reset trạng thái xác nhận
+      this.clearFormErrors(); // Clear validation errors
+      this.stopSocialProofTimer();
+      // Giữ nguyên discount state để có thể tái sử dụng
+    },
+
+    // Hàm xử lý order success tập trung
+    handleOrderSuccess() {
+      // Ẩn Quick Buy Modal
+      this.isQuickBuyModalOpen = false;
+
+      // Hiển thị Success Modal (cho cả COD và Bank Transfer)
+      this.isSuccessModalOpen = true;
+    },
+
+    // Helper: Đóng tất cả modal
+    closeAllModals() {
+      console.log('🔍 closeAllModals() được gọi');
+      console.log('🔍 Trước khi đóng tất cả - isMiniCartOpen:', this.isMiniCartOpen);
+      console.log('🔍 Trước khi đóng tất cả - isCheckoutModalOpen:', this.isCheckoutModalOpen);
+
+      this.isImageModalOpen = false;
+      this.isAlertModalOpen = false;
+      this.isSuccessModalOpen = false;
+      this.isConfirmModalOpen = false;
+      this.isCheckoutModalOpen = false;
+      this.isMiniCartOpen = false;
+      this.isDiscountModalOpen = false;
+      this.isQuickBuyModalOpen = false;
+      this.isCheckoutConfirmTransferModalOpen = false;
+
+      console.log('🔍 Sau khi đóng tất cả - isMiniCartOpen:', this.isMiniCartOpen);
+      console.log('🔍 Sau khi đóng tất cả - isCheckoutModalOpen:', this.isCheckoutModalOpen);
+    },
+
+    // Xác nhận chuyển khoản và tiếp tục đặt hàng
+    async confirmTransferAndSubmit() {
+      this.isQuickBuySubmitting = true;
+
+      try {
+        // Tạo đơn hàng trực tiếp từ sản phẩm
+        const orderItem = {
+          ...this.quickBuyProduct,
+          quantity: this.quickBuyQuantity,
+          weight: this.quickBuyWeight,
+          note: this.quickBuyNotes,
+          cartId: `quickbuy-${Date.now()}`
+        };
+
+        const subtotal = this.quickBuySubtotal;
+        const shippingFee = this.quickBuyShippingFee;
+        const total = this.quickBuyTotal;
+
+        // Tạo orderId cho quick buy
+        const newOrderId = this.generateOrderId();
+        this.lastOrderId = newOrderId;
+
+        const orderDetails = {
+          orderId: newOrderId,
+          cart: [{
+            name: orderItem.name,
+            price: this.formatCurrency(orderItem.price),
+            quantity: orderItem.quantity,
+            weight: orderItem.weight
+          }],
+          customer: {
+            name: this.customer.name,
+            phone: this.customer.phone,
+            email: this.customer.email,
+            address: this.customer.address,
+            notes: this.quickBuyNotes
+          },
+          orderDate: new Date().toISOString(),
+          subtotal: this.formatCurrency(subtotal),
+          shipping: shippingFee === 0 ? 'Miễn phí' : this.formatCurrency(shippingFee),
+          discount: this.discountAmount > 0 ? `-${this.formatCurrency(this.discountAmount)} (${this.appliedDiscountCode})` : 'Không có',
+          total: this.formatCurrency(total),
+          paymentMethod: 'Chuyển khoản ngân hàng'
+        };
+
+        // Gửi đơn hàng
+        const workerUrl = 'https://hidden-bonus-76d2.yendev96.workers.dev';
+        const res = await fetch(workerUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(orderDetails)
+        });
+
+        if (!res.ok) {
+          let msg = 'Có lỗi xảy ra khi gửi đơn hàng.';
+          try { const er = await res.json(); msg = er.message || msg; } catch {}
+          throw new Error(msg);
+        }
+
+        // Thành công - xử lý success
+        this.handleOrderSuccess();
+
+      } catch (e) {
+        console.error('Lỗi quick buy:', e);
+        this.showAlert(`Lỗi đặt hàng: ${e.message}`, 'error');
+      } finally {
+        this.isQuickBuySubmitting = false;
+      }
+    },
+
+
+    clearFieldError(fieldName) {
+      if (this.formErrors[fieldName]) {
+        this.formErrors[fieldName] = '';
+      }
+    },
+    async quickBuySubmit() {
+      // Clear previous errors
+      this.clearFormErrors();
+
+      // Validate form using formErrors system
+      let isValid = true;
+
+      if (!this.customer.name.trim()) {
+        this.formErrors.name = 'Vui lòng nhập họ và tên';
+        isValid = false;
+      }
+
+      if (!this.customer.phone.trim()) {
+        this.formErrors.phone = 'Vui lòng nhập số điện thoại';
+        isValid = false;
+      } else {
+        const phoneRegex = /(0[3|5|7|8|9])+([0-9]{8})\b/;
+        if (!phoneRegex.test(this.customer.phone)) {
+          this.formErrors.phone = 'Số điện thoại không hợp lệ';
+          isValid = false;
+        }
+      }
+
+      if (!this.customer.address.trim()) {
+        this.formErrors.streetAddress = 'Vui lòng nhập địa chỉ';
+        isValid = false;
+      }
+
+      if (!this.quickBuyWeight.trim()) {
+        this.formErrors.weight = 'Vui lòng chọn cân nặng của bé';
+        isValid = false;
+      }
+
+      if (!this.quickBuyPaymentMethod) {
+        this.formErrors.quickBuyPaymentMethod = 'Vui lòng chọn phương thức thanh toán';
+        isValid = false;
+      }
+
+      if (!isValid) return;
+
+      // Kiểm tra xác nhận chuyển khoản nếu cần
+      if (this.quickBuyPaymentMethod === 'bank_transfer' && !this.isQuickBuyTransferConfirmed) {
+        this.showAlert('Vui lòng xác nhận chuyển khoản trước khi đặt hàng!', 'error');
+        return;
+      }
+
+      this.isQuickBuySubmitting = true;
+
+      try {
+        // Tạo đơn hàng trực tiếp từ sản phẩm
+        const orderItem = {
+          ...this.quickBuyProduct,
+          quantity: this.quickBuyQuantity,
+          weight: this.quickBuyWeight,
+          note: this.quickBuyNotes, // Ghi chú thêm
+          cartId: `quickbuy-${Date.now()}`
+        };
+
+        const subtotal = this.quickBuySubtotal;
+        const shippingFee = this.quickBuyShippingFee; // Phí ship thực tế sau khi trừ freeship
+        const total = this.quickBuyTotal;
+
+        // Tạo orderId cho quick buy
+        const newOrderId = this.generateOrderId();
+        this.lastOrderId = newOrderId;
+
+        const orderDetails = {
+          orderId: newOrderId,
+          cart: [{
+            name: orderItem.name,
+            price: this.formatCurrency(orderItem.price),
+            quantity: orderItem.quantity,
+            weight: orderItem.weight
+          }],
+          customer: {
+            name: this.customer.name,
+            phone: this.customer.phone,
+            email: this.customer.email,
+            address: this.customer.address,
+            notes: this.quickBuyNotes
+          },
+          orderDate: new Date().toISOString(),
+          subtotal: this.formatCurrency(subtotal),
+          shipping: shippingFee === 0 ? 'Miễn phí' : this.formatCurrency(shippingFee),
+          discount: this.discountAmount > 0 ? `-${this.formatCurrency(this.discountAmount)} (${this.appliedDiscountCode})` : 'Không có',
+          total: this.formatCurrency(total),
+          paymentMethod: this.quickBuyPaymentMethod === 'cod' ? 'Thanh toán khi nhận hàng (COD)' : 'Chuyển khoản ngân hàng'
+        };
+
+        // Gửi đơn hàng
+        const workerUrl = 'https://hidden-bonus-76d2.yendev96.workers.dev';
+        const res = await fetch(workerUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(orderDetails)
+        });
+
+        if (!res.ok) {
+          let msg = 'Có lỗi xảy ra khi gửi đơn hàng.';
+          try { const er = await res.json(); msg = er.message || msg; } catch {}
+          throw new Error(msg);
+        }
+
+        // Thành công - gọi hàm xử lý success chung
+        this.handleOrderSuccess();
+
+      } catch (e) {
+        console.error('Lỗi quick buy:', e);
+        this.showAlert(`Lỗi đặt hàng: ${e.message}`, 'error');
+      } finally {
+        this.isQuickBuySubmitting = false;
+      }
     },
     clearCart() { this.cart = []; this.selectedCartItems = []; this.resetDiscount(); },
     backToShopping() {
@@ -713,14 +1132,22 @@ document.addEventListener('alpine:init', () => {
     },
     openDiscountModal() {
       this.preventMiniCartCloseOnClickOutside = true;
+      this.isDiscountModalFromQuickBuy = this.isQuickBuyModalOpen; // Set flag nếu mở từ Quick Buy
+      if (this.isQuickBuyModalOpen) {
+        this.preventQuickBuyCloseOnEscape = true; // Ngăn đóng Quick Buy khi mở modal con
+      }
       this.isDiscountModalOpen = true;
     },
     closeDiscountModal() {
       this.isDiscountModalOpen = false;
       this.discountError = '';
+      this.isDiscountModalFromQuickBuy = false; // Reset flag
       // Đồng bộ lại code hiển thị với code đã áp dụng, xoá code lỗi
       this.discountCode = this.appliedDiscountCode;
-      setTimeout(() => { this.preventMiniCartCloseOnClickOutside = false; }, 100);
+      setTimeout(() => {
+        this.preventMiniCartCloseOnClickOutside = false;
+        this.preventQuickBuyCloseOnEscape = false; // Reset flag cho Quick Buy
+      }, 100);
     },
     selectDiscount(code) { this.discountCode = code; },
 
@@ -733,11 +1160,15 @@ document.addEventListener('alpine:init', () => {
       const promotion = this._normalizeDiscount(raw);
       if (!promotion || !promotion.active) { this.discountError = 'Mã khuyến mãi không hợp lệ hoặc đã hết hạn.'; return; }
 
-      // Điều kiện
-      if (this.cartSubtotal() < promotion.minOrder) {
+      // Điều kiện - sử dụng logic khác nhau cho Quick Buy vs Cart
+      const isFromQuickBuy = this.isDiscountModalFromQuickBuy;
+      const subtotal = isFromQuickBuy ? this.quickBuySubtotal : this.cartSubtotal();
+      const quantity = isFromQuickBuy ? this.quickBuyQuantity : this.totalCartQuantity;
+
+      if (subtotal < promotion.minOrder) {
         this.discountError = `Ưu đãi này chỉ áp dụng cho đơn hàng từ ${this.formatCurrency(promotion.minOrder)}.`; return;
       }
-      if (promotion.minItems && this.totalCartQuantity < promotion.minItems) {
+      if (promotion.minItems && quantity < promotion.minItems) {
         this.discountError = `Ưu đãi này chỉ áp dụng cho đơn hàng có từ ${promotion.minItems} sản phẩm trở lên.`; return;
       }
 
@@ -764,11 +1195,15 @@ document.addEventListener('alpine:init', () => {
         } else if (promotion.type === 'fixed') {
           this.discountAmount = promotion.value;
         } else if (promotion.type === 'percentage') {
-          this.discountAmount = Math.floor(this.cartSubtotal() * promotion.value / 100);
+          // Sử dụng subtotal phù hợp với context
+          const contextSubtotal = isFromQuickBuy ? this.quickBuySubtotal : this.cartSubtotal();
+          this.discountAmount = Math.floor(contextSubtotal * promotion.value / 100);
         }
       }
 
-      if (this.discountAmount > this.cartSubtotal()) this.discountAmount = this.cartSubtotal();
+      // Giới hạn discount không vượt quá subtotal
+      const maxDiscount = isFromQuickBuy ? this.quickBuySubtotal : this.cartSubtotal();
+      if (this.discountAmount > maxDiscount) this.discountAmount = maxDiscount;
       this.discountCode = code; // giữ lại hiển thị
       if (replacementMessage) {
         this.showAlert(replacementMessage, 'success');
@@ -838,11 +1273,35 @@ document.addEventListener('alpine:init', () => {
     get sortedDiscounts() {
       const allVisible = this.availableDiscounts.filter(d => d.active && d.visible);
 
-      const mapped = allVisible.map(d => ({
-        ...d,
-        availability: this.getDiscountAvailability(d),
-        effectiveValue: this.getDiscountEffectiveValue(d)
-      }));
+      const mapped = allVisible.map(d => {
+        // Sử dụng logic khác nhau tùy theo context
+        if (this.isDiscountModalFromQuickBuy) {
+          // Logic cho Quick Buy - tính theo sản phẩm mua ngay
+          const promotion = this._normalizeDiscount(d);
+          const available = promotion &&
+                           this.quickBuySubtotal >= promotion.minOrder &&
+                           (!promotion.minItems || this.quickBuyQuantity >= promotion.minItems);
+
+          const reason = !available
+            ? (this.quickBuySubtotal < promotion.minOrder
+               ? `Cần mua thêm ${this.formatCurrency(promotion.minOrder - this.quickBuySubtotal)}`
+               : `Cần thêm ${promotion.minItems - this.quickBuyQuantity} sản phẩm`)
+            : '';
+
+          return {
+            ...d,
+            availability: { available, reason },
+            effectiveValue: available ? this.calculateQuickBuyDiscountValue(promotion) : 0
+          };
+        } else {
+          // Logic cho Cart - tính theo giỏ hàng
+          return {
+            ...d,
+            availability: this.getDiscountAvailability(d),
+            effectiveValue: this.getDiscountEffectiveValue(d)
+          };
+        }
+      });
 
       return mapped.sort((a, b) => {
         // Ưu tiên các mã có sẵn lên trên
@@ -860,23 +1319,47 @@ document.addEventListener('alpine:init', () => {
       return this.hasAnyApplicableDiscounts;
     },
     openCheckout() {
-      // Không đóng miniCart để có thể quay lại (stack modal)
-      this.preventMiniCartCloseOnClickOutside = true;
+      // Mở checkout modal chồng lên mini cart (mini cart vẫn mở bên dưới)
       this.socialProofViewers = Math.floor(Math.random() * 5) + 1;
       this.isCheckoutModalOpen = true;
       this.startSocialProofTimer();
 
-      // Auto-focus vào field đầu tiên sau khi modal hiển thị
+      // Auto-focus vào field đầu tiên
       this.$nextTick(() => {
         setTimeout(() => {
           const firstInput = this.$refs.firstInput;
           if (firstInput && !this.customer.name) {
             firstInput.focus();
           }
-        }, 300); // Delay để đảm bảo animation hoàn thành
+        }, 300);
       });
     },
 
+    closeCheckoutModal() {
+      console.log('🔍 closeCheckoutModal() được gọi');
+      console.log('🔍 Trước khi đóng - isMiniCartOpen:', this.isMiniCartOpen);
+      console.log('🔍 Trước khi đóng - isCheckoutModalOpen:', this.isCheckoutModalOpen);
+
+      // Đóng checkout modal - mini cart đã mở sẵn bên dưới
+      this.isCheckoutModalOpen = false;
+      this.stopSocialProofTimer();
+
+      console.log('🔍 Sau khi đóng - isMiniCartOpen:', this.isMiniCartOpen);
+      console.log('🔍 Sau khi đóng - isCheckoutModalOpen:', this.isCheckoutModalOpen);
+    },
+
+    goBackToMiniCart() {
+      console.log('🔍 goBackToMiniCart() được gọi');
+      console.log('🔍 Trước khi đóng - isMiniCartOpen:', this.isMiniCartOpen);
+      console.log('🔍 Trước khi đóng - isCheckoutModalOpen:', this.isCheckoutModalOpen);
+
+      // Đóng checkout modal - mini cart đã mở sẵn bên dưới
+      this.isCheckoutModalOpen = false;
+      this.stopSocialProofTimer();
+
+      console.log('🔍 Sau khi đóng - isMiniCartOpen:', this.isMiniCartOpen);
+      console.log('🔍 Sau khi đóng - isCheckoutModalOpen:', this.isCheckoutModalOpen);
+    },
 
     /* ========= CHECKOUT ========= */
     validateAndShowConfirmModal() {
@@ -888,8 +1371,7 @@ document.addEventListener('alpine:init', () => {
         return; // Errors will be shown inline
       }
 
-      // Giữ checkout modal mở để có thể quay lại (stack modal)
-      // Chỉ mở confirm modal chồng lên trên
+      // Mở Confirm Modal chồng lên Checkout Modal
       this.isConfirmModalOpen = true;
     },
 
@@ -999,13 +1481,10 @@ document.addEventListener('alpine:init', () => {
         this.cart = [];
         this.resetDiscount();
 
-        // Không đóng confirm modal, để success modal hiển thị chồng lên
+        // Giữ Confirm Modal mở, để Success Modal hiển thị chồng lên
+        // Với inline bank info, không cần Bank Transfer Modal nữa
         this.$nextTick(() => {
-            if (this.paymentMethod === 'bank_transfer') {
-                this.isBankTransferModalOpen = true;
-            } else {
-                this.isSuccessModalOpen = true;
-            }
+            this.isSuccessModalOpen = true;
         });
 
       } catch (e) {
@@ -1017,24 +1496,42 @@ document.addEventListener('alpine:init', () => {
     },
 
 
-    continueShoppingAndScroll() {
-      // Tải lại trang để reset hoàn toàn
-      window.location.reload();
+    // Hàm đóng success modal và reset state
+    closeSuccessModal() {
+      console.log('🔍 closeSuccessModal() được gọi');
+      console.log('🔍 Trước khi đóng success - isMiniCartOpen:', this.isMiniCartOpen);
+      console.log('🔍 Trước khi đóng success - isCheckoutModalOpen:', this.isCheckoutModalOpen);
+
+      // Đóng Success Modal trước
+      this.isSuccessModalOpen = false;
+
+      // Sử dụng $nextTick để đảm bảo DOM được cập nhật
+      this.$nextTick(() => {
+        console.log('🔍 Trong $nextTick - đóng tất cả modal shopping flow');
+        // Đóng tất cả modal liên quan đến shopping flow
+        this.isConfirmModalOpen = false;
+        this.isCheckoutModalOpen = false;
+        this.isMiniCartOpen = false;
+        this.closeQuickBuyModal(); // Reset toàn bộ Quick Buy state
+
+        console.log('🔍 Sau khi đóng trong $nextTick - isMiniCartOpen:', this.isMiniCartOpen);
+        console.log('🔍 Sau khi đóng trong $nextTick - isCheckoutModalOpen:', this.isCheckoutModalOpen);
+      });
     },
+
+    // Tiếp tục mua sắm
+    continueShoppingAndScroll() {
+      this.closeSuccessModal();
+      window.scrollTo(0, 0);
+    },
+
     cleanupAfterOrder() {
       this.cart = [];
       this.resetDiscount();
       this.view = 'products';
       window.scrollTo(0, 0);
     },
-    closeSuccessModal() {
-      // Tải lại trang để reset hoàn toàn
-      window.location.reload();
-    },
-    closeBankTransferModal() {
-      this.isBankTransferModalOpen = false;
-      this.isSuccessModalOpen = true;
-    },
+
 
     /* ========= SOCIAL PROOF ========= */
     startNotificationLoop() {
@@ -1121,37 +1618,39 @@ document.addEventListener('alpine:init', () => {
       this.openFaqIndex = this.openFaqIndex === index ? null : index;
     },
 
-    revalidateAppliedDiscount() {
-      // Nếu không có mã nào đang được áp dụng, không làm gì cả
-      if (!this.discountCode) return;
+    // Quick Buy revalidation - kiểm tra mã giảm giá khi thay đổi số lượng trong Quick Buy
+    revalidateQuickBuyDiscount() {
+      // Chỉ revalidate khi đang trong Quick Buy modal và có mã được áp dụng
+      if (!this.isQuickBuyModalOpen || (!this.appliedDiscountCode && !this.appliedGift)) return;
 
-      // Tìm khuyến mãi tương ứng với mã đang áp dụng
-      const promotion = this.availableDiscounts.find(d => d.code.toUpperCase() === this.discountCode.toUpperCase());
-
-      // Nếu không tìm thấy (trường hợp lạ), reset cho an toàn
-      if (!promotion) {
-        this.resetDiscount();
-        return;
-      }
-
-      // Kiểm tra xem giỏ hàng có còn đủ điều kiện không
-      const availability = this.getDiscountAvailability(promotion);
-      if (!availability.available) {
-        const promotionTitle = promotion.title || promotion.code;
-        this.resetDiscount();
-        this.showAlert(`Ưu đãi "${promotionTitle}" đã được gỡ bỏ vì giỏ hàng không còn đủ điều kiện.`, 'info');
-      } else {
-        // Áp dụng lại giá trị giảm giá
-        const p = this._normalizeDiscount(promotion);
-        if (p.type === 'fixed') {
-          this.discountAmount = p.value;
-        } else if (p.type === 'percentage') {
-          this.discountAmount = Math.floor(this.cartSubtotal() * p.value / 100);
+      if (this.appliedDiscountCode) {
+        const raw = this.availableDiscounts.find(d => (d.code || '').toUpperCase() === this.appliedDiscountCode);
+        const promotion = this._normalizeDiscount(raw);
+        if (!promotion || !promotion.active) {
+          this.resetDiscount();
+          this.showAlert('Mã giảm giá đã hết hạn và được gỡ bỏ.', 'info');
+          return;
         }
-        if (this.discountAmount > this.cartSubtotal()) {
-          this.discountAmount = this.cartSubtotal();
+
+        // Kiểm tra điều kiện với Quick Buy subtotal
+        if (this.quickBuySubtotal < promotion.minOrder || (promotion.minItems && this.quickBuyQuantity < promotion.minItems)) {
+          const promotionTitle = promotion.title || promotion.code;
+          this.resetDiscount();
+          this.showAlert(`Ưu đãi "${promotionTitle}" đã được gỡ bỏ vì không còn đủ điều kiện.`, 'info');
+          return;
+        }
+
+        // Cập nhật lại giá trị giảm giá theo Quick Buy
+        if (promotion.type === 'percentage') {
+          this.discountAmount = Math.floor(this.quickBuySubtotal * promotion.value / 100);
+        } else if (promotion.type === 'fixed') {
+          this.discountAmount = promotion.value;
+        }
+        if (this.discountAmount > this.quickBuySubtotal) {
+          this.discountAmount = this.quickBuySubtotal;
         }
       }
+      // Gift không phụ thuộc vào subtotal nên giữ nguyên
     },
 
     /* ========= ADDRESS CONSISTENCY ========= */
