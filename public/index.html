@@ -283,7 +283,7 @@
                 </div>
 
                 <!-- Category Filters -->
-                <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
                     <template x-for="category in categories" :key="category.id">
                         <div @click="selectCategory(category)"
                              class="flex items-center bg-white rounded-lg shadow-sm overflow-hidden cursor-pointer border transition-all duration-200"
