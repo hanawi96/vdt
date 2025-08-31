@@ -95,7 +95,8 @@ document.addEventListener('alpine:init', () => {
     isItemOptionsModalOpen: false,
     currentItemForOptions: null,
     itemOptions: { quantity: 1, note: '' },
-    socialProofViewers: 0,
+    socialProofViewers: Math.floor(Math.random() * 5) + 1,
+    socialProofInterval: null,
 
     /* ========= FAQ ========= */
     faqItems: [],
@@ -142,7 +143,11 @@ document.addEventListener('alpine:init', () => {
       name: '',
       phone: '',
       email: '',
-      address: ''
+      province: '',
+      district: '',
+      ward: '',
+      streetAddress: '',
+      paymentMethod: ''
     },
 
     /* ========= PRIVATE/HELPERS ========= */
@@ -157,12 +162,24 @@ document.addEventListener('alpine:init', () => {
       this.startFreeshipCountdown();
       this.startSocialProofLoop();
 
+      // Validate address consistency sau khi load
+      console.log('🔄 Calling validateAddressConsistency');
+      this.validateAddressConsistency();
+
       // Watch địa chỉ
-      this.$watch('selectedProvince', () => {
+      this.$watch('selectedProvince', (newValue) => {
         this.selectedDistrict = '';
         this.selectedWard = '';
+        if (!newValue) {
+          this.customer.address = '';
+        }
       });
-      this.$watch('selectedDistrict', () => { this.selectedWard = ''; });
+      this.$watch('selectedDistrict', (newValue) => {
+        this.selectedWard = '';
+        if (!newValue) {
+          this.customer.address = '';
+        }
+      });
       this.$watch('selectedWard', () => this.updateFullAddress());
       this.$watch('streetAddress', () => this.updateFullAddress());
 
@@ -174,6 +191,52 @@ document.addEventListener('alpine:init', () => {
         // Loại bỏ ID không còn trong cart
         this.selectedCartItems = this.selectedCartItems.filter(id => idSet.has(id));
       }, { deep: true });
+
+      // Real-time validation watchers
+      this.$watch('customer.name', (newValue) => {
+        if (newValue && newValue.trim()) {
+          this.formErrors.name = '';
+        }
+      });
+
+      this.$watch('customer.phone', (newValue) => {
+        if (newValue && newValue.trim()) {
+          const phoneRegex = /(0[3|5|7|8|9])+([0-9]{8})\b/;
+          if (phoneRegex.test(newValue)) {
+            this.formErrors.phone = '';
+          }
+        }
+      });
+
+      this.$watch('selectedProvince', (newValue) => {
+        if (newValue) {
+          this.formErrors.province = '';
+        }
+      });
+
+      this.$watch('selectedDistrict', (newValue) => {
+        if (newValue) {
+          this.formErrors.district = '';
+        }
+      });
+
+      this.$watch('selectedWard', (newValue) => {
+        if (newValue) {
+          this.formErrors.ward = '';
+        }
+      });
+
+      this.$watch('streetAddress', (newValue) => {
+        if (newValue && newValue.trim()) {
+          this.formErrors.streetAddress = '';
+        }
+      });
+
+      this.$watch('paymentMethod', (newValue) => {
+        if (newValue) {
+          this.formErrors.paymentMethod = '';
+        }
+      });
 
       // Watch selected items để revalidate discount
       this.$watch('selectedCartItems', () => {
@@ -238,6 +301,25 @@ document.addEventListener('alpine:init', () => {
         this.products = await prodRes.json();
         this.shopInfo = await infoRes.json();
         this.addressData = await addrRes.json();
+
+        // Force re-render dropdown để sync với model values
+        this.$nextTick(() => {
+          // Trigger Alpine reactivity bằng cách re-assign values
+          const tempProvince = this.selectedProvince;
+          const tempDistrict = this.selectedDistrict;
+          const tempWard = this.selectedWard;
+
+          this.selectedProvince = '';
+          this.selectedDistrict = '';
+          this.selectedWard = '';
+
+          this.$nextTick(() => {
+            this.selectedProvince = tempProvince;
+            this.selectedDistrict = tempDistrict;
+            this.selectedWard = tempWard;
+          });
+        });
+
         this.availableDiscounts = await discountRes.json();
         this.sharedDetails = await sharedRes.json();
         this.faqItems = await faqRes.json();
@@ -378,6 +460,7 @@ document.addEventListener('alpine:init', () => {
         const ward = this.wards.find(w => w.Id === this.selectedWard)?.Name || '';
         this.customer.address = [this.streetAddress, ward, dist, prov].filter(Boolean).join(', ');
       } else {
+        // FORCE CLEAR address khi bất kỳ dropdown nào trống
         this.customer.address = '';
       }
     },
@@ -505,6 +588,23 @@ document.addEventListener('alpine:init', () => {
       if (this.isMiniCartOpen) {
         this.miniCartError = '';
         this.selectedCartItems = this.cart.map(item => item.id);
+        this.startSocialProofTimer();
+      } else {
+        this.stopSocialProofTimer();
+      }
+    },
+    startSocialProofTimer() {
+      // Dừng timer cũ nếu có
+      this.stopSocialProofTimer();
+      // Bắt đầu timer mới - thay đổi số lượng người xem sau mỗi 2 giây
+      this.socialProofInterval = setInterval(() => {
+        this.socialProofViewers = Math.floor(Math.random() * 5) + 1;
+      }, 2000);
+    },
+    stopSocialProofTimer() {
+      if (this.socialProofInterval) {
+        clearInterval(this.socialProofInterval);
+        this.socialProofInterval = null;
       }
     },
     toggleCartItemSelection(productId) {
@@ -764,30 +864,96 @@ document.addEventListener('alpine:init', () => {
       this.preventMiniCartCloseOnClickOutside = true;
       this.socialProofViewers = Math.floor(Math.random() * 5) + 1;
       this.isCheckoutModalOpen = true;
+      this.startSocialProofTimer();
+
+      // Auto-focus vào field đầu tiên sau khi modal hiển thị
+      this.$nextTick(() => {
+        setTimeout(() => {
+          const firstInput = this.$refs.firstInput;
+          if (firstInput && !this.customer.name) {
+            firstInput.focus();
+          }
+        }, 300); // Delay để đảm bảo animation hoàn thành
+      });
     },
 
 
     /* ========= CHECKOUT ========= */
     validateAndShowConfirmModal() {
-      if (!this.cart.length) { this.showAlert('Giỏ hàng của bạn đang trống.', 'error'); return; }
-      if (!this.customer.name || !this.customer.phone || !this.selectedProvince || !this.selectedDistrict || !this.selectedWard || !this.streetAddress) {
-        this.showAlert('Vui lòng điền đầy đủ thông tin nhận hàng.', 'error'); return;
-      }
-      
-      // Validate phone number
-      const phoneRegex = /(0[3|5|7|8|9])+([0-9]{8})\b/;
-      if (!phoneRegex.test(this.customer.phone)) { 
-        this.showAlert('Số điện thoại không hợp lệ. Vui lòng kiểm tra lại.', 'error'); 
-        return; 
-      }
-      
+      // Clear previous errors
+      this.clearFormErrors();
 
-
-      if (!this.paymentMethod) { this.showAlert('Vui lòng chọn phương thức thanh toán.', 'error'); return; }
+      // Validate form
+      if (!this.validateForm()) {
+        return; // Errors will be shown inline
+      }
 
       // Giữ checkout modal mở để có thể quay lại (stack modal)
       // Chỉ mở confirm modal chồng lên trên
       this.isConfirmModalOpen = true;
+    },
+
+    clearFormErrors() {
+      Object.keys(this.formErrors).forEach(key => {
+        this.formErrors[key] = '';
+      });
+    },
+
+    validateForm() {
+      let isValid = true;
+
+      // Validate cart
+      if (!this.cart.length) {
+        this.showAlert('Giỏ hàng của bạn đang trống.', 'error');
+        return false;
+      }
+
+      // Validate name
+      if (!this.customer.name.trim()) {
+        this.formErrors.name = 'Vui lòng nhập họ và tên';
+        isValid = false;
+      }
+
+      // Validate phone
+      if (!this.customer.phone.trim()) {
+        this.formErrors.phone = 'Vui lòng nhập số điện thoại';
+        isValid = false;
+      } else {
+        const phoneRegex = /(0[3|5|7|8|9])+([0-9]{8})\b/;
+        if (!phoneRegex.test(this.customer.phone)) {
+          this.formErrors.phone = 'Số điện thoại không hợp lệ';
+          isValid = false;
+        }
+      }
+
+      // Validate address
+      if (!this.selectedProvince) {
+        this.formErrors.province = 'Vui lòng chọn tỉnh/thành phố';
+        isValid = false;
+      }
+
+      if (!this.selectedDistrict) {
+        this.formErrors.district = 'Vui lòng chọn quận/huyện';
+        isValid = false;
+      }
+
+      if (!this.selectedWard) {
+        this.formErrors.ward = 'Vui lòng chọn phường/xã';
+        isValid = false;
+      }
+
+      if (!this.streetAddress.trim()) {
+        this.formErrors.streetAddress = 'Vui lòng nhập địa chỉ cụ thể';
+        isValid = false;
+      }
+
+      // Validate payment method
+      if (!this.paymentMethod) {
+        this.formErrors.paymentMethod = 'Vui lòng chọn phương thức thanh toán';
+        isValid = false;
+      }
+
+      return isValid;
     },
 
     async confirmAndSubmitOrder() {
@@ -985,6 +1151,19 @@ document.addEventListener('alpine:init', () => {
         if (this.discountAmount > this.cartSubtotal()) {
           this.discountAmount = this.cartSubtotal();
         }
+      }
+    },
+
+    /* ========= ADDRESS CONSISTENCY ========= */
+    validateAddressConsistency() {
+      // Kiểm tra nếu có customer.address nhưng dropdown values bị mất
+      if (this.customer.address && (!this.selectedProvince || !this.selectedDistrict || !this.selectedWard)) {
+        this.customer.address = '';
+      }
+
+      // Ngược lại, nếu có đầy đủ dropdown values thì update address
+      if (this.selectedProvince && this.selectedDistrict && this.selectedWard && this.streetAddress) {
+        this.updateFullAddress();
       }
     }
   }));
