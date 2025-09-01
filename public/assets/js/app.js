@@ -127,16 +127,34 @@ document.addEventListener('alpine:init', () => {
 
     // Weight options từ 3kg đến 12kg (tăng 0.5kg) + option "Chưa sinh"
     get weightOptions() {
-      const options = ['🤱 Chưa sinh (dự trữ)'];
+      const options = ['🤱 Chưa sinh'];
       for (let weight = 3; weight <= 12; weight += 0.5) {
+        options.push(`${weight}kg`);
+      }
+      // Thêm options cho size lớn (>12kg)
+      for (let weight = 13; weight <= 20; weight += 1) {
         options.push(`${weight}kg`);
       }
       return options;
     },
 
-    // Quick Buy calculations - tính riêng cho mua ngay
+    // Dynamic Pricing Configuration
+    pricingConfig: {
+      standardMaxWeight: 12,
+      largeSizeSurcharge: 20000,
+      description: {
+        standard: "Size tiêu chuẩn",
+        large: "Size lớn (phụ thu 20k)"
+      }
+    },
+
+    // Quick Buy calculations - tính riêng cho mua ngay với dynamic pricing
     get quickBuySubtotal() {
-      return (this.quickBuyProduct?.price || 0) * this.quickBuyQuantity;
+      if (!this.quickBuyProduct) return 0;
+
+      // Calculate dynamic price based on selected weight
+      const priceData = this.calculateDynamicPrice(this.quickBuyProduct, this.quickBuyWeight);
+      return priceData.finalPrice * this.quickBuyQuantity;
     },
 
     get quickBuyAvailableDiscounts() {
@@ -522,11 +540,11 @@ document.addEventListener('alpine:init', () => {
       return total;
     },
 
-    // Chỉ tính theo item đã chọn và bỏ qua quà tặng
+    // Chỉ tính theo item đã chọn và bỏ qua quà tặng - sử dụng finalPrice cho dynamic pricing
     cartSubtotal() {
       return this.selectedCartProducts
         .filter(i => !i.isGift)
-        .reduce((t, i) => t + (i.price * i.quantity), 0);
+        .reduce((t, i) => t + ((i.finalPrice || i.price) * i.quantity), 0);
     },
 
     /* ========= LOGIC KHUYẾN MÃI ========= */
@@ -699,15 +717,22 @@ document.addEventListener('alpine:init', () => {
       const { id } = this.currentItemForOptions;
       const { quantity, note } = this.itemOptions;
       const cartId = `${id}-${Date.now()}`;
-      this.addToCart({
+      const itemToAdd = {
         ...this.currentItemForOptions,
         cartId: cartId,
         quantity: quantity,
         weight: note.trim(),
         selectedWeight: '',
         customWeight: '',
-        notes: ''
-      });
+        notes: '',
+        // Dynamic pricing fields
+        basePrice: this.currentItemForOptions.price,
+        finalPrice: this.currentItemForOptions.price,
+        surcharge: 0,
+        hasSurcharge: false
+      };
+
+      this.addToCart(itemToAdd);
       this.closeItemOptionsModal();
     },
 
@@ -732,7 +757,12 @@ document.addEventListener('alpine:init', () => {
             weight: '',
             selectedWeight: '',
             customWeight: '',
-            notes: ''
+            notes: '',
+            // Dynamic pricing fields
+            basePrice: product.price,
+            finalPrice: product.price,
+            surcharge: 0,
+            hasSurcharge: false
           };
           this.cart.push(newItem);
           this.selectedCartItems.push(cartId);
@@ -866,12 +896,94 @@ document.addEventListener('alpine:init', () => {
 
         // Update the weight field
         item.weight = weight;
+        item.selectedWeight = weight;
 
-        // Also update selectedWeight for UI consistency
-        if (!item.selectedWeight) {
-          item.selectedWeight = weight;
+        // Calculate and update dynamic price
+        const product = this.products.find(p => p.id === item.id);
+        if (product) {
+          const priceData = this.calculateDynamicPrice(product, weight);
+          item.basePrice = product.price;
+          item.finalPrice = priceData.finalPrice;
+          item.surcharge = priceData.surcharge;
+          item.hasSurcharge = priceData.hasSurcharge;
         }
+
+        // Update cart total
+        this.updateCartTotal();
       }
+    },
+
+    // Core Dynamic Pricing Functions
+    calculateDynamicPrice(product, weightString) {
+      // Parse weight từ string (VD: "13kg" → 13)
+      const weight = this.parseWeight(weightString);
+      const basePrice = product.price;
+
+      // Special cases
+      if (weightString === 'Chưa sinh' || weightString === '🤱 Chưa sinh' || !weight) {
+        return {
+          finalPrice: basePrice,
+          surcharge: 0,
+          hasSurcharge: false,
+          tier: 'standard'
+        };
+      }
+
+      // Weight-based pricing
+      if (weight > this.pricingConfig.standardMaxWeight) {
+        const surcharge = this.pricingConfig.largeSizeSurcharge;
+        return {
+          finalPrice: basePrice + surcharge,
+          surcharge: surcharge,
+          hasSurcharge: true,
+          tier: 'large'
+        };
+      }
+
+      return {
+        finalPrice: basePrice,
+        surcharge: 0,
+        hasSurcharge: false,
+        tier: 'standard'
+      };
+    },
+
+    parseWeight(weightString) {
+      if (!weightString || typeof weightString !== 'string') return 0;
+
+      // Remove 'kg' and parse to float
+      const cleanWeight = weightString.replace(/kg/gi, '').trim();
+      const weight = parseFloat(cleanWeight);
+
+      return isNaN(weight) ? 0 : weight;
+    },
+
+    formatPriceWithSurcharge(product, weight) {
+      const priceData = this.calculateDynamicPrice(product, weight);
+
+      if (priceData.hasSurcharge) {
+        return {
+          display: this.formatCurrency(priceData.finalPrice),
+          breakdown: `${this.formatCurrency(product.price)} + ${this.formatCurrency(priceData.surcharge)} (size lớn)`,
+          hasSurcharge: true,
+          surcharge: priceData.surcharge
+        };
+      }
+
+      return {
+        display: this.formatCurrency(priceData.finalPrice),
+        breakdown: null,
+        hasSurcharge: false,
+        surcharge: 0
+      };
+    },
+
+    updateCartTotal() {
+      // Force reactivity update for cart calculations
+      this.$nextTick(() => {
+        // Trigger recalculation of computed properties
+        this.revalidateAppliedDiscount();
+      });
     },
     buyNow(product) {
       // Mua ngay - bỏ qua giỏ hàng hoàn toàn

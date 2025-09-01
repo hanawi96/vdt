@@ -1202,7 +1202,14 @@
                                             <span x-text="item.quantity" class="font-semibold text-xs text-gray-800 w-4 text-center"></span>
                                             <button @click="increaseQuantity(item.id)" class="w-5 h-5 bg-gray-200 text-gray-700 rounded-full flex items-center justify-center hover:bg-gray-300 transition-colors text-sm font-bold">+</button>
                                         </div>
-                                        <p class="font-bold text-pink-600 text-sm" x-text="formatCurrency(item.price * item.quantity)"></p>
+                                        <div class="text-right">
+                                            <p class="font-bold text-pink-600 text-sm" x-text="formatCurrency((item.finalPrice || item.price) * item.quantity)"></p>
+                                            <div x-show="item.hasSurcharge" class="text-xs text-orange-600 mt-0.5">
+                                                <span x-text="formatCurrency(item.basePrice * item.quantity)"></span>
+                                                <span> + </span>
+                                                <span x-text="formatCurrency(item.surcharge * item.quantity)"></span>
+                                            </div>
+                                        </div>
                                     </div>
 
                                     <!-- Weight Selection & Notes -->
@@ -1217,17 +1224,25 @@
                                                     @change="updateItemWeight(item.id, $event.target.value)"
                                                     class="weight-selector text-xs px-2 py-1 flex-1 min-w-0">
                                                 <option value="">Chọn cân nặng bé</option>
-                                                <option value="Chưa sinh">🤱 Chưa sinh (dự trữ)</option>
-                                                <option value="3kg">3kg (6-12 tháng)</option>
-                                                <option value="4kg">4kg (9-15 tháng)</option>
-                                                <option value="5kg">5kg (12-18 tháng)</option>
-                                                <option value="6kg">6kg (15-24 tháng)</option>
-                                                <option value="7kg">7kg (18-30 tháng)</option>
-                                                <option value="8kg">8kg (2-3 tuổi)</option>
-                                                <option value="9kg">9kg (2.5-3.5 tuổi)</option>
-                                                <option value="10kg">10kg (3-4 tuổi)</option>
-                                                <option value="11kg">11kg (3.5-4.5 tuổi)</option>
-                                                <option value="12kg">12kg (4-5 tuổi)</option>
+                                                <option value="Chưa sinh">🤱 Chưa sinh</option>
+                                                <option value="3kg">3kg</option>
+                                                <option value="4kg">4kg</option>
+                                                <option value="5kg">5kg</option>
+                                                <option value="6kg">6kg</option>
+                                                <option value="7kg">7kg</option>
+                                                <option value="8kg">8kg</option>
+                                                <option value="9kg">9kg</option>
+                                                <option value="10kg">10kg</option>
+                                                <option value="11kg">11kg</option>
+                                                <option value="12kg">12kg</option>
+                                                <option value="13kg">13kg (+20k)</option>
+                                                <option value="14kg">14kg (+20k)</option>
+                                                <option value="15kg">15kg (+20k)</option>
+                                                <option value="16kg">16kg (+20k)</option>
+                                                <option value="17kg">17kg (+20k)</option>
+                                                <option value="18kg">18kg (+20k)</option>
+                                                <option value="19kg">19kg (+20k)</option>
+                                                <option value="20kg">20kg (+20k)</option>
                                                 <option value="custom">✏️ Nhập khác...</option>
                                             </select>
                                         </div>
@@ -1509,7 +1524,14 @@
                         <img :src="quickBuyProduct?.image" class="w-12 h-12 rounded-lg object-cover">
                         <div class="flex-1">
                             <h4 class="font-semibold text-gray-800 text-sm" x-text="quickBuyProduct?.name"></h4>
-                            <p class="text-orange-600 font-bold text-sm" x-text="formatCurrency(quickBuyProduct?.price)"></p>
+                            <div class="text-orange-600 font-bold text-sm">
+                                <span x-text="formatCurrency(calculateDynamicPrice(quickBuyProduct, quickBuyWeight).finalPrice)"></span>
+                                <div x-show="calculateDynamicPrice(quickBuyProduct, quickBuyWeight).hasSurcharge"
+                                     class="text-xs text-gray-600 font-normal">
+                                    <span x-text="formatCurrency(quickBuyProduct?.price)"></span>
+                                    <span> + 20k (size lớn)</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1815,7 +1837,7 @@
                 <div class="bg-gray-50 rounded-lg p-3 space-y-2">
                     <div class="flex justify-between text-sm">
                         <span>Tạm tính</span>
-                        <span x-text="formatCurrency((quickBuyProduct?.price || 0) * quickBuyQuantity)"></span>
+                        <span x-text="formatCurrency(quickBuySubtotal)"></span>
                     </div>
                     <div class="flex justify-between text-sm">
                         <span>Phí ship</span>
