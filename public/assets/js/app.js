@@ -116,6 +116,7 @@ document.addEventListener('alpine:init', () => {
     quickBuyProduct: null,
     quickBuyQuantity: 1,
     quickBuyWeight: '',
+    quickBuyCustomWeight: '', // Biến để lưu cân nặng tùy chỉnh
     quickBuyNotes: '',
     quickBuyPaymentMethod: 'cod', // Phương thức thanh toán cho quick buy
     isQuickBuySubmitting: false,
@@ -125,22 +126,24 @@ document.addEventListener('alpine:init', () => {
     isDiscountModalFromQuickBuy: false, // Flag để biết modal discount được mở từ đâu
     preventQuickBuyCloseOnEscape: false, // Flag để ngăn đóng Quick Buy khi có modal con
 
-    // Weight options từ 3kg đến 12kg (tăng 0.5kg) + option "Chưa sinh"
+    // Weight options từ 3kg đến 15kg (tăng 0.5kg) + option "Chưa sinh"
     get weightOptions() {
       const options = ['🤱 Chưa sinh'];
-      for (let weight = 3; weight <= 12; weight += 0.5) {
+      for (let weight = 3; weight <= 15; weight += 0.5) {
         options.push(`${weight}kg`);
       }
-      // Thêm options cho size lớn (>12kg)
-      for (let weight = 13; weight <= 20; weight += 1) {
-        options.push(`${weight}kg`);
+      // Thêm options cho size lớn (từ 16kg đến 19kg) với phí +20k
+      for (let weight = 16; weight <= 19; weight += 1) {
+        options.push(`${weight}kg (+20k)`);
       }
+      // Thêm option cho cân nặng từ 20kg trở lên
+      options.push('✏️ Nhập cân nặng từ 20kg trở lên (+20k)...');
       return options;
     },
 
     // Dynamic Pricing Configuration
     pricingConfig: {
-      standardMaxWeight: 12,
+      standardMaxWeight: 15, // Từ 16kg trở lên mới tính phụ thu (15kg vẫn là giá chuẩn)
       largeSizeSurcharge: 20000,
       description: {
         standard: "Size tiêu chuẩn",
@@ -152,8 +155,14 @@ document.addEventListener('alpine:init', () => {
     get quickBuySubtotal() {
       if (!this.quickBuyProduct) return 0;
 
+      // Determine actual weight for calculation
+      let actualWeight = this.quickBuyWeight;
+      if (this.quickBuyWeight === '✏️ Nhập cân nặng từ 20kg trở lên (+20k)...' && this.quickBuyCustomWeight) {
+        actualWeight = this.quickBuyCustomWeight + 'kg';
+      }
+
       // Calculate dynamic price based on selected weight
-      const priceData = this.calculateDynamicPrice(this.quickBuyProduct, this.quickBuyWeight);
+      const priceData = this.calculateDynamicPrice(this.quickBuyProduct, actualWeight);
       return priceData.finalPrice * this.quickBuyQuantity;
     },
 
@@ -265,6 +274,9 @@ document.addEventListener('alpine:init', () => {
       paymentMethod: '',
       weight: ''
     },
+
+    // Weight validation errors for cart items (key: item.id, value: error message)
+    weightErrors: {},
 
     /* ========= PRIVATE/HELPERS ========= */
     _CURRENCY: new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }),
@@ -423,7 +435,27 @@ document.addEventListener('alpine:init', () => {
       for (let i = 0; i < 3; i++) r += chars[Math.floor(Math.random() * chars.length)];
       return `AN${y}${m}${day}${r}`;
     },
+
+
     formatCurrency(v) { return typeof v === 'number' ? this._CURRENCY.format(v) : v; },
+
+    // Copy bank account number to clipboard
+    async copyBankAccount() {
+      const accountNumber = '0968969012';
+      try {
+        await navigator.clipboard.writeText(accountNumber);
+        this.showAlert('Đã sao chép số tài khoản: ' + accountNumber, 'success');
+      } catch (err) {
+        // Fallback for older browsers
+        const textArea = document.createElement('textarea');
+        textArea.value = accountNumber;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+        this.showAlert('Đã sao chép số tài khoản: ' + accountNumber, 'success');
+      }
+    },
 
     showAlert(message, type = 'success') {
       this.alertModalMessage = message;
@@ -699,7 +731,12 @@ document.addEventListener('alpine:init', () => {
     /* ========= Item Options Modal Logic ========= */
     openItemOptionsModal(product) {
       this.currentItemForOptions = product;
-      this.itemOptions = { quantity: 1, note: '' };
+      this.itemOptions = {
+        quantity: 1,
+        note: '',
+        selectedWeight: '',
+        customWeight: ''
+      };
       this.isItemOptionsModalOpen = true;
       document.body.style.overflow = 'hidden';
     },
@@ -709,27 +746,54 @@ document.addEventListener('alpine:init', () => {
       document.body.style.overflow = 'auto';
       setTimeout(() => {
         this.currentItemForOptions = null;
+        this.itemOptions = {
+          quantity: 1,
+          note: '',
+          selectedWeight: '',
+          customWeight: ''
+        };
       }, 300);
     },
 
     addItemWithOptions() {
       if (!this.currentItemForOptions) return;
+
+      // Validate weight selection
+      if (!this.itemOptions.selectedWeight) {
+        this.showAlert('Vui lòng chọn cân nặng của bé', 'error');
+        return;
+      }
+
+      if (this.itemOptions.selectedWeight === 'custom' && !this.itemOptions.customWeight) {
+        this.showAlert('Vui lòng nhập cân nặng cụ thể', 'error');
+        return;
+      }
+
       const { id } = this.currentItemForOptions;
-      const { quantity, note } = this.itemOptions;
       const cartId = `${id}-${Date.now()}`;
+
+      // Determine final weight value
+      let finalWeight = this.itemOptions.selectedWeight;
+      if (this.itemOptions.selectedWeight === 'custom') {
+        finalWeight = `${this.itemOptions.customWeight}kg`;
+      }
+
+      // Calculate dynamic pricing based on selected weight
+      const priceData = this.calculateDynamicPrice(this.currentItemForOptions, finalWeight);
+
       const itemToAdd = {
         ...this.currentItemForOptions,
         cartId: cartId,
-        quantity: quantity,
-        weight: note.trim(),
-        selectedWeight: '',
-        customWeight: '',
-        notes: '',
+        quantity: 1, // Always 1 for this modal
+        weight: finalWeight,
+        selectedWeight: this.itemOptions.selectedWeight,
+        customWeight: this.itemOptions.customWeight,
+        notes: this.itemOptions.note.trim(),
         // Dynamic pricing fields
         basePrice: this.currentItemForOptions.price,
-        finalPrice: this.currentItemForOptions.price,
-        surcharge: 0,
-        hasSurcharge: false
+        finalPrice: priceData.finalPrice,
+        surcharge: priceData.surcharge,
+        hasSurcharge: priceData.hasSurcharge
       };
 
       this.addToCart(itemToAdd);
@@ -900,17 +964,14 @@ document.addEventListener('alpine:init', () => {
           // If custom is selected and we have a weight value
           const numericWeight = this.parseWeight(weight);
 
-          // Validate range (0.5kg to 50kg)
-          if (numericWeight < 0.5) {
-            this.showAlert('Cân nặng tối thiểu là 0.5kg', 'warning');
-            return;
-          }
-          if (numericWeight > 50) {
-            this.showAlert('Cân nặng tối đa là 50kg', 'warning');
+          // Validation: Chỉ cho phép cân nặng từ 20kg trở lên cho custom input
+          if (numericWeight < 20) {
+            // Hiển thị thông báo lỗi và không cập nhật
+            this.showAlert('Cân nặng tùy chỉnh phải từ 20kg trở lên!', 'error');
             return;
           }
 
-          finalWeight = `${numericWeight}kg`;
+          finalWeight = weight;
           item.customWeight = numericWeight; // Store the number value
         }
 
@@ -932,11 +993,26 @@ document.addEventListener('alpine:init', () => {
 
         // Update cart total
         this.updateCartTotal();
+
+        // Clear weight error for this item if it exists
+        if (this.weightErrors[productId]) {
+          delete this.weightErrors[productId];
+        }
       }
     },
 
     // Core Dynamic Pricing Functions
     calculateDynamicPrice(product, weightString) {
+      // Kiểm tra product có tồn tại không
+      if (!product) {
+        return {
+          finalPrice: 0,
+          surcharge: 0,
+          hasSurcharge: false,
+          tier: 'standard'
+        };
+      }
+
       // Parse weight từ string (VD: "13kg" → 13)
       const weight = this.parseWeight(weightString);
       const basePrice = product.price;
@@ -975,20 +1051,14 @@ document.addEventListener('alpine:init', () => {
 
       // Handle both string and number inputs
       if (typeof weightString === 'number') {
-        // Round to 1 decimal place for consistency
-        return Math.round(weightString * 10) / 10;
+        return weightString;
       }
 
       if (typeof weightString === 'string') {
         // Remove 'kg' and parse to float
         const cleanWeight = weightString.replace(/kg/gi, '').trim();
         const weight = parseFloat(cleanWeight);
-
-        if (isNaN(weight)) return 0;
-
-        // Round to 1 decimal place and ensure positive
-        const roundedWeight = Math.round(weight * 10) / 10;
-        return roundedWeight > 0 ? roundedWeight : 0;
+        return isNaN(weight) ? 0 : weight;
       }
 
       return 0;
@@ -1026,6 +1096,7 @@ document.addEventListener('alpine:init', () => {
       this.quickBuyProduct = { ...product };
       this.quickBuyQuantity = 1;
       this.quickBuyWeight = '';
+      this.quickBuyCustomWeight = '';
       this.quickBuyNotes = '';
       this.isQuickBuyModalOpen = true;
       this.startSocialProofTimer();
@@ -1050,6 +1121,7 @@ document.addEventListener('alpine:init', () => {
       this.quickBuyProduct = null;
       this.quickBuyQuantity = 1;
       this.quickBuyWeight = '';
+      this.quickBuyCustomWeight = '';
       this.quickBuyNotes = '';
       this.quickBuyPaymentMethod = 'cod'; // Reset về COD
       this.isQuickBuyTransferConfirmed = false; // Reset trạng thái xác nhận
@@ -1057,6 +1129,8 @@ document.addEventListener('alpine:init', () => {
       this.stopSocialProofTimer();
       // Giữ nguyên discount state để có thể tái sử dụng
     },
+
+
 
     // Hàm xử lý order success tập trung
     handleOrderSuccess() {
@@ -1115,8 +1189,10 @@ document.addEventListener('alpine:init', () => {
             name: orderItem.name,
             price: this.formatCurrency(orderItem.price),
             quantity: orderItem.quantity,
-            weight: orderItem.weight
+            weight: orderItem.weight,
+            notes: orderItem.notes || ''
           }],
+          telegramNotification: 'VDT_SECRET_2025_ANHIEN', // Secret key cho Telegram
           customer: {
             name: this.customer.name,
             phone: this.customer.phone,
@@ -1163,6 +1239,67 @@ document.addEventListener('alpine:init', () => {
         this.formErrors[fieldName] = '';
       }
     },
+
+    // Scroll to first error in Quick Buy modal - optimized version
+    scrollToFirstQuickBuyError() {
+      this.$nextTick(() => {
+        setTimeout(() => {
+          // Priority order for error fields (most important first)
+          const errorPriority = ['name', 'phone', 'streetAddress', 'weight', 'quickBuyPaymentMethod'];
+
+          for (const fieldName of errorPriority) {
+            if (this.formErrors[fieldName]) {
+              let selector = '';
+
+              // Map field names to their selectors
+              switch (fieldName) {
+                case 'name':
+                  selector = 'input[x-model="customer.name"]';
+                  break;
+                case 'phone':
+                  selector = 'input[x-model="customer.phone"]';
+                  break;
+                case 'streetAddress':
+                  selector = 'input[x-model="customer.address"]';
+                  break;
+                case 'weight':
+                  selector = 'select[x-model="quickBuyWeight"]';
+                  break;
+                case 'quickBuyPaymentMethod':
+                  selector = '[x-model="quickBuyPaymentMethod"]';
+                  break;
+              }
+
+              const element = document.querySelector(selector);
+              if (element) {
+                // Find the modal scroll container
+                const modalContent = element.closest('.modal-scroll');
+                if (modalContent) {
+                  // Calculate offset position within modal
+                  const elementTop = element.offsetTop - modalContent.offsetTop;
+                  modalContent.scrollTo({
+                    top: Math.max(0, elementTop - 100), // 100px offset from top
+                    behavior: 'smooth'
+                  });
+                } else {
+                  // Fallback: scroll element into view
+                  element.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center'
+                  });
+                }
+
+                // Focus the element if it's an input
+                if (element.tagName === 'INPUT' || element.tagName === 'SELECT') {
+                  setTimeout(() => element.focus(), 300);
+                }
+                break; // Stop at first error found
+              }
+            }
+          }
+        }, 100);
+      });
+    },
     async quickBuySubmit() {
       // Clear previous errors
       this.clearFormErrors();
@@ -1191,9 +1328,19 @@ document.addEventListener('alpine:init', () => {
         isValid = false;
       }
 
-      if (!this.quickBuyWeight.trim()) {
-        this.formErrors.weight = 'Vui lòng chọn cân nặng của bé';
-        isValid = false;
+      // Bỏ qua validation cân nặng cho addon products trong quick buy
+      if (this.quickBuyProduct && this.quickBuyProduct.id !== 'addon_moc_chia_khoa' && this.quickBuyProduct.id !== 'addon_tui_dau_tam') {
+        if (!this.quickBuyWeight.trim()) {
+          this.formErrors.weight = 'Vui lòng chọn cân nặng của bé';
+          isValid = false;
+        } else if (this.quickBuyWeight === '✏️ Nhập cân nặng từ 20kg trở lên (+20k)...' && (!this.quickBuyCustomWeight || this.quickBuyCustomWeight < 20)) {
+          this.formErrors.weight = 'Vui lòng nhập cân nặng cụ thể từ 20kg trở lên';
+          isValid = false;
+        } else if (this.quickBuyWeight.includes('kg') && this.parseWeight(this.quickBuyWeight) >= 20 && this.parseWeight(this.quickBuyWeight) < 20) {
+          // Validation cho custom weight nếu có
+          this.formErrors.weight = 'Cân nặng phải từ 20kg trở lên';
+          isValid = false;
+        }
       }
 
       if (!this.quickBuyPaymentMethod) {
@@ -1201,7 +1348,10 @@ document.addEventListener('alpine:init', () => {
         isValid = false;
       }
 
-      if (!isValid) return;
+      if (!isValid) {
+        this.scrollToFirstQuickBuyError();
+        return;
+      }
 
       // Kiểm tra xác nhận chuyển khoản nếu cần
       if (this.quickBuyPaymentMethod === 'bank_transfer' && !this.isQuickBuyTransferConfirmed) {
@@ -1235,8 +1385,10 @@ document.addEventListener('alpine:init', () => {
             name: orderItem.name,
             price: this.formatCurrency(orderItem.price),
             quantity: orderItem.quantity,
-            weight: orderItem.weight
+            weight: orderItem.weight,
+            notes: orderItem.notes || ''
           }],
+          telegramNotification: 'VDT_SECRET_2025_ANHIEN', // Secret key cho Telegram
           customer: {
             name: this.customer.name,
             phone: this.customer.phone,
@@ -1502,6 +1654,38 @@ document.addEventListener('alpine:init', () => {
       return this.hasAnyApplicableDiscounts;
     },
     openCheckout() {
+      // Clear previous weight errors
+      this.weightErrors = {};
+
+      // Validate weight for all cart items trước khi mở checkout (bỏ qua addon products)
+      let hasWeightError = false;
+      let firstErrorItemId = null;
+
+      for (let i = 0; i < this.cart.length; i++) {
+        const item = this.cart[i];
+
+        // Bỏ qua validation cân nặng cho addon products
+        if (item.id === 'addon_moc_chia_khoa' || item.id === 'addon_tui_dau_tam') {
+          continue;
+        }
+
+        if (!item.weight || item.weight.trim() === '') {
+          this.weightErrors[item.id] = 'Vui lòng chọn cân nặng bé';
+          hasWeightError = true;
+
+          // Lưu ID của sản phẩm đầu tiên thiếu cân nặng
+          if (!firstErrorItemId) {
+            firstErrorItemId = item.id;
+          }
+        }
+      }
+
+      // Nếu có lỗi cân nặng, cuộn đến sản phẩm đầu tiên thiếu cân nặng
+      if (hasWeightError && firstErrorItemId) {
+        this.scrollToWeightError(firstErrorItemId);
+        return;
+      }
+
       // Mở checkout modal chồng lên mini cart (mini cart vẫn mở bên dưới)
       this.socialProofViewers = Math.floor(Math.random() * 5) + 1;
       this.isCheckoutModalOpen = true;
@@ -1515,6 +1699,51 @@ document.addEventListener('alpine:init', () => {
             firstInput.focus();
           }
         }, 300);
+      });
+    },
+
+    // Scroll to first weight error for better UX
+    scrollToWeightError(itemId) {
+      // Đợi DOM update để hiển thị error message
+      this.$nextTick(() => {
+        setTimeout(() => {
+          // Tìm element của cart item có lỗi
+          const cartItemElement = document.querySelector(`[data-cart-item-id="${itemId}"]`);
+
+          if (cartItemElement) {
+            // Tính toán vị trí cuộn để hiển thị phần weight selector
+            const weightSection = cartItemElement.querySelector('.cart-item-weight-section');
+            const targetElement = weightSection || cartItemElement;
+
+            // Cuộn mượt mà đến vị trí với offset để không bị che bởi header
+            const offsetTop = targetElement.offsetTop - 100; // 100px offset từ top
+
+            // Cuộn trong mini cart modal (nếu có scroll container)
+            const miniCartContent = document.querySelector('.mini-cart-content');
+            if (miniCartContent) {
+              miniCartContent.scrollTo({
+                top: offsetTop,
+                behavior: 'smooth'
+              });
+            } else {
+              // Fallback: cuộn toàn trang
+              window.scrollTo({
+                top: offsetTop,
+                behavior: 'smooth'
+              });
+            }
+
+            // Highlight weight selector để thu hút sự chú ý
+            const weightSelector = targetElement.querySelector('.weight-selector');
+            if (weightSelector) {
+              // Thêm hiệu ứng highlight tạm thời
+              weightSelector.classList.add('ring-2', 'ring-red-400', 'ring-opacity-75');
+              setTimeout(() => {
+                weightSelector.classList.remove('ring-2', 'ring-red-400', 'ring-opacity-75');
+              }, 2000); // Bỏ highlight sau 2 giây
+            }
+          }
+        }, 100); // Delay nhỏ để đảm bảo error message đã render
       });
     },
 
@@ -1632,11 +1861,12 @@ document.addEventListener('alpine:init', () => {
         orderId: newOrderId,
         cart: (() => {
           const items = this.cart.map(i => ({
-            name: i.name, price: this.formatCurrency(i.price), quantity: i.quantity, weight: i.weight
+            name: i.name, price: this.formatCurrency(i.price), quantity: i.quantity, weight: i.weight, notes: i.notes || ''
           }));
-          if (this.appliedGift) items.push({ name: this.appliedGift.title, price: 'Miễn phí', quantity: 1, weight: 0 });
+          if (this.appliedGift) items.push({ name: this.appliedGift.title, price: 'Miễn phí', quantity: 1, weight: 0, notes: '' });
           return items;
         })(),
+        telegramNotification: 'VDT_SECRET_2025_ANHIEN', // Secret key cho Telegram
         customer: { name: this.customer.name, phone: this.customer.phone, email: this.customer.email, address: this.customer.address, notes: this.customer.notes },
         orderDate: new Date().toISOString(),
         subtotal: this.formatCurrency(this.cartSubtotal()),

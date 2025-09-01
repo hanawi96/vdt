@@ -345,18 +345,18 @@
                     </button>
                 </div>
 
-                <div id="product-list" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+                <div id="product-list" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-6">
                     <template x-for="product in filteredProducts()" :key="product.id">
                         <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden group">
                             <div @click="openQuickView(product)" class="relative overflow-hidden cursor-pointer">
                                 <img :src="product.image" :alt="product.name" class="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300">
                             </div>
                             <div class="p-4">
-                                <h3 @click="openQuickView(product)" class="font-semibold text-gray-800 truncate group-hover:text-pink-600 transition-colors cursor-pointer" x-text="product.name"></h3>
+                                <h3 @click="openQuickView(product)" class="font-semibold text-gray-800 truncate group-hover:text-pink-600 transition-colors cursor-pointer text-sm sm:text-base" x-text="product.name"></h3>
                                 <!-- Price, Rating, and Purchases -->
                                 <div class="mt-2 space-y-2">
                                     <div class="flex items-baseline">
-                                        <span class="text-pink-600 font-bold text-lg" x-text="formatCurrency(product.price)"></span>
+                                        <span class="text-pink-600 font-bold text-base sm:text-lg" x-text="formatCurrency(product.price)"></span>
                                         <template x-if="product.original_price">
                                             <span class="text-gray-400 line-through text-xs ml-2" x-text="formatCurrency(product.original_price)"></span>
                                         </template>
@@ -379,9 +379,11 @@
                                     <button @click.stop="openItemOptionsModal(product)"
                                             class="col-span-2 flex items-center justify-center h-10 bg-pink-100 text-pink-700 rounded-lg hover:bg-pink-200 transition-colors duration-300 font-semibold">
                                         <div class="relative">
-                                            <!-- Cart Icon -->
-                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17M17 13a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                                            <!-- Shopping Bag Icon -->
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                                                <line x1="3" y1="6" x2="21" y2="6"></line>
+                                                <path d="M16 10a4 4 0 0 1-8 0"></path>
                                             </svg>
                                             <!-- Plus Icon Overlay -->
                                             <div class="absolute -top-1 -right-1 w-3 h-3 bg-pink-600 text-white rounded-full flex items-center justify-center text-xs font-bold">
@@ -419,7 +421,7 @@
 
         <!-- Order Confirmation Modal - Redesigned for Moms -->
         <div x-show="isConfirmModalOpen" @keydown.escape.window="isConfirmModalOpen = false" class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-end sm:items-center justify-center p-3 sm:p-4 z-[9990]" style="display: none;" x-transition.opacity>
-            <div @click.outside="isConfirmModalOpen = false" class="bg-white rounded-3xl sm:rounded-2xl shadow-2xl w-full max-w-lg max-h-[95vh] sm:max-h-[85vh] flex flex-col overflow-hidden border border-pink-100 modal-float relative">
+            <div class="bg-white rounded-3xl sm:rounded-2xl shadow-2xl w-full max-w-lg max-h-[95vh] sm:max-h-[85vh] flex flex-col overflow-hidden border border-pink-100 modal-float relative">
 
                 <!-- Header - Compact -->
                 <div class="bg-gradient-to-r from-pink-500 to-purple-600 text-white p-4 rounded-t-3xl sm:rounded-t-2xl flex-shrink-0">
@@ -446,9 +448,9 @@
                     <div class="p-4 sm:p-6 space-y-5 pb-32 sm:pb-24">
 
                         <!-- Thông tin người nhận với icon -->
-                        <div class="bg-gradient-to-r from-pink-50 to-purple-50 p-4 rounded-2xl border border-pink-100 section-card slide-in-up">
+                        <div class="bg-gradient-to-r from-pink-50 to-purple-50 p-4 rounded-2xl border border-pink-100">
                             <div class="flex items-center space-x-2 mb-3">
-                                <div class="w-6 h-6 bg-pink-100 rounded-full flex items-center justify-center icon-container">
+                                <div class="w-6 h-6 bg-pink-100 rounded-full flex items-center justify-center">
                                     <svg class="w-3 h-3 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                                     </svg>
@@ -480,9 +482,9 @@
                         </div>
 
                         <!-- Sản phẩm đã chọn với icon -->
-                        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-4 rounded-2xl border border-blue-100 section-card slide-in-up delay-100">
+                        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-4 rounded-2xl border border-blue-100">
                             <div class="flex items-center space-x-2 mb-3">
-                                <div class="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center icon-container">
+                                <div class="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center">
                                     <svg class="w-3 h-3 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
                                     </svg>
@@ -491,17 +493,28 @@
                             </div>
                             <div class="space-y-3">
                                 <template x-for="item in selectedCartProducts" :key="item.id">
-                                    <div class="bg-white p-3 rounded-xl border border-blue-100 flex items-start space-x-3">
-                                        <img :src="item.image" class="w-12 h-12 rounded-lg object-cover border border-gray-200">
-                                        <div class="flex-grow min-w-0">
-                                            <p class="font-medium text-gray-800 text-sm leading-tight" x-text="item.name"></p>
-                                            <div class="flex items-center space-x-3 mt-1">
-                                                <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full" x-text="`SL: ${item.quantity}`"></span>
-                                                <span x-show="item.weight" class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full" x-text="item.weight"></span>
+                                    <div class="bg-white p-3 rounded-xl border border-blue-100">
+                                        <!-- Main product info row -->
+                                        <div class="flex items-start space-x-3">
+                                            <img :src="item.image" class="w-12 h-12 rounded-lg object-cover border border-gray-200">
+                                            <div class="flex-grow min-w-0">
+                                                <p class="font-medium text-gray-800 text-sm leading-tight" x-text="item.name"></p>
+                                                <div class="flex items-center space-x-3 mt-1">
+                                                    <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full" x-text="`SL: ${item.quantity}`"></span>
+                                                    <span x-show="item.weight" class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full" x-text="item.weight"></span>
+                                                    <span x-show="item.hasSurcharge" class="text-xs text-orange-600 bg-orange-100 px-2 py-1 rounded-full font-medium">+20k (size lớn)</span>
+                                                </div>
+                                            </div>
+                                            <div class="text-right">
+                                                <p class="font-semibold text-pink-600 text-sm" x-text="formatCurrency((item.finalPrice || item.price) * item.quantity)"></p>
                                             </div>
                                         </div>
-                                        <div class="text-right">
-                                            <p class="font-semibold text-pink-600 text-sm" x-text="formatCurrency(item.price * item.quantity)"></p>
+
+                                        <!-- Ghi chú sản phẩm - Full width -->
+                                        <div x-show="item.notes && item.notes.trim()" class="mt-3 pt-3 border-t border-gray-100">
+                                            <p class="text-xs text-gray-600 italic bg-yellow-50 px-3 py-2 rounded border-l-2 border-yellow-300">
+                                                <span class="font-medium">💬 Ghi chú:</span> <span x-text="item.notes"></span>
+                                            </p>
                                         </div>
                                     </div>
                                 </template>
@@ -509,9 +522,9 @@
                         </div>
 
                         <!-- Tổng kết đơn hàng với icon -->
-                        <div class="bg-gradient-to-r from-green-50 to-emerald-50 p-4 rounded-2xl border border-green-100 section-card slide-in-up delay-200">
+                        <div class="bg-gradient-to-r from-green-50 to-emerald-50 p-4 rounded-2xl border border-green-100">
                             <div class="flex items-center space-x-2 mb-3">
-                                <div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center icon-container">
+                                <div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
                                     <svg class="w-3 h-3 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
                                     </svg>
@@ -565,9 +578,9 @@
                         </div>
 
                         <!-- Phương thức thanh toán với icon -->
-                        <div class="bg-gradient-to-r from-amber-50 to-orange-50 p-4 rounded-2xl border border-amber-100 section-card slide-in-up delay-300">
+                        <div class="bg-gradient-to-r from-amber-50 to-orange-50 p-4 rounded-2xl border border-amber-100">
                             <div class="flex items-center space-x-2 mb-3">
-                                <div class="w-6 h-6 bg-amber-100 rounded-full flex items-center justify-center icon-container">
+                                <div class="w-6 h-6 bg-amber-100 rounded-full flex items-center justify-center">
                                     <svg class="w-3 h-3 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path>
                                     </svg>
@@ -758,7 +771,7 @@
 
     <!-- Image Viewer Modal -->
     <div x-show="isImageModalOpen" @keydown.escape.window="closeImageModal()" class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-4 z-[9000]" style="display: none;" x-transition>
-        <div @click.outside="closeImageModal()" class="relative">
+        <div class="relative">
             <img :src="currentImage" alt="Xem ảnh lớn" class="max-w-full max-h-[90vh] rounded-lg shadow-lg">
             <button @click="closeImageModal()" class="absolute -top-4 -right-4 bg-white text-black w-10 h-10 rounded-full flex items-center justify-center shadow-lg hover:bg-gray-200">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -770,6 +783,7 @@
 
     <!-- FAQ Modal -->
     <div x-show="isFaqModalOpen" @keydown.escape.window="closeFaqModal()"
+
          class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-4 z-[9000]"
          style="display: none;"
          x-transition:enter="transition ease-out duration-300"
@@ -778,7 +792,7 @@
          x-transition:leave="transition ease-in duration-200"
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0">
-        <div @click.outside="closeFaqModal()"
+        <div
              class="bg-white rounded-2xl shadow-xl w-full max-w-2xl max-h-[90vh] flex flex-col"
              x-show="isFaqModalOpen"
              x-transition:enter="transition ease-out duration-300"
@@ -808,7 +822,14 @@
                                 <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                             </svg>
                         </button>
-                        <div x-show="openFaqIndex === index" x-collapse class="mt-2 text-gray-600 text-sm" x-text="faq.answer"></div>
+                        <div x-show="openFaqIndex === index"
+                             x-transition:enter="transition ease-out duration-200"
+                             x-transition:enter-start="opacity-0 transform scale-95"
+                             x-transition:enter-end="opacity-100 transform scale-100"
+                             x-transition:leave="transition ease-in duration-150"
+                             x-transition:leave-start="opacity-100 transform scale-100"
+                             x-transition:leave-end="opacity-0 transform scale-95"
+                             class="mt-2 text-gray-600 text-sm" x-text="faq.answer"></div>
                     </div>
                 </template>
             </div>
@@ -827,6 +848,7 @@
 
     <!-- Addon Detail Modal -->
     <div x-show="isAddonDetailModalOpen" @keydown.escape.window="closeAddonDetail()"
+
          class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-4 z-[9000]"
          style="display: none;"
          x-transition:enter="transition ease-out duration-300"
@@ -835,7 +857,7 @@
          x-transition:leave="transition ease-in duration-200"
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0">
-        <div @click.outside="closeAddonDetail()"
+        <div
              class="bg-white rounded-2xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto modal-scroll transform transition-all"
              x-show="isAddonDetailModalOpen"
              x-transition:enter="transition ease-out duration-300"
@@ -977,7 +999,8 @@
 
     <!-- Discount Code Modal - Redesigned for Moms -->
     <div x-show="isDiscountModalOpen" @keydown.escape.window="closeDiscountModal()"
-         class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-end sm:items-center justify-center p-3 sm:p-4 z-[9600]"
+
+         class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-end sm:items-center justify-center p-3 sm:p-4 z-[9950]"
          style="display: none;"
          x-transition:enter="transition ease-out duration-300"
          x-transition:enter-start="opacity-0"
@@ -985,7 +1008,7 @@
          x-transition:leave="transition ease-in duration-200"
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0">
-        <div @click.outside="closeDiscountModal()"
+        <div
              class="bg-white rounded-3xl sm:rounded-2xl shadow-2xl w-full max-w-sm sm:max-w-md max-h-[85vh] flex flex-col transform transition-all"
              x-show="isDiscountModalOpen"
              x-transition:enter="transition ease-out duration-300"
@@ -1110,8 +1133,8 @@
 
         <!-- Mini Cart Modal -->
         <div x-show="isMiniCartOpen" @keydown.escape.window="console.log('🔍 ESC trên mini cart - isCheckoutModalOpen:', isCheckoutModalOpen, 'isConfirmModalOpen:', isConfirmModalOpen); if (!isCheckoutModalOpen && !isConfirmModalOpen) { console.log('🔍 Đóng mini cart bằng ESC'); isMiniCartOpen = false; }"
+
              class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-4 z-[9500]"
-             @click="console.log('🔍 Click trên mini cart overlay - isCheckoutModalOpen:', isCheckoutModalOpen, 'isConfirmModalOpen:', isConfirmModalOpen)"
              style="display: none;"
              x-transition:enter="transition ease-out duration-300"
              x-transition:enter-start="opacity-0"
@@ -1119,7 +1142,7 @@
              x-transition:leave="transition ease-in duration-200"
              x-transition:leave-start="opacity-100"
              x-transition:leave-end="opacity-0">
-            <div @click.outside="console.log('🔍 Click outside mini cart - preventMiniCartCloseOnClickOutside:', preventMiniCartCloseOnClickOutside, 'isCheckoutModalOpen:', isCheckoutModalOpen, 'isConfirmModalOpen:', isConfirmModalOpen); if (!preventMiniCartCloseOnClickOutside && !isCheckoutModalOpen && !isConfirmModalOpen) { console.log('🔍 Đóng mini cart bằng click outside'); isMiniCartOpen = false; }"
+            <div
                  @click="console.log('🔍 Click trên mini cart content')"
                  class="bg-white rounded-2xl shadow-xl w-full max-w-sm sm:max-w-lg lg:max-w-2xl max-h-[90vh] flex flex-col transform transition-all"
                  x-show="isMiniCartOpen"
@@ -1141,7 +1164,6 @@
                             </div>
                             <div>
                                 <h3 class="text-base font-bold">Giỏ hàng</h3>
-                                <p class="text-xs text-white text-opacity-80" x-text="`${trueTotalCartQuantity} sản phẩm`"></p>
                             </div>
                         </div>
                         <button @click="isMiniCartOpen = false" class="w-7 h-7 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full flex items-center justify-center transition-all">
@@ -1155,7 +1177,7 @@
                 </div>
 
                 <!-- Body - Mobile Optimized -->
-                <div class="flex-grow overflow-y-auto modal-scroll">
+                <div class="flex-grow overflow-y-auto modal-scroll mini-cart-content">
                     <template x-if="cart.length === 0">
                         <div class="text-center py-8 px-4">
                             <div class="flex justify-center mb-3">
@@ -1176,113 +1198,133 @@
                         </div>
                     </template>
 
-                    <div x-show="cart.length > 0" class="px-3 pt-3 space-y-3">
+                    <div x-show="cart.length > 0" class="pt-3 space-y-3">
                         <!-- Cart Items Header - Compact -->
                         <div class="flex items-center justify-between pb-2 border-b border-gray-200 px-3">
                             <div class="flex items-center space-x-2">
                                 <input type="checkbox" :checked="isAllSelected" @change="toggleSelectAll()" class="h-3.5 w-3.5 text-pink-600 focus:ring-pink-500 border-gray-300 rounded">
-                                <label class="text-xs font-medium text-gray-700 cursor-pointer" @click="toggleSelectAll()">Tất cả</label>
+                                <label class="text-xs font-medium text-gray-700 cursor-pointer" @click="toggleSelectAll()">
+                                    Tất cả (<span x-text="trueTotalCartQuantity"></span>)
+                                </label>
                             </div>
                             <button @click="clearCart()" class="text-xs text-blue-600 hover:text-blue-800 font-medium transition-colors">
                                 Xóa hết
                             </button>
                         </div>
 
-                        <!-- Cart Items - Mobile Optimized -->
-                        <template x-for="item in cart" :key="item.id">
-                            <div class="flex items-start space-x-2.5 p-2.5 bg-gray-50 rounded-lg">
-                                <input type="checkbox" :checked="selectedCartItems.includes(item.id)" @change="toggleCartItemSelection(item.id)" class="mt-1 h-3.5 w-3.5 text-pink-600 focus:ring-pink-500 border-gray-300 rounded flex-shrink-0">
-                                <img :src="item.image" class="w-12 h-12 rounded-md object-cover border flex-shrink-0">
-                                <div class="flex-grow min-w-0">
-                                    <p class="font-semibold text-gray-800 text-sm leading-tight truncate" x-text="item.name"></p>
-                                    <p class="text-xs text-gray-500 mt-0.5" x-text="formatCurrency(item.price)"></p>
-                                    <div class="flex items-center justify-between mt-1.5">
-                                        <div class="flex items-center space-x-1.5">
-                                            <button @click="decreaseQuantity(item.id)" class="w-5 h-5 bg-gray-200 text-gray-700 rounded-full flex items-center justify-center hover:bg-gray-300 transition-colors text-sm font-bold">-</button>
-                                            <span x-text="item.quantity" class="font-semibold text-xs text-gray-800 w-4 text-center"></span>
-                                            <button @click="increaseQuantity(item.id)" class="w-5 h-5 bg-gray-200 text-gray-700 rounded-full flex items-center justify-center hover:bg-gray-300 transition-colors text-sm font-bold">+</button>
-                                        </div>
-                                        <div class="text-right">
-                                            <p class="font-bold text-pink-600 text-sm" x-text="formatCurrency((item.finalPrice || item.price) * item.quantity)"></p>
-                                            <div x-show="item.hasSurcharge" class="text-xs text-orange-600 mt-0.5">
-                                                <span x-text="formatCurrency(item.basePrice * item.quantity)"></span>
-                                                <span> + </span>
-                                                <span x-text="formatCurrency(item.surcharge * item.quantity)"></span>
+                        <!-- Cart Items Container - Free Flow Display -->
+                        <div class="relative">
+                            <div class="px-3 space-y-3">
+                            <template x-for="item in cart" :key="item.id">
+                            <div class="p-2.5 bg-gray-50 rounded-lg space-y-3" :data-cart-item-id="item.id">
+                                <!-- Main Product Row -->
+                                <div class="flex items-start space-x-2.5">
+                                    <input type="checkbox" :checked="selectedCartItems.includes(item.id)" @change="toggleCartItemSelection(item.id)" class="mt-1 h-3.5 w-3.5 text-pink-600 focus:ring-pink-500 border-gray-300 rounded flex-shrink-0">
+                                    <img :src="item.image" class="w-12 h-12 rounded-md object-cover border flex-shrink-0">
+                                    <div class="flex-grow min-w-0">
+                                        <p class="font-semibold text-gray-800 text-sm leading-tight truncate" x-text="item.name"></p>
+                                        <p class="text-xs text-gray-500 mt-0.5" x-text="formatCurrency(item.price)"></p>
+                                        <div class="flex items-center justify-between mt-1.5">
+                                            <div class="flex items-center space-x-1.5">
+                                                <button @click="decreaseQuantity(item.id)" class="w-5 h-5 bg-gray-200 text-gray-700 rounded-full flex items-center justify-center hover:bg-gray-300 transition-colors text-sm font-bold">-</button>
+                                                <span x-text="item.quantity" class="font-semibold text-xs text-gray-800 w-4 text-center"></span>
+                                                <button @click="increaseQuantity(item.id)" class="w-5 h-5 bg-gray-200 text-gray-700 rounded-full flex items-center justify-center hover:bg-gray-300 transition-colors text-sm font-bold">+</button>
+                                            </div>
+                                            <div class="text-right">
+                                                <p class="font-bold text-pink-600 text-sm" x-text="formatCurrency((item.finalPrice || item.price) * item.quantity)"></p>
+                                                <div x-show="item.hasSurcharge" class="text-xs text-orange-600 mt-0.5">
+                                                    <span x-text="formatCurrency(item.basePrice * item.quantity)"></span>
+                                                    <span> + </span>
+                                                    <span x-text="formatCurrency(item.surcharge * item.quantity)"></span>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <button @click="removeFromCart(item.id)" class="text-gray-400 hover:text-red-500 p-1 flex-shrink-0">
+                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                        </svg>
+                                    </button>
+                                </div>
 
-                                    <!-- Weight Selection & Notes -->
-                                    <div class="cart-item-weight-section mt-2">
-                                        <!-- Weight Selector Row -->
-                                        <div class="flex items-center space-x-2 mb-2">
-                                            <div class="flex items-center space-x-1 flex-shrink-0">
-                                                <span class="text-xs text-pink-600 font-medium">👶</span>
-                                                <span class="text-xs text-gray-700 font-medium">Cân nặng:</span>
-                                            </div>
-                                            <select x-model="item.selectedWeight"
-                                                    @change="updateItemWeight(item.id, $event.target.value)"
-                                                    class="weight-selector text-xs px-2 py-1 flex-1 min-w-0">
-                                                <option value="">Chọn cân nặng bé</option>
-                                                <option value="Chưa sinh">🤱 Chưa sinh</option>
-                                                <option value="3kg">3kg</option>
-                                                <option value="4kg">4kg</option>
-                                                <option value="5kg">5kg</option>
-                                                <option value="6kg">6kg</option>
-                                                <option value="7kg">7kg</option>
-                                                <option value="8kg">8kg</option>
-                                                <option value="9kg">9kg</option>
-                                                <option value="10kg">10kg</option>
-                                                <option value="11kg">11kg</option>
-                                                <option value="12kg">12kg</option>
-                                                <option value="13kg">13kg (+20k)</option>
-                                                <option value="14kg">14kg (+20k)</option>
-                                                <option value="15kg">15kg (+20k)</option>
-                                                <option value="16kg">16kg (+20k)</option>
-                                                <option value="17kg">17kg (+20k)</option>
-                                                <option value="18kg">18kg (+20k)</option>
-                                                <option value="19kg">19kg (+20k)</option>
-                                                <option value="20kg">20kg (+20k)</option>
-                                                <option value="custom">✏️ Nhập khác...</option>
-                                            </select>
+                                <!-- Weight Selection - Full Width (Hidden for addon products) -->
+                                <div x-show="item.id !== 'addon_moc_chia_khoa' && item.id !== 'addon_tui_dau_tam'" class="cart-item-weight-section">
+                                    <!-- Weight Selector Row -->
+                                    <div class="flex items-center space-x-2 mb-2">
+                                        <div class="flex items-center space-x-1 flex-shrink-0">
+                                            <span class="text-xs text-pink-600 font-medium">👶</span>
+                                            <span class="text-xs text-gray-700 font-medium">Cân nặng:</span>
                                         </div>
+                                        <select x-model="item.selectedWeight"
+                                                @change="updateItemWeight(item.id, $event.target.value)"
+                                                :class="weightErrors[item.id] ? 'weight-selector text-xs px-2 py-1 flex-1 min-w-0 border-red-300 focus:border-red-500 focus:ring-red-500' : 'weight-selector text-xs px-2 py-1 flex-1 min-w-0'">
+                                            <option value="">Chọn cân nặng bé</option>
+                                            <option value="Chưa sinh">🤱 Chưa sinh</option>
+                                            <option value="3kg">3kg</option>
+                                            <option value="4kg">4kg</option>
+                                            <option value="5kg">5kg</option>
+                                            <option value="6kg">6kg</option>
+                                            <option value="7kg">7kg</option>
+                                            <option value="8kg">8kg</option>
+                                            <option value="9kg">9kg</option>
+                                            <option value="10kg">10kg</option>
+                                            <option value="11kg">11kg</option>
+                                            <option value="12kg">12kg</option>
+                                            <option value="13kg">13kg</option>
+                                            <option value="14kg">14kg</option>
+                                            <option value="15kg">15kg</option>
+                                            <option value="16kg (+20k)">16kg (+20k)</option>
+                                            <option value="17kg (+20k)">17kg (+20k)</option>
+                                            <option value="18kg (+20k)">18kg (+20k)</option>
+                                            <option value="19kg (+20k)">19kg (+20k)</option>
+                                            <option value="20kg (+20k)">20kg (+20k)</option>
+                                            <option value="custom">✏️ Nhập cân nặng từ 20kg trở lên (+20k)...</option>
+                                        </select>
+                                    </div>
 
-                                        <!-- Custom Weight Input - Numbers Only -->
-                                        <div x-show="item.selectedWeight === 'custom'"
-                                             x-transition:enter="transition ease-out duration-200"
-                                             x-transition:enter-start="opacity-0 transform scale-95"
-                                             x-transition:enter-end="opacity-100 transform scale-100"
-                                             class="mb-2">
-                                            <div class="flex items-center space-x-2">
-                                                <input type="number"
-                                                       x-model="item.customWeight"
-                                                       @input="updateItemWeight(item.id, $event.target.value + 'kg')"
-                                                       placeholder="VD: 3.5, 13.2, 25.8..."
-                                                       min="0.5"
-                                                       max="50"
-                                                       step="0.1"
-                                                       class="custom-weight-input flex-1 text-xs h-6 px-2 placeholder-gray-500 rounded-md border border-gray-300 focus:border-pink-400 focus:ring-1 focus:ring-pink-200">
-                                                <span class="text-xs text-gray-600 font-medium">kg</span>
-                                            </div>
-                                            <p class="text-xs text-gray-500 mt-1">💡 Nhập số thập phân (VD: 3.5, 13.2, 25.8)</p>
+                                    <!-- Weight Error Message -->
+                                    <div x-show="weightErrors[item.id]" class="flex items-center space-x-2 mb-2">
+                                        <div class="flex items-center space-x-1 flex-shrink-0 invisible">
+                                            <span class="text-xs text-pink-600 font-medium">👶</span>
+                                            <span class="text-xs text-gray-700 font-medium">Cân nặng:</span>
                                         </div>
+                                        <div class="text-xs text-red-500 flex-1">
+                                            <span x-text="weightErrors[item.id]"></span>
+                                        </div>
+                                    </div>
 
-                                        <!-- Notes Input -->
-                                        <div>
-                                            <input type="text"
-                                                   x-model="item.notes"
-                                                   placeholder="💬 Ghi chú cho shop (tùy chọn)..."
-                                                   class="block w-full border-gray-200 rounded-md text-xs h-6 px-2 placeholder-gray-400 focus:ring-1 focus:ring-pink-300 focus:border-pink-300 bg-white">
+                                    <!-- Custom Weight Input - Numbers Only -->
+                                    <div x-show="item.selectedWeight === 'custom'"
+                                         x-transition:enter="transition ease-out duration-200"
+                                         x-transition:enter-start="opacity-0 transform scale-95"
+                                         x-transition:enter-end="opacity-100 transform scale-100"
+                                         class="mb-2">
+                                        <div class="flex items-center space-x-2">
+                                            <input type="number"
+                                                   x-model="item.customWeight"
+                                                   @input="updateItemWeight(item.id, $event.target.value + 'kg')"
+                                                   placeholder="VD: 20, 21.5, 25..."
+                                                   min="20"
+                                                   max="30"
+                                                   step="0.1"
+                                                   class="custom-weight-input flex-1 text-xs h-6 px-2 placeholder-gray-500 rounded-md border border-gray-300 focus:border-pink-400 focus:ring-1 focus:ring-pink-200">
+                                            <span class="text-xs text-gray-600 font-medium">kg</span>
                                         </div>
+                                        <p class="text-xs text-gray-500 mt-1">💡 Chỉ nhập từ 20kg trở lên (VD: 20, 21.5, 25)</p>
                                     </div>
                                 </div>
-                                <button @click="removeFromCart(item.id)" class="text-gray-400 hover:text-red-500 p-1 flex-shrink-0">
-                                    <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-                                    </svg>
-                                </button>
+
+                                <!-- Notes Input - Full Width -->
+                                <div>
+                                    <input type="text"
+                                           x-model="item.notes"
+                                           placeholder="💬 Ghi chú cho shop (tùy chọn)..."
+                                           class="block w-full border-gray-200 rounded-md text-xs h-6 px-2 placeholder-gray-400 focus:ring-1 focus:ring-pink-300 focus:border-pink-300 bg-white">
+                                </div>
                             </div>
                         </template>
+                            </div>
+                        </div>
 
                         <!-- Upsell Section - Compact -->
                         <div class="px-3 pt-2 space-y-3">
@@ -1323,7 +1365,7 @@
                             </div>
 
                             <!-- Discount Code - Compact -->
-                            <div class="px-3">
+                            <div class="px-3 discount-code">
                                 <p x-show="isEligibleForAnyDiscount" class="text-green-700 text-xs text-center font-medium mb-1.5">🎉 Đủ điều kiện nhận ưu đãi!</p>
                                 <div class="border border-dashed border-pink-300 p-2 rounded-lg flex justify-between items-center">
                                     <div class="flex items-center min-w-0">
@@ -1425,6 +1467,7 @@
 
         <!-- Order Success Modal -->
         <div x-show="isSuccessModalOpen" @keydown.escape.window="closeSuccessModal()"
+
              class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-4 z-[9999]"
              style="display: none;"
              x-transition:enter="transition ease-out duration-300"
@@ -1433,7 +1476,7 @@
              x-transition:leave="transition ease-in duration-200"
              x-transition:leave-start="opacity-100"
              x-transition:leave-end="opacity-0">
-            <div @click.outside="closeSuccessModal()"
+            <div
                  class="bg-white rounded-2xl shadow-2xl w-full max-w-md text-center p-8 transform transition-all"
                  x-show="isSuccessModalOpen"
                  x-transition:enter="transition ease-out duration-300"
@@ -1484,6 +1527,7 @@
 
     <!-- Quick Buy Modal - Mua ngay không qua giỏ hàng -->
     <div x-show="isQuickBuyModalOpen" @keydown.escape.window="if (!preventQuickBuyCloseOnEscape) closeQuickBuyModal()"
+
          class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 z-[9900]"
          style="display: none;"
          x-transition:enter="transition ease-out duration-300"
@@ -1492,7 +1536,7 @@
          x-transition:leave="transition ease-in duration-200"
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0">
-        <div @click.outside="if (!preventQuickBuyCloseOnEscape) closeQuickBuyModal()"
+        <div
              class="bg-white rounded-3xl sm:rounded-2xl shadow-2xl w-full max-w-sm sm:max-w-2xl max-h-[90vh] flex flex-col transform transition-all"
              x-show="isQuickBuyModalOpen"
              x-transition:enter="transition ease-out duration-300"
@@ -1531,13 +1575,24 @@
                         <img :src="quickBuyProduct?.image" class="w-12 h-12 rounded-lg object-cover">
                         <div class="flex-1">
                             <h4 class="font-semibold text-gray-800 text-sm" x-text="quickBuyProduct?.name"></h4>
-                            <div class="text-orange-600 font-bold text-sm">
-                                <span x-text="formatCurrency(calculateDynamicPrice(quickBuyProduct, quickBuyWeight).finalPrice)"></span>
-                                <div x-show="calculateDynamicPrice(quickBuyProduct, quickBuyWeight).hasSurcharge"
-                                     class="text-xs text-gray-600 font-normal">
-                                    <span x-text="formatCurrency(quickBuyProduct?.price)"></span>
-                                    <span> + 20k (size lớn)</span>
-                                </div>
+                            <div class="text-orange-600 font-bold text-sm flex items-center space-x-2">
+                                <span x-text="formatCurrency((() => {
+                                    let actualWeight = quickBuyWeight;
+                                    if (quickBuyWeight === '✏️ Nhập cân nặng từ 20kg trở lên (+20k)...' && quickBuyCustomWeight) {
+                                        actualWeight = quickBuyCustomWeight + 'kg';
+                                    }
+                                    return calculateDynamicPrice(quickBuyProduct, actualWeight).finalPrice;
+                                })())"></span>
+                                <span x-show="(() => {
+                                    let actualWeight = quickBuyWeight;
+                                    if (quickBuyWeight === '✏️ Nhập cân nặng từ 20kg trở lên (+20k)...' && quickBuyCustomWeight) {
+                                        actualWeight = quickBuyCustomWeight + 'kg';
+                                    }
+                                    return calculateDynamicPrice(quickBuyProduct, actualWeight).hasSurcharge;
+                                })()"
+                                      class="text-xs bg-red-100 text-red-600 px-2 py-1 rounded-full font-medium">
+                                    +20k
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -1577,21 +1632,107 @@
                         </div>
                     </div>
 
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Địa chỉ nhận hàng *</label>
-                        <textarea x-model="customer.address" placeholder="Nhập địa chỉ đầy đủ (số nhà, đường, phường/xã, quận/huyện, tỉnh/thành phố)"
-                                  @input="clearFieldError('streetAddress')"
-                                  :class="formErrors.streetAddress ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'border-gray-300 focus:ring-pink-500 focus:border-pink-500'"
-                                  rows="2" class="w-full px-3 py-2.5 text-sm rounded-lg transition-all border resize-none"></textarea>
-                        <div x-show="formErrors.streetAddress" x-text="formErrors.streetAddress" class="text-red-500 text-xs mt-1 flex items-center error-message">
-                            <svg class="w-3 h-3 mr-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                    <!-- Địa chỉ giao hàng - 3 option chọn -->
+                    <div class="space-y-3">
+                        <h3 class="text-sm font-medium text-gray-700 mb-2 flex items-center">
+                            <svg class="w-4 h-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                             </svg>
+                            Địa chỉ giao hàng *
+                        </h3>
+
+                        <div class="space-y-3">
+                            <!-- Tỉnh/Thành phố -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">
+                                    <span class="text-red-500">*</span> Tỉnh/Thành phố
+                                </label>
+                                <select x-model="selectedProvince" @change="updateFullAddress()"
+                                        :class="formErrors.province ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'border-gray-300 focus:ring-pink-500 focus:border-pink-500'"
+                                        class="w-full px-3 py-2 text-sm rounded-lg transition-all border">
+                                    <option value="">Chọn tỉnh/thành phố</option>
+                                    <template x-for="province in provinces" :key="province.Id">
+                                        <option :value="province.Id" x-text="province.Name"></option>
+                                    </template>
+                                </select>
+                                <div x-show="formErrors.province" x-text="formErrors.province" class="text-red-500 text-xs mt-1 flex items-center error-message">
+                                    <svg class="w-3 h-3 mr-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </div>
+                            </div>
+
+                            <!-- Quận/Huyện và Phường/Xã - Responsive layout -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-2">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                                        <span class="text-red-500">*</span> Quận/Huyện
+                                    </label>
+                                    <select x-model="selectedDistrict" @change="updateFullAddress()"
+                                            :disabled="!selectedProvince"
+                                            :class="formErrors.district ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'border-gray-300 focus:ring-pink-500 focus:border-pink-500'"
+                                            class="w-full px-3 py-2 text-sm rounded-lg transition-all border disabled:bg-gray-100">
+                                        <option value="">Chọn quận/huyện</option>
+                                        <template x-for="district in districts" :key="district.Id">
+                                            <option :value="district.Id" x-text="district.Name"></option>
+                                        </template>
+                                    </select>
+                                    <div x-show="formErrors.district" x-text="formErrors.district" class="text-red-500 text-xs mt-1 flex items-center error-message">
+                                        <svg class="w-3 h-3 mr-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                                        <span class="text-red-500">*</span> Phường/Xã
+                                    </label>
+                                    <select x-model="selectedWard" @change="updateFullAddress()"
+                                            :disabled="!selectedDistrict"
+                                            :class="formErrors.ward ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'border-gray-300 focus:ring-pink-500 focus:border-pink-500'"
+                                            class="w-full px-3 py-2 text-sm rounded-lg transition-all border disabled:bg-gray-100">
+                                        <option value="">Chọn phường/xã</option>
+                                        <template x-for="ward in wards" :key="ward.Id">
+                                            <option :value="ward.Id" x-text="ward.Name"></option>
+                                        </template>
+                                    </select>
+                                    <div x-show="formErrors.ward" x-text="formErrors.ward" class="text-red-500 text-xs mt-1 flex items-center error-message">
+                                        <svg class="w-3 h-3 mr-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Địa chỉ cụ thể -->
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">
+                                    <span class="text-red-500">*</span> Địa chỉ cụ thể
+                                </label>
+                                <input type="text" x-model="streetAddress" @input="updateFullAddress()"
+                                       placeholder="Số nhà, đường..."
+                                       :class="formErrors.streetAddress ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'border-gray-300 focus:ring-pink-500 focus:border-pink-500'"
+                                       class="w-full px-3 py-2 text-sm rounded-lg transition-all border">
+                                <div x-show="formErrors.streetAddress" x-text="formErrors.streetAddress" class="text-red-500 text-xs mt-1 flex items-center error-message">
+                                    <svg class="w-3 h-3 mr-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </div>
+                            </div>
+
+                            <!-- Preview địa chỉ -->
+                            <div x-show="customer.address" class="p-2 bg-green-50 border border-green-200 rounded-lg">
+                                <p class="text-xs text-green-800">
+                                    <strong>Giao đến:</strong> <span x-text="customer.address"></span>
+                                </p>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Số lượng và Cân nặng - Layout 2 cột -->
-                    <div class="grid grid-cols-2 gap-3">
+                    <!-- Số lượng sản phẩm -->
+                    <div class="space-y-4">
                         <!-- Số lượng sản phẩm -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Số lượng *</label>
@@ -1606,11 +1747,11 @@
                             </select>
                         </div>
 
-                        <!-- Cân nặng của bé -->
+                        <!-- Cân nặng của bé - Riêng 1 hàng -->
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-1">Cân nặng của bé *</label>
                             <select x-model="quickBuyWeight"
-                                    @change="clearFieldError('weight')"
+                                    @change="clearFieldError('weight'); if (quickBuyWeight !== '✏️ Nhập cân nặng từ 20kg trở lên (+20k)...') quickBuyCustomWeight = ''"
                                     :class="formErrors.weight ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'border-gray-300 focus:ring-pink-500 focus:border-pink-500'"
                                     class="w-full px-3 py-2.5 text-sm rounded-lg transition-all border bg-white">
                                 <option value="">-- Chọn cân nặng --</option>
@@ -1618,20 +1759,114 @@
                                     <option :value="weight" x-text="weight"></option>
                                 </template>
                             </select>
-                            <div x-show="formErrors.weight" x-text="formErrors.weight" class="text-red-500 text-xs mt-1 flex items-center error-message">
-                                <svg class="w-3 h-3 mr-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
-                                </svg>
+                            <!-- Custom Weight Input for Quick Buy -->
+                            <div x-show="quickBuyWeight === '✏️ Nhập cân nặng từ 20kg trở lên (+20k)...'"
+                                 x-transition:enter="transition ease-out duration-200"
+                                 x-transition:enter-start="opacity-0 transform scale-95"
+                                 x-transition:enter-end="opacity-100 transform scale-100"
+                                 class="mt-2">
+                                <div class="flex items-center space-x-2">
+                                    <input type="number"
+                                           x-model="quickBuyCustomWeight"
+                                           @input="
+                                             if (quickBuyCustomWeight >= 20) {
+                                               clearFieldError('weight');
+                                             } else if (quickBuyCustomWeight && quickBuyCustomWeight < 20) {
+                                               formErrors.weight = 'Cân nặng phải từ 20kg trở lên';
+                                             }
+                                           "
+                                           placeholder="VD: 20, 21.5, 25..."
+                                           min="20"
+                                           max="30"
+                                           step="0.1"
+                                           :class="quickBuyCustomWeight && quickBuyCustomWeight < 20 ? 'border-red-500 focus:ring-red-300 focus:border-red-500' : 'border-gray-300 focus:ring-pink-500 focus:border-pink-500'"
+                                           class="flex-1 px-3 py-2 text-sm border rounded-lg focus:ring-2 transition-all">
+                                    <span class="text-sm text-gray-600 font-medium">kg</span>
+                                </div>
+
+                                <!-- Error message for invalid weight -->
+                                <div x-show="quickBuyCustomWeight && quickBuyCustomWeight < 20"
+                                     x-transition:enter="transition ease-out duration-200"
+                                     x-transition:enter-start="opacity-0 transform scale-95"
+                                     x-transition:enter-end="opacity-100 transform scale-100"
+                                     class="mt-2 p-2 bg-red-50 border border-red-200 rounded-lg">
+                                    <div class="flex items-center space-x-2">
+                                        <svg class="w-4 h-4 text-red-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                        <p class="text-xs text-red-700 font-medium">
+                                            Cân nặng phải từ 20kg trở lên. Dưới 20kg vui lòng chọn các option có sẵn.
+                                        </p>
+                                    </div>
+                                </div>
+
+
+
+                                <!-- Hiển thị cân nặng đã xác nhận -->
+                                <div x-show="quickBuyCustomWeight && quickBuyCustomWeight >= 20"
+                                     x-transition:enter="transition ease-out duration-200"
+                                     x-transition:enter-start="opacity-0 transform scale-95"
+                                     x-transition:enter-end="opacity-100 transform scale-100"
+                                     class="mt-2 p-2 bg-green-50 border border-green-200 rounded-lg">
+                                    <div class="flex items-center space-x-2">
+                                        <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                        </svg>
+                                        <span class="text-sm font-medium text-green-800">
+                                            Đã xác nhận: <span x-text="quickBuyCustomWeight"></span>kg (+20k)
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
+
+
                         </div>
                     </div>
 
-                    <!-- Helper text cho cân nặng -->
-                    <div x-show="!formErrors.weight" class="text-xs text-gray-500 flex items-start">
-                        <svg class="w-3 h-3 mr-1 text-pink-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    <!-- General error message (not for custom weight validation) -->
+                    <div x-show="formErrors.weight && quickBuyWeight !== '✏️ Nhập cân nặng từ 20kg trở lên (+20k)...'" x-text="formErrors.weight" class="text-red-500 text-xs mt-1 flex items-center error-message">
+                        <svg class="w-3 h-3 mr-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
                         </svg>
-                        Các mẹ chọn đúng cân nặng của bé giúp em nha.
+                    </div>
+
+                    <!-- Helper text cho cân nặng -->
+                    <div x-show="!formErrors.weight" class="text-xs flex items-start">
+                        <!-- Hiển thị thông báo phụ phí khi cân nặng >= 16kg -->
+                        <template x-if="(() => {
+                            // Determine actual weight for calculation
+                            let actualWeight = quickBuyWeight;
+                            if (quickBuyWeight === '✏️ Nhập cân nặng từ 20kg trở lên (+20k)...' && quickBuyCustomWeight) {
+                                actualWeight = quickBuyCustomWeight + 'kg';
+                            }
+                            const priceData = calculateDynamicPrice(quickBuyProduct, actualWeight);
+                            return priceData.hasSurcharge;
+                        })()">
+                            <div class="text-orange-600 flex items-start">
+                                <svg class="w-3 h-3 mr-1 text-orange-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                                </svg>
+                                Cân nặng từ 16kg trở lên sẽ có phụ phí +20k do size lớn hơn
+                            </div>
+                        </template>
+
+                        <!-- Hiển thị thông báo thường khi cân nặng < 16kg -->
+                        <template x-if="(() => {
+                            // Determine actual weight for calculation
+                            let actualWeight = quickBuyWeight;
+                            if (quickBuyWeight === '✏️ Nhập cân nặng từ 20kg trở lên (+20k)...' && quickBuyCustomWeight) {
+                                actualWeight = quickBuyCustomWeight + 'kg';
+                            }
+                            const priceData = calculateDynamicPrice(quickBuyProduct, actualWeight);
+                            return !priceData.hasSurcharge;
+                        })()">
+                            <div class="text-gray-500 flex items-start">
+                                <svg class="w-3 h-3 mr-1 text-pink-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                Các mẹ chọn đúng cân nặng của bé giúp em nha.
+                            </div>
+                        </template>
                     </div>
 
                     <div>
@@ -1772,21 +2007,30 @@
 
                             <!-- Bank Info - Single Column Layout -->
                             <div class="space-y-1.5 text-xs">
-                                <div class="flex justify-between items-center">
+                                <div>
                                     <span class="text-gray-600">Người nhận:</span>
-                                    <span class="font-semibold text-gray-800">LE THI ANH</span>
+                                    <span class="font-semibold text-gray-800 ml-2">LE THI ANH</span>
                                 </div>
-                                <div class="flex justify-between items-center">
+                                <div>
                                     <span class="text-gray-600">Ngân hàng:</span>
-                                    <span class="font-semibold text-blue-700">Techcombank</span>
+                                    <span class="font-semibold text-blue-700 ml-2">Techcombank</span>
                                 </div>
-                                <div class="flex justify-between items-center">
+                                <div class="flex items-center">
                                     <span class="text-gray-600">Số tài khoản:</span>
-                                    <span class="font-mono font-semibold text-gray-800">0968969012</span>
+                                    <span class="font-mono font-semibold text-gray-800 ml-2">0968969012</span>
+                                    <button @click="copyBankAccount()"
+                                            class="group flex items-center justify-center w-5 h-5 rounded hover:bg-blue-100 transition-colors duration-200 ml-1"
+                                            title="Sao chép số tài khoản">
+                                        <svg class="w-3 h-3 text-gray-400 group-hover:text-blue-600 transition-colors duration-200"
+                                             fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                  d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                        </svg>
+                                    </button>
                                 </div>
-                                <div class="flex justify-between items-center">
+                                <div>
                                     <span class="text-gray-600">Nội dung CK:</span>
-                                    <span class="font-mono font-semibold text-green-700" x-text="customer.phone || 'Số điện thoại của bạn'"></span>
+                                    <span class="font-mono font-semibold text-green-700 ml-2" x-text="customer.phone || 'Số điện thoại của bạn'"></span>
                                 </div>
                             </div>
 
@@ -1893,7 +2137,7 @@
                             <span>Đặt hàng • <span x-text="formatCurrency(quickBuyTotal)"></span></span>
                         </span>
                         <span x-show="!isQuickBuySubmitting && !canPlaceQuickBuyOrder" x-transition class="text-center">
-                            <span>Vui lòng xác nhận chuyển khoản</span>
+                            <span>Xác nhận chuyển khoản</span>
                         </span>
                     </button>
                 </div>
@@ -1950,25 +2194,34 @@
                 <!-- Bank Info Reminder -->
                 <div class="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4">
                     <div class="text-xs space-y-1.5">
-                        <div class="flex justify-between">
+                        <div>
                             <span class="text-gray-600">Tên người nhận:</span>
-                            <span class="font-semibold text-gray-800">LE THI ANH</span>
+                            <span class="font-semibold text-gray-800 ml-2">LE THI ANH</span>
                         </div>
-                        <div class="flex justify-between">
+                        <div class="flex items-center">
                             <span class="text-gray-600">Số tài khoản:</span>
-                            <span class="font-mono font-semibold text-gray-800">0968969012</span>
+                            <span class="font-mono font-semibold text-gray-800 ml-2">0968969012</span>
+                            <button @click="copyBankAccount()"
+                                    class="group flex items-center justify-center w-5 h-5 rounded hover:bg-blue-100 transition-colors duration-200 ml-1"
+                                    title="Sao chép số tài khoản">
+                                <svg class="w-3 h-3 text-gray-400 group-hover:text-blue-600 transition-colors duration-200"
+                                     fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                          d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                </svg>
+                            </button>
                         </div>
-                        <div class="flex justify-between">
+                        <div>
                             <span class="text-gray-600">Ngân hàng:</span>
-                            <span class="font-semibold text-blue-700">Techcombank</span>
+                            <span class="font-semibold text-blue-700 ml-2">Techcombank</span>
                         </div>
-                        <div class="flex justify-between">
+                        <div>
                             <span class="text-gray-600">Nội dung CK:</span>
-                            <span class="font-mono font-semibold text-green-700" x-text="customer.phone"></span>
+                            <span class="font-mono font-semibold text-green-700 ml-2" x-text="customer.phone"></span>
                         </div>
-                        <div class="flex justify-between border-t border-blue-200 pt-1.5 mt-2">
+                        <div class="border-t border-blue-200 pt-1.5 mt-2">
                             <span class="text-gray-600">Số tiền:</span>
-                            <span class="font-bold text-blue-700" x-text="formatCurrency(cartTotal())"></span>
+                            <span class="font-bold text-blue-700 ml-2" x-text="formatCurrency(cartTotal())"></span>
                         </div>
                     </div>
                 </div>
@@ -1990,16 +2243,16 @@
 
         <!-- Product Quick View Modal -->
     <div x-show="isQuickViewOpen" @keydown.escape.window="closeQuickView()"
+
          class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-4 z-[9000]"
          style="display: none;"
-
          x-transition:enter="transition ease-out duration-300"
          x-transition:enter-start="opacity-0"
          x-transition:enter-end="opacity-100"
          x-transition:leave="transition ease-in duration-200"
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0">
-        <div @click.outside="closeQuickView()"
+        <div
              class="bg-white rounded-2xl shadow-xl w-full max-w-4xl max-h-[90vh] flex flex-col transform transition-all"
              x-show="isQuickViewOpen"
              x-transition:enter="transition ease-out duration-300"
@@ -2075,55 +2328,200 @@
     </div>
 
 
-    <!-- Item Options Modal -->
-    <div x-show="isItemOptionsModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4" @click.away="closeItemOptionsModal()">
-        <div x-show="isItemOptionsModalOpen" class="bg-white rounded-xl shadow-2xl w-full max-w-md mx-auto" @click.stop x-transition:enter="transition ease-out duration-300"
-             x-transition:enter-start="opacity-0 transform scale-90" x-transition:enter-end="opacity-100 transform scale-100"
-             x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 transform scale-100"
+    <!-- Item Options Modal - Centered with Proper Spacing -->
+    <div x-show="isItemOptionsModalOpen" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4" @click.away="closeItemOptionsModal()">
+        <div x-show="isItemOptionsModalOpen" class="bg-white w-full max-w-sm mx-auto rounded-2xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col" @click.stop
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 transform scale-90"
+             x-transition:enter-end="opacity-100 transform scale-100"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100 transform scale-100"
              x-transition:leave-end="opacity-0 transform scale-90">
 
-            <!-- Header -->
-            <div class="flex items-center justify-between p-4 bg-pink-50 rounded-t-lg">
-                <div class="flex items-center space-x-4">
-                    <img :src="currentItemForOptions?.image" alt="Product Image" class="w-14 h-14 rounded-md object-cover shadow-sm border border-pink-100">
+            <!-- Header - Compact -->
+            <div class="flex items-center justify-between p-4 bg-pink-50 rounded-t-2xl flex-shrink-0">
+                <div class="flex items-center space-x-3">
+                    <img :src="currentItemForOptions?.image" alt="Product Image"
+                         class="w-12 h-12 sm:w-14 sm:h-14 rounded-md object-cover shadow-sm border border-pink-100">
                     <div>
-                        <h3 class="text-lg font-bold text-slate-800" x-text="currentItemForOptions?.name || 'Tùy chỉnh sản phẩm'"></h3>
-                        <p class="text-pink-600 font-bold text-base" x-text="formatCurrency(currentItemForOptions?.price || 0)"></p>
+                        <h3 class="text-sm sm:text-lg font-bold text-slate-800" x-text="currentItemForOptions?.name || 'Tùy chỉnh sản phẩm'"></h3>
+                        <!-- Dynamic Price Display -->
+                        <div class="space-y-1">
+                            <template x-if="!itemOptions.selectedWeight || itemOptions.selectedWeight === 'Chưa sinh'">
+                                <p class="text-pink-600 font-bold text-sm sm:text-base" x-text="formatCurrency(currentItemForOptions?.price || 0)"></p>
+                            </template>
+                            <template x-if="itemOptions.selectedWeight && itemOptions.selectedWeight !== 'Chưa sinh'">
+                                <div>
+                                    <template x-if="(() => {
+                                        const weight = itemOptions.selectedWeight === 'custom' ? itemOptions.customWeight + 'kg' : itemOptions.selectedWeight;
+                                        const priceData = calculateDynamicPrice(currentItemForOptions, weight);
+                                        return !priceData.hasSurcharge;
+                                    })()">
+                                        <p class="text-pink-600 font-bold text-sm sm:text-base" x-text="(() => {
+                                            const weight = itemOptions.selectedWeight === 'custom' ? itemOptions.customWeight + 'kg' : itemOptions.selectedWeight;
+                                            const priceData = calculateDynamicPrice(currentItemForOptions, weight);
+                                            return formatCurrency(priceData.finalPrice);
+                                        })()"></p>
+                                    </template>
+                                    <template x-if="(() => {
+                                        const weight = itemOptions.selectedWeight === 'custom' ? itemOptions.customWeight + 'kg' : itemOptions.selectedWeight;
+                                        const priceData = calculateDynamicPrice(currentItemForOptions, weight);
+                                        return priceData.hasSurcharge;
+                                    })()">
+                                        <div>
+                                            <p class="text-pink-600 font-bold text-sm sm:text-base" x-text="(() => {
+                                                const weight = itemOptions.selectedWeight === 'custom' ? itemOptions.customWeight + 'kg' : itemOptions.selectedWeight;
+                                                const priceData = calculateDynamicPrice(currentItemForOptions, weight);
+                                                return formatCurrency(priceData.finalPrice);
+                                            })()"></p>
+                                            <p class="text-xs text-gray-600" x-text="(() => {
+                                                const weight = itemOptions.selectedWeight === 'custom' ? itemOptions.customWeight + 'kg' : itemOptions.selectedWeight;
+                                                const priceData = calculateDynamicPrice(currentItemForOptions, weight);
+                                                return formatCurrency(currentItemForOptions?.price) + ' + ' + formatCurrency(priceData.surcharge) + ' (size lớn)';
+                                            })()"></p>
+                                        </div>
+                                    </template>
+                                </div>
+                            </template>
+                        </div>
                     </div>
                 </div>
-                <button @click="closeItemOptionsModal()" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center self-start">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                <button @click="closeItemOptionsModal()"
+                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center self-start">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                    </svg>
                 </button>
             </div>
 
-            <!-- Body -->
-            <div class="p-6 space-y-6">
-                <!-- Quantity Selector -->
-                <div>
-                    <label class="block mb-2 text-sm font-medium text-gray-900">Số lượng</label>
-                    <div class="flex items-center">
-                        <button @click="itemOptions.quantity = Math.max(1, itemOptions.quantity - 1)" class="h-11 w-11 flex items-center justify-center text-xl bg-gray-100 rounded-l-lg hover:bg-gray-200 focus:outline-none">-</button>
-                        <input type="text" x-model.number="itemOptions.quantity" class="w-16 h-11 text-center border-t border-b border-gray-200 focus:outline-none">
-                        <button @click="itemOptions.quantity++" class="h-11 w-11 flex items-center justify-center text-xl bg-gray-100 rounded-r-lg hover:bg-gray-200 focus:outline-none">+</button>
+            <!-- Weight Selection Section - Scrollable Content -->
+            <div class="flex-1 overflow-y-auto p-4 sm:p-6">
+                <!-- Section Title -->
+                <div class="text-center mb-4 sm:mb-6">
+                    <h4 class="text-sm sm:text-base font-semibold text-gray-800 mb-1 sm:mb-2">Chọn cân nặng của bé</h4>
+                    <p class="text-xs sm:text-sm text-gray-600">Để shop làm vòng vừa vặn nhất cho con yêu</p>
+                </div>
+
+                <!-- Weight Options Grid -->
+                <div class="space-y-3 mb-4 sm:mb-6">
+                    <!-- Special option - Chưa sinh (at top) -->
+                    <button @click="itemOptions.selectedWeight = 'Chưa sinh'"
+                            :class="itemOptions.selectedWeight === 'Chưa sinh' ? 'bg-pink-500 text-white border-pink-500' : 'bg-white text-gray-700 border-gray-200 hover:border-pink-300 active:bg-pink-50'"
+                            class="w-full py-2.5 sm:py-3 px-3 sm:px-4 text-xs sm:text-sm font-medium border-2 rounded-lg transition-all duration-200 hover:shadow-md flex items-center justify-center space-x-2 touch-manipulation">
+                        <span>🤱</span>
+                        <span>Chưa sinh</span>
+                    </button>
+
+                    <!-- Quick Preset Weights - 3kg to 15kg, 5 buttons per row -->
+                    <div class="bg-gradient-to-r from-pink-50 to-purple-50 p-3 rounded-lg border border-pink-100">
+                        <p class="text-xs text-gray-600 mb-2 text-center font-medium">⚡ Chọn nhanh cân nặng (3kg - 15kg)</p>
+                        <div class="grid grid-cols-5 gap-1.5">
+                            <template x-for="weight in ['3kg', '4kg', '5kg', '6kg', '7kg', '8kg', '9kg', '10kg', '11kg', '12kg', '13kg', '14kg', '15kg']" :key="'preset-' + weight">
+                                <button @click="itemOptions.selectedWeight = weight"
+                                        :class="itemOptions.selectedWeight === weight ? 'bg-pink-500 text-white border-pink-500 shadow-md' : 'bg-white text-gray-700 border-gray-200 hover:border-pink-300 active:bg-pink-50'"
+                                        class="py-2 px-1 text-xs font-bold border-2 rounded-md transition-all duration-200 hover:shadow-sm touch-manipulation">
+                                    <span x-text="weight"></span>
+                                </button>
+                            </template>
+                        </div>
+                    </div>
+
+
+
+                    <!-- Custom weight option -->
+                    <button @click="itemOptions.selectedWeight = 'custom'"
+                            :class="itemOptions.selectedWeight === 'custom' ? 'bg-pink-500 text-white border-pink-500' : 'bg-white text-gray-700 border-gray-200 hover:border-pink-300 active:bg-pink-50'"
+                            class="w-full py-2.5 sm:py-3 px-3 sm:px-4 text-xs sm:text-sm font-medium border-2 rounded-lg transition-all duration-200 hover:shadow-md flex items-center justify-center space-x-2 touch-manipulation">
+                        <span>✏️</span>
+                        <span>Nhập cân nặng khác (từ 16kg trở lên)</span>
+                    </button>
+
+                    <!-- Custom weight input -->
+                    <div x-show="itemOptions.selectedWeight === 'custom'"
+                         x-transition:enter="transition ease-out duration-200"
+                         x-transition:enter-start="opacity-0 transform scale-95"
+                         x-transition:enter-end="opacity-100 transform scale-100"
+                         class="mt-3">
+                        <div class="flex items-center space-x-2">
+                            <input type="number"
+                                   x-model="itemOptions.customWeight"
+                                   placeholder="VD: 16, 17, 18, 20..."
+                                   min="16" max="30" step="0.1"
+                                   :class="itemOptions.customWeight && itemOptions.customWeight < 16 ? 'border-red-500 focus:ring-red-300 focus:border-red-500' : 'border-gray-300 focus:ring-pink-300 focus:border-transparent'"
+                                   class="flex-1 px-3 py-2.5 text-sm border rounded-lg focus:ring-2">
+                            <span class="text-sm text-gray-600 font-medium">kg</span>
+                        </div>
+
+                        <!-- Error message for weight < 16kg -->
+                        <div x-show="itemOptions.customWeight && itemOptions.customWeight < 16"
+                             x-transition:enter="transition ease-out duration-200"
+                             x-transition:enter-start="opacity-0 transform scale-95"
+                             x-transition:enter-end="opacity-100 transform scale-100"
+                             class="mt-2 p-2 bg-red-50 border border-red-200 rounded-lg">
+                            <div class="flex items-center space-x-2">
+                                <svg class="w-4 h-4 text-red-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                <p class="text-xs text-red-700 font-medium">
+                                    Cân nặng phải từ 16kg trở lên, từ 3kg-15kg vui lòng chọn ở phía trên.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Success message for valid weight -->
+                        <div x-show="itemOptions.customWeight && itemOptions.customWeight >= 16"
+                             x-transition:enter="transition ease-out duration-200"
+                             x-transition:enter-start="opacity-0 transform scale-95"
+                             x-transition:enter-end="opacity-100 transform scale-100"
+                             class="mt-2 p-2 bg-green-50 border border-green-200 rounded-lg">
+                            <div class="flex items-center space-x-2">
+                                <svg class="w-4 h-4 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                                <p class="text-xs text-green-700 font-medium">
+                                    Cân nặng hợp lệ: <span x-text="itemOptions.customWeight"></span>kg
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- General help text -->
+                        <p x-show="!itemOptions.customWeight || itemOptions.customWeight >= 16" class="text-xs text-gray-500 mt-2">💡 Chỉ nhập từ 16kg trở lên (3kg-15kg đã có preset)</p>
+                    </div>
+
+                    <!-- Pricing Info Message -->
+                    <div x-show="(() => {
+                        const weight = itemOptions.selectedWeight === 'custom' ? itemOptions.customWeight + 'kg' : itemOptions.selectedWeight;
+                        const priceData = calculateDynamicPrice(currentItemForOptions, weight);
+                        return priceData.hasSurcharge;
+                    })()" class="bg-orange-50 border border-orange-200 rounded-lg p-3 mt-3">
+                        <div class="flex items-start space-x-2">
+                            <div class="text-orange-500 mt-0.5">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-xs font-medium text-orange-800">Thông tin giá</p>
+                                <p class="text-xs text-orange-700">Cân nặng từ 16kg trở lên sẽ có phụ phí +20k do size lớn hơn</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Note/Weight Input -->
-                <div>
-                    <label for="itemNote" class="block mb-2 text-sm font-medium text-gray-900">Cân nặng của bé và ghi chú</label>
-                    <textarea id="itemNote" x-model="itemOptions.note" rows="3" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-2 focus:ring-pink-300 focus:border-transparent focus:outline-none block w-full p-2.5" placeholder="Ví dụ: Bé 15kg, làm cẩn thận tỉ mỉ và giao hàng giờ hành chính..."></textarea>
-                    <p class="mt-2 text-xs text-gray-500 flex items-start">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1.5 text-blue-400 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
-                        </svg>
-                        <span class="text-green-600 font-medium text-xs">Lưu ý càng đầy đủ chi tiết thì em sẽ làm vòng càng vừa vặn hơn ạ.</span>
-                    </p>
-                </div>
+
             </div>
 
-            <!-- Footer -->
-            <div class="flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b">
-                <button @click="addItemWithOptions()" class="w-full text-white bg-pink-600 hover:bg-pink-700 focus:ring-4 focus:outline-none focus:ring-pink-300 font-bold rounded-lg text-base px-5 py-3 text-center">Thêm vào giỏ</button>
+            <!-- Footer - Fixed Bottom -->
+            <div class="flex-shrink-0 p-4 sm:p-6 bg-white rounded-b-2xl">
+                <button @click="addItemWithOptions()"
+                        :disabled="!itemOptions.selectedWeight || (itemOptions.selectedWeight === 'custom' && (!itemOptions.customWeight || itemOptions.customWeight < 16))"
+                        :class="(!itemOptions.selectedWeight || (itemOptions.selectedWeight === 'custom' && (!itemOptions.customWeight || itemOptions.customWeight < 16))) ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-gradient-to-r from-pink-500 to-purple-500 text-white hover:from-pink-600 hover:to-purple-600 active:from-pink-600 active:to-purple-600'"
+                        class="w-full py-3 sm:py-3.5 px-4 sm:px-6 font-bold text-sm sm:text-base rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl active:scale-[0.98] sm:hover:scale-[1.02] flex items-center justify-center space-x-2 touch-manipulation">
+                    <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17M17 13a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                    </svg>
+                    <span>Thêm vào giỏ hàng</span>
+                </button>
             </div>
         </div>
     </div>
@@ -2509,21 +2907,30 @@
 
                             <!-- Bank Info - Single Column Layout -->
                             <div class="space-y-1.5 text-xs">
-                                <div class="flex justify-between items-center">
+                                <div>
                                     <span class="text-gray-600">Người nhận:</span>
-                                    <span class="font-semibold text-gray-800">LE THI ANH</span>
+                                    <span class="font-semibold text-gray-800 ml-2">LE THI ANH</span>
                                 </div>
-                                <div class="flex justify-between items-center">
+                                <div>
                                     <span class="text-gray-600">Ngân hàng:</span>
-                                    <span class="font-semibold text-blue-700">Techcombank</span>
+                                    <span class="font-semibold text-blue-700 ml-2">Techcombank</span>
                                 </div>
-                                <div class="flex justify-between items-center">
+                                <div class="flex items-center">
                                     <span class="text-gray-600">Số tài khoản:</span>
-                                    <span class="font-mono font-semibold text-gray-800">0968969012</span>
+                                    <span class="font-mono font-semibold text-gray-800 ml-2">0968969012</span>
+                                    <button @click="copyBankAccount()"
+                                            class="group flex items-center justify-center w-5 h-5 rounded hover:bg-blue-100 transition-colors duration-200 ml-1"
+                                            title="Sao chép số tài khoản">
+                                        <svg class="w-3 h-3 text-gray-400 group-hover:text-blue-600 transition-colors duration-200"
+                                             fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                  d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                        </svg>
+                                    </button>
                                 </div>
-                                <div class="flex justify-between items-center">
+                                <div>
                                     <span class="text-gray-600">Nội dung CK:</span>
-                                    <span class="font-mono font-semibold text-green-700" x-text="customer.phone || 'Số điện thoại của bạn'"></span>
+                                    <span class="font-mono font-semibold text-green-700 ml-2" x-text="customer.phone || 'Số điện thoại của bạn'"></span>
                                 </div>
                             </div>
 
@@ -2589,16 +2996,30 @@
                             </div>
 
                             <template x-if="shippingDiscount > 0">
-                                <div class="flex justify-between text-sm text-green-600">
-                                    <span>Freeship:</span>
-                                    <span class="font-medium" x-text="'-' + formatCurrency(shippingDiscount)"></span>
+                                <div class="flex justify-between text-sm text-green-600 font-medium">
+                                    <span>Miễn phí ship</span>
+                                    <span x-text="'-' + formatCurrency(shippingDiscount)"></span>
                                 </div>
                             </template>
 
                             <template x-if="discountAmount > 0">
-                                <div class="flex justify-between text-sm text-green-600">
-                                    <span>Giảm giá:</span>
-                                    <span class="font-medium" x-text="'-' + formatCurrency(discountAmount)"></span>
+                                <div class="flex justify-between text-sm text-green-600 font-medium">
+                                    <span>Mã giảm giá</span>
+                                    <span x-text="'-' + formatCurrency(discountAmount)"></span>
+                                </div>
+                            </template>
+
+                            <template x-if="addonDiscount > 0">
+                                <div class="flex justify-between text-sm text-green-600 font-medium">
+                                    <span>Ưu đãi combo</span>
+                                    <span x-text="'-' + formatCurrency(addonDiscount)"></span>
+                                </div>
+                            </template>
+
+                            <template x-if="tuiDauTamBonusDiscount > 0">
+                                <div class="flex justify-between text-sm text-green-600 font-medium">
+                                    <span>Ưu đãi đặc biệt</span>
+                                    <span x-text="'-' + formatCurrency(tuiDauTamBonusDiscount)"></span>
                                 </div>
                             </template>
 
@@ -2627,7 +3048,7 @@
                                 'bg-gray-400 cursor-not-allowed'"
                             class="flex-1 px-4 py-3 text-white font-bold rounded-lg transition-all text-sm">
                         <span x-show="canPlaceOrder">Đặt hàng - <span x-text="formatCurrency(cartTotal())"></span></span>
-                        <span x-show="!canPlaceOrder">Vui lòng xác nhận chuyển khoản</span>
+                        <span x-show="!canPlaceOrder">Xác nhận chuyển khoản</span>
                     </button>
                 </div>
             </div>
