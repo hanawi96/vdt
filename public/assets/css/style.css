@@ -178,12 +178,23 @@ html {
   border: 1px solid #d1d5db;
   border-radius: 6px;
   transition: all 0.2s ease;
+  text-align: center;
+  font-weight: 500;
 }
 
 .custom-weight-input[type="number"]:focus {
   border-color: #ec4899;
   box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1);
   outline: none;
+}
+
+/* Decimal number input enhancements */
+.custom-weight-input[type="number"]:valid {
+  border-color: #10b981;
+}
+
+.custom-weight-input[type="number"]:invalid {
+  border-color: #ef4444;
 }
 
 .social-activity-dot {

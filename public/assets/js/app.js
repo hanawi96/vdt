@@ -898,8 +898,20 @@ document.addEventListener('alpine:init', () => {
         let finalWeight = weight;
         if (item.selectedWeight === 'custom' && weight) {
           // If custom is selected and we have a weight value
-          finalWeight = weight;
-          item.customWeight = this.parseWeight(weight); // Store the number value
+          const numericWeight = this.parseWeight(weight);
+
+          // Validate range (0.5kg to 50kg)
+          if (numericWeight < 0.5) {
+            this.showAlert('Cân nặng tối thiểu là 0.5kg', 'warning');
+            return;
+          }
+          if (numericWeight > 50) {
+            this.showAlert('Cân nặng tối đa là 50kg', 'warning');
+            return;
+          }
+
+          finalWeight = `${numericWeight}kg`;
+          item.customWeight = numericWeight; // Store the number value
         }
 
         // Update the weight field
@@ -963,14 +975,20 @@ document.addEventListener('alpine:init', () => {
 
       // Handle both string and number inputs
       if (typeof weightString === 'number') {
-        return weightString;
+        // Round to 1 decimal place for consistency
+        return Math.round(weightString * 10) / 10;
       }
 
       if (typeof weightString === 'string') {
         // Remove 'kg' and parse to float
         const cleanWeight = weightString.replace(/kg/gi, '').trim();
         const weight = parseFloat(cleanWeight);
-        return isNaN(weight) ? 0 : weight;
+
+        if (isNaN(weight)) return 0;
+
+        // Round to 1 decimal place and ensure positive
+        const roundedWeight = Math.round(weight * 10) / 10;
+        return roundedWeight > 0 ? roundedWeight : 0;
       }
 
       return 0;
