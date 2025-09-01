@@ -894,14 +894,24 @@ document.addEventListener('alpine:init', () => {
           return;
         }
 
+        // Handle custom weight input (when it comes from number input)
+        let finalWeight = weight;
+        if (item.selectedWeight === 'custom' && weight) {
+          // If custom is selected and we have a weight value
+          finalWeight = weight;
+          item.customWeight = this.parseWeight(weight); // Store the number value
+        }
+
         // Update the weight field
-        item.weight = weight;
-        item.selectedWeight = weight;
+        item.weight = finalWeight;
+        if (item.selectedWeight !== 'custom') {
+          item.selectedWeight = weight;
+        }
 
         // Calculate and update dynamic price
         const product = this.products.find(p => p.id === item.id);
         if (product) {
-          const priceData = this.calculateDynamicPrice(product, weight);
+          const priceData = this.calculateDynamicPrice(product, finalWeight);
           item.basePrice = product.price;
           item.finalPrice = priceData.finalPrice;
           item.surcharge = priceData.surcharge;
@@ -949,13 +959,21 @@ document.addEventListener('alpine:init', () => {
     },
 
     parseWeight(weightString) {
-      if (!weightString || typeof weightString !== 'string') return 0;
+      if (!weightString) return 0;
 
-      // Remove 'kg' and parse to float
-      const cleanWeight = weightString.replace(/kg/gi, '').trim();
-      const weight = parseFloat(cleanWeight);
+      // Handle both string and number inputs
+      if (typeof weightString === 'number') {
+        return weightString;
+      }
 
-      return isNaN(weight) ? 0 : weight;
+      if (typeof weightString === 'string') {
+        // Remove 'kg' and parse to float
+        const cleanWeight = weightString.replace(/kg/gi, '').trim();
+        const weight = parseFloat(cleanWeight);
+        return isNaN(weight) ? 0 : weight;
+      }
+
+      return 0;
     },
 
     formatPriceWithSurcharge(product, weight) {

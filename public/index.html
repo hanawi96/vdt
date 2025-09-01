@@ -1247,17 +1247,24 @@
                                             </select>
                                         </div>
 
-                                        <!-- Custom Weight Input -->
+                                        <!-- Custom Weight Input - Numbers Only -->
                                         <div x-show="item.selectedWeight === 'custom'"
                                              x-transition:enter="transition ease-out duration-200"
                                              x-transition:enter-start="opacity-0 transform scale-95"
                                              x-transition:enter-end="opacity-100 transform scale-100"
                                              class="mb-2">
-                                            <input type="text"
-                                                   x-model="item.customWeight"
-                                                   @input="updateItemWeight(item.id, $event.target.value)"
-                                                   placeholder="VD: 3.5kg, 4.2kg..."
-                                                   class="custom-weight-input block w-full text-xs h-6 px-2 placeholder-gray-500 rounded-md">
+                                            <div class="flex items-center space-x-2">
+                                                <input type="number"
+                                                       x-model="item.customWeight"
+                                                       @input="updateItemWeight(item.id, $event.target.value + 'kg')"
+                                                       placeholder="VD: 3.5, 4.2, 13..."
+                                                       min="1"
+                                                       max="30"
+                                                       step="0.1"
+                                                       class="custom-weight-input flex-1 text-xs h-6 px-2 placeholder-gray-500 rounded-md border border-gray-300 focus:border-pink-400 focus:ring-1 focus:ring-pink-200">
+                                                <span class="text-xs text-gray-600 font-medium">kg</span>
+                                            </div>
+                                            <p class="text-xs text-gray-500 mt-1">💡 Chỉ nhập số (VD: 3.5, 13, 15.2)</p>
                                         </div>
 
                                         <!-- Notes Input -->

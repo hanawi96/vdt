@@ -161,6 +161,31 @@ html {
   border-style: solid;
 }
 
+/* Number input styling - remove spinner arrows */
+.custom-weight-input[type="number"] {
+  -moz-appearance: textfield; /* Firefox */
+}
+
+.custom-weight-input[type="number"]::-webkit-outer-spin-button,
+.custom-weight-input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Custom number input styling */
+.custom-weight-input[type="number"] {
+  background: white;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.custom-weight-input[type="number"]:focus {
+  border-color: #ec4899;
+  box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1);
+  outline: none;
+}
+
 .social-activity-dot {
   animation: social-activity-pulse 2s ease-in-out infinite !important;
   /* Override Tailwind classes */
