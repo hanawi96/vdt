@@ -125,9 +125,9 @@ document.addEventListener('alpine:init', () => {
     isDiscountModalFromQuickBuy: false, // Flag để biết modal discount được mở từ đâu
     preventQuickBuyCloseOnEscape: false, // Flag để ngăn đóng Quick Buy khi có modal con
 
-    // Weight options từ 3kg đến 12kg (tăng 0.5kg)
+    // Weight options từ 3kg đến 12kg (tăng 0.5kg) + option "Chưa sinh"
     get weightOptions() {
-      const options = [];
+      const options = ['🤱 Chưa sinh (dự trữ)'];
       for (let weight = 3; weight <= 12; weight += 0.5) {
         options.push(`${weight}kg`);
       }
@@ -699,7 +699,15 @@ document.addEventListener('alpine:init', () => {
       const { id } = this.currentItemForOptions;
       const { quantity, note } = this.itemOptions;
       const cartId = `${id}-${Date.now()}`;
-      this.addToCart({ ...this.currentItemForOptions, cartId: cartId, quantity: quantity, weight: note.trim() });
+      this.addToCart({
+        ...this.currentItemForOptions,
+        cartId: cartId,
+        quantity: quantity,
+        weight: note.trim(),
+        selectedWeight: '',
+        customWeight: '',
+        notes: ''
+      });
       this.closeItemOptionsModal();
     },
 
@@ -717,7 +725,15 @@ document.addEventListener('alpine:init', () => {
           existingItem.quantity++;
         } else {
           const cartId = `${product.id}-${Date.now()}`;
-          const newItem = { ...product, cartId: cartId, quantity: 1, weight: '' };
+          const newItem = {
+            ...product,
+            cartId: cartId,
+            quantity: 1,
+            weight: '',
+            selectedWeight: '',
+            customWeight: '',
+            notes: ''
+          };
           this.cart.push(newItem);
           this.selectedCartItems.push(cartId);
         }
@@ -837,6 +853,25 @@ document.addEventListener('alpine:init', () => {
       const item = this.cart.find(i => i.id === productId);
       if (item && item.quantity > 1) { item.quantity--; this.revalidateAppliedDiscount(); }
       else if (item) { this.removeFromCart(productId); }
+    },
+
+    updateItemWeight(productId, weight) {
+      const item = this.cart.find(i => i.id === productId);
+      if (item) {
+        if (weight === 'custom') {
+          // When "Khác..." is selected, don't update weight yet
+          // Weight will be updated when user types in custom input
+          return;
+        }
+
+        // Update the weight field
+        item.weight = weight;
+
+        // Also update selectedWeight for UI consistency
+        if (!item.selectedWeight) {
+          item.selectedWeight = weight;
+        }
+      }
     },
     buyNow(product) {
       // Mua ngay - bỏ qua giỏ hàng hoàn toàn
