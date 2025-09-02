@@ -1291,7 +1291,7 @@ document.addEventListener('alpine:init', () => {
       this.$nextTick(() => {
         setTimeout(() => {
           // Priority order for error fields (most important first)
-          const errorPriority = ['name', 'phone', 'streetAddress', 'weight', 'quickBuyPaymentMethod'];
+          const errorPriority = ['name', 'phone', 'province', 'district', 'ward', 'streetAddress', 'weight', 'paymentMethod'];
 
           for (const fieldName of errorPriority) {
             if (this.formErrors[fieldName]) {
@@ -1305,30 +1305,45 @@ document.addEventListener('alpine:init', () => {
                 case 'phone':
                   selector = 'input[x-model="customer.phone"]';
                   break;
+                case 'province':
+                  selector = 'select[x-model="selectedProvince"]';
+                  break;
+                case 'district':
+                  selector = 'select[x-model="selectedDistrict"]';
+                  break;
+                case 'ward':
+                  selector = 'select[x-model="selectedWard"]';
+                  break;
                 case 'streetAddress':
-                  selector = 'input[x-model="customer.address"]';
+                  selector = 'input[x-model="streetAddress"]';
                   break;
                 case 'weight':
                   selector = 'select[x-model="quickBuyWeight"]';
                   break;
-                case 'quickBuyPaymentMethod':
+                case 'paymentMethod':
                   selector = '[x-model="quickBuyPaymentMethod"]';
                   break;
               }
 
               const element = document.querySelector(selector);
+              console.log(`🔍 Scroll Debug - Field: ${fieldName}, Selector: ${selector}, Element found:`, !!element);
+
               if (element) {
                 // Find the modal scroll container
                 const modalContent = element.closest('.modal-scroll');
+                console.log('🔍 Modal scroll container found:', !!modalContent);
+
                 if (modalContent) {
                   // Calculate offset position within modal
                   const elementTop = element.offsetTop - modalContent.offsetTop;
+                  console.log(`🔍 Scrolling to elementTop: ${elementTop}, adjusted: ${Math.max(0, elementTop - 100)}`);
                   modalContent.scrollTo({
                     top: Math.max(0, elementTop - 100), // 100px offset from top
                     behavior: 'smooth'
                   });
                 } else {
                   // Fallback: scroll element into view
+                  console.log('🔍 Using fallback scrollIntoView');
                   element.scrollIntoView({
                     behavior: 'smooth',
                     block: 'center'
