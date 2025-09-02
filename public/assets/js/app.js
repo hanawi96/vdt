@@ -137,7 +137,7 @@ document.addEventListener('alpine:init', () => {
         options.push(`${weight}kg (+20k)`);
       }
       // Thêm option cho cân nặng từ 20kg trở lên
-      options.push('✏️ Nhập cân nặng từ 20kg trở lên (+20k)...');
+      options.push('✏️ Nhập cân nặng > 20kg');
       return options;
     },
 
@@ -157,13 +157,31 @@ document.addEventListener('alpine:init', () => {
 
       // Determine actual weight for calculation
       let actualWeight = this.quickBuyWeight;
-      if (this.quickBuyWeight === '✏️ Nhập cân nặng từ 20kg trở lên (+20k)...' && this.quickBuyCustomWeight) {
+      if (this.quickBuyWeight === '✏️ Nhập cân nặng > 20kg' && this.quickBuyCustomWeight) {
         actualWeight = this.quickBuyCustomWeight + 'kg';
       }
 
       // Calculate dynamic price based on selected weight
       const priceData = this.calculateDynamicPrice(this.quickBuyProduct, actualWeight);
-      return priceData.finalPrice * this.quickBuyQuantity;
+      const mainProductTotal = priceData.finalPrice * this.quickBuyQuantity;
+
+      // Add addon products from cart
+      const addonTotal = this.cart
+        .filter(item => this.addonProducts.some(addon => addon.id === item.id))
+        .reduce((total, item) => total + (item.price * item.quantity), 0);
+
+      return mainProductTotal + addonTotal;
+    },
+
+    // Get addon products in cart for Quick Buy
+    get quickBuyAddons() {
+      return this.cart.filter(item => this.addonProducts.some(addon => addon.id === item.id));
+    },
+
+    // Check if has addon discount for Quick Buy
+    get quickBuyAddonDiscount() {
+      const hasKeychain = this.cart.some(item => item.id === 'addon_moc_chia_khoa');
+      return hasKeychain ? 5000 : 0;
     },
 
     get quickBuyAvailableDiscounts() {
@@ -200,9 +218,13 @@ document.addEventListener('alpine:init', () => {
 
     // Quick Buy shipping logic - riêng biệt với cart
     get quickBuyFreeShipping() {
-      // Chỉ freeship khi có mã type=shipping được áp dụng
-      const d = this.availableDiscounts.find(d => d.code?.toUpperCase() === this.appliedDiscountCode);
-      return !!(d && d.type === 'shipping');
+      // Freeship từ mã giảm giá
+      const discountFreeship = this.availableDiscounts.find(d => d.code?.toUpperCase() === this.appliedDiscountCode && d.type === 'shipping');
+
+      // Freeship từ addon túi dâu tằm
+      const addonFreeship = this.cart.some(item => item.id === 'addon_tui_dau_tam');
+
+      return !!(discountFreeship || addonFreeship);
     },
 
     get quickBuyShippingFee() {
@@ -218,13 +240,20 @@ document.addEventListener('alpine:init', () => {
       const shipping = this.SHIPPING_FEE; // Luôn cộng phí ship đầy đủ
       const shippingDiscount = this.quickBuyShippingDiscount; // Rồi trừ freeship nếu có
       const discount = this.discountAmount;
-      const total = subtotal + shipping - shippingDiscount - discount;
+      const addonDiscount = this.quickBuyAddonDiscount; // Giảm giá từ addon
+      const total = subtotal + shipping - shippingDiscount - discount - addonDiscount;
       return total > 0 ? total : 0;
     },
 
     /* ========= FAQ ========= */
     faqItems: [],
     openFaqIndex: null,
+    faqAnimating: false,
+
+    /* ========= PRODUCT DETAIL MODAL ========= */
+    isProductDetailOpen: false,
+    currentProductDetail: null,
+    productDetailQuantity: 1,
 
     /* ========= QUICK VIEW ========= */
     isQuickViewOpen: false,
@@ -910,7 +939,15 @@ document.addEventListener('alpine:init', () => {
         this.selectedCartItems.push(addon.id);
       }
       this.triggerCartAnimation();
-      this.showAlert(`Đã thêm ${addon.name} vào giỏ hàng! 🚚 Bạn được miễn phí ship!`, 'success');
+
+      // Thông báo khác nhau tùy theo addon
+      if (addon.id === 'addon_tui_dau_tam') {
+        this.showAlert(`Đã thêm ${addon.name}! 🚚 Bạn được miễn phí ship!`, 'success');
+      } else if (addon.id === 'addon_moc_chia_khoa') {
+        this.showAlert(`Đã thêm ${addon.name}! 💰 Giảm 5K đơn hàng!`, 'success');
+      } else {
+        this.showAlert(`Đã thêm ${addon.name} vào giỏ hàng!`, 'success');
+      }
     },
     isAddonInCart(addonId) { return this.cart.some(i => i.id === addonId); },
     isFreeshippingFromDiscount() {
@@ -1333,7 +1370,7 @@ document.addEventListener('alpine:init', () => {
         if (!this.quickBuyWeight.trim()) {
           this.formErrors.weight = 'Vui lòng chọn cân nặng của bé';
           isValid = false;
-        } else if (this.quickBuyWeight === '✏️ Nhập cân nặng từ 20kg trở lên (+20k)...' && (!this.quickBuyCustomWeight || this.quickBuyCustomWeight < 20)) {
+        } else if (this.quickBuyWeight === '✏️ Nhập cân nặng > 20kg' && (!this.quickBuyCustomWeight || this.quickBuyCustomWeight < 20)) {
           this.formErrors.weight = 'Vui lòng nhập cân nặng cụ thể từ 20kg trở lên';
           isValid = false;
         } else if (this.quickBuyWeight.includes('kg') && this.parseWeight(this.quickBuyWeight) >= 20 && this.parseWeight(this.quickBuyWeight) < 20) {
@@ -1371,6 +1408,26 @@ document.addEventListener('alpine:init', () => {
           cartId: `quickbuy-${Date.now()}`
         };
 
+        // Thêm addon products vào đơn hàng
+        const cartItems = [{
+          name: orderItem.name,
+          price: this.formatCurrency(orderItem.price),
+          quantity: orderItem.quantity,
+          weight: orderItem.weight,
+          notes: orderItem.notes || ''
+        }];
+
+        // Thêm addon products từ cart
+        this.quickBuyAddons.forEach(addon => {
+          cartItems.push({
+            name: addon.name,
+            price: this.formatCurrency(addon.price),
+            quantity: addon.quantity,
+            weight: '',
+            notes: 'Sản phẩm bán kèm'
+          });
+        });
+
         const subtotal = this.quickBuySubtotal;
         const shippingFee = this.quickBuyShippingFee; // Phí ship thực tế sau khi trừ freeship
         const total = this.quickBuyTotal;
@@ -1381,13 +1438,7 @@ document.addEventListener('alpine:init', () => {
 
         const orderDetails = {
           orderId: newOrderId,
-          cart: [{
-            name: orderItem.name,
-            price: this.formatCurrency(orderItem.price),
-            quantity: orderItem.quantity,
-            weight: orderItem.weight,
-            notes: orderItem.notes || ''
-          }],
+          cart: cartItems,
           telegramNotification: 'VDT_SECRET_2025_ANHIEN', // Secret key cho Telegram
           customer: {
             name: this.customer.name,
@@ -2006,11 +2057,39 @@ document.addEventListener('alpine:init', () => {
       }, 1000);
     },
 
+    /* ========= PRODUCT DETAIL MODAL ========= */
+    openProductDetail(product) {
+      this.currentProductDetail = product;
+      this.productDetailQuantity = 1;
+      this.isProductDetailOpen = true;
+      document.body.style.overflow = 'hidden';
+    },
+    closeProductDetail() {
+      this.isProductDetailOpen = false;
+      document.body.style.overflow = 'auto';
+      setTimeout(() => {
+        this.currentProductDetail = null;
+        this.productDetailQuantity = 1;
+      }, 300);
+    },
+    addProductDetailToCart() {
+      if (this.currentProductDetail) {
+        this.addToCart(this.currentProductDetail);
+        this.closeProductDetail();
+        this.showAlert('Đã thêm sản phẩm vào giỏ hàng!', 'success');
+      }
+    },
+    buyProductDetailNow() {
+      if (this.currentProductDetail) {
+        this.closeProductDetail();
+        this.buyNow(this.currentProductDetail);
+      }
+    },
+
     /* ========= QUICK VIEW ========= */
     openQuickView(product) {
-      this.quickViewProduct = product;
-      this.isQuickViewOpen = true;
-      document.body.style.overflow = 'hidden';
+      // Redirect to new product detail modal
+      this.openProductDetail(product);
     },
     closeQuickView() {
       this.isQuickViewOpen = false;
@@ -2028,7 +2107,16 @@ document.addEventListener('alpine:init', () => {
       document.body.style.overflow = 'auto';
     },
     toggleFaq(index) {
+      // Prevent rapid clicking during animation
+      if (this.faqAnimating) return;
+
+      this.faqAnimating = true;
       this.openFaqIndex = this.openFaqIndex === index ? null : index;
+
+      // Reset animation flag after transition completes
+      setTimeout(() => {
+        this.faqAnimating = false;
+      }, 300);
     },
 
     // Quick Buy revalidation - kiểm tra mã giảm giá khi thay đổi số lượng trong Quick Buy

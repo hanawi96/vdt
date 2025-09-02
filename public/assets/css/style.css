@@ -267,25 +267,41 @@ html {
   padding: 0 0.25rem;
 }
 
-/* Mobile optimizations */
+/* Mobile optimizations with safe area support */
 @media (max-width: 640px) {
   .modal-content {
     margin: 0.5rem;
     max-height: calc(100vh - 1rem);
   }
-  
+
   .form-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .btn-group {
     flex-direction: column;
   }
-  
+
   .btn-group button {
     width: 100%;
     margin: 0.25rem 0;
   }
+
+  /* Safe area support for iOS */
+  .pt-safe-top {
+    padding-top: max(1rem, env(safe-area-inset-top));
+  }
+
+  .pb-safe-bottom {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+
+  /* New floating buttons responsive positioning */
+  .fixed.right-4.bottom-20 {
+    bottom: 6rem !important; /* 96px - safe distance above mobile cart bar */
+    right: 1rem !important;
+  }
+}
 }
 
 /* Loading states */
@@ -438,6 +454,39 @@ html {
 /* Smooth scroll behavior for modal content */
 .modal-scroll {
   scroll-behavior: smooth;
+}
+
+/* FAQ Modal Improvements */
+.faq-answer {
+  transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+  will-change: max-height, opacity;
+}
+
+/* Prevent modal flicker */
+[x-cloak] {
+  display: none !important;
+}
+
+/* Product Detail Modal Enhancements */
+.product-detail-modal {
+  backdrop-filter: blur(8px);
+}
+
+.product-detail-content {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.quantity-selector button:hover {
+  transform: scale(1.05);
+}
+
+.trust-badge {
+  transition: all 0.3s ease;
+}
+
+.trust-badge:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px -8px rgba(0, 0, 0, 0.2);
 }
 
 /* Preset note buttons */
