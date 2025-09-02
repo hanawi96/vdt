@@ -1350,6 +1350,17 @@ document.addEventListener('alpine:init', () => {
       // Clear previous errors
       this.clearFormErrors();
 
+      // Ensure address is updated before validation
+      this.updateFullAddress();
+
+      // Debug logging for address validation
+      console.log('🔍 Quick Buy Validation Debug:');
+      console.log('selectedProvince:', this.selectedProvince);
+      console.log('selectedDistrict:', this.selectedDistrict);
+      console.log('selectedWard:', this.selectedWard);
+      console.log('streetAddress:', this.streetAddress);
+      console.log('customer.address:', this.customer.address);
+
       // Validate form using formErrors system
       let isValid = true;
 
@@ -1369,24 +1380,20 @@ document.addEventListener('alpine:init', () => {
         }
       }
 
-      // Validate address fields for Quick Buy
-      if (!this.selectedProvince) {
-        this.formErrors.province = 'Vui lòng chọn tỉnh/thành phố';
-        isValid = false;
-      }
-
-      if (!this.selectedDistrict) {
-        this.formErrors.district = 'Vui lòng chọn quận/huyện';
-        isValid = false;
-      }
-
-      if (!this.selectedWard) {
-        this.formErrors.ward = 'Vui lòng chọn phường/xã';
-        isValid = false;
-      }
-
-      if (!this.streetAddress.trim()) {
-        this.formErrors.streetAddress = 'Vui lòng nhập địa chỉ';
+      // Validate address for Quick Buy - check final customer.address after updateFullAddress()
+      if (!this.customer.address || !this.customer.address.trim()) {
+        // Determine which specific field is missing to show appropriate error
+        if (!this.selectedProvince) {
+          this.formErrors.province = 'Vui lòng chọn tỉnh/thành phố';
+        } else if (!this.selectedDistrict) {
+          this.formErrors.district = 'Vui lòng chọn quận/huyện';
+        } else if (!this.selectedWard) {
+          this.formErrors.ward = 'Vui lòng chọn phường/xã';
+        } else if (!this.streetAddress.trim()) {
+          this.formErrors.streetAddress = 'Vui lòng nhập địa chỉ cụ thể';
+        } else {
+          this.formErrors.streetAddress = 'Vui lòng nhập địa chỉ đầy đủ';
+        }
         isValid = false;
       }
 
