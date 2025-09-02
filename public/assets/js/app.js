@@ -600,6 +600,21 @@ document.addEventListener('alpine:init', () => {
     canLoadMore() { return this.visibleProductCount < this._fullProductList().length; },
     getProductCount(categoryId) { return this.products.filter(p => p.category === categoryId).length; },
 
+    // Computed property để xác định top 5 sản phẩm bán chạy nhất
+    get topSellingProductIds() {
+      return [...this.products]
+        .sort((a, b) => (b.purchases || 0) - (a.purchases || 0))
+        .slice(0, 5)
+        .map(p => p.id);
+    },
+
+    // Helper function để tính phần trăm giảm giá
+    getDiscountPercentage(product) {
+      if (!product.original_price || product.original_price <= product.price) return 0;
+      const discount = Math.round((1 - product.price / product.original_price) * 100);
+      return discount >= 1 ? discount : 0;
+    },
+
     getCategoryPurchases(categoryId) {
       const arr = categoryId === 'all' ? this.products : this.products.filter(p => p.category === categoryId);
       const total = arr.reduce((t, p) => t + (p.purchases || 0), 0);
