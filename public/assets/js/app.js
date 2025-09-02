@@ -1395,20 +1395,21 @@ document.addEventListener('alpine:init', () => {
         }
       }
 
-      // Validate address for Quick Buy - check final customer.address after updateFullAddress()
-      if (!this.customer.address || !this.customer.address.trim()) {
-        // Determine which specific field is missing to show appropriate error
-        if (!this.selectedProvince) {
-          this.formErrors.province = 'Vui lòng chọn tỉnh/thành phố';
-        } else if (!this.selectedDistrict) {
-          this.formErrors.district = 'Vui lòng chọn quận/huyện';
-        } else if (!this.selectedWard) {
-          this.formErrors.ward = 'Vui lòng chọn phường/xã';
-        } else if (!this.streetAddress.trim()) {
-          this.formErrors.streetAddress = 'Vui lòng nhập địa chỉ cụ thể';
-        } else {
-          this.formErrors.streetAddress = 'Vui lòng nhập địa chỉ đầy đủ';
-        }
+      // Validate address fields individually for Quick Buy
+      if (!this.selectedProvince) {
+        this.formErrors.province = 'Vui lòng chọn tỉnh/thành phố';
+        isValid = false;
+      }
+      if (!this.selectedDistrict) {
+        this.formErrors.district = 'Vui lòng chọn quận/huyện';
+        isValid = false;
+      }
+      if (!this.selectedWard) {
+        this.formErrors.ward = 'Vui lòng chọn phường/xã';
+        isValid = false;
+      }
+      if (!this.streetAddress || !this.streetAddress.trim()) {
+        this.formErrors.streetAddress = 'Vui lòng nhập địa chỉ cụ thể';
         isValid = false;
       }
 
