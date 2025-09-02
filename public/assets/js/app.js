@@ -412,8 +412,17 @@ document.addEventListener('alpine:init', () => {
       // Watch quickBuyPaymentMethod để reset trạng thái xác nhận chuyển khoản
       this.$watch('quickBuyPaymentMethod', (newValue) => {
         if (newValue) {
+          // Clear payment method error
+          this.formErrors.paymentMethod = '';
           // Reset trạng thái xác nhận chuyển khoản khi thay đổi phương thức thanh toán
           this.isQuickBuyTransferConfirmed = false;
+        }
+      });
+
+      // Watch quickBuyWeight để clear weight error
+      this.$watch('quickBuyWeight', (newValue) => {
+        if (newValue && newValue !== '-- Chọn cân nặng --') {
+          this.formErrors.weight = '';
         }
       });
 
@@ -1360,14 +1369,30 @@ document.addEventListener('alpine:init', () => {
         }
       }
 
-      if (!this.customer.address.trim()) {
+      // Validate address fields for Quick Buy
+      if (!this.selectedProvince) {
+        this.formErrors.province = 'Vui lòng chọn tỉnh/thành phố';
+        isValid = false;
+      }
+
+      if (!this.selectedDistrict) {
+        this.formErrors.district = 'Vui lòng chọn quận/huyện';
+        isValid = false;
+      }
+
+      if (!this.selectedWard) {
+        this.formErrors.ward = 'Vui lòng chọn phường/xã';
+        isValid = false;
+      }
+
+      if (!this.streetAddress.trim()) {
         this.formErrors.streetAddress = 'Vui lòng nhập địa chỉ';
         isValid = false;
       }
 
       // Bỏ qua validation cân nặng cho addon products trong quick buy
       if (this.quickBuyProduct && this.quickBuyProduct.id !== 'addon_moc_chia_khoa' && this.quickBuyProduct.id !== 'addon_tui_dau_tam') {
-        if (!this.quickBuyWeight.trim()) {
+        if (!this.quickBuyWeight || this.quickBuyWeight.trim() === '' || this.quickBuyWeight === '-- Chọn cân nặng --') {
           this.formErrors.weight = 'Vui lòng chọn cân nặng của bé';
           isValid = false;
         } else if (this.quickBuyWeight === '✏️ Nhập cân nặng > 20kg' && (!this.quickBuyCustomWeight || this.quickBuyCustomWeight < 20)) {
@@ -1381,7 +1406,7 @@ document.addEventListener('alpine:init', () => {
       }
 
       if (!this.quickBuyPaymentMethod) {
-        this.formErrors.quickBuyPaymentMethod = 'Vui lòng chọn phương thức thanh toán';
+        this.formErrors.paymentMethod = 'Vui lòng chọn phương thức thanh toán';
         isValid = false;
       }
 
