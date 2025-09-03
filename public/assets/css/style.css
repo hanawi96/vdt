@@ -5,6 +5,60 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Category Card Enhancements */
+.category-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.category-card:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Popular Badge Animation */
+.popular-badge {
+  animation: pulse-glow 2s infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(236, 72, 153, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(236, 72, 153, 0.8), 0 0 25px rgba(147, 51, 234, 0.4);
+  }
+}
+
+/* Featured Products & Combos Section */
+.featured-combo-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.featured-combo-card:hover {
+  transform: translateY(-4px) scale(1.02);
+}
+
+/* Mobile optimizations for featured cards */
+@media (max-width: 640px) {
+  .featured-combo-card {
+    padding: 1rem;
+  }
+
+  .featured-combo-card h3 {
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+
+  .featured-combo-card p {
+    font-size: 0.8rem;
+    line-height: 1.4;
+  }
+
+  .featured-combo-card:hover {
+    transform: translateY(-2px) scale(1.01);
+  }
+}
+
 /* Confirmation Modal Enhancements */
 .confirm-modal-gradient {
   background: linear-gradient(135deg, rgba(236, 72, 153, 0.1) 0%, rgba(147, 51, 234, 0.1) 50%, rgba(79, 70, 229, 0.1) 100%);
@@ -554,7 +608,21 @@ html {
     min-height: 32px; /* Touch-friendly */
   }
 
+  /* Category card mobile optimization */
+  .category-card:hover {
+    transform: translateY(-1px) scale(1.01); /* Reduced transform for mobile */
+  }
 
+  /* Popular badge mobile optimization */
+  .popular-badge {
+    font-size: 9px;
+    padding: 0.25rem 0.5rem;
+  }
+
+  .popular-badge svg {
+    width: 0.625rem;
+    height: 0.625rem;
+  }
 
   /* Form section spacing */
   .space-y-4 > * + * {

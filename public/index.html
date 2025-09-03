@@ -21,6 +21,42 @@
             transform-origin: center !important;
         }
         .view-hidden { display: none !important; }
+
+        /* Live indicator animations */
+        @keyframes live-pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 0.7;
+            }
+        }
+
+        @keyframes live-ping {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            75%, 100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        .live-dot {
+            animation: live-pulse 2s ease-in-out infinite !important;
+        }
+
+        .live-ripple {
+            animation: live-ping 2s cubic-bezier(0, 0, 0.2, 1) infinite !important;
+        }
+
+        .live-ripple-delayed {
+            animation: live-ping 2s cubic-bezier(0, 0, 0.2, 1) infinite !important;
+            animation-delay: 1s !important;
+        }
     </style>
     <link rel="stylesheet" href="./assets/css/style.css">
 </head>
@@ -176,8 +212,8 @@
 
                                 <!-- Search Button -->
                                 <button @click="performSearch()"
-                                        class="absolute right-2 top-2 h-10 w-10 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-xl hover:from-pink-600 hover:to-rose-600 transition-all duration-200 shadow-md flex items-center justify-center transform hover:scale-105">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        class="absolute right-1 top-1 h-8 w-8 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-xl hover:from-pink-600 hover:to-rose-600 transition-all duration-200 shadow-md flex items-center justify-center transform hover:scale-105">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                                     </svg>
                                 </button>
@@ -278,13 +314,180 @@
             </div>
         </div>
 
+        <!-- Featured Products & Combos Section -->
+        <div x-show="!loading && !error && view === 'products'" class="mb-8">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
 
+                <!-- Box 1: Top 10 Sản Phẩm Bán Chạy -->
+                <div @click="showTopSellingProducts()" class="group relative bg-gradient-to-br from-blue-50 to-indigo-100 rounded-2xl p-6 border border-blue-100 hover:border-blue-300 transition-all duration-300 hover:shadow-lg hover:scale-[1.02] cursor-pointer">
+                    <!-- Icon & Badge -->
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
+                            <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                            </svg>
+                        </div>
+                        <div class="bg-blue-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                            HOT
+                        </div>
+                    </div>
+
+                    <!-- Content -->
+                    <h3 class="font-bold text-gray-800 text-lg mb-2 group-hover:text-blue-600 transition-colors">
+                        Top 10 Bán Chạy
+                    </h3>
+                    <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+                        Những sản phẩm được mẹ bỉm tin tưởng nhất
+                    </p>
+
+                    <!-- Stats -->
+                    <div class="flex items-center text-xs text-blue-600 font-medium">
+                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                        </svg>
+                        <span>1000+ lượt mua</span>
+                    </div>
+
+                    <!-- Hover Effect -->
+                    <div class="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-indigo-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </div>
+
+                <!-- Box 2: Combo Vòng Trơn + Túi -->
+                <div class="group relative bg-gradient-to-br from-pink-50 to-rose-100 rounded-2xl p-6 border border-pink-100 hover:border-pink-300 transition-all duration-300 hover:shadow-lg hover:scale-[1.02] cursor-pointer">
+                    <!-- Icon & Badge -->
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-gradient-to-br from-pink-500 to-rose-600 rounded-xl flex items-center justify-center shadow-lg">
+                            <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                            </svg>
+                        </div>
+                        <div class="bg-pink-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                            COMBO
+                        </div>
+                    </div>
+
+                    <!-- Content -->
+                    <h3 class="font-bold text-gray-800 text-lg mb-2 group-hover:text-pink-600 transition-colors">
+                        Vòng Trơn + Túi
+                    </h3>
+                    <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+                        Combo tiết kiệm cho mẹ bỉm thông minh
+                    </p>
+
+                    <!-- Price -->
+                    <div class="flex items-center text-xs font-medium mb-2">
+                        <span class="text-gray-400 line-through mr-2">150.000đ</span>
+                        <span class="text-pink-600 font-bold">120.000đ</span>
+                    </div>
+
+                    <!-- Stats -->
+                    <div class="flex items-center text-xs text-pink-600 font-medium">
+                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M7 4V2C7 1.45 7.45 1 8 1S9 1.55 9 2V4H15V2C15 1.45 15.45 1 16 1S17 1.55 17 2V4H20C21.1 4 22 4.9 22 6V20C22 21.1 21.1 22 20 22H4C2.9 22 2 21.1 2 20V6C2 4.9 2.9 4 4 4H7Z"/>
+                        </svg>
+                        <span>Tiết kiệm 30.000đ</span>
+                    </div>
+
+                    <!-- Hover Effect -->
+                    <div class="absolute inset-0 bg-gradient-to-br from-pink-500/5 to-rose-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </div>
+
+                <!-- Box 3: Combo 7 Bi Bạc + Túi -->
+                <div class="group relative bg-gradient-to-br from-purple-50 to-violet-100 rounded-2xl p-6 border border-purple-100 hover:border-purple-300 transition-all duration-300 hover:shadow-lg hover:scale-[1.02] cursor-pointer">
+                    <!-- Icon & Badge -->
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-violet-600 rounded-xl flex items-center justify-center shadow-lg">
+                            <div class="flex items-center space-x-0.5">
+                                <div class="w-1.5 h-1.5 bg-white rounded-full"></div>
+                                <div class="w-1.5 h-1.5 bg-white rounded-full"></div>
+                                <div class="w-1.5 h-1.5 bg-white rounded-full"></div>
+                            </div>
+                        </div>
+                        <div class="bg-purple-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                            7 BI
+                        </div>
+                    </div>
+
+                    <!-- Content -->
+                    <h3 class="font-bold text-gray-800 text-lg mb-2 group-hover:text-purple-600 transition-colors">
+                        7 Bi Bạc + Túi
+                    </h3>
+                    <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+                        Combo sang trọng với bi bạc thật
+                    </p>
+
+                    <!-- Price -->
+                    <div class="flex items-center text-xs font-medium mb-2">
+                        <span class="text-gray-400 line-through mr-2">280.000đ</span>
+                        <span class="text-purple-600 font-bold">230.000đ</span>
+                    </div>
+
+                    <!-- Stats -->
+                    <div class="flex items-center text-xs text-purple-600 font-medium">
+                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                        <span>Tiết kiệm 50.000đ</span>
+                    </div>
+
+                    <!-- Hover Effect -->
+                    <div class="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-violet-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </div>
+
+                <!-- Box 4: Combo 9 Bi Bạc + Túi -->
+                <div class="group relative bg-gradient-to-br from-amber-50 to-orange-100 rounded-2xl p-6 border border-amber-100 hover:border-amber-300 transition-all duration-300 hover:shadow-lg hover:scale-[1.02] cursor-pointer">
+                    <!-- Icon & Badge -->
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-gradient-to-br from-amber-500 to-orange-600 rounded-xl flex items-center justify-center shadow-lg">
+                            <div class="grid grid-cols-3 gap-0.5">
+                                <div class="w-1 h-1 bg-white rounded-full"></div>
+                                <div class="w-1 h-1 bg-white rounded-full"></div>
+                                <div class="w-1 h-1 bg-white rounded-full"></div>
+                                <div class="w-1 h-1 bg-white rounded-full"></div>
+                                <div class="w-1 h-1 bg-white rounded-full"></div>
+                                <div class="w-1 h-1 bg-white rounded-full"></div>
+                                <div class="w-1 h-1 bg-white rounded-full"></div>
+                                <div class="w-1 h-1 bg-white rounded-full"></div>
+                                <div class="w-1 h-1 bg-white rounded-full"></div>
+                            </div>
+                        </div>
+                        <div class="bg-amber-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                            9 BI
+                        </div>
+                    </div>
+
+                    <!-- Content -->
+                    <h3 class="font-bold text-gray-800 text-lg mb-2 group-hover:text-amber-600 transition-colors">
+                        9 Bi Bạc + Túi
+                    </h3>
+                    <p class="text-gray-600 text-sm mb-4 leading-relaxed">
+                        Combo cao cấp nhất cho bé yêu
+                    </p>
+
+                    <!-- Price -->
+                    <div class="flex items-center text-xs font-medium mb-2">
+                        <span class="text-gray-400 line-through mr-2">350.000đ</span>
+                        <span class="text-amber-600 font-bold">290.000đ</span>
+                    </div>
+
+                    <!-- Stats -->
+                    <div class="flex items-center text-xs text-amber-600 font-medium">
+                        <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/>
+                        </svg>
+                        <span>Tiết kiệm 60.000đ</span>
+                    </div>
+
+                    <!-- Hover Effect -->
+                    <div class="absolute inset-0 bg-gradient-to-br from-amber-500/5 to-orange-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </div>
+
+            </div>
+        </div>
 
         <main>
             <!-- Products View -->
             <div x-show="!loading && !error && view === 'products'" :class="{'view-hidden': view !== 'products'}">
-
-
 
                 <!-- Section Title: Categories -->
                 <div class="text-center mb-8">
@@ -296,19 +499,37 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
                     <template x-for="category in categories" :key="category.id">
                         <div @click="selectCategory(category)"
-                             class="flex items-center bg-white rounded-lg shadow-sm overflow-hidden cursor-pointer border transition-all duration-200"
-                             :class="{ 'border-pink-500 shadow-md': currentCategory.id === category.id, 'border-gray-200 hover:border-pink-300 hover:shadow-md': currentCategory.id !== category.id }">
-                            <img :src="category.image || './assets/images/demo.jpg'" :alt="category.name" class="w-16 h-16 object-cover flex-shrink-0">
+                             class="category-card relative flex items-center bg-white rounded-2xl shadow-sm overflow-hidden cursor-pointer border transition-all duration-300"
+                             :class="{ 'border-pink-500 shadow-md': currentCategory.id === category.id, 'border-gray-200 hover:border-pink-300': currentCategory.id !== category.id }">
+
+                            <!-- Badge "Phổ biến" -->
+                            <div x-show="category.isPopular" class="absolute top-2 right-2 z-10">
+                                <div class="popular-badge bg-gradient-to-r from-pink-500 to-purple-500 text-white text-[10px] sm:text-xs font-bold px-2 py-1 rounded-full shadow-lg">
+                                    <div class="flex items-center space-x-1">
+                                        <svg class="w-2.5 h-2.5 sm:w-3 sm:h-3" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                                        </svg>
+                                        <span>Phổ biến</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <img :src="category.image || './assets/images/demo.jpg'" :alt="category.name" class="w-16 h-16 object-cover flex-shrink-0 rounded-l-2xl">
                             <div class="p-3 flex-grow">
-                                <h4 class="font-semibold text-sm text-gray-800 leading-tight" x-text="category.name"></h4>
+                                <h4 class="font-semibold text-sm text-gray-800 leading-tight"
+                                    :class="{ 'pr-20 sm:pr-24': category.isPopular, 'pr-2': !category.isPopular }"
+                                    x-text="category.name"></h4>
                                 <div class="flex items-center space-x-2 text-xs text-gray-500 mt-1">
-                                    <span>
-                                        <span x-text="category.id === 'all' ? products.length : getProductCount(category.id)"></span> SP
+                                    <span class="flex items-center">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-3.5 w-3.5 mr-0.5 text-blue-500">
+                                            <path d="M19.5 21a3 3 0 0 0 3-3v-4.5a3 3 0 0 0-3-3h-15a3 3 0 0 0-3 3V18a3 3 0 0 0 3 3h15ZM1.5 10.146V6a3 3 0 0 1 3-3h5.379a2.25 2.25 0 0 1 1.59.659l2.122 2.121c.14.141.331.22.53.22H19.5a3 3 0 0 1 3 3v1.146A4.483 4.483 0 0 0 19.5 9h-15a4.483 4.483 0 0 0-3 1.146Z" />
+                                        </svg>&nbsp;
+                                        <span x-text="category.id === 'all' ? products.length : getProductCount(category.id)"></span>&nbsp;sản phẩm
                                     </span>
                                     <span class="text-gray-300">|</span>
                                     <span class="flex items-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 mr-0.5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
-                                            <path fill-rule="evenodd" d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.934l.643 2.113a1 1 0 01-.814 1.259l-2.113-.643a1 1 0 00-.934.822c-.276.587-.558.915-.934 1.45a1 1 0 00.386 1.45l2.113.643a1 1 0 01-.643 2.113l-1.259-.814a1 1 0 00-1.259.814l-.643 2.113a1 1 0 00.822.934c.587.276.915.558 1.45.934a1 1 0 001.45-.385c.345-.23.614-.558.822-.934l-.643-2.113a1 1 0 01.814-1.259l2.113.643a1 1 0 00.934-.822c.276-.587.558-.915.934-1.45a1 1 0 00-.386-1.45l-2.113-.643a1 1 0 01.643-2.113l1.259.814a1 1 0 001.259-.814l.643-2.113a1 1 0 00-.822-.934c-.587-.276-.915-.558-1.45-.934zM7 12a1 1 0 11-2 0 1 1 0 012 0zm3 3a1 1 0 11-2 0 1 1 0 012 0zm2-5a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-3.5 w-3.5 mr-0.5 text-red-400">
+                                            <path d="m11.645 20.91-.007-.003-.022-.012a15.247 15.247 0 0 1-.383-.218 25.18 25.18 0 0 1-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0 1 12 5.052 5.5 5.5 0 0 1 16.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 0 1-4.244 3.17 15.247 15.247 0 0 1-.383.219l-.022.012-.007.004-.003.001a.752.752 0 0 1-.704 0l-.003-.001Z" />
                                         </svg>
                                         <span x-text="getCategoryPurchases(category.id)"></span>+
                                     </span>
@@ -343,41 +564,46 @@
                     </button>
                 </div>
 
+                <div id="products-section" class="mb-4"></div>
                 <div id="product-list" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-3">
                     <template x-for="product in filteredProducts()" :key="product.id">
                         <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden group">
                             <div @click="openProductDetail(product)" class="relative overflow-hidden cursor-pointer">
                                 <img :src="product.image" :alt="product.name" class="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300">
 
-                                <!-- Badge "Bán chạy" - Top left corner -->
-                                <div x-show="topSellingProductIds.includes(product.id)"
-                                     class="absolute top-2 left-2 bg-gradient-to-r from-red-500 to-orange-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg flex items-center space-x-1 z-10">
-                                    <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
-                                    </svg>
-                                    <span>BÁN CHẠY</span>
+                                <!-- Badge "TOP 1" - Ribbon mọc từ cạnh trái -->
+                                <div x-show="topSellingProductId() === product.id"
+                                     class="absolute top-3 -left-1 z-10">
+                                    <div class="bg-gradient-to-r from-yellow-400 to-amber-500 text-white font-black text-[9px] sm:text-[10px] px-3 py-1 shadow-lg rounded-tl-lg rounded-br-lg">
+                                        <div class="flex items-center space-x-1">
+                                            <svg class="w-2 h-2 sm:w-2.5 sm:h-2.5" fill="currentColor" viewBox="0 0 24 24">
+                                                <path d="M5 16L3 6l5.5 4L12 4l3.5 6L21 6l-2 10H5z"/>
+                                            </svg>
+                                            <span>TOP 1</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Badge "BÁN CHẠY" - Ribbon mọc từ cạnh trái -->
+                                <div x-show="topSellingProductIds().includes(product.id) && topSellingProductId() !== product.id"
+                                     class="absolute top-3 -left-1 z-10">
+                                    <div class="bg-gradient-to-r from-red-500 to-orange-500 text-white font-black text-[9px] sm:text-[10px] px-3 py-1 shadow-lg rounded-tl-lg rounded-br-lg">
+                                        <div class="flex items-center space-x-1">
+                                            <svg class="w-2 h-2 sm:w-2.5 sm:h-2.5" fill="currentColor" viewBox="0 0 24 24">
+                                                <path d="M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z"/>
+                                            </svg>
+                                            <span>BÁN CHẠY</span>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <!-- Badge "Giảm giá" - Top right corner -->
                                 <div x-show="getDiscountPercentage(product) > 0"
-                                     class="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-1.5 py-0.5 rounded shadow-lg z-10">
+                                     class="absolute top-3 right-2 bg-red-500 text-white text-xs font-bold px-1.5 py-0.5 rounded shadow-lg z-10">
                                     <span x-text="`-${getDiscountPercentage(product)}%`"></span>
                                 </div>
 
-                                <!-- Add to Cart Icon - Positioned at bottom right of image -->
-                                <button @click.stop="openItemOptionsModal(product)"
-                                        class="absolute bottom-2 right-2 w-9 h-9 bg-pink-500 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-pink-600 hover:scale-110 transition-all duration-200 opacity-90 hover:opacity-100">
-                                    <div class="relative">
-                                        <!-- Shopping Cart Icon -->
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
-                                            <path fill-rule="evenodd" d="M6 5v1H4.667a1.75 1.75 0 0 0-1.743 1.598l-.826 9.5A1.75 1.75 0 0 0 3.84 19H16.16a1.75 1.75 0 0 0 1.743-1.902l-.826-9.5A1.75 1.75 0 0 0 15.333 6H14V5a4 4 0 0 0-8 0Zm4-2.5A2.5 2.5 0 0 0 7.5 5v1h5V5A2.5 2.5 0 0 0 10 2.5ZM7.5 10a2.5 2.5 0 0 0 5 0V8.75a.75.75 0 0 1 1.5 0V10a4 4 0 0 1-8 0V8.75a.75.75 0 0 1 1.5 0V10Z" clip-rule="evenodd" />
-                                        </svg>
-                                        <!-- Plus Icon Overlay -->
-                                        <div class="absolute -top-1 -right-1 w-3 h-3 bg-white text-pink-500 rounded-full flex items-center justify-center text-xs font-bold shadow-sm">
-                                            +
-                                        </div>
-                                    </div>
-                                </button>
+
                             </div>
                             <div class="p-2">
                                 <h3 @click="openProductDetail(product)" class="font-semibold text-gray-800 group-hover:text-pink-600 transition-colors cursor-pointer text-sm sm:text-base leading-tight min-h-[1.5rem] flex items-start" x-text="product.name"></h3>
@@ -400,11 +626,26 @@
                                         <span x-text="`Đã bán ${product.purchases}+`"></span>
                                     </div>
                                 </div>
-                                <!-- Action Button - Full Width -->
-                                <div class="mt-4">
-                                    <!-- Button Mua Ngay - Full Width -->
+                                <!-- Action Buttons -->
+                                <div class="mt-4 flex items-center space-x-2">
+                                    <!-- Add to Cart Icon - Outline Style -->
+                                    <button @click.stop="openItemOptionsModal(product)"
+                                            class="w-10 h-10 bg-white border-[1.5px] border-pink-500 text-pink-500 rounded-lg flex items-center justify-center shadow-sm hover:bg-pink-50 hover:border-pink-600 hover:text-pink-600 hover:scale-105 transition-all duration-200 flex-shrink-0">
+                                        <div class="relative">
+                                            <!-- Shopping Cart Icon -->
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+                                                <path fill-rule="evenodd" d="M6 5v1H4.667a1.75 1.75 0 0 0-1.743 1.598l-.826 9.5A1.75 1.75 0 0 0 3.84 19H16.16a1.75 1.75 0 0 0 1.743-1.902l-.826-9.5A1.75 1.75 0 0 0 15.333 6H14V5a4 4 0 0 0-8 0Zm4-2.5A2.5 2.5 0 0 0 7.5 5v1h5V5A2.5 2.5 0 0 0 10 2.5ZM7.5 10a2.5 2.5 0 0 0 5 0V8.75a.75.75 0 0 1 1.5 0V10a4 4 0 0 1-8 0V8.75a.75.75 0 0 1 1.5 0V10Z" clip-rule="evenodd" />
+                                            </svg>
+                                            <!-- Plus Icon Overlay -->
+                                            <div class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-pink-500 text-white rounded-full flex items-center justify-center text-xs font-bold shadow-sm">
+                                                +
+                                            </div>
+                                        </div>
+                                    </button>
+
+                                    <!-- Button Mua Ngay -->
                                     <button @click.stop="buyNow(product)"
-                                            class="w-full flex items-center justify-center h-10 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition-colors duration-300 font-semibold text-xs sm:text-sm shadow-lg">
+                                            class="flex-1 flex items-center justify-center h-10 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition-colors duration-300 font-semibold text-xs sm:text-sm shadow-lg">
                                         <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                                         </svg>
@@ -890,16 +1131,69 @@
                             <img :src="currentAddonDetail.image" :alt="currentAddonDetail.name"
                                  class="w-full aspect-square object-cover rounded-xl shadow-lg">
                         </div>
-                        <!-- Product Info -->
-                        <div class="mb-4">
-                            <!-- Price -->
-                            <div class="flex items-baseline space-x-2 mb-3">
-                                <span class="text-2xl font-bold text-pink-600" x-text="formatCurrency(currentAddonDetail.price)"></span>
+                        <!-- Price Section - Professional Design -->
+                        <div class="bg-white rounded-2xl p-3 sm:p-5 shadow-sm border border-gray-100 mb-4">
+                            <!-- Price Row -->
+                            <div class="flex items-start justify-between mb-3">
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex items-baseline space-x-2 sm:space-x-3 flex-wrap">
+                                        <span class="text-2xl sm:text-3xl font-black text-gray-900" x-text="formatCurrency(currentAddonDetail.price)"></span>
+                                        <template x-if="currentAddonDetail.original_price">
+                                            <span class="text-sm sm:text-base text-gray-400 line-through" x-text="formatCurrency(currentAddonDetail.original_price)"></span>
+                                        </template>
+                                    </div>
+                                </div>
                                 <template x-if="currentAddonDetail.original_price">
-                                    <s class="text-lg text-gray-500" x-text="formatCurrency(currentAddonDetail.original_price)"></s>
+                                    <div class="bg-gradient-to-r from-red-500 to-red-600 text-white px-2 py-1 sm:px-3 sm:py-1.5 rounded-lg text-xs sm:text-sm font-bold shadow-lg flex-shrink-0 ml-2">
+                                        <div class="text-center">
+                                            <div class="text-[10px] sm:text-xs">TIẾT KIỆM</div>
+                                            <div class="text-sm sm:text-base" x-text="Math.round((1 - currentAddonDetail.price / currentAddonDetail.original_price) * 100) + '%'"></div>
+                                        </div>
+                                    </div>
                                 </template>
                             </div>
-                            <!-- Description -->
+
+                            <!-- Divider -->
+                            <div class="border-t border-gray-100 my-2 sm:my-3"></div>
+
+                            <!-- Stats Row - Mobile 3 Columns -->
+                            <div class="flex items-center justify-between">
+                                <div class="grid grid-cols-3 gap-1 sm:flex sm:items-center sm:space-x-4 w-full">
+                                    <!-- Rating -->
+                                    <div class="flex items-center space-x-1">
+                                        <svg class="w-3 h-3 sm:w-4 sm:h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                        </svg>
+                                        <span class="text-xs sm:text-sm font-medium text-gray-700" x-text="currentAddonDetail.rating"></span>
+                                    </div>
+
+                                    <!-- Separator -->
+                                    <div class="hidden sm:block w-px h-3 sm:h-4 bg-gray-300"></div>
+
+                                    <!-- Sales -->
+                                    <div class="flex items-center space-x-1">
+                                        <svg class="w-3 h-3 sm:w-4 sm:h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                                        </svg>
+                                        <span class="text-xs sm:text-sm font-medium text-gray-700" x-text="`${currentAddonDetail.purchases}+ bán`"></span>
+                                    </div>
+
+                                    <!-- Separator -->
+                                    <div class="hidden sm:block w-px h-3 sm:h-4 bg-gray-300"></div>
+
+                                    <!-- Trust Badge -->
+                                    <div class="flex items-center space-x-1 bg-purple-50 px-2 py-1 rounded-full">
+                                        <svg class="w-3 h-3 text-purple-500" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                        </svg>
+                                        <span class="text-xs font-medium text-purple-700">Thủ công 100%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Product Description -->
+                        <div class="mb-4">
                             <p class="text-gray-600" x-text="currentAddonDetail.description"></p>
                         </div>
                         <!-- Freeship Banner -->
@@ -1362,7 +1656,13 @@
                             <!-- Social Proof - Compact -->
                             <div class="px-3 py-1">
                                 <div class="bg-green-50/50 rounded-md px-2 py-1 flex items-center space-x-1.5">
-                                    <div class="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></div>
+                                    <div class="relative flex items-center justify-center w-3 h-3">
+                                        <!-- Ripple effects -->
+                                        <div class="absolute w-2.5 h-2.5 bg-green-300 rounded-full live-ripple"></div>
+                                        <div class="absolute w-2.5 h-2.5 bg-green-200 rounded-full live-ripple-delayed"></div>
+                                        <!-- Core dot -->
+                                        <div class="w-1.5 h-1.5 bg-green-500 rounded-full live-dot relative z-10"></div>
+                                    </div>
                                     <p class="text-xs text-green-700 font-medium" x-text="socialProofViewers + ' người khác cũng thêm SP này'"></p>
                                 </div>
                             </div>
@@ -2404,26 +2704,11 @@
 
             <template x-if="currentProductDetail">
                 <div class="flex flex-col h-full max-h-[90vh]">
-                    <!-- Header - Compact -->
+                    <!-- Header - Simplified -->
                     <div class="flex-shrink-0 px-4 py-3 border-b bg-white">
                         <div class="flex items-center justify-between">
                             <div class="flex-1 min-w-0">
-                                <div class="flex items-center space-x-3">
-                                    <div class="flex-1 min-w-0">
-                                        <h2 class="text-base font-semibold text-gray-900 truncate" x-text="currentProductDetail.name"></h2>
-                                    </div>
-                                    <div class="flex items-center space-x-2 flex-shrink-0">
-                                        <span class="text-lg font-bold text-pink-600" x-text="formatCurrency(currentProductDetail.price)"></span>
-                                        <template x-if="currentProductDetail.original_price">
-                                            <s class="text-xs text-gray-400" x-text="formatCurrency(currentProductDetail.original_price)"></s>
-                                        </template>
-                                        <template x-if="currentProductDetail.original_price">
-                                            <span class="bg-red-500 text-white px-1.5 py-0.5 rounded text-xs font-medium">
-                                                -<span x-text="Math.round((1 - currentProductDetail.price / currentProductDetail.original_price) * 100)"></span>%
-                                            </span>
-                                        </template>
-                                    </div>
-                                </div>
+                                <h2 class="text-base font-semibold text-gray-900 truncate" x-text="currentProductDetail.name"></h2>
                             </div>
                             <button @click="closeProductDetail()"
                                     class="ml-3 text-gray-400 hover:text-gray-600 w-6 h-6 flex items-center justify-center flex-shrink-0">
@@ -2435,7 +2720,7 @@
                     </div>
 
                     <!-- Content - Scrollable (bao gồm cả hình ảnh) -->
-                    <div class="flex-1 overflow-y-auto modal-scroll p-2 space-y-2">
+                    <div class="flex-1 overflow-y-auto modal-scroll px-3 py-2 space-y-2">
                         <!-- Product Image -->
                         <div class="relative">
                             <img :src="currentProductDetail.image" :alt="currentProductDetail.name"
@@ -2448,6 +2733,83 @@
                             </template>
                         </div>
 
+                        <!-- Price Section - Mobile Optimized -->
+                        <div class="bg-white rounded-2xl p-3 sm:p-5 shadow-sm border border-gray-100">
+                            <!-- Price Row -->
+                            <div class="flex items-start justify-between mb-3">
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex items-baseline space-x-2 sm:space-x-3 flex-wrap">
+                                        <span class="text-2xl sm:text-3xl font-black text-gray-900" x-text="formatCurrency(currentProductDetail.price)"></span>
+                                        <template x-if="currentProductDetail.original_price">
+                                            <span class="text-sm sm:text-base text-gray-400 line-through" x-text="formatCurrency(currentProductDetail.original_price)"></span>
+                                        </template>
+                                    </div>
+                                </div>
+                                <template x-if="currentProductDetail.original_price">
+                                    <div class="bg-gradient-to-r from-red-500 to-red-600 text-white px-2 py-1 sm:px-3 sm:py-1.5 rounded-lg text-xs sm:text-sm font-bold shadow-lg flex-shrink-0 ml-2">
+                                        <div class="text-center">
+                                            <div class="text-[10px] sm:text-xs">TIẾT KIỆM</div>
+                                            <div class="text-sm sm:text-base" x-text="Math.round((1 - currentProductDetail.price / currentProductDetail.original_price) * 100) + '%'"></div>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+
+                            <!-- Divider -->
+                            <div class="border-t border-gray-100 my-2 sm:my-3"></div>
+
+                            <!-- Stats Row - Mobile 3 Columns -->
+                            <div class="flex items-center justify-between">
+                                <div class="grid grid-cols-3 gap-1 sm:flex sm:items-center sm:space-x-4 w-full">
+                                    <!-- Rating -->
+                                    <div class="flex items-center space-x-1">
+                                        <svg class="w-3 h-3 sm:w-4 sm:h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                                            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                        </svg>
+                                        <span class="text-xs sm:text-sm font-medium text-gray-700" x-text="currentProductDetail.rating"></span>
+                                    </div>
+
+                                    <!-- Separator -->
+                                    <div class="hidden sm:block w-px h-3 sm:h-4 bg-gray-300"></div>
+
+                                    <!-- Sales -->
+                                    <div class="flex items-center space-x-1">
+                                        <svg class="w-3 h-3 sm:w-4 sm:h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/>
+                                        </svg>
+                                        <span class="text-xs sm:text-sm font-medium text-gray-700" x-text="`${currentProductDetail.purchases}+ bán`"></span>
+                                    </div>
+
+                                    <!-- Separator -->
+                                    <div class="hidden sm:block w-px h-3 sm:h-4 bg-gray-300"></div>
+
+                                    <!-- Trust Badge -->
+                                    <div class="flex items-center space-x-1 bg-green-50 px-2 py-1 rounded-full">
+                                        <svg class="w-3 h-3 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                        </svg>
+                                        <span class="text-xs font-medium text-green-700">Thủ công 100%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Social Proof - Live Viewers -->
+                        <div class="mb-4">
+                            <div class="bg-orange-50/50 rounded-lg px-3 py-2 flex items-center space-x-2">
+                                <div class="relative flex items-center justify-center w-4 h-4">
+                                    <!-- Ripple effects -->
+                                    <div class="absolute w-3 h-3 bg-orange-300 rounded-full live-ripple"></div>
+                                    <div class="absolute w-3 h-3 bg-orange-200 rounded-full live-ripple-delayed"></div>
+                                    <!-- Core dot -->
+                                    <div class="w-2 h-2 bg-orange-500 rounded-full live-dot relative z-10"></div>
+                                </div>
+                                <p class="text-sm text-orange-700 font-medium flex items-center">
+                                    <span class="font-bold mx-1 text-orange-800" x-text="productDetailViewers"></span>
+                                    <span> người cũng đang xem sản phẩm này</span>
+                                </p>
+                            </div>
+                        </div>
 
                         <!-- Benefits Section -->
                         <div class="mb-6">
@@ -2532,31 +2894,6 @@
                             </div>
                         </div>
 
-                        <!-- Special Offer Banner -->
-                        <div class="relative bg-gradient-to-r from-orange-500 to-pink-500 rounded-xl p-4 mb-4 overflow-hidden">
-                            <!-- Background Pattern -->
-                            <div class="absolute inset-0 bg-white bg-opacity-10 backdrop-blur-sm"></div>
-                            <div class="absolute top-0 right-0 w-20 h-20 bg-white bg-opacity-5 rounded-full -translate-y-10 translate-x-10"></div>
-                            <div class="absolute bottom-0 left-0 w-16 h-16 bg-white bg-opacity-5 rounded-full translate-y-8 -translate-x-8"></div>
-
-                            <!-- Content -->
-                            <div class="relative z-10 text-center">
-                                <div class="flex items-center justify-center space-x-2 mb-2">
-                                    <div class="bg-white bg-opacity-20 rounded-full p-1">
-                                        <span class="text-white text-sm">🎁</span>
-                                    </div>
-                                    <span class="bg-white text-orange-600 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide">Ưu đãi đặc biệt</span>
-                                    <div class="bg-white bg-opacity-20 rounded-full p-1">
-                                        <span class="text-white text-sm">✨</span>
-                                    </div>
-                                </div>
-                                <p class="text-white font-semibold text-sm leading-relaxed">
-                                    Mua vòng dâu tằm + túi dâu tằm hoặc móc chìa khóa dâu tằm
-                                    <br>
-                                    <span class="font-bold text-yellow-200">→ FREESHIP + GIẢM GIÁ ←</span>
-                                </p>
-                            </div>
-                        </div>
 
                         <!-- Upsell Section - Compact -->
                         <div class="space-y-3">
@@ -2910,7 +3247,13 @@
                     <!-- Social Proof - Compact -->
                     <div class="mb-3">
                         <div class="bg-blue-50/50 rounded-md px-2 py-1 flex items-center space-x-1.5">
-                            <div class="w-1.5 h-1.5 bg-blue-400 rounded-full animate-pulse"></div>
+                            <div class="relative flex items-center justify-center w-3 h-3">
+                                <!-- Ripple effects -->
+                                <div class="absolute w-2.5 h-2.5 bg-blue-300 rounded-full live-ripple"></div>
+                                <div class="absolute w-2.5 h-2.5 bg-blue-200 rounded-full live-ripple-delayed"></div>
+                                <!-- Core dot -->
+                                <div class="w-1.5 h-1.5 bg-blue-500 rounded-full live-dot relative z-10"></div>
+                            </div>
                             <p class="text-xs text-blue-700 font-medium" x-text="socialProofViewers + ' người cũng đang nhập TT nhận hàng'"></p>
                         </div>
                     </div>

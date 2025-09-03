@@ -5,7 +5,26 @@ document.addEventListener('alpine:init', () => {
 
     /* ========= STATE ========= */
     view: 'products',
-    categories: [],
+    categories: [
+      { id: 'all', name: 'Tất cả', isPopular: true },
+      { id: 'vong_tron', name: 'Vòng trơn', isPopular: true },
+      { id: 'mix_bi_bac', name: 'Mix bi bạc', isPopular: true },
+      { id: 'mix_charm_ran', name: 'Mix charm rắn', isPopular: true },
+      { id: 'vong_co_gian', name: 'Vòng co giãn' },
+      { id: 'mix_day_ngu_sac', name: 'Mix dây ngũ sắc' },
+      { id: 'mix_hat_bo_de', name: 'Mix hạt bồ Đề' },
+      { id: 'hat_dau_tam_mai_san', name: 'Hạt dâu tằm mài sẵn' },
+      { id: 'mix_charm_chuong', name: 'Mix charm chuông' },
+      { id: 'mix_ho_phach', name: 'Mix hổ phách' },
+      { id: 'mix_thanh_gia', name: 'Mix thánh giá' },
+      { id: 'mix_hoa_sen', name: 'Mix hoa sen' },
+      { id: 'mix_da_do_tu_nhien', name: 'Mix đá đỏ tự nhiên' },
+      { id: 'mix_chi_mau_cac_loai', name: 'Mix chỉ màu các loại' },
+      { id: 'mix_the_ten_be', name: 'Mix thẻ tên bé' },
+      { id: 'vong_ngu_sac_dau_tam', name: 'Vòng ngũ sắc dâu tằm' },
+      { id: 'san_pham_ban_kem', name: 'Sản phẩm bán kèm' },
+      { id: 'bi_charm_bac', name: 'Bi, charm bạc' }
+    ],
     products: [],
     shopInfo: { stats: {} },
     cart: Alpine.$persist([]).as('shoppingCart'),
@@ -72,6 +91,7 @@ document.addEventListener('alpine:init', () => {
     isSubmitting: false,
     searchQuery: '',
     activeSearchQuery: '',
+    isShowingTopSelling: false,
 
     /* ========= MODALS ========= */
     // Z-index hierarchy: 9000 (base modals) -> 9400 (discount) -> 9500 (mini cart) -> 9600 (checkout) -> 9900 (quick buy) -> 9950 (quick buy transfer) -> 9990 (confirm) -> 9999 (success)
@@ -254,6 +274,8 @@ document.addEventListener('alpine:init', () => {
     isProductDetailOpen: false,
     currentProductDetail: null,
     productDetailQuantity: 1,
+    productDetailViewers: Math.floor(Math.random() * 5) + 1, // 1-5 người đang xem
+    productDetailViewersTimer: null,
 
     /* ========= QUICK VIEW ========= */
     isQuickViewOpen: false,
@@ -506,8 +528,7 @@ document.addEventListener('alpine:init', () => {
     async loadData() {
       this.loading = true; this.error = null;
       try {
-        const [catRes, prodRes, infoRes, addrRes, discountRes, sharedRes, faqRes] = await Promise.all([
-          fetch('./data/categories.json'),
+        const [prodRes, infoRes, addrRes, discountRes, sharedRes, faqRes] = await Promise.all([
           fetch('./data/products.json'),
           fetch('./data/shop-info.json'),
           fetch('./data/vietnamAddress.json'),
@@ -516,7 +537,6 @@ document.addEventListener('alpine:init', () => {
           fetch('./data/faq.json')
         ]);
 
-        if (!catRes.ok) throw new Error('Không thể tải danh mục.');
         if (!prodRes.ok) throw new Error('Không thể tải sản phẩm.');
         if (!infoRes.ok) throw new Error('Không thể tải thông tin shop.');
         if (!addrRes.ok) throw new Error('Không thể tải dữ liệu địa chỉ.');
@@ -524,9 +544,7 @@ document.addEventListener('alpine:init', () => {
         if (!sharedRes.ok) throw new Error('Không thể tải thông tin chi tiết.');
         if (!faqRes.ok) throw new Error('Không thể tải dữ liệu FAQ.');
 
-        const categoryData = await catRes.json();
-        this.categories = [{ id: 'all', name: 'Tất cả' }, ...(Array.isArray(categoryData) ? categoryData : [])];
-
+        // Categories đã được khởi tạo tĩnh ở trên
         this.products = await prodRes.json();
         this.shopInfo = await infoRes.json();
         this.addressData = await addrRes.json();
@@ -600,12 +618,46 @@ document.addEventListener('alpine:init', () => {
     canLoadMore() { return this.visibleProductCount < this._fullProductList().length; },
     getProductCount(categoryId) { return this.products.filter(p => p.category === categoryId).length; },
 
-    // Computed property để xác định top 5 sản phẩm bán chạy nhất
-    get topSellingProductIds() {
+    // Function để lấy top 5 sản phẩm bán chạy nhất
+    topSellingProductIds() {
       return [...this.products]
         .sort((a, b) => (b.purchases || 0) - (a.purchases || 0))
         .slice(0, 5)
         .map(p => p.id);
+    },
+
+    // Function để lấy sản phẩm bán chạy nhất (TOP 1)
+    topSellingProductId() {
+      const sorted = [...this.products]
+        .sort((a, b) => (b.purchases || 0) - (a.purchases || 0));
+      return sorted.length > 0 ? sorted[0].id : null;
+    },
+
+    // Function để hiển thị top 10 sản phẩm bán chạy
+    showTopSellingProducts() {
+      // Đặt category về "Tất cả" để hiển thị tất cả sản phẩm
+      this.currentCategory = this.categories.find(cat => cat.id === 'all') || this.categories[0];
+
+      // Đặt filter về best_selling và bật flag hiển thị top 10
+      this.activeFilter = 'best_selling';
+      this.isShowingBestSellers = true;
+      this.visibleProductCount = 10;
+
+      // Reset search
+      this.searchQuery = '';
+      this.activeSearchQuery = '';
+
+      // Cuộn xuống phần sản phẩm với smooth scroll
+      setTimeout(() => {
+        const productsSection = document.querySelector('#products-section');
+        if (productsSection) {
+          productsSection.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+            inline: 'nearest'
+          });
+        }
+      }, 100);
     },
 
     // Helper function để tính phần trăm giảm giá
@@ -724,6 +776,7 @@ document.addEventListener('alpine:init', () => {
       this.visibleProductCount = 10;
       this.currentCategory = category;
       this.searchQuery = ''; this.activeSearchQuery = '';
+      this.isShowingBestSellers = false; // Reset top selling mode
       this.view = 'products';
       this.$nextTick(() => {
         document.getElementById('product-list-anchor')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -2124,12 +2177,20 @@ document.addEventListener('alpine:init', () => {
     openProductDetail(product) {
       this.currentProductDetail = product;
       this.productDetailQuantity = 1;
+      this.productDetailViewers = Math.floor(Math.random() * 5) + 1; // 1-5 người đang xem
       this.isProductDetailOpen = true;
       document.body.style.overflow = 'hidden';
+
+      // Bắt đầu timer để thay đổi số người xem
+      this.startProductDetailViewersTimer();
     },
     closeProductDetail() {
       this.isProductDetailOpen = false;
       document.body.style.overflow = 'auto';
+
+      // Dừng timer
+      this.stopProductDetailViewersTimer();
+
       setTimeout(() => {
         this.currentProductDetail = null;
         this.productDetailQuantity = 1;
@@ -2146,6 +2207,25 @@ document.addEventListener('alpine:init', () => {
       if (this.currentProductDetail) {
         this.closeProductDetail();
         this.buyNow(this.currentProductDetail);
+      }
+    },
+
+    // Timer cho số người xem trong product detail modal
+    startProductDetailViewersTimer() {
+      this.stopProductDetailViewersTimer(); // Dừng timer cũ nếu có
+      this.productDetailViewersTimer = setInterval(() => {
+        // Thay đổi số người xem một cách tự nhiên (±1 người)
+        const change = Math.floor(Math.random() * 3) - 1; // -1 đến +1
+        const newViewers = this.productDetailViewers + change;
+        // Giữ trong khoảng 1-5 người
+        this.productDetailViewers = Math.max(1, Math.min(5, newViewers));
+      }, 3000 + Math.random() * 4000); // 3-7 giây ngẫu nhiên
+    },
+
+    stopProductDetailViewersTimer() {
+      if (this.productDetailViewersTimer) {
+        clearInterval(this.productDetailViewersTimer);
+        this.productDetailViewersTimer = null;
       }
     },
 
