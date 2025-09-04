@@ -38,6 +38,8 @@ document.addEventListener('alpine:init', () => {
         price: 39000,
         original_price: 45000,
         image: './assets/images/demo.jpg',
+        rating: 4.9,
+        purchases: 456,
         detailedInfo: {
           fullDescription:
             'Túi dâu tằm để phòng cao cấp được làm từ khúc cành dâu tằm tự nhiên, cắt nhỏ và đóng gói trong túi nhung sang trọng. Sản phẩm giúp bé ngủ ngon, giảm stress và tăng cường sức khỏe tự nhiên.',
@@ -61,6 +63,8 @@ document.addEventListener('alpine:init', () => {
         price: 29000,
         original_price: 35000,
         image: './assets/images/demo.jpg',
+        rating: 4.8,
+        purchases: 623,
         detailedInfo: {
           fullDescription:
             'Móc chìa khóa độc đáo được chế tác từ khúc dâu tằm tự nhiên, mang lại may mắn và bình an. Thiết kế nhỏ gọn, tiện lợi, phù hợp làm quà tặng hoặc vật phẩm phong thủy.',
@@ -455,10 +459,26 @@ document.addEventListener('alpine:init', () => {
         }
       });
 
-      // Watch modal states để debug
+      // Watch modal states để debug và restore overflow
       this.$watch('isMiniCartOpen', (newValue, oldValue) => {
         console.log('🔍 isMiniCartOpen changed:', oldValue, '->', newValue);
         console.log('🔍 Tại thời điểm này - isCheckoutModalOpen:', this.isCheckoutModalOpen, 'isConfirmModalOpen:', this.isConfirmModalOpen);
+        console.log('🔍 - isAddonDetailModalOpen:', this.isAddonDetailModalOpen);
+        console.log('🔍 - document.body.style.overflow:', document.body.style.overflow);
+
+        // Khi mini cart đóng, kiểm tra có cần restore overflow không
+        if (oldValue === true && newValue === false) {
+          console.log('🔍 Mini cart vừa đóng, kiểm tra restore overflow...');
+          // Chỉ restore khi không có modal nào khác đang mở
+          if (!this.isCheckoutModalOpen && !this.isConfirmModalOpen && !this.isAddonDetailModalOpen &&
+              !this.isQuickBuyModalOpen && !this.isProductDetailOpen && !this.isDiscountModalOpen) {
+            console.log('🔍 Không có modal nào mở, restore overflow = auto');
+            document.body.style.overflow = 'auto';
+          } else {
+            console.log('🔍 Vẫn có modal khác mở, giữ overflow = hidden');
+          }
+        }
+
         console.trace('🔍 Stack trace cho isMiniCartOpen change');
       });
 
@@ -948,6 +968,29 @@ document.addEventListener('alpine:init', () => {
       });
     },
 
+    // Scroll to categories section
+    scrollToCategories() {
+      // Đóng tất cả modal nếu có
+      this.closeAllModals();
+
+      // Đảm bảo đang ở view products
+      this.view = 'products';
+
+      // Scroll đến phần đầu của danh mục (categories grid)
+      this.$nextTick(() => {
+        const categoriesSection = document.querySelector('.grid.grid-cols-1.sm\\:grid-cols-2.md\\:grid-cols-3.lg\\:grid-cols-4');
+        if (categoriesSection) {
+          categoriesSection.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        } else {
+          // Fallback: scroll to top
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      });
+    },
+
     /* ========= IMAGE MODAL ========= */
     openImageModal(url) {
       this.currentImage = url;
@@ -962,7 +1005,23 @@ document.addEventListener('alpine:init', () => {
 
     /* ========= ADDON DETAIL MODAL ========= */
     openAddonDetail(addon) {
+      console.log('🔍 openAddonDetail() - Trước khi mở:');
+      console.log('🔍 - isMiniCartOpen:', this.isMiniCartOpen);
+      console.log('🔍 - isCheckoutModalOpen:', this.isCheckoutModalOpen);
+      console.log('🔍 - isQuickBuyModalOpen:', this.isQuickBuyModalOpen);
+      console.log('🔍 - isProductDetailOpen:', this.isProductDetailOpen);
+      console.log('🔍 - document.body.style.overflow:', document.body.style.overflow);
+
       if (this.isMiniCartOpen) this.preventMiniCartCloseOnClickOutside = true;
+
+      // Lưu trạng thái modal nào đang mở để restore đúng
+      this.addonDetailOpenedFrom = this.isMiniCartOpen ? 'miniCart' :
+                                   this.isCheckoutModalOpen ? 'checkout' :
+                                   this.isQuickBuyModalOpen ? 'quickBuy' :
+                                   this.isProductDetailOpen ? 'productDetail' : 'homepage';
+
+      console.log('🔍 - addonDetailOpenedFrom:', this.addonDetailOpenedFrom);
+
       this.currentAddonDetail = addon;
       this.isAddonDetailModalOpen = true;
 
@@ -972,12 +1031,41 @@ document.addEventListener('alpine:init', () => {
       });
 
       document.body.style.overflow = 'hidden';
+      console.log('🔍 - Sau khi set overflow hidden:', document.body.style.overflow);
     },
     closeAddonDetail() {
+      console.log('🔍 closeAddonDetail() - Trước khi đóng:');
+      console.log('🔍 - isAddonDetailModalOpen:', this.isAddonDetailModalOpen);
+      console.log('🔍 - addonDetailOpenedFrom:', this.addonDetailOpenedFrom);
+      console.log('🔍 - isMiniCartOpen:', this.isMiniCartOpen);
+      console.log('🔍 - isCheckoutModalOpen:', this.isCheckoutModalOpen);
+      console.log('🔍 - isQuickBuyModalOpen:', this.isQuickBuyModalOpen);
+      console.log('🔍 - isProductDetailOpen:', this.isProductDetailOpen);
+      console.log('🔍 - document.body.style.overflow trước:', document.body.style.overflow);
+
       this.isAddonDetailModalOpen = false;
       setTimeout(() => { this.preventMiniCartCloseOnClickOutside = false; }, 100);
-      if (!this.isMiniCartOpen) document.body.style.overflow = 'auto';
-      setTimeout(() => { this.currentAddonDetail = null; }, 300);
+
+      // Restore overflow dựa trên nơi modal được mở
+      if (this.addonDetailOpenedFrom === 'homepage') {
+        console.log('🔍 - Mở từ homepage, restore overflow = auto');
+        document.body.style.overflow = 'auto';
+      } else {
+        console.log('🔍 - Mở từ modal khác, kiểm tra điều kiện...');
+        if (!this.isMiniCartOpen && !this.isCheckoutModalOpen && !this.isQuickBuyModalOpen && !this.isProductDetailOpen) {
+          console.log('🔍 - Không có modal nào mở, restore overflow = auto');
+          document.body.style.overflow = 'auto';
+        } else {
+          console.log('🔍 - Vẫn có modal khác mở, giữ overflow = hidden');
+        }
+      }
+
+      console.log('🔍 - document.body.style.overflow sau:', document.body.style.overflow);
+
+      setTimeout(() => {
+        this.currentAddonDetail = null;
+        this.addonDetailOpenedFrom = null;
+      }, 300);
     },
 
     /* ========= Item Options Modal Logic ========= */
