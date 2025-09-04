@@ -1838,7 +1838,7 @@
                                     <p class="text-xs text-gray-600 mt-0.5">Còn: <span x-text="countdownTimer.display" class="font-mono font-semibold text-green-700 bg-green-100 px-1 py-0.5 rounded text-xs"></span></p>
                                 </div>
                                 <div class="space-y-1.5">
-                                    <template x-for="addon in addonProducts" :key="addon.id">
+                                    <template x-for="addon in filteredAddonProducts" :key="addon.id">
                                         <div @click="openAddonDetail(addon)" class="flex items-center space-x-2 p-2 bg-white rounded-md border border-green-100 cursor-pointer hover:bg-gray-50 transition-colors">
                                             <img :src="addon.image" class="w-8 h-8 rounded object-cover flex-shrink-0">
                                             <div class="flex-grow min-w-0">
@@ -2460,7 +2460,7 @@
                                 <p class="text-xs text-gray-600 mt-0.5">Còn: <span x-text="countdownTimer.display" class="font-mono font-semibold text-green-700 bg-green-100 px-1 py-0.5 rounded text-xs"></span></p>
                             </div>
                             <div class="space-y-1.5">
-                                <template x-for="addon in addonProducts" :key="addon.id">
+                                <template x-for="addon in filteredAddonProducts" :key="addon.id">
                                     <div @click="openAddonDetail(addon)" class="flex items-center space-x-2 p-2 bg-white rounded-md border border-green-100 cursor-pointer hover:bg-gray-50 transition-colors">
                                         <img :src="addon.image" class="w-8 h-8 rounded object-cover flex-shrink-0">
                                         <div class="flex-grow min-w-0">
@@ -2756,8 +2756,8 @@
                             </div>
                         </template>
 
-                        <!-- Các loại giảm giá -->
-                        <template x-if="quickBuyShippingDiscount > 0">
+                        <!-- Các loại giảm giá (ẩn khi mua combo) -->
+                        <template x-if="quickBuyShippingDiscount > 0 && !isBuyingCombo">
                             <div class="flex justify-between text-sm text-green-600 font-medium">
                                 <span>Miễn phí ship</span>
                                 <span x-text="'-' + formatCurrency(quickBuyShippingDiscount)"></span>
@@ -3041,7 +3041,7 @@
                                     <p class="text-xs text-gray-600 mt-0.5">Còn: <span x-text="countdownTimer.display" class="font-mono font-semibold text-green-700 bg-green-100 px-1 py-0.5 rounded text-xs"></span></p>
                                 </div>
                                 <div class="space-y-1.5">
-                                    <template x-for="addon in addonProducts" :key="addon.id">
+                                    <template x-for="addon in filteredAddonProducts" :key="addon.id">
                                         <div @click="openAddonDetail(addon)" class="flex items-center space-x-2 p-2 bg-white rounded-md border border-green-100 cursor-pointer hover:bg-gray-50 transition-colors">
                                             <img :src="addon.image" class="w-8 h-8 rounded object-cover flex-shrink-0">
                                             <div class="flex-grow min-w-0">
@@ -3066,6 +3066,19 @@
                                             </div>
                                         </div>
                                     </template>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Lưu ý quan trọng -->
+                        <div class="mb-6 p-4 bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl border border-amber-200">
+                            <div class="flex items-start space-x-3">
+                                
+                                <div>
+                                    <h4 class="text-sm font-bold text-amber-800 mb-2 underline">💡 Lưu ý quan trọng</h4>
+                                    <p class="text-sm text-amber-700 leading-relaxed">
+                                        Số hạt dâu em làm vòng được làm theo "Sinh Lão Bệnh Tử", số hạt em làm đều là số đẹp rơi và chữ "Sinh" và chữ "Lão" (lấy số hạt dâu chia cho 4, nếu dư 1 là "Sinh", nếu dư 2 là "Lão" ạ) nên các mẹ yên tâm đeo cho bé nha.
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -3375,7 +3388,7 @@
                             <p class="text-xs text-gray-600 mt-0.5">Còn: <span x-text="countdownTimer.display" class="font-mono font-semibold text-green-700 bg-green-100 px-1 py-0.5 rounded text-xs"></span></p>
                         </div>
                         <div class="space-y-1.5">
-                            <template x-for="addon in addonProducts" :key="addon.id">
+                            <template x-for="addon in filteredAddonProducts" :key="addon.id">
                                 <div @click="openAddonDetail(addon)" class="flex items-center space-x-2 p-2 bg-white rounded-md border border-green-100 cursor-pointer hover:bg-gray-50 transition-colors">
                                     <img :src="addon.image" class="w-8 h-8 rounded object-cover flex-shrink-0">
                                     <div class="flex-grow min-w-0">
@@ -4040,6 +4053,71 @@
 
 
 
+                            <!-- Cách sử dụng - Professional Guide -->
+                            <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-4 mb-4 border border-blue-100">
+                                <div class="flex items-center mb-3">
+                                    
+                                    <h3 class="text-sm font-bold text-blue-800">📋 Hướng dẫn sử dụng</h3>
+                                </div>
+
+                                <div class="space-y-3">
+                                    <!-- Vòng dâu tằm -->
+                                    <div class="bg-white/70 rounded-lg p-3 border border-blue-200">
+                                        <div class="flex items-start space-x-3">
+                                            <div class="w-10 h-10 bg-gradient-to-br from-pink-100 to-rose-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                                <span class="text-lg">💍</span>
+                                            </div>
+                                            <div class="flex-1">
+                                                <h4 class="text-sm font-semibold text-gray-800 mb-1">Vòng Dâu Tằm</h4>
+                                                <p class="text-xs text-gray-600 leading-relaxed">
+                                                    Đeo vào <span class="font-medium text-pink-600">tay hoặc chân bé</span> để hỗ trợ giấc ngủ ngon và an thần tự nhiên
+                                                </p>
+                                                <div class="flex items-center mt-2 text-xs text-blue-600">
+                                                    <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                                    </svg>
+                                                    <span>An toàn cho trẻ em</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Túi dâu tằm -->
+                                    <div class="bg-white/70 rounded-lg p-3 border border-blue-200">
+                                        <div class="flex items-start space-x-3">
+                                            <div class="w-10 h-10 bg-gradient-to-br from-purple-100 to-indigo-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                                <span class="text-lg">👜</span>
+                                            </div>
+                                            <div class="flex-1">
+                                                <h4 class="text-sm font-semibold text-gray-800 mb-1">Túi Dâu Tằm</h4>
+                                                <p class="text-xs text-gray-600 leading-relaxed">
+                                                    Đặt ở <span class="font-medium text-purple-600">đầu giường hoặc trong phòng</span> để tạo không gian thư giãn, giúp cả gia đình ngủ ngon
+                                                </p>
+                                                <div class="flex items-center mt-2 text-xs text-blue-600">
+                                                    <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                                    </svg>
+                                                    <span>Tiện lợi sinh hoạt</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Lưu ý quan trọng -->
+                                <div class="mt-3 p-3 bg-gradient-to-r from-amber-50 to-orange-50 rounded-lg border border-amber-200">
+                                    <div class="flex items-start space-x-2">
+                                       
+                                        <div>
+                                            <p class="text-xs font-medium text-amber-800 mb-1">💡 Lưu ý quan trọng</p>
+                                            <p class="text-xs text-amber-700 leading-relaxed">
+                                                Số hạt dâu em làm vòng được làm theo "Sinh Lão Bệnh Tử", số hạt em làm đều là số đẹp rơi và chữ "Sinh" và chữ "Lão" (lấy số hạt dâu chia cho 4, nếu dư 1 là "Sinh", nếu dư 2 là "Lão" ạ) nên các mẹ yên tâm đeo cho bé nha.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <!-- Price Summary - Clean & Attractive -->
                             <div class="bg-gradient-to-br from-white to-gray-50 rounded-xl p-4 border border-gray-100 shadow-sm">
                                 <!-- Price Comparison - Easy to Understand -->
@@ -4049,7 +4127,12 @@
                                         <!-- Mua lẻ -->
                                         <div class="flex items-center justify-between p-3 bg-white/70 rounded-lg border border-gray-200">
                                             <div class="text-left">
-                                                <p class="text-xs text-gray-500 mb-1">🛍️ Nếu mua lẻ:</p>
+                                                <p class="text-xs text-gray-500 mb-1 flex items-center">
+                                                    <svg class="w-4 h-4 mr-1.5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path>
+                                                    </svg>
+                                                    Nếu mua lẻ:
+                                                </p>
                                                 <div class="text-sm text-gray-700">
                                                     <span x-text="formatCurrency(currentComboImages.originalPrice)"></span>
                                                     <span class="text-gray-500"> + </span>
@@ -4065,7 +4148,12 @@
                                         <!-- Mua combo -->
                                         <div class="flex items-center justify-between p-3 bg-gradient-to-r from-emerald-50 to-green-50 rounded-lg border-2 border-emerald-200">
                                             <div class="text-left">
-                                                <p class="text-xs text-emerald-600 mb-1 font-semibold">🎁 Mua combo:</p>
+                                                <p class="text-xs text-emerald-600 mb-1 font-semibold flex items-center">
+                                                    <svg class="w-4 h-4 mr-1.5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
+                                                    </svg>
+                                                    Mua combo:
+                                                </p>
                                                 <div class="text-sm text-emerald-700">
                                                     <span x-text="formatCurrency(currentComboImages.comboPrice)"></span>
                                                     <span class="text-emerald-500"> + </span>
@@ -4110,7 +4198,7 @@
                                 <div class="text-center bg-gradient-to-r from-pink-50 to-rose-50 rounded-lg p-3 border border-pink-100">
                                     <p class="text-xs text-gray-600 flex items-center justify-center space-x-1 font-medium">
                                         <span>💕</span>
-                                        <span>Đã có 1000+ mẹ bỉm lựa chọn combo này</span>
+                                        <span x-text="`Đã có ${currentComboImages.customerCount}+ mẹ bỉm lựa chọn combo này`"></span>
                                         <span>💕</span>
                                     </p>
                                     <p class="text-xs text-pink-600 mt-1 font-semibold">⭐ Đánh giá 4.9/5 sao từ các mẹ</p>

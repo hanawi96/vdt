@@ -97,6 +97,7 @@ document.addEventListener('alpine:init', () => {
     activeSearchQuery: '',
     isShowingTopSelling: false,
     isComboImageModalOpen: false,
+    isBuyingCombo: false,
     currentComboTitle: '',
     currentComboType: '',
     currentComboImages: {
@@ -201,7 +202,12 @@ document.addEventListener('alpine:init', () => {
       const priceData = this.calculateDynamicPrice(this.quickBuyProduct, actualWeight);
       const mainProductTotal = priceData.finalPrice * this.quickBuyQuantity;
 
-      // Add addon products from cart
+      // Khi mua combo, chỉ tính sản phẩm chính, không cộng addon từ giỏ hàng
+      if (this.isBuyingCombo) {
+        return mainProductTotal;
+      }
+
+      // Add addon products from cart (chỉ khi không mua combo)
       const addonTotal = this.cart
         .filter(item => this.addonProducts.some(addon => addon.id === item.id))
         .reduce((total, item) => total + (item.price * item.quantity), 0);
@@ -211,7 +217,21 @@ document.addEventListener('alpine:init', () => {
 
     // Get addon products in cart for Quick Buy
     get quickBuyAddons() {
+      // Khi mua combo, không hiển thị addon từ giỏ hàng
+      if (this.isBuyingCombo) {
+        return [];
+      }
       return this.cart.filter(item => this.addonProducts.some(addon => addon.id === item.id));
+    },
+
+    // Get filtered addon products (exclude túi dâu tằm when buying combo)
+    get filteredAddonProducts() {
+      if (this.isBuyingCombo) {
+        // Khi đang mua combo, chỉ hiển thị móc chìa khóa
+        return this.addonProducts.filter(addon => addon.id === 'addon_moc_chia_khoa');
+      }
+      // Bình thường hiển thị tất cả
+      return this.addonProducts;
     },
 
     // Check if has addon discount for Quick Buy
@@ -257,8 +277,8 @@ document.addEventListener('alpine:init', () => {
       // Freeship từ mã giảm giá
       const discountFreeship = this.availableDiscounts.find(d => d.code?.toUpperCase() === this.appliedDiscountCode && d.type === 'shipping');
 
-      // Freeship từ addon túi dâu tằm
-      const addonFreeship = this.cart.some(item => item.id === 'addon_tui_dau_tam');
+      // Freeship từ addon túi dâu tằm (chỉ khi không mua combo)
+      const addonFreeship = !this.isBuyingCombo && this.cart.some(item => item.id === 'addon_tui_dau_tam');
 
       return !!(discountFreeship || addonFreeship);
     },
@@ -695,6 +715,9 @@ document.addEventListener('alpine:init', () => {
 
     // Function để mua combo
     buyCombo(comboId, comboName, comboPrice) {
+      // Đánh dấu đang mua combo
+      this.isBuyingCombo = true;
+
       // Tạo object combo giống như sản phẩm
       const comboProduct = {
         id: comboId,
@@ -721,6 +744,7 @@ document.addEventListener('alpine:init', () => {
           totalWithoutCombo: 178000, // originalPrice + shippingFee
           comboPrice: 120000,
           savings: 58000, // totalWithoutCombo - comboPrice
+          customerCount: 689, // Số lượng khách hàng đã mua
           product1: {
             image: './assets/images/demo.jpg',
             name: 'Vòng Dâu Tằm Trơn',
@@ -743,6 +767,7 @@ document.addEventListener('alpine:init', () => {
           totalWithoutCombo: 308000, // originalPrice + shippingFee
           comboPrice: 230000,
           savings: 78000, // totalWithoutCombo - comboPrice
+          customerCount: 423, // Số lượng khách hàng đã mua
           product1: {
             image: './assets/images/demo.jpg',
             name: 'Vòng 7 Bi Bạc',
@@ -765,6 +790,7 @@ document.addEventListener('alpine:init', () => {
           totalWithoutCombo: 378000, // originalPrice + shippingFee
           comboPrice: 290000,
           savings: 88000, // totalWithoutCombo - comboPrice
+          customerCount: 312, // Số lượng khách hàng đã mua
           product1: {
             image: './assets/images/demo.jpg',
             name: 'Vòng 9 Bi Bạc',
@@ -800,6 +826,9 @@ document.addEventListener('alpine:init', () => {
 
     // Function để mua combo với thông tin chi tiết hơn
     buyComboEnhanced(comboType, comboTitle, comboPrice) {
+      // Đánh dấu đang mua combo
+      this.isBuyingCombo = true;
+
       // Tạo object combo với thông tin chi tiết
       const comboProduct = {
         id: comboType,
@@ -1522,6 +1551,7 @@ document.addEventListener('alpine:init', () => {
     },
     closeQuickBuyModal() {
       this.isQuickBuyModalOpen = false;
+      this.isBuyingCombo = false; // Reset combo flag
       this.quickBuyProduct = null;
       this.quickBuyQuantity = 1;
       this.quickBuyWeight = '';
@@ -1559,6 +1589,7 @@ document.addEventListener('alpine:init', () => {
       this.isMiniCartOpen = false;
       this.isDiscountModalOpen = false;
       this.isQuickBuyModalOpen = false;
+      this.isBuyingCombo = false;
       this.isCheckoutConfirmTransferModalOpen = false;
       this.isComboImageModalOpen = false;
       this.isAddonDetailModalOpen = false;
