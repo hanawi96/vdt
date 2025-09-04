@@ -2477,8 +2477,8 @@
                                             </div>
                                         </div>
                                         <div class="flex flex-col items-center space-y-1">
-                                            <button @click.stop="isAddonInCart(addon.id) ? removeFromCart(addon.id) : addAddonToCart(addon)" class="text-xs font-medium rounded-md transition-colors h-6 w-12 flex items-center justify-center" :class="isAddonInCart(addon.id) ? 'bg-red-500 text-white hover:bg-red-600' : 'bg-pink-600 text-white hover:bg-pink-700'">
-                                                <span x-text="isAddonInCart(addon.id) ? 'Xóa' : 'Thêm'"></span>
+                                            <button @click.stop="isAddonInCartForDisplay(addon.id) ? removeFromCart(addon.id) : addAddonToCart(addon)" class="text-xs font-medium rounded-md transition-colors h-6 w-12 flex items-center justify-center" :class="isAddonInCartForDisplay(addon.id) ? 'bg-red-500 text-white hover:bg-red-600' : 'bg-pink-600 text-white hover:bg-pink-700'">
+                                                <span x-text="isAddonInCartForDisplay(addon.id) ? 'Xóa' : 'Thêm'"></span>
                                             </button>
                                             <template x-if="addon.id === 'addon_tui_dau_tam'"><p class="text-xs text-green-600 font-semibold" x-text="isFreeshippingFromDiscount() ? '-8K' : '+ Freeship'"></p></template>
                                             <template x-if="addon.id === 'addon_moc_chia_khoa'"><p class="text-xs text-green-600 font-semibold">-5K</p></template>
@@ -2756,7 +2756,7 @@
                             </div>
                         </template>
 
-                        <!-- Các loại giảm giá (ẩn khi mua combo) -->
+                        <!-- Miễn phí ship từ addon (không phải combo) -->
                         <template x-if="quickBuyShippingDiscount > 0 && !isBuyingCombo">
                             <div class="flex justify-between text-sm text-green-600 font-medium">
                                 <span>Miễn phí ship</span>
@@ -3058,8 +3058,8 @@
                                                 </div>
                                             </div>
                                             <div class="flex flex-col items-center space-y-1">
-                                                <button @click.stop="isAddonInCart(addon.id) ? removeFromCart(addon.id) : addAddonToCart(addon)" class="text-xs font-medium rounded-md transition-colors h-6 w-12 flex items-center justify-center" :class="isAddonInCart(addon.id) ? 'bg-red-500 text-white hover:bg-red-600' : 'bg-pink-600 text-white hover:bg-pink-700'">
-                                                    <span x-text="isAddonInCart(addon.id) ? 'Xóa' : 'Thêm'"></span>
+                                                <button @click.stop="isAddonInCartForDisplay(addon.id) ? removeFromCart(addon.id) : addAddonToCart(addon)" class="text-xs font-medium rounded-md transition-colors h-6 w-12 flex items-center justify-center" :class="isAddonInCartForDisplay(addon.id) ? 'bg-red-500 text-white hover:bg-red-600' : 'bg-pink-600 text-white hover:bg-pink-700'">
+                                                    <span x-text="isAddonInCartForDisplay(addon.id) ? 'Xóa' : 'Thêm'"></span>
                                                 </button>
                                                 <template x-if="addon.id === 'addon_tui_dau_tam'"><p class="text-xs text-green-600 font-semibold" x-text="isFreeshippingFromDiscount() ? '-8K' : '+ Freeship'"></p></template>
                                                 <template x-if="addon.id === 'addon_moc_chia_khoa'"><p class="text-xs text-green-600 font-semibold">-5K</p></template>
@@ -3405,8 +3405,8 @@
                                         </div>
                                     </div>
                                     <div class="flex flex-col items-center space-y-1">
-                                        <button @click.stop="isAddonInCart(addon.id) ? removeFromCart(addon.id) : addAddonToCart(addon)" class="text-xs font-medium rounded-md transition-colors h-6 w-12 flex items-center justify-center" :class="isAddonInCart(addon.id) ? 'bg-red-500 text-white hover:bg-red-600' : 'bg-pink-600 text-white hover:bg-pink-700'">
-                                            <span x-text="isAddonInCart(addon.id) ? 'Xóa' : 'Thêm'"></span>
+                                        <button @click.stop="isAddonInCartForDisplay(addon.id) ? removeFromCart(addon.id) : addAddonToCart(addon)" class="text-xs font-medium rounded-md transition-colors h-6 w-12 flex items-center justify-center" :class="isAddonInCartForDisplay(addon.id) ? 'bg-red-500 text-white hover:bg-red-600' : 'bg-pink-600 text-white hover:bg-pink-700'">
+                                            <span x-text="isAddonInCartForDisplay(addon.id) ? 'Xóa' : 'Thêm'"></span>
                                         </button>
                                         <template x-if="addon.id === 'addon_tui_dau_tam'"><p class="text-xs text-green-600 font-semibold" x-text="isFreeshippingFromDiscount() ? '-8K' : '+ Freeship'"></p></template>
                                         <template x-if="addon.id === 'addon_moc_chia_khoa'"><p class="text-xs text-green-600 font-semibold">-5K</p></template>

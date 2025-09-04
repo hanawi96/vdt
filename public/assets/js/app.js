@@ -162,6 +162,7 @@ document.addEventListener('alpine:init', () => {
     isCheckoutConfirmTransferModalOpen: false, // Modal xác nhận chuyển khoản cho checkout
     isDiscountModalFromQuickBuy: false, // Flag để biết modal discount được mở từ đâu
     preventQuickBuyCloseOnEscape: false, // Flag để ngăn đóng Quick Buy khi có modal con
+    quickBuySelectedAddons: [], // Addon được chọn trong Quick Buy
 
     // Weight options từ 3kg đến 15kg (tăng 0.5kg) + option "Chưa sinh"
     get weightOptions() {
@@ -202,26 +203,15 @@ document.addEventListener('alpine:init', () => {
       const priceData = this.calculateDynamicPrice(this.quickBuyProduct, actualWeight);
       const mainProductTotal = priceData.finalPrice * this.quickBuyQuantity;
 
-      // Khi mua combo, chỉ tính sản phẩm chính, không cộng addon từ giỏ hàng
-      if (this.isBuyingCombo) {
-        return mainProductTotal;
-      }
-
-      // Add addon products from cart (chỉ khi không mua combo)
-      const addonTotal = this.cart
-        .filter(item => this.addonProducts.some(addon => addon.id === item.id))
-        .reduce((total, item) => total + (item.price * item.quantity), 0);
-
-      return mainProductTotal + addonTotal;
+      // Tính sản phẩm chính + addon được chọn trong Quick Buy
+      const quickBuyAddonTotal = this.quickBuySelectedAddons.reduce((total, addon) => total + addon.price, 0);
+      return mainProductTotal + quickBuyAddonTotal;
     },
 
     // Get addon products in cart for Quick Buy
     get quickBuyAddons() {
-      // Khi mua combo, không hiển thị addon từ giỏ hàng
-      if (this.isBuyingCombo) {
-        return [];
-      }
-      return this.cart.filter(item => this.addonProducts.some(addon => addon.id === item.id));
+      // Luôn hiển thị addon được chọn trong Quick Buy (độc lập với giỏ hàng)
+      return this.quickBuySelectedAddons;
     },
 
     // Get filtered addon products (exclude túi dâu tằm when buying combo)
@@ -234,9 +224,16 @@ document.addEventListener('alpine:init', () => {
       return this.addonProducts;
     },
 
+    // Check if addon is in cart (modified for Quick Buy context)
+    isAddonInCartForDisplay(addonId) {
+      // Luôn kiểm tra addon được chọn trong Quick Buy
+      return this.quickBuySelectedAddons.some(addon => addon.id === addonId);
+    },
+
     // Check if has addon discount for Quick Buy
     get quickBuyAddonDiscount() {
-      const hasKeychain = this.cart.some(item => item.id === 'addon_moc_chia_khoa');
+      // Luôn kiểm tra addon được chọn trong Quick Buy
+      const hasKeychain = this.quickBuySelectedAddons.some(addon => addon.id === 'addon_moc_chia_khoa');
       return hasKeychain ? 5000 : 0;
     },
 
@@ -277,8 +274,8 @@ document.addEventListener('alpine:init', () => {
       // Freeship từ mã giảm giá
       const discountFreeship = this.availableDiscounts.find(d => d.code?.toUpperCase() === this.appliedDiscountCode && d.type === 'shipping');
 
-      // Freeship từ addon túi dâu tằm (chỉ khi không mua combo)
-      const addonFreeship = !this.isBuyingCombo && this.cart.some(item => item.id === 'addon_tui_dau_tam');
+      // Freeship từ addon túi dâu tằm được chọn trong Quick Buy
+      const addonFreeship = this.quickBuySelectedAddons.some(addon => addon.id === 'addon_tui_dau_tam');
 
       return !!(discountFreeship || addonFreeship);
     },
@@ -1328,6 +1325,12 @@ document.addEventListener('alpine:init', () => {
     get selectedCartProducts() { return this.cart.filter(i => this.selectedCartItems.includes(i.id)); },
 
     addAddonToCart(addon) {
+      // Khi modal Quick Buy đang mở, thêm vào Quick Buy thay vì giỏ hàng
+      if (this.isQuickBuyModalOpen) {
+        this.addAddonToQuickBuy(addon);
+        return;
+      }
+
       const ex = this.cart.find(i => i.id === addon.id);
       if (ex) { ex.quantity++; }
       else {
@@ -1345,6 +1348,22 @@ document.addEventListener('alpine:init', () => {
         this.showAlert(`Đã thêm ${addon.name} vào giỏ hàng!`, 'success');
       }
     },
+
+    // Thêm addon vào Quick Buy (cho combo)
+    addAddonToQuickBuy(addon) {
+      const existing = this.quickBuySelectedAddons.find(a => a.id === addon.id);
+      if (!existing) {
+        this.quickBuySelectedAddons.push({ ...addon, quantity: 1 });
+        this.showAlert(`Đã thêm ${addon.name}! 💰 Giảm 5K đơn hàng!`, 'success');
+      }
+    },
+
+    // Xóa addon khỏi Quick Buy (cho combo)
+    removeAddonFromQuickBuy(addonId) {
+      this.quickBuySelectedAddons = this.quickBuySelectedAddons.filter(a => a.id !== addonId);
+      const addon = this.addonProducts.find(a => a.id === addonId);
+      this.showAlert(`Đã xóa ${addon?.name || 'addon'}!`, 'success');
+    },
     isAddonInCart(addonId) { return this.cart.some(i => i.id === addonId); },
     isFreeshippingFromDiscount() {
       if (!this.appliedDiscountCode) return false;
@@ -1352,6 +1371,12 @@ document.addEventListener('alpine:init', () => {
       return !!(d && d.type === 'shipping');
     },
     removeFromCart(productId) {
+      // Khi modal Quick Buy đang mở, xóa khỏi Quick Buy thay vì giỏ hàng
+      if (this.isQuickBuyModalOpen) {
+        this.removeAddonFromQuickBuy(productId);
+        return;
+      }
+
       const isAddon = this.addonProducts.some(a => a.id === productId);
       const removed = this.cart.find(i => i.id === productId);
 
@@ -1559,6 +1584,7 @@ document.addEventListener('alpine:init', () => {
       this.quickBuyNotes = '';
       this.quickBuyPaymentMethod = 'cod'; // Reset về COD
       this.isQuickBuyTransferConfirmed = false; // Reset trạng thái xác nhận
+      this.quickBuySelectedAddons = []; // Reset addon được chọn
       this.clearFormErrors(); // Clear validation errors
       this.stopSocialProofTimer();
       // Giữ nguyên discount state để có thể tái sử dụng
