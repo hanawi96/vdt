@@ -98,9 +98,15 @@ document.addEventListener('alpine:init', () => {
     isShowingTopSelling: false,
     isComboImageModalOpen: false,
     currentComboTitle: '',
+    currentComboType: '',
     currentComboImages: {
-      product1: { image: '', name: '', description: '' },
-      product2: { image: '', name: '', description: '' }
+      product1: { image: '', name: '', description: '', benefits: [] },
+      product2: { image: '', name: '', description: '', benefits: [] },
+      originalPrice: 0,
+      shippingFee: 0,
+      totalWithoutCombo: 0,
+      comboPrice: 0,
+      savings: 0
     },
 
     /* ========= MODALS ========= */
@@ -705,52 +711,73 @@ document.addEventListener('alpine:init', () => {
       this.buyNow(comboProduct);
     },
 
-    // Function để mở modal xem ảnh combo
+    // Function để mở modal xem ảnh combo - Enhanced for Mom-Friendly Experience
     openComboImageModal(comboType) {
       const comboData = {
         'vong_tron_tui': {
           title: 'Combo Vòng Trơn + Túi Dâu Tằm Để Giường',
+          originalPrice: 148000,
+          shippingFee: 30000,
+          totalWithoutCombo: 178000, // originalPrice + shippingFee
+          comboPrice: 120000,
+          savings: 58000, // totalWithoutCombo - comboPrice
           product1: {
             image: './assets/images/demo.jpg',
             name: 'Vòng Dâu Tằm Trơn',
-            description: 'Vòng dâu tằm trơn đơn giản, thanh lịch, phù hợp cho mọi lứa tuổi',
-            price: 89000
+            description: 'Vòng dâu tằm trơn đơn giản, thanh lịch, phù hợp cho mọi lứa tuổi. An toàn cho bé, không gây dị ứng.',
+            price: 89000,
+            benefits: ['An toàn cho bé', 'Không gây dị ứng', 'Dễ vệ sinh']
           },
           product2: {
             image: './assets/images/demo.jpg',
             name: 'Túi Đựng Vòng Dâu Tằm Nhung',
-            description: 'Túi nhung cao cấp để bảo quản vòng dâu tằm, giữ nguyên chất lượng',
-            price: 59000
+            description: 'Túi nhung cao cấp để bảo quản vòng dâu tằm, giữ nguyên chất lượng và độ bền.',
+            price: 59000,
+            benefits: ['Chất liệu nhung cao cấp', 'Bảo quản tốt', 'Tiện lợi mang theo']
           }
         },
         'vong_7_bi_bac_tui': {
           title: 'Combo 7 Bi Bạc + Túi Dâu Tằm Để Giường',
+          originalPrice: 278000,
+          shippingFee: 30000,
+          totalWithoutCombo: 308000, // originalPrice + shippingFee
+          comboPrice: 230000,
+          savings: 78000, // totalWithoutCombo - comboPrice
           product1: {
             image: './assets/images/demo.jpg',
             name: 'Vòng 7 Bi Bạc',
-            description: 'Vòng dâu tằm với 7 viên bi bạc thật, sang trọng và phong thủy',
-            price: 219000
+            description: 'Vòng dâu tằm với 7 viên bi bạc thật, sang trọng và phong thủy, mang lại may mắn cho bé.',
+            price: 219000,
+            benefits: ['Bi bạc thật 100%', 'Phong thủy tốt', 'Sang trọng, đẳng cấp']
           },
           product2: {
             image: './assets/images/demo.jpg',
             name: 'Túi Đựng Vòng Dâu Tằm Nhung',
-            description: 'Túi nhung cao cấp để bảo quản vòng dâu tằm, giữ nguyên chất lượng',
-            price: 59000
+            description: 'Túi nhung cao cấp để bảo quản vòng dâu tằm, giữ nguyên chất lượng và độ bền.',
+            price: 59000,
+            benefits: ['Chất liệu nhung cao cấp', 'Bảo quản tốt', 'Tiện lợi mang theo']
           }
         },
         'vong_9_bi_bac_tui': {
           title: 'Combo 9 Bi Bạc + Túi Dâu Tằm Để Giường',
+          originalPrice: 348000,
+          shippingFee: 30000,
+          totalWithoutCombo: 378000, // originalPrice + shippingFee
+          comboPrice: 290000,
+          savings: 88000, // totalWithoutCombo - comboPrice
           product1: {
             image: './assets/images/demo.jpg',
             name: 'Vòng 9 Bi Bạc',
-            description: 'Vòng dâu tằm với 9 viên bi bạc thật, cao cấp nhất cho bé yêu',
-            price: 289000
+            description: 'Vòng dâu tằm với 9 viên bi bạc thật, cao cấp nhất cho bé yêu, mang ý nghĩa trường thọ.',
+            price: 289000,
+            benefits: ['Bi bạc thật 100%', 'Ý nghĩa trường thọ', 'Cao cấp nhất']
           },
           product2: {
             image: './assets/images/demo.jpg',
             name: 'Túi Đựng Vòng Dâu Tằm Nhung',
-            description: 'Túi nhung cao cấp để bảo quản vòng dâu tằm, giữ nguyên chất lượng',
-            price: 59000
+            description: 'Túi nhung cao cấp để bảo quản vòng dâu tằm, giữ nguyên chất lượng và độ bền.',
+            price: 59000,
+            benefits: ['Chất liệu nhung cao cấp', 'Bảo quản tốt', 'Tiện lợi mang theo']
           }
         }
       };
@@ -759,13 +786,42 @@ document.addEventListener('alpine:init', () => {
       if (combo) {
         this.currentComboTitle = combo.title;
         this.currentComboImages = combo;
+        this.currentComboType = comboType;
         this.isComboImageModalOpen = true;
+        document.body.style.overflow = 'hidden';
       }
     },
 
-    // Function để đóng modal xem ảnh combo
+    // Function để đóng modal xem ảnh combo - Enhanced
     closeComboImageModal() {
       this.isComboImageModalOpen = false;
+      document.body.style.overflow = 'auto';
+    },
+
+    // Function để mua combo với thông tin chi tiết hơn
+    buyComboEnhanced(comboType, comboTitle, comboPrice) {
+      // Tạo object combo với thông tin chi tiết
+      const comboProduct = {
+        id: comboType,
+        name: comboTitle,
+        price: comboPrice,
+        image: './assets/images/demo.jpg',
+        description: `Combo đặc biệt dành cho mẹ bỉm: ${comboTitle}`,
+        category: 'combo',
+        isCombo: true,
+        freeShipping: true,
+        specialOffer: true,
+        momFriendly: true
+      };
+
+      // Gọi function buyNow với combo product
+      this.buyNow(comboProduct);
+
+      // Đóng modal
+      this.closeComboImageModal();
+
+      // Hiển thị thông báo thành công
+      this.showAlert('success', '🎉 Đã thêm combo vào giỏ hàng! Cảm ơn mẹ đã tin tưởng lựa chọn.');
     },
 
     // Function để hiển thị điều kiện mã giảm giá rõ ràng
@@ -1504,6 +1560,10 @@ document.addEventListener('alpine:init', () => {
       this.isDiscountModalOpen = false;
       this.isQuickBuyModalOpen = false;
       this.isCheckoutConfirmTransferModalOpen = false;
+      this.isComboImageModalOpen = false;
+      this.isAddonDetailModalOpen = false;
+      this.isProductDetailOpen = false;
+      this.isFaqModalOpen = false;
 
       console.log('🔍 Sau khi đóng tất cả - isMiniCartOpen:', this.isMiniCartOpen);
       console.log('🔍 Sau khi đóng tất cả - isCheckoutModalOpen:', this.isCheckoutModalOpen);

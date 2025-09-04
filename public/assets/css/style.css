@@ -83,6 +83,127 @@ html {
     min-height: 48px; /* Touch-friendly size */
     font-weight: 700;
   }
+
+  /* Combo action buttons mobile optimization */
+  .combo-card .flex.gap-2 button {
+    min-height: 48px; /* Touch-friendly for both buttons */
+    font-size: 0.875rem;
+    padding: 0.75rem 0.5rem; /* Adjust padding for 2-button layout */
+  }
+
+  /* Ensure text doesn't wrap on mobile */
+  .combo-card .flex.gap-2 button span {
+    white-space: nowrap;
+  }
+}
+
+/* Enhanced Combo Modal Styles */
+.combo-modal-content {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.combo-product-image {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.combo-product-image:hover {
+  transform: scale(1.05);
+}
+
+/* Smooth animations for modal elements */
+.combo-modal-enter {
+  animation: comboModalSlideIn 0.3s ease-out;
+}
+
+@keyframes comboModalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Enhanced button interactions */
+.combo-action-button {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.combo-action-button:active {
+  transform: scale(0.98);
+}
+
+/* Price highlight animation */
+.combo-price-highlight {
+  animation: priceGlow 2s ease-in-out infinite;
+}
+
+@keyframes priceGlow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(16, 185, 129, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.6);
+  }
+}
+
+/* Mobile-specific optimizations for combo modal */
+@media (max-width: 640px) {
+  /* Larger product images on mobile for better viewing */
+  .combo-product-image {
+    min-height: 200px;
+  }
+
+  /* Touch-friendly buttons */
+  .combo-action-button {
+    min-height: 48px;
+    font-size: 0.875rem;
+  }
+
+  /* Improved text readability */
+  .combo-modal-content h2 {
+    font-size: 1rem;
+    line-height: 1.3;
+  }
+
+  .combo-modal-content h4 {
+    font-size: 0.875rem;
+    line-height: 1.4;
+  }
+
+  /* Better spacing for mobile */
+  .combo-modal-content .grid {
+    gap: 0.75rem;
+  }
+}
+
+/* Enhanced visual feedback */
+.combo-action-button:hover {
+  box-shadow: 0 10px 25px -5px rgba(236, 72, 153, 0.4);
+}
+
+/* Smooth transitions for all interactive elements */
+.combo-modal-content * {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Loading state for images */
+.combo-product-image {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
 
 /* Confirmation Modal Enhancements */

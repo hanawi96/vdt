@@ -256,11 +256,12 @@
         <div class="fixed right-4 bottom-20 z-40 flex flex-col items-end space-y-3">
             <!-- Categories Badge -->
             <button @click="scrollToCategories()"
-                    class="group bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white rounded-full shadow-lg transform hover:scale-105 transition-all duration-300 flex items-center px-3 py-2 space-x-2">
+                    class="group bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white rounded-full shadow-lg transform hover:scale-105 transition-all duration-300 flex items-center
+                           w-8 h-8 justify-center sm:w-auto sm:h-auto sm:px-3 sm:py-2 sm:space-x-2">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 10.5 12 3m0 0 7.5 7.5M12 3v18" />
                 </svg>
-                <span class="text-xs font-semibold whitespace-nowrap">Danh mục SP</span>
+                <span class="hidden sm:inline text-xs font-semibold whitespace-nowrap">Danh mục SP</span>
             </button>
 
             <!-- FAQ Button -->
@@ -325,7 +326,7 @@
 
         <!-- Featured Products & Combos Section -->
         <div x-show="!loading && !error && view === 'products'" class="mb-8">
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-4 gap-4">
 
                 <!-- Box 1: Top 10 Sản Phẩm Bán Chạy -->
                 <div class="group relative bg-gradient-to-br from-blue-50 to-indigo-100 rounded-2xl border border-blue-100 overflow-hidden">
@@ -450,16 +451,31 @@
                             </div>
                         </div>
 
-                        <!-- Buy Now Button -->
-                        <button @click="buyCombo('vong_tron_tui', 'Combo Vòng Trơn + Túi Dâu Tằm', 120000)"
-                                class="combo-buy-button w-full bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-bold py-3 px-4 rounded-xl shadow-lg">
-                            <div class="flex items-center justify-center space-x-2">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                                </svg>
-                                <span class="text-sm sm:text-base">MUA NGAY</span>
-                            </div>
-                        </button>
+                        <!-- Action Buttons -->
+                        <div class="flex gap-2">
+                            <!-- Chi tiết Button -->
+                            <button @click="openComboImageModal('vong_tron_tui')"
+                                    class="flex-1 bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white font-bold py-3 px-4 rounded-xl shadow-lg transition-all">
+                                <div class="flex items-center justify-center space-x-2">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                    </svg>
+                                    <span class="text-sm sm:text-base">Chi tiết</span>
+                                </div>
+                            </button>
+
+                            <!-- Mua ngay Button -->
+                            <button @click="buyCombo('vong_tron_tui', 'Combo Vòng Trơn + Túi Dâu Tằm', 120000)"
+                                    class="flex-1 combo-buy-button bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-bold py-3 px-4 rounded-xl shadow-lg">
+                                <div class="flex items-center justify-center space-x-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+                                        <path fill-rule="evenodd" d="M6 5v1H4.667a1.75 1.75 0 0 0-1.743 1.598l-.826 9.5A1.75 1.75 0 0 0 3.84 19H16.16a1.75 1.75 0 0 0 1.743-1.902l-.826-9.5A1.75 1.75 0 0 0 15.333 6H14V5a4 4 0 0 0-8 0Zm4-2.5A2.5 2.5 0 0 0 7.5 5v1h5V5A2.5 2.5 0 0 0 10 2.5ZM7.5 10a2.5 2.5 0 0 0 5 0V8.75a.75.75 0 0 1 1.5 0V10a4 4 0 0 1-8 0V8.75a.75.75 0 0 1 1.5 0V10Z" clip-rule="evenodd" />
+                                    </svg>
+                                    <span class="text-sm sm:text-base">Mua ngay</span>
+                                </div>
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -533,16 +549,31 @@
                             </div>
                         </div>
 
-                        <!-- Buy Now Button -->
-                        <button @click="buyCombo('vong_7_bi_bac_tui', 'Combo 7 Bi Bạc + Túi Dâu Tằm', 230000)"
-                                class="combo-buy-button w-full bg-gradient-to-r from-purple-500 to-violet-500 hover:from-purple-600 hover:to-violet-600 text-white font-bold py-3 px-4 rounded-xl shadow-lg">
-                            <div class="flex items-center justify-center space-x-2">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                                </svg>
-                                <span class="text-sm sm:text-base">MUA NGAY</span>
-                            </div>
-                        </button>
+                        <!-- Action Buttons -->
+                        <div class="flex gap-2">
+                            <!-- Chi tiết Button -->
+                            <button @click="openComboImageModal('vong_7_bi_bac_tui')"
+                                    class="flex-1 bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white font-bold py-3 px-4 rounded-xl shadow-lg transition-all">
+                                <div class="flex items-center justify-center space-x-2">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                    </svg>
+                                    <span class="text-sm sm:text-base">Chi tiết</span>
+                                </div>
+                            </button>
+
+                            <!-- Mua ngay Button -->
+                            <button @click="buyCombo('vong_7_bi_bac_tui', 'Combo 7 Bi Bạc + Túi Dâu Tằm', 230000)"
+                                    class="flex-1 combo-buy-button bg-gradient-to-r from-purple-500 to-violet-500 hover:from-purple-600 hover:to-violet-600 text-white font-bold py-3 px-4 rounded-xl shadow-lg">
+                                <div class="flex items-center justify-center space-x-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+                                        <path fill-rule="evenodd" d="M6 5v1H4.667a1.75 1.75 0 0 0-1.743 1.598l-.826 9.5A1.75 1.75 0 0 0 3.84 19H16.16a1.75 1.75 0 0 0 1.743-1.902l-.826-9.5A1.75 1.75 0 0 0 15.333 6H14V5a4 4 0 0 0-8 0Zm4-2.5A2.5 2.5 0 0 0 7.5 5v1h5V5A2.5 2.5 0 0 0 10 2.5ZM7.5 10a2.5 2.5 0 0 0 5 0V8.75a.75.75 0 0 1 1.5 0V10a4 4 0 0 1-8 0V8.75a.75.75 0 0 1 1.5 0V10Z" clip-rule="evenodd" />
+                                    </svg>
+                                    <span class="text-sm sm:text-base">Mua ngay</span>
+                                </div>
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -616,16 +647,31 @@
                             </div>
                         </div>
 
-                        <!-- Buy Now Button -->
-                        <button @click="buyCombo('vong_9_bi_bac_tui', 'Combo 9 Bi Bạc + Túi Dâu Tằm', 290000)"
-                                class="combo-buy-button w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold py-3 px-4 rounded-xl shadow-lg">
-                            <div class="flex items-center justify-center space-x-2">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
-                                </svg>
-                                <span class="text-sm sm:text-base">MUA NGAY</span>
-                            </div>
-                        </button>
+                        <!-- Action Buttons -->
+                        <div class="flex gap-2">
+                            <!-- Chi tiết Button -->
+                            <button @click="openComboImageModal('vong_9_bi_bac_tui')"
+                                    class="flex-1 bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white font-bold py-3 px-4 rounded-xl shadow-lg transition-all">
+                                <div class="flex items-center justify-center space-x-2">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                    </svg>
+                                    <span class="text-sm sm:text-base">Chi tiết</span>
+                                </div>
+                            </button>
+
+                            <!-- Mua ngay Button -->
+                            <button @click="buyCombo('vong_9_bi_bac_tui', 'Combo 9 Bi Bạc + Túi Dâu Tằm', 290000)"
+                                    class="flex-1 combo-buy-button bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold py-3 px-4 rounded-xl shadow-lg">
+                                <div class="flex items-center justify-center space-x-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+                                        <path fill-rule="evenodd" d="M6 5v1H4.667a1.75 1.75 0 0 0-1.743 1.598l-.826 9.5A1.75 1.75 0 0 0 3.84 19H16.16a1.75 1.75 0 0 0 1.743-1.902l-.826-9.5A1.75 1.75 0 0 0 15.333 6H14V5a4 4 0 0 0-8 0Zm4-2.5A2.5 2.5 0 0 0 7.5 5v1h5V5A2.5 2.5 0 0 0 10 2.5ZM7.5 10a2.5 2.5 0 0 0 5 0V8.75a.75.75 0 0 1 1.5 0V10a4 4 0 0 1-8 0V8.75a.75.75 0 0 1 1.5 0V10Z" clip-rule="evenodd" />
+                                    </svg>
+                                    <span class="text-sm sm:text-base">Mua ngay</span>
+                                </div>
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -643,7 +689,7 @@
                 </div>
 
                 <!-- Category Filters -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 mb-8">
                     <template x-for="category in categories" :key="category.id">
                         <div @click="selectCategory(category)"
                              class="category-card relative flex items-center bg-white rounded-2xl shadow-sm overflow-hidden cursor-pointer border transition-all duration-300"
@@ -712,7 +758,7 @@
                 </div>
 
                 <div id="products-section" class="mb-4"></div>
-                <div id="product-list" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-3">
+                <div id="product-list" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-2 sm:gap-3">
                     <template x-for="product in filteredProducts()" :key="product.id">
                         <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden group">
                             <div @click="openProductDetail(product)" class="relative overflow-hidden cursor-pointer">
@@ -1033,7 +1079,7 @@
     </div>
 
     <!-- Footer -->
-    <footer class="bg-gradient-to-r from-pink-50 to-purple-50 border-t border-pink-100 mt-16 w-full" x-show="!loading">
+    <footer class="bg-gradient-to-r from-pink-50 to-purple-50 border-t border-pink-100 mt-8 w-full" x-show="!loading">
         <div class="max-w-7xl mx-auto px-4 py-12">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <!-- Brand Section -->
@@ -1427,10 +1473,27 @@
                             </button>
                             <button @click="addAddonToCart(currentAddonDetail); closeAddonDetail()"
                                     :disabled="isAddonInCart(currentAddonDetail.id)"
-                                    class="w-3/5 font-semibold py-3 px-4 rounded-lg transition-colors"
+                                    class="w-3/5 font-semibold py-3 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2"
                                     :class="isAddonInCart(currentAddonDetail.id) ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-pink-600 text-white hover:bg-pink-700'">
-                                <span x-show="!isAddonInCart(currentAddonDetail.id)">🛒 Thêm vào giỏ</span>
-                                <span x-show="isAddonInCart(currentAddonDetail.id)">✓ Đã có trong giỏ</span>
+                                <span x-show="!isAddonInCart(currentAddonDetail.id)" class="flex items-center space-x-2">
+                                    <div class="relative">
+                                        <!-- Shopping Cart Icon -->
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+                                            <path fill-rule="evenodd" d="M6 5v1H4.667a1.75 1.75 0 0 0-1.743 1.598l-.826 9.5A1.75 1.75 0 0 0 3.84 19H16.16a1.75 1.75 0 0 0 1.743-1.902l-.826-9.5A1.75 1.75 0 0 0 15.333 6H14V5a4 4 0 0 0-8 0Zm4-2.5A2.5 2.5 0 0 0 7.5 5v1h5V5A2.5 2.5 0 0 0 10 2.5ZM7.5 10a2.5 2.5 0 0 0 5 0V8.75a.75.75 0 0 1 1.5 0V10a4 4 0 0 1-8 0V8.75a.75.75 0 0 1 1.5 0V10Z" clip-rule="evenodd" />
+                                        </svg>
+                                        <!-- Plus Icon Overlay -->
+                                        <div class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-white text-pink-600 rounded-full flex items-center justify-center text-xs font-bold">
+                                            +
+                                        </div>
+                                    </div>
+                                    <span>Thêm vào giỏ</span>
+                                </span>
+                                <span x-show="isAddonInCart(currentAddonDetail.id)" class="flex items-center space-x-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+                                        <path fill-rule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clip-rule="evenodd" />
+                                    </svg>
+                                    <span>Đã có trong giỏ</span>
+                                </span>
                             </button>
                         </div>
                     </div>
@@ -3893,65 +3956,188 @@
 
     </div>
 
-    <!-- Combo Images Modal -->
-    <div x-show="isComboImageModalOpen"
+    <!-- Combo Detail Modal - Redesigned for Mom-Friendly Experience -->
+    <div x-show="isComboImageModalOpen" @keydown.escape.window="closeComboImageModal()"
+         class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 pt-safe-top pb-safe-bottom z-[9000]"
          x-transition:enter="transition ease-out duration-300"
          x-transition:enter-start="opacity-0"
          x-transition:enter-end="opacity-100"
          x-transition:leave="transition ease-in duration-200"
          x-transition:leave-start="opacity-100"
-         x-transition:leave-end="opacity-0"
-         class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75"
-         @click="closeComboImageModal()">
+         x-transition:leave-end="opacity-0">
+        <div x-show="isComboImageModalOpen" class="combo-modal-content bg-white rounded-3xl sm:rounded-2xl shadow-2xl w-full max-w-sm sm:max-w-2xl max-h-[85vh] sm:max-h-[90vh] flex flex-col transform transition-all my-4"
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 scale-95 translate-y-4"
+             x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+             x-transition:leave-end="opacity-0 scale-95 translate-y-4">
 
-        <div class="relative max-w-4xl mx-4 bg-white rounded-2xl p-6" @click.stop>
-            <!-- Close Button -->
-            <button @click="closeComboImageModal()"
-                    class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                </svg>
-            </button>
-
-            <!-- Modal Content -->
-            <div class="text-center">
-                <h3 class="text-xl font-bold text-gray-800 mb-6" x-text="currentComboTitle"></h3>
-
-                <!-- Images Grid -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <!-- Product 1 -->
-                    <div class="text-center">
-                        <img :src="currentComboImages.product1.image"
-                             :alt="currentComboImages.product1.name"
-                             class="w-full max-w-xs mx-auto h-64 object-cover rounded-xl shadow-lg mb-3">
-                        <h4 class="font-semibold text-gray-800 mb-2" x-text="currentComboImages.product1.name"></h4>
-                        <p class="text-sm text-gray-600 mb-2" x-text="currentComboImages.product1.description"></p>
-                        <div class="text-pink-600 font-bold text-lg" x-text="formatCurrency(currentComboImages.product1.price)"></div>
+                <div class="flex flex-col h-full max-h-[85vh] sm:max-h-[90vh]">
+                    <!-- Header - Simple & Compact -->
+                    <div class="flex-shrink-0 flex items-center justify-between px-4 py-2 border-b border-gray-100">
+                        <div class="flex-1 min-w-0">
+                            <h2 class="text-sm sm:text-base font-bold text-gray-800 truncate" x-text="currentComboTitle"></h2>
+                        </div>
+                        <button @click="closeComboImageModal()"
+                                class="ml-3 w-7 h-7 text-gray-400 hover:text-gray-600 rounded-full flex items-center justify-center transition-colors">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
                     </div>
 
-                    <!-- Product 2 -->
-                    <div class="text-center">
-                        <img :src="currentComboImages.product2.image"
-                             :alt="currentComboImages.product2.name"
-                             class="w-full max-w-xs mx-auto h-64 object-cover rounded-xl shadow-lg mb-3">
-                        <h4 class="font-semibold text-gray-800 mb-2" x-text="currentComboImages.product2.name"></h4>
-                        <p class="text-sm text-gray-600 mb-2" x-text="currentComboImages.product2.description"></p>
-                        <div class="text-pink-600 font-bold text-lg" x-text="formatCurrency(currentComboImages.product2.price)"></div>
+                    <!-- Content - Optimized for Mobile Viewing -->
+                    <div class="flex-1 overflow-y-auto modal-scroll">
+                        <!-- Hero Product Images - Large & Attractive -->
+                        <div class="p-3 sm:p-4">
+                            <!-- Main Product Showcase - Mobile: 1 column, Desktop: 2 columns -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                                <!-- Product 1 - Large Image -->
+                                <div class="relative group">
+                                    <div class="relative overflow-hidden rounded-xl bg-gradient-to-br from-rose-50 to-pink-50 border border-rose-100">
+                                        <img :src="currentComboImages.product1.image"
+                                             :alt="currentComboImages.product1.name"
+                                             class="combo-product-image w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300">
+                                        <!-- Product Badge -->
+                                        <div class="absolute top-2 left-2 bg-gradient-to-r from-pink-500 to-rose-500 text-white px-2 py-1 rounded-full text-xs font-bold shadow-lg">
+                                            #1
+                                        </div>
+                                        <!-- Price Tag -->
+                                        <div class="absolute bottom-2 right-2 bg-white/90 backdrop-blur-sm text-pink-600 px-2 py-1 rounded-lg text-xs font-bold shadow-md">
+                                            <span x-text="formatCurrency(currentComboImages.product1.price)"></span>
+                                        </div>
+                                    </div>
+                                    <!-- Product Info -->
+                                    <div class="mt-2">
+                                        <h4 class="font-bold text-gray-800 text-sm leading-tight" x-text="currentComboImages.product1.name"></h4>
+                                        <p class="text-xs text-gray-500 mt-1 line-clamp-2" x-text="currentComboImages.product1.description"></p>
+                                    </div>
+                                </div>
+
+                                <!-- Product 2 - Large Image -->
+                                <div class="relative group">
+                                    <div class="relative overflow-hidden rounded-xl bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100">
+                                        <img :src="currentComboImages.product2.image"
+                                             :alt="currentComboImages.product2.name"
+                                             class="combo-product-image w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300">
+                                        <!-- Product Badge -->
+                                        <div class="absolute top-2 left-2 bg-gradient-to-r from-blue-500 to-indigo-500 text-white px-2 py-1 rounded-full text-xs font-bold shadow-lg">
+                                            #2
+                                        </div>
+                                        <!-- Price Tag -->
+                                        <div class="absolute bottom-2 right-2 bg-white/90 backdrop-blur-sm text-blue-600 px-2 py-1 rounded-lg text-xs font-bold shadow-md">
+                                            <span x-text="formatCurrency(currentComboImages.product2.price)"></span>
+                                        </div>
+                                    </div>
+                                    <!-- Product Info -->
+                                    <div class="mt-2">
+                                        <h4 class="font-bold text-gray-800 text-sm leading-tight" x-text="currentComboImages.product2.name"></h4>
+                                        <p class="text-xs text-gray-500 mt-1 line-clamp-2" x-text="currentComboImages.product2.description"></p>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                            <!-- Price Summary - Clean & Attractive -->
+                            <div class="bg-gradient-to-br from-white to-gray-50 rounded-xl p-4 border border-gray-100 shadow-sm">
+                                <!-- Price Comparison - Easy to Understand -->
+                                <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-4 mb-3 border border-blue-100">
+                                    <!-- So sánh giá rõ ràng -->
+                                    <div class="space-y-3">
+                                        <!-- Mua lẻ -->
+                                        <div class="flex items-center justify-between p-3 bg-white/70 rounded-lg border border-gray-200">
+                                            <div class="text-left">
+                                                <p class="text-xs text-gray-500 mb-1">🛍️ Nếu mua lẻ:</p>
+                                                <div class="text-sm text-gray-700">
+                                                    <span x-text="formatCurrency(currentComboImages.originalPrice)"></span>
+                                                    <span class="text-gray-500"> + </span>
+                                                    <span x-text="formatCurrency(currentComboImages.shippingFee)"></span>
+                                                    <span class="text-gray-500 text-xs"> ship</span>
+                                                </div>
+                                            </div>
+                                            <div class="text-right">
+                                                <div class="text-lg font-bold text-gray-600 line-through" x-text="formatCurrency(currentComboImages.totalWithoutCombo)"></div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Mua combo -->
+                                        <div class="flex items-center justify-between p-3 bg-gradient-to-r from-emerald-50 to-green-50 rounded-lg border-2 border-emerald-200">
+                                            <div class="text-left">
+                                                <p class="text-xs text-emerald-600 mb-1 font-semibold">🎁 Mua combo:</p>
+                                                <div class="text-sm text-emerald-700">
+                                                    <span x-text="formatCurrency(currentComboImages.comboPrice)"></span>
+                                                    <span class="text-emerald-500"> + </span>
+                                                    <span class="text-emerald-500 font-bold">0đ</span>
+                                                    <span class="text-emerald-500 text-xs"> ship</span>
+                                                </div>
+                                            </div>
+                                            <div class="text-right">
+                                                <div class="text-xl font-bold text-emerald-600" x-text="formatCurrency(currentComboImages.comboPrice)"></div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Tiết kiệm -->
+                                        <div class="text-center py-2">
+                                            <div class="inline-flex items-center space-x-2 bg-gradient-to-r from-red-500 to-pink-500 text-white px-4 py-2 rounded-full shadow-lg">
+                                                <span class="text-sm font-bold">💰 Tiết kiệm:</span>
+                                                <span class="text-lg font-black" x-text="formatCurrency(currentComboImages.savings)"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Benefits Summary -->
+                                <div class="flex flex-wrap items-center justify-center gap-2 mb-3">
+                                    <div class="inline-flex items-center space-x-1 bg-emerald-100 text-emerald-700 px-3 py-1.5 rounded-full text-xs font-medium shadow-sm">
+                                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                                        </svg>
+                                        <span>Miễn phí ship</span>
+                                    </div>
+                                    <div class="inline-flex items-center space-x-1 bg-orange-100 text-orange-700 px-3 py-1.5 rounded-full text-xs font-medium shadow-sm">
+                                        <span>🎫</span>
+                                        <span>+ Mã giảm giá</span>
+                                    </div>
+                                    <div class="inline-flex items-center space-x-1 bg-pink-100 text-pink-700 px-3 py-1.5 rounded-full text-xs font-medium shadow-sm">
+                                        <span>👩‍👧‍👦</span>
+                                        <span>Mẹ tin tưởng</span>
+                                    </div>
+                                </div>
+
+                                <!-- Social Proof -->
+                                <div class="text-center bg-gradient-to-r from-pink-50 to-rose-50 rounded-lg p-3 border border-pink-100">
+                                    <p class="text-xs text-gray-600 flex items-center justify-center space-x-1 font-medium">
+                                        <span>💕</span>
+                                        <span>Đã có 1000+ mẹ bỉm lựa chọn combo này</span>
+                                        <span>💕</span>
+                                    </p>
+                                    <p class="text-xs text-pink-600 mt-1 font-semibold">⭐ Đánh giá 4.9/5 sao từ các mẹ</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer - Simple Action Buttons -->
+                    <div class="flex-shrink-0 bg-white border-t border-gray-100 p-3 rounded-b-3xl sm:rounded-b-2xl">
+                        <div class="flex gap-2">
+                            <button @click="closeComboImageModal()"
+                                    class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-600 font-medium rounded-lg text-sm transition-colors">
+                                Đóng
+                            </button>
+                            <button @click="buyComboEnhanced(currentComboType, currentComboTitle, currentComboImages.comboPrice)"
+                                    class="flex-1 px-4 py-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-bold rounded-lg text-sm shadow-lg transition-all combo-action-button">
+                                <div class="flex items-center justify-center space-x-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+                                        <path fill-rule="evenodd" d="M6 5v1H4.667a1.75 1.75 0 0 0-1.743 1.598l-.826 9.5A1.75 1.75 0 0 0 3.84 19H16.16a1.75 1.75 0 0 0 1.743-1.902l-.826-9.5A1.75 1.75 0 0 0 15.333 6H14V5a4 4 0 0 0-8 0Zm4-2.5A2.5 2.5 0 0 0 7.5 5v1h5V5A2.5 2.5 0 0 0 10 2.5ZM7.5 10a2.5 2.5 0 0 0 5 0V8.75a.75.75 0 0 1 1.5 0V10a4 4 0 0 1-8 0V8.75a.75.75 0 0 1 1.5 0V10Z" clip-rule="evenodd" />
+                                    </svg>
+                                    <span x-text="`Mua ngay - Tiết kiệm ${Math.round(currentComboImages.savings / 1000)}K`"></span>
+                                </div>
+                            </button>
+                        </div>
                     </div>
                 </div>
-
-                <!-- Total Price Summary -->
-                <div class="mt-6 p-4 bg-gray-50 rounded-xl">
-                    <div class="text-center">
-                        <p class="text-sm text-gray-600 mb-2">Tổng giá gốc nếu mua lẻ:</p>
-                        <div class="text-gray-400 line-through text-lg mb-1"
-                             x-text="formatCurrency(currentComboImages.product1.price + currentComboImages.product2.price)"></div>
-                        <p class="text-green-600 font-bold text-sm">
-                            ✓ Mua combo tiết kiệm hơn!
-                        </p>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 
