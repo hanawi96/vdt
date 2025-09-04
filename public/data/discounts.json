@@ -12,18 +12,6 @@
     "visible": true
   },
   {
-    "code": "FREESHIP200",
-    "title": "Miễn phí vận chuyển",
-    "description": "Freeship cho đơn từ 200k (có 2 sản phẩm trở lên)",
-    "type": "shipping",
-    "value": 21000,
-    "minOrder": 200000,
-    "minItems": 2,
-    "expiry": "31/12/2025",
-    "active": true,
-    "visible": true
-  },
-  {
     "code": "QUATANGMK",
     "title": "Tặng Móc khóa Dâu Tằm",
     "description": "Nhận ngay 1 Móc khóa Dâu Tằm xinh xắn trị giá 35.000đ khi mua từ 2 sản phẩm",

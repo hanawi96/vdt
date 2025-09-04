@@ -92,6 +92,12 @@ document.addEventListener('alpine:init', () => {
     searchQuery: '',
     activeSearchQuery: '',
     isShowingTopSelling: false,
+    isComboImageModalOpen: false,
+    currentComboTitle: '',
+    currentComboImages: {
+      product1: { image: '', name: '', description: '' },
+      product2: { image: '', name: '', description: '' }
+    },
 
     /* ========= MODALS ========= */
     // Z-index hierarchy: 9000 (base modals) -> 9400 (discount) -> 9500 (mini cart) -> 9600 (checkout) -> 9900 (quick buy) -> 9950 (quick buy transfer) -> 9990 (confirm) -> 9999 (success)
@@ -259,9 +265,10 @@ document.addEventListener('alpine:init', () => {
       const subtotal = this.quickBuySubtotal;
       const shipping = this.SHIPPING_FEE; // Luôn cộng phí ship đầy đủ
       const shippingDiscount = this.quickBuyShippingDiscount; // Rồi trừ freeship nếu có
+      const comboShippingDiscount = (this.quickBuyProduct && this.quickBuyProduct.freeShipping) ? this.SHIPPING_FEE : 0; // Freeship cho combo
       const discount = this.discountAmount;
       const addonDiscount = this.quickBuyAddonDiscount; // Giảm giá từ addon
-      const total = subtotal + shipping - shippingDiscount - discount - addonDiscount;
+      const total = subtotal + shipping - shippingDiscount - comboShippingDiscount - discount - addonDiscount;
       return total > 0 ? total : 0;
     },
 
@@ -658,6 +665,145 @@ document.addEventListener('alpine:init', () => {
           });
         }
       }, 100);
+    },
+
+    // Function để mua combo
+    buyCombo(comboId, comboName, comboPrice) {
+      // Tạo object combo giống như sản phẩm
+      const comboProduct = {
+        id: comboId,
+        name: comboName,
+        price: comboPrice,
+        image: './assets/images/demo.jpg',
+        description: `Combo đặc biệt: ${comboName}`,
+        category: 'combo',
+        isCombo: true,
+        freeShipping: true // Đánh dấu miễn phí ship
+      };
+
+      // Gọi function buyNow với combo product
+      this.buyNow(comboProduct);
+    },
+
+    // Function để mở modal xem ảnh combo
+    openComboImageModal(comboType) {
+      const comboData = {
+        'vong_tron_tui': {
+          title: 'Combo Vòng Trơn + Túi Dâu Tằm Để Giường',
+          product1: {
+            image: './assets/images/demo.jpg',
+            name: 'Vòng Dâu Tằm Trơn',
+            description: 'Vòng dâu tằm trơn đơn giản, thanh lịch, phù hợp cho mọi lứa tuổi',
+            price: 89000
+          },
+          product2: {
+            image: './assets/images/demo.jpg',
+            name: 'Túi Đựng Vòng Dâu Tằm Nhung',
+            description: 'Túi nhung cao cấp để bảo quản vòng dâu tằm, giữ nguyên chất lượng',
+            price: 59000
+          }
+        },
+        'vong_7_bi_bac_tui': {
+          title: 'Combo 7 Bi Bạc + Túi Dâu Tằm Để Giường',
+          product1: {
+            image: './assets/images/demo.jpg',
+            name: 'Vòng 7 Bi Bạc',
+            description: 'Vòng dâu tằm với 7 viên bi bạc thật, sang trọng và phong thủy',
+            price: 219000
+          },
+          product2: {
+            image: './assets/images/demo.jpg',
+            name: 'Túi Đựng Vòng Dâu Tằm Nhung',
+            description: 'Túi nhung cao cấp để bảo quản vòng dâu tằm, giữ nguyên chất lượng',
+            price: 59000
+          }
+        },
+        'vong_9_bi_bac_tui': {
+          title: 'Combo 9 Bi Bạc + Túi Dâu Tằm Để Giường',
+          product1: {
+            image: './assets/images/demo.jpg',
+            name: 'Vòng 9 Bi Bạc',
+            description: 'Vòng dâu tằm với 9 viên bi bạc thật, cao cấp nhất cho bé yêu',
+            price: 289000
+          },
+          product2: {
+            image: './assets/images/demo.jpg',
+            name: 'Túi Đựng Vòng Dâu Tằm Nhung',
+            description: 'Túi nhung cao cấp để bảo quản vòng dâu tằm, giữ nguyên chất lượng',
+            price: 59000
+          }
+        }
+      };
+
+      const combo = comboData[comboType];
+      if (combo) {
+        this.currentComboTitle = combo.title;
+        this.currentComboImages = combo;
+        this.isComboImageModalOpen = true;
+      }
+    },
+
+    // Function để đóng modal xem ảnh combo
+    closeComboImageModal() {
+      this.isComboImageModalOpen = false;
+    },
+
+    // Function để hiển thị điều kiện mã giảm giá rõ ràng
+    getDiscountCondition(discount) {
+      const minItems = discount.minItems || 0;
+      const minOrder = discount.minOrder || 0;
+
+      if (discount.type === 'shipping') {
+        if (minItems > 0) {
+          return `Mua ${minItems} vòng, tổng đơn ≥ ${this.formatCurrency(minOrder)}`;
+        }
+        return `Freeship cho đơn hàng ≥ ${this.formatCurrency(minOrder)}`;
+      }
+
+      if (discount.type === 'gift') {
+        if (minItems > 0) {
+          return `Mua ${minItems} vòng, tổng đơn ≥ ${this.formatCurrency(minOrder)}`;
+        }
+        return `Nhận quà cho đơn hàng ≥ ${this.formatCurrency(minOrder)}`;
+      }
+
+      if (discount.type === 'percentage' || discount.type === 'fixed') {
+        if (minItems > 0) {
+          return `Mua ${minItems} vòng, tổng đơn ≥ ${this.formatCurrency(minOrder)}`;
+        }
+        return `Giảm giá cho đơn hàng ≥ ${this.formatCurrency(minOrder)}`;
+      }
+
+      return discount.description || '';
+    },
+
+    // Function để hiển thị hướng dẫn cụ thể
+    getDiscountGuidance(discount) {
+      if (discount.availability.available) return '';
+
+      const currentSubtotal = this.isDiscountModalFromQuickBuy ? this.quickBuySubtotal : this.cartSubtotal();
+      const currentQuantity = this.isDiscountModalFromQuickBuy ? this.quickBuyQuantity : this.totalCartQuantity;
+
+      const minItems = discount.minItems || 0;
+      const minOrder = discount.minOrder || 0;
+
+      const needMoreMoney = Math.max(0, minOrder - currentSubtotal);
+      const needMoreItems = Math.max(0, minItems - currentQuantity);
+
+      if (needMoreItems > 0 && needMoreMoney > 0) {
+        const avgPrice = Math.ceil(needMoreMoney / needMoreItems);
+        return `Cần mua thêm ${needMoreItems} sản phẩm giá từ ${this.formatCurrency(avgPrice)} trở lên`;
+      }
+
+      if (needMoreItems > 0) {
+        return `Cần mua thêm ${needMoreItems} sản phẩm`;
+      }
+
+      if (needMoreMoney > 0) {
+        return `Cần mua thêm ${this.formatCurrency(needMoreMoney)}`;
+      }
+
+      return discount.availability.reason || '';
     },
 
     // Helper function để tính phần trăm giảm giá

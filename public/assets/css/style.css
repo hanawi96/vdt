@@ -38,24 +38,50 @@ html {
   transform: translateY(-4px) scale(1.02);
 }
 
-/* Mobile optimizations for featured cards */
+/* Combo Cards Styling */
+.combo-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.combo-card:hover {
+  transform: translateY(-4px);
+}
+
+.combo-buy-button {
+  transition: all 0.2s ease;
+}
+
+.combo-buy-button:hover {
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+}
+
+.combo-buy-button:active {
+  transform: scale(0.98);
+}
+
+/* Mobile optimizations for combo cards */
 @media (max-width: 640px) {
-  .featured-combo-card {
-    padding: 1rem;
+  .combo-card {
+    margin-bottom: 1rem;
   }
 
-  .featured-combo-card h3 {
-    font-size: 1rem;
-    line-height: 1.4;
+  .combo-card:hover {
+    transform: translateY(-2px);
   }
 
-  .featured-combo-card p {
-    font-size: 0.8rem;
-    line-height: 1.4;
+  .combo-buy-button {
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
   }
 
-  .featured-combo-card:hover {
-    transform: translateY(-2px) scale(1.01);
+  .combo-buy-button:hover {
+    box-shadow: 0 8px 20px -5px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Tối ưu cho mẹ bỉm sữa - button lớn hơn, dễ bấm */
+  .combo-buy-button {
+    min-height: 48px; /* Touch-friendly size */
+    font-weight: 700;
   }
 }
 
