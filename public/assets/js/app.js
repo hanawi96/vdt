@@ -224,10 +224,20 @@ document.addEventListener('alpine:init', () => {
       return this.addonProducts;
     },
 
-    // Check if addon is in cart (modified for Quick Buy context)
+    // Check if addon is in cart (modified for modal context)
     isAddonInCartForDisplay(addonId) {
-      // Luôn kiểm tra addon được chọn trong Quick Buy
-      return this.quickBuySelectedAddons.some(addon => addon.id === addonId);
+      // Khi trong Quick Buy modal, kiểm tra quickBuySelectedAddons
+      if (this.isQuickBuyModalOpen) {
+        return this.quickBuySelectedAddons.some(addon => addon.id === addonId);
+      }
+
+      // Khi trong Product Detail modal, kiểm tra productDetailSelectedAddons
+      if (this.isProductDetailOpen) {
+        return this.productDetailSelectedAddons.some(addon => addon.id === addonId);
+      }
+
+      // Bình thường kiểm tra giỏ hàng
+      return this.cart.some(i => i.id === addonId);
     },
 
     // Check if has addon discount for Quick Buy
@@ -310,6 +320,7 @@ document.addEventListener('alpine:init', () => {
     productDetailQuantity: 1,
     productDetailViewers: Math.floor(Math.random() * 5) + 1, // 1-5 người đang xem
     productDetailViewersTimer: null,
+    productDetailSelectedAddons: [], // Addon được chọn trong ProductDetail modal
 
     /* ========= QUICK VIEW ========= */
     isQuickViewOpen: false,
@@ -508,6 +519,18 @@ document.addEventListener('alpine:init', () => {
       this.$watch('isCheckoutModalOpen', (newValue, oldValue) => {
         console.log('🔍 isCheckoutModalOpen changed:', oldValue, '->', newValue);
         console.trace('🔍 Stack trace cho isCheckoutModalOpen change');
+      });
+
+      this.$watch('isQuickBuyModalOpen', (newValue, oldValue) => {
+        console.log('🔍 isQuickBuyModalOpen changed:', oldValue, '->', newValue);
+        console.log('🔍 - isProductDetailOpen tại thời điểm này:', this.isProductDetailOpen);
+        console.trace('🔍 Stack trace cho isQuickBuyModalOpen change');
+      });
+
+      this.$watch('isProductDetailOpen', (newValue, oldValue) => {
+        console.log('🔍 isProductDetailOpen changed:', oldValue, '->', newValue);
+        console.log('🔍 - isQuickBuyModalOpen tại thời điểm này:', this.isQuickBuyModalOpen);
+        console.trace('🔍 Stack trace cho isProductDetailOpen change');
       });
 
       // Watch paymentMethod để debug
@@ -1331,6 +1354,12 @@ document.addEventListener('alpine:init', () => {
         return;
       }
 
+      // Khi modal Product Detail đang mở, thêm vào Product Detail thay vì giỏ hàng
+      if (this.isProductDetailOpen) {
+        this.addAddonToProductDetail(addon);
+        return;
+      }
+
       const ex = this.cart.find(i => i.id === addon.id);
       if (ex) { ex.quantity++; }
       else {
@@ -1364,6 +1393,28 @@ document.addEventListener('alpine:init', () => {
       const addon = this.addonProducts.find(a => a.id === addonId);
       this.showAlert(`Đã xóa ${addon?.name || 'addon'}!`, 'success');
     },
+
+    // Thêm addon vào Product Detail (tách biệt với giỏ hàng)
+    addAddonToProductDetail(addon) {
+      const existing = this.productDetailSelectedAddons.find(a => a.id === addon.id);
+      if (!existing) {
+        this.productDetailSelectedAddons.push({ ...addon, quantity: 1 });
+        if (addon.id === 'addon_tui_dau_tam') {
+          this.showAlert(`Đã thêm ${addon.name}! 🚚 Bạn được miễn phí ship!`, 'success');
+        } else if (addon.id === 'addon_moc_chia_khoa') {
+          this.showAlert(`Đã thêm ${addon.name}! 💰 Giảm 5K đơn hàng!`, 'success');
+        } else {
+          this.showAlert(`Đã thêm ${addon.name}!`, 'success');
+        }
+      }
+    },
+
+    // Xóa addon khỏi Product Detail
+    removeAddonFromProductDetail(addonId) {
+      this.productDetailSelectedAddons = this.productDetailSelectedAddons.filter(a => a.id !== addonId);
+      const addon = this.addonProducts.find(a => a.id === addonId);
+      this.showAlert(`Đã xóa ${addon?.name || 'addon'}!`, 'success');
+    },
     isAddonInCart(addonId) { return this.cart.some(i => i.id === addonId); },
     isFreeshippingFromDiscount() {
       if (!this.appliedDiscountCode) return false;
@@ -1374,6 +1425,12 @@ document.addEventListener('alpine:init', () => {
       // Khi modal Quick Buy đang mở, xóa khỏi Quick Buy thay vì giỏ hàng
       if (this.isQuickBuyModalOpen) {
         this.removeAddonFromQuickBuy(productId);
+        return;
+      }
+
+      // Khi modal Product Detail đang mở, xóa khỏi Product Detail thay vì giỏ hàng
+      if (this.isProductDetailOpen) {
+        this.removeAddonFromProductDetail(productId);
         return;
       }
 
@@ -1550,6 +1607,11 @@ document.addEventListener('alpine:init', () => {
       });
     },
     buyNow(product) {
+      console.log('🔍 buyNow() được gọi');
+      console.log('🔍 - isProductDetailOpen trước buyNow:', this.isProductDetailOpen);
+      console.log('🔍 - isQuickBuyModalOpen trước buyNow:', this.isQuickBuyModalOpen);
+      console.trace('🔍 Stack trace cho buyNow');
+
       // Mua ngay - bỏ qua giỏ hàng hoàn toàn
       this.quickBuyProduct = { ...product };
       this.quickBuyQuantity = 1;
@@ -1559,8 +1621,14 @@ document.addEventListener('alpine:init', () => {
       this.isQuickBuyModalOpen = true;
       this.startSocialProofTimer();
 
+      console.log('🔍 - isProductDetailOpen sau set QuickBuy:', this.isProductDetailOpen);
+      console.log('🔍 - isQuickBuyModalOpen sau set QuickBuy:', this.isQuickBuyModalOpen);
+
       // Revalidate mã giảm giá với sản phẩm và số lượng mới
       this.$nextTick(() => {
+        console.log('🔍 Revalidating discount for Quick Buy:');
+        console.log('- quickBuySubtotal:', this.quickBuySubtotal);
+        console.log('- appliedDiscountCode:', this.appliedDiscountCode);
         this.revalidateQuickBuyDiscount();
       });
 
@@ -1575,6 +1643,11 @@ document.addEventListener('alpine:init', () => {
       });
     },
     closeQuickBuyModal() {
+      console.log('🔍 closeQuickBuyModal() được gọi');
+      console.log('🔍 - isQuickBuyModalOpen trước:', this.isQuickBuyModalOpen);
+      console.log('🔍 - isProductDetailOpen trước:', this.isProductDetailOpen);
+      console.trace('🔍 Stack trace cho closeQuickBuyModal');
+
       this.isQuickBuyModalOpen = false;
       this.isBuyingCombo = false; // Reset combo flag
       this.quickBuyProduct = null;
@@ -1588,6 +1661,9 @@ document.addEventListener('alpine:init', () => {
       this.clearFormErrors(); // Clear validation errors
       this.stopSocialProofTimer();
       // Giữ nguyên discount state để có thể tái sử dụng
+
+      console.log('🔍 - isQuickBuyModalOpen sau:', this.isQuickBuyModalOpen);
+      console.log('🔍 - isProductDetailOpen sau:', this.isProductDetailOpen);
     },
 
 
@@ -2536,8 +2612,25 @@ document.addEventListener('alpine:init', () => {
       this.startProductDetailViewersTimer();
     },
     closeProductDetail() {
+      console.log('🔍 closeProductDetail() được gọi');
+      console.log('🔍 - isProductDetailOpen trước:', this.isProductDetailOpen);
+      console.log('🔍 - isQuickBuyModalOpen:', this.isQuickBuyModalOpen);
+      console.log('🔍 - isDiscountModalOpen:', this.isDiscountModalOpen);
+      console.trace('🔍 Stack trace cho closeProductDetail');
+
       this.isProductDetailOpen = false;
-      document.body.style.overflow = 'auto';
+
+      // Chỉ restore overflow nếu không có modal nào khác đang mở
+      if (!this.isQuickBuyModalOpen && !this.isDiscountModalOpen && !this.isMiniCartOpen &&
+          !this.isCheckoutModalOpen && !this.isAddonDetailModalOpen) {
+        console.log('🔍 - Không có modal nào khác, restore overflow = auto');
+        document.body.style.overflow = 'auto';
+      } else {
+        console.log('🔍 - Vẫn có modal khác mở, giữ overflow = hidden');
+        console.log('🔍 - isQuickBuyModalOpen:', this.isQuickBuyModalOpen);
+        console.log('🔍 - isDiscountModalOpen:', this.isDiscountModalOpen);
+        console.log('🔍 - isMiniCartOpen:', this.isMiniCartOpen);
+      }
 
       // Dừng timer
       this.stopProductDetailViewersTimer();
@@ -2545,7 +2638,10 @@ document.addEventListener('alpine:init', () => {
       setTimeout(() => {
         this.currentProductDetail = null;
         this.productDetailQuantity = 1;
+        this.productDetailSelectedAddons = []; // Reset addon được chọn
       }, 300);
+
+      console.log('🔍 - isProductDetailOpen sau:', this.isProductDetailOpen);
     },
     addProductDetailToCart() {
       if (this.currentProductDetail) {
@@ -2556,7 +2652,10 @@ document.addEventListener('alpine:init', () => {
     },
     buyProductDetailNow() {
       if (this.currentProductDetail) {
-        this.closeProductDetail();
+        // Chuyển addon từ ProductDetail sang QuickBuy
+        this.quickBuySelectedAddons = [...this.productDetailSelectedAddons];
+
+        // Không đóng ProductDetail modal, chỉ mở QuickBuy modal chồng lên
         this.buyNow(this.currentProductDetail);
       }
     },
@@ -2616,20 +2715,36 @@ document.addEventListener('alpine:init', () => {
     // Quick Buy revalidation - kiểm tra mã giảm giá khi thay đổi số lượng trong Quick Buy
     revalidateQuickBuyDiscount() {
       // Chỉ revalidate khi đang trong Quick Buy modal và có mã được áp dụng
-      if (!this.isQuickBuyModalOpen || (!this.appliedDiscountCode && !this.appliedGift)) return;
+      if (!this.isQuickBuyModalOpen || (!this.appliedDiscountCode && !this.appliedGift)) {
+        console.log('🔍 Revalidate skipped - no modal or no discount');
+        return;
+      }
 
       if (this.appliedDiscountCode) {
         const raw = this.availableDiscounts.find(d => (d.code || '').toUpperCase() === this.appliedDiscountCode);
         const promotion = this._normalizeDiscount(raw);
+        console.log('🔍 Checking discount:', this.appliedDiscountCode);
+        console.log('- promotion:', promotion);
+        console.log('- quickBuySubtotal:', this.quickBuySubtotal);
+        console.log('- minOrder:', promotion?.minOrder);
+
         if (!promotion || !promotion.active) {
+          console.log('🔍 Discount invalid - resetting');
           this.resetDiscount();
           this.showAlert('Mã giảm giá đã hết hạn và được gỡ bỏ.', 'info');
           return;
         }
 
         // Kiểm tra điều kiện với Quick Buy subtotal
-        if (this.quickBuySubtotal < promotion.minOrder || (promotion.minItems && this.quickBuyQuantity < promotion.minItems)) {
+        const subtotalCheck = this.quickBuySubtotal >= promotion.minOrder;
+        const itemsCheck = !promotion.minItems || this.quickBuyQuantity >= promotion.minItems;
+        console.log('🔍 Condition checks:');
+        console.log('- subtotalCheck:', subtotalCheck, `(${this.quickBuySubtotal} >= ${promotion.minOrder})`);
+        console.log('- itemsCheck:', itemsCheck, `(${this.quickBuyQuantity} >= ${promotion.minItems || 'no requirement'})`);
+
+        if (!subtotalCheck || !itemsCheck) {
           const promotionTitle = promotion.title || promotion.code;
+          console.log('🔍 Discount not eligible - resetting');
           this.resetDiscount();
           this.showAlert(`Ưu đãi "${promotionTitle}" đã được gỡ bỏ vì không còn đủ điều kiện.`, 'info');
           return;

@@ -693,7 +693,7 @@
                     <template x-for="category in categories" :key="category.id">
                         <div @click="selectCategory(category)"
                              class="category-card relative flex items-center bg-white rounded-2xl shadow-sm overflow-hidden cursor-pointer border transition-all duration-300"
-                             :class="{ 'border-pink-500 shadow-md': currentCategory.id === category.id, 'border-gray-200 hover:border-pink-300': currentCategory.id !== category.id }">
+                             :class="{ 'border-pink-500 shadow-md': currentCategory.id === category.id, 'border-gray-200 hover:border-pink-400': currentCategory.id !== category.id }">
 
                             <!-- Badge "Phổ biến" -->
                             <div x-show="category.isPopular" class="absolute top-2 right-2 z-10">
@@ -2075,8 +2075,8 @@
         </div>
 
     <!-- Quick Buy Modal - Mua ngay không qua giỏ hàng -->
-    <div x-show="isQuickBuyModalOpen" @keydown.escape.window="if (!preventQuickBuyCloseOnEscape) closeQuickBuyModal()"
-
+    <div x-show="isQuickBuyModalOpen" @keydown.escape.window="console.log('🔍 ESC pressed on QuickBuy, preventQuickBuyCloseOnEscape:', preventQuickBuyCloseOnEscape); if (!preventQuickBuyCloseOnEscape) closeQuickBuyModal()"
+         @click.self="console.log('🔍 Backdrop click on QuickBuy'); closeQuickBuyModal()"
          class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 pt-safe-top pb-safe-bottom z-[9900]"
          x-transition:enter="transition ease-out duration-300"
          x-transition:enter-start="opacity-0"
@@ -2107,7 +2107,7 @@
                             <h3 class="text-base font-bold">Đặt hàng nhanh</h3>
                         </div>
                     </div>
-                    <button @click="closeQuickBuyModal()" class="w-7 h-7 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full flex items-center justify-center transition-all">
+                    <button @click="console.log('🔍 Close button clicked on QuickBuy'); closeQuickBuyModal()" class="w-7 h-7 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full flex items-center justify-center transition-all">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                         </svg>
@@ -2788,7 +2788,7 @@
             <!-- Footer -->
             <div class="flex-shrink-0 bg-white border-t border-gray-200 p-3 rounded-b-3xl sm:rounded-b-2xl">
                 <div class="flex gap-2">
-                    <button @click="closeQuickBuyModal()" class="px-4 py-2.5 sm:py-3 bg-gray-200 text-gray-700 font-medium rounded-lg text-xs sm:text-sm">
+                    <button @click="console.log('🔍 Cancel button clicked on QuickBuy'); closeQuickBuyModal()" class="px-4 py-2.5 sm:py-3 bg-gray-200 text-gray-700 font-medium rounded-lg text-xs sm:text-sm">
                         Hủy
                     </button>
                     <button @click="quickBuySubmit()" :disabled="isQuickBuySubmitting || !canPlaceQuickBuyOrder"
@@ -2907,7 +2907,7 @@
     </div>
 
         <!-- Product Detail Modal -->
-    <div x-show="isProductDetailOpen" @keydown.escape.window="closeProductDetail()"
+    <div x-show="isProductDetailOpen" @keydown.escape.window="console.log('🔍 ESC pressed on ProductDetail, isQuickBuyModalOpen:', isQuickBuyModalOpen, 'isDiscountModalOpen:', isDiscountModalOpen); if (!isQuickBuyModalOpen && !isDiscountModalOpen) closeProductDetail()"
          class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 pt-safe-top pb-safe-bottom z-[9000]"
          x-transition:enter="transition ease-out duration-300"
          x-transition:enter-start="opacity-0"

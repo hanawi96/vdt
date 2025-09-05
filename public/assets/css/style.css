@@ -10,10 +10,7 @@ html {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.category-card:hover {
-  transform: translateY(-2px) scale(1.02);
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-}
+/* Removed hover effects for category cards */
 
 /* Popular Badge Animation */
 .popular-badge {
@@ -755,10 +752,7 @@ html {
     min-height: 32px; /* Touch-friendly */
   }
 
-  /* Category card mobile optimization */
-  .category-card:hover {
-    transform: translateY(-1px) scale(1.01); /* Reduced transform for mobile */
-  }
+  /* Category card mobile optimization - hover effects removed */
 
   /* Popular badge mobile optimization */
   .popular-badge {
