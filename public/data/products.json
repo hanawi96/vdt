@@ -352,7 +352,7 @@
     "categories": ["mix_ho_phach", "san_pham_hot"],
     "price": 249000,
     "original_price": 299000,
-    "image": "./assets/images/demo.jpg",
+    "image": "./assets/images/product_img/Sole ho phach/vong_dau_tam_sole_ho_phach_vang_cam.jpg",
     "description": "Vòng dâu tằm sole với hổ phách vàng cam độc đáo, thiết kế hiện đại và sang trọng.",
     "rating": 5.0,
     "purchases": 345
@@ -1065,7 +1065,7 @@
     "categories": ["mix_bi_bac", "vong_co_gian"],
     "price": 129000,
     "original_price": 159000,
-    "image": "./assets/images/demo.jpg",
+    "image": "./assets/images/product_img/Sole bac/vong_dau_tam_sole_bac_3ly_co_gian.jpg",
     "description": "Vòng dâu tằm mix bi bạc 3 lớp với dây co giãn mềm mại, tự động vừa vặn.",
     "rating": 4.7,
     "purchases": 198
@@ -1100,7 +1100,7 @@
     "categories": ["mix_bi_bac", "san_pham_hot"],
     "price": 179000,
     "original_price": 219000,
-    "image": "./assets/images/demo.jpg",
+    "image": "./assets/images/product_img/Sole bac/vong_dau_tam_sole_bac_5ly.jpg",
     "description": "Vòng dâu tằm mix bi bạc 5 lớp với dây rút premium, thiết kế độc đáo và nổi bật.",
     "rating": 5.0,
     "purchases": 123
@@ -1112,7 +1112,7 @@
     "categories": ["mix_bi_bac", "vong_co_gian"],
     "price": 169000,
     "original_price": 209000,
-    "image": "./assets/images/demo.jpg",
+    "image": "./assets/images/product_img/Sole bac/vong_dau_tam_sole_bac_5ly_co_gian.jpg",
     "description": "Vòng dâu tằm mix bi bạc 5 lớp với dây co giãn siêu mềm, phù hợp mọi kích cỡ.",
     "rating": 4.8,
     "purchases": 98
@@ -1124,7 +1124,7 @@
     "categories": ["mix_bi_bac", "san_pham_hot", "khuyen_mai"],
     "price": 189000,
     "original_price": 239000,
-    "image": "./assets/images/demo.jpg",
+    "image": "./assets/images/product_img/Sole bac/vong_dau_tam_sole_3ly_mix_bac_6ly.jpg",
     "description": "Vòng dâu tằm mix bi bạc 3 lớp kết hợp bi bạc 6ly đặc biệt, tạo điểm nhấn ấn tượng.",
     "rating": 4.9,
     "purchases": 156
@@ -1140,6 +1140,18 @@
     "description": "Vòng dâu tằm mix 7 bi bạc cao cấp, thiết kế sang trọng và đẳng cấp, phù hợp cho những dịp đặc biệt.",
     "rating": 4.8,
     "purchases": 89
+  },
+  {
+    "id": "mix_bi_bac_014",
+    "name": "Mix 9 bi bạc",
+    "category": "mix_bi_bac",
+    "categories": ["mix_bi_bac", "san_pham_hot", "khuyen_mai"],
+    "price": 229000,
+    "original_price": 289000,
+    "image": "./assets/images/product_img/Sole bac/vong_dau_tam_9_bi_bac.jpg",
+    "description": "Vòng dâu tằm mix 9 bi bạc siêu cao cấp, thiết kế đỉnh cao và xa xỉ, dành cho những người yêu thích sự hoàn hảo.",
+    "rating": 4.9,
+    "purchases": 67
   },
   {
     "id": "vong_co_gian_001",
