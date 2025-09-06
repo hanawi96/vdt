@@ -141,7 +141,7 @@
                         <!-- Avatar with Love Badge -->
                         <div class="relative inline-block mb-6">
                             <div class="relative">
-                                <img :src="shopInfo.avatar_image" :alt="shopInfo.shop_name"
+                                <img src="./assets/images/profile_img.jpg" :alt="shopInfo.shop_name"
                                      class="w-24 h-24 md:w-28 md:h-28 rounded-full border-4 border-white shadow-xl object-cover mx-auto">
                                 <!-- Verified Mom Badge -->
                                 <div class="absolute -top-1 -right-1 bg-gradient-to-r from-pink-500 to-rose-500 text-white rounded-full w-8 h-8 flex items-center justify-center shadow-lg border-2 border-white">
@@ -418,7 +418,7 @@
                             <!-- Túi Image -->
                             <div class="flex flex-col items-center">
                                 <div class="relative cursor-pointer" @click="openComboImageModal('vong_tron_tui')">
-                                    <img src="./assets/images/demo.jpg" alt="Túi Dâu Tằm" class="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-xl border-2 border-white shadow-md hover:scale-105 transition-transform">
+                                    <img src="./assets/images/product_img/tui_dau_tam.jpg" alt="Túi Dâu Tằm" class="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-xl border-2 border-white shadow-md hover:scale-105 transition-transform">
                                     <div class="absolute -bottom-1 -right-1 bg-pink-500 text-white text-[8px] font-bold px-1.5 py-0.5 rounded-full">
                                         TÚI
                                     </div>
@@ -516,7 +516,7 @@
                             <!-- Túi Image -->
                             <div class="flex flex-col items-center">
                                 <div class="relative cursor-pointer" @click="openComboImageModal('vong_7_bi_bac_tui')">
-                                    <img src="./assets/images/demo.jpg" alt="Túi Dâu Tằm" class="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-xl border-2 border-white shadow-md hover:scale-105 transition-transform">
+                                    <img src="./assets/images/product_img/tui_dau_tam.jpg" alt="Túi Dâu Tằm" class="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-xl border-2 border-white shadow-md hover:scale-105 transition-transform">
                                     <div class="absolute -bottom-1 -right-1 bg-purple-500 text-white text-[8px] font-bold px-1.5 py-0.5 rounded-full">
                                         TÚI
                                     </div>
@@ -614,7 +614,7 @@
                             <!-- Túi Image -->
                             <div class="flex flex-col items-center">
                                 <div class="relative cursor-pointer" @click="openComboImageModal('vong_9_bi_bac_tui')">
-                                    <img src="./assets/images/demo.jpg" alt="Túi Dâu Tằm" class="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-xl border-2 border-white shadow-md hover:scale-105 transition-transform">
+                                    <img src="./assets/images/product_img/tui_dau_tam.jpg" alt="Túi Dâu Tằm" class="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-xl border-2 border-white shadow-md hover:scale-105 transition-transform">
                                     <div class="absolute -bottom-1 -right-1 bg-amber-500 text-white text-[8px] font-bold px-1.5 py-0.5 rounded-full">
                                         TÚI
                                     </div>
@@ -2076,7 +2076,6 @@
 
     <!-- Quick Buy Modal - Mua ngay không qua giỏ hàng -->
     <div x-show="isQuickBuyModalOpen" @keydown.escape.window="console.log('🔍 ESC pressed on QuickBuy, preventQuickBuyCloseOnEscape:', preventQuickBuyCloseOnEscape); if (!preventQuickBuyCloseOnEscape) closeQuickBuyModal()"
-         @click.self="console.log('🔍 Backdrop click on QuickBuy'); closeQuickBuyModal()"
          class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 pt-safe-top pb-safe-bottom z-[9900]"
          x-transition:enter="transition ease-out duration-300"
          x-transition:enter-start="opacity-0"
@@ -3077,7 +3076,7 @@
                                 <div>
                                     <h4 class="text-sm font-bold text-amber-800 mb-2 underline">💡 Lưu ý quan trọng</h4>
                                     <p class="text-sm text-amber-700 leading-relaxed">
-                                        Số hạt dâu em làm vòng được làm theo "Sinh Lão Bệnh Tử", số hạt em làm đều là số đẹp rơi và chữ "Sinh" và chữ "Lão" (lấy số hạt dâu chia cho 4, nếu dư 1 là "Sinh", nếu dư 2 là "Lão" ạ) nên các mẹ yên tâm đeo cho bé nha.
+                                        Số hạt dâu em làm vòng được làm theo "Sinh Lão Bệnh Tử", số hạt em làm đều là số đẹp rơi vào chữ "Sinh" hoặc chữ "Lão" (lấy số hạt dâu chia cho 4, nếu dư 1 là "Sinh", nếu dư 2 là "Lão" ạ) nên các mẹ yên tâm đeo cho bé nha.
                                     </p>
                                 </div>
                             </div>
@@ -3970,7 +3969,7 @@
     </div>
 
     <!-- Combo Detail Modal - Redesigned for Mom-Friendly Experience -->
-    <div x-show="isComboImageModalOpen" @keydown.escape.window="closeComboImageModal()"
+    <div x-show="isComboImageModalOpen" @keydown.escape.window="if (!isQuickBuyModalOpen) closeComboImageModal()"
          class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 pt-safe-top pb-safe-bottom z-[9000]"
          x-transition:enter="transition ease-out duration-300"
          x-transition:enter-start="opacity-0"
@@ -4111,7 +4110,7 @@
                                         <div>
                                             <p class="text-xs font-medium text-amber-800 mb-1">💡 Lưu ý quan trọng</p>
                                             <p class="text-xs text-amber-700 leading-relaxed">
-                                                Số hạt dâu em làm vòng được làm theo "Sinh Lão Bệnh Tử", số hạt em làm đều là số đẹp rơi và chữ "Sinh" và chữ "Lão" (lấy số hạt dâu chia cho 4, nếu dư 1 là "Sinh", nếu dư 2 là "Lão" ạ) nên các mẹ yên tâm đeo cho bé nha.
+                                                Số hạt dâu em làm vòng được làm theo "Sinh Lão Bệnh Tử", số hạt em làm đều là số đẹp rơi vào chữ "Sinh" hoặc chữ "Lão" (lấy số hạt dâu chia cho 4, nếu dư 1 là "Sinh", nếu dư 2 là "Lão" ạ) nên các mẹ yên tâm đeo cho bé nha.
                                             </p>
                                         </div>
                                     </div>
@@ -4189,8 +4188,8 @@
                                         <span>+ Mã giảm giá</span>
                                     </div>
                                     <div class="inline-flex items-center space-x-1 bg-pink-100 text-pink-700 px-3 py-1.5 rounded-full text-xs font-medium shadow-sm">
-                                        <span>👩‍👧‍👦</span>
-                                        <span>Mẹ tin tưởng</span>
+                                        <span>🛡️</span>
+                                        <span>An toàn tuyệt đối</span>
                                     </div>
                                 </div>
 

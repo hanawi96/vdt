@@ -37,7 +37,7 @@ document.addEventListener('alpine:init', () => {
         description: 'Khúc dâu tằm để phòng, trong túi nhung',
         price: 39000,
         original_price: 45000,
-        image: './assets/images/demo.jpg',
+        image: './assets/images/product_img/tui_dau_tam.jpg',
         rating: 4.9,
         purchases: 456,
         detailedInfo: {
@@ -533,6 +533,13 @@ document.addEventListener('alpine:init', () => {
         console.trace('🔍 Stack trace cho isProductDetailOpen change');
       });
 
+      this.$watch('isComboImageModalOpen', (newValue, oldValue) => {
+        console.log('🔍 isComboImageModalOpen changed:', oldValue, '->', newValue);
+        console.log('🔍 - isQuickBuyModalOpen tại thời điểm này:', this.isQuickBuyModalOpen);
+        console.log('🔍 - isProductDetailOpen tại thời điểm này:', this.isProductDetailOpen);
+        console.trace('🔍 Stack trace cho isComboImageModalOpen change');
+      });
+
       // Watch paymentMethod để debug
       this.$watch('paymentMethod', (newValue, oldValue) => {
         console.log('🔍 paymentMethod changed:', oldValue, '->', newValue);
@@ -666,12 +673,26 @@ document.addEventListener('alpine:init', () => {
       }
     },
 
+    /* ========= MULTI-CATEGORY SUPPORT ========= */
+    // Kiểm tra sản phẩm có thuộc category không (hỗ trợ multi-category)
+    isProductInCategory(product, categoryId) {
+      // Primary category check (fast path)
+      if (product.category === categoryId) return true;
+
+      // Multi-category check (fallback)
+      if (product.categories && Array.isArray(product.categories)) {
+        return product.categories.includes(categoryId);
+      }
+
+      return false;
+    },
+
     /* ========= COMPUTED ========= */
     _fullProductList() {
       if (!this.currentCategory) return [];
       const byCategory = this.currentCategory.id === 'all'
         ? this.products
-        : this.products.filter(p => p.category === this.currentCategory.id);
+        : this.products.filter(p => this.isProductInCategory(p, this.currentCategory.id));
 
       const q = this.activeSearchQuery.trim().toLowerCase();
       const searched = q ? byCategory.filter(p => p.name?.toLowerCase().includes(q)) : byCategory;
@@ -689,7 +710,7 @@ document.addEventListener('alpine:init', () => {
       return this.isShowingBestSellers ? list.slice(0, 10) : list.slice(0, this.visibleProductCount);
     },
     canLoadMore() { return this.visibleProductCount < this._fullProductList().length; },
-    getProductCount(categoryId) { return this.products.filter(p => p.category === categoryId).length; },
+    getProductCount(categoryId) { return this.products.filter(p => this.isProductInCategory(p, categoryId)).length; },
 
     // Function để lấy top 5 sản phẩm bán chạy nhất
     topSellingProductIds() {
@@ -756,6 +777,7 @@ document.addEventListener('alpine:init', () => {
 
     // Function để mở modal xem ảnh combo - Enhanced for Mom-Friendly Experience
     openComboImageModal(comboType) {
+      console.log('🔍 openComboImageModal() được gọi với comboType:', comboType);
       const comboData = {
         'vong_tron_tui': {
           title: 'Combo Vòng Trơn + Túi Dâu Tằm Để Giường',
@@ -773,7 +795,7 @@ document.addEventListener('alpine:init', () => {
             benefits: ['An toàn cho bé', 'Không gây dị ứng', 'Dễ vệ sinh']
           },
           product2: {
-            image: './assets/images/demo.jpg',
+            image: './assets/images/product_img/tui_dau_tam.jpg',
             name: 'Túi Đựng Vòng Dâu Tằm Nhung',
             description: 'Túi nhung cao cấp để bảo quản vòng dâu tằm, giữ nguyên chất lượng và độ bền.',
             price: 59000,
@@ -796,7 +818,7 @@ document.addEventListener('alpine:init', () => {
             benefits: ['Bi bạc thật 100%', 'Phong thủy tốt', 'Sang trọng, đẳng cấp']
           },
           product2: {
-            image: './assets/images/demo.jpg',
+            image: './assets/images/product_img/tui_dau_tam.jpg',
             name: 'Túi Đựng Vòng Dâu Tằm Nhung',
             description: 'Túi nhung cao cấp để bảo quản vòng dâu tằm, giữ nguyên chất lượng và độ bền.',
             price: 59000,
@@ -819,7 +841,7 @@ document.addEventListener('alpine:init', () => {
             benefits: ['Bi bạc thật 100%', 'Ý nghĩa trường thọ', 'Cao cấp nhất']
           },
           product2: {
-            image: './assets/images/demo.jpg',
+            image: './assets/images/product_img/tui_dau_tam.jpg',
             name: 'Túi Đựng Vòng Dâu Tằm Nhung',
             description: 'Túi nhung cao cấp để bảo quản vòng dâu tằm, giữ nguyên chất lượng và độ bền.',
             price: 59000,
@@ -834,12 +856,16 @@ document.addEventListener('alpine:init', () => {
         this.currentComboImages = combo;
         this.currentComboType = comboType;
         this.isComboImageModalOpen = true;
+        console.log('🔍 - isComboImageModalOpen set to true');
         document.body.style.overflow = 'hidden';
       }
     },
 
     // Function để đóng modal xem ảnh combo - Enhanced
     closeComboImageModal() {
+      console.log('🔍 closeComboImageModal() được gọi');
+      console.log('🔍 - isComboImageModalOpen trước:', this.isComboImageModalOpen);
+      console.trace('🔍 Stack trace cho closeComboImageModal');
       this.isComboImageModalOpen = false;
       document.body.style.overflow = 'auto';
     },
@@ -866,8 +892,8 @@ document.addEventListener('alpine:init', () => {
       // Gọi function buyNow với combo product
       this.buyNow(comboProduct);
 
-      // Đóng modal
-      this.closeComboImageModal();
+      // KHÔNG đóng modal combo detail để modal mua ngay hiển thị chồng lên
+      // this.closeComboImageModal();
 
       // Hiển thị thông báo thành công
       this.showAlert('success', '🎉 Đã thêm combo vào giỏ hàng! Cảm ơn mẹ đã tin tưởng lựa chọn.');
@@ -939,7 +965,7 @@ document.addEventListener('alpine:init', () => {
     },
 
     getCategoryPurchases(categoryId) {
-      const arr = categoryId === 'all' ? this.products : this.products.filter(p => p.category === categoryId);
+      const arr = categoryId === 'all' ? this.products : this.products.filter(p => this.isProductInCategory(p, categoryId));
       const total = arr.reduce((t, p) => t + (p.purchases || 0), 0);
       if (total > 1000) {
         const k = (total / 1000).toFixed(1);
@@ -1646,6 +1672,7 @@ document.addEventListener('alpine:init', () => {
       console.log('🔍 closeQuickBuyModal() được gọi');
       console.log('🔍 - isQuickBuyModalOpen trước:', this.isQuickBuyModalOpen);
       console.log('🔍 - isProductDetailOpen trước:', this.isProductDetailOpen);
+      console.log('🔍 - isComboImageModalOpen trước:', this.isComboImageModalOpen);
       console.trace('🔍 Stack trace cho closeQuickBuyModal');
 
       this.isQuickBuyModalOpen = false;
@@ -1660,10 +1687,18 @@ document.addEventListener('alpine:init', () => {
       this.quickBuySelectedAddons = []; // Reset addon được chọn
       this.clearFormErrors(); // Clear validation errors
       this.stopSocialProofTimer();
+
+      // KHÔNG đóng modal combo detail khi đóng modal mua ngay
+      // Để người dùng có thể tiếp tục xem thông tin combo
+      // if (this.isComboImageModalOpen) {
+      //   this.closeComboImageModal();
+      // }
+
       // Giữ nguyên discount state để có thể tái sử dụng
 
       console.log('🔍 - isQuickBuyModalOpen sau:', this.isQuickBuyModalOpen);
       console.log('🔍 - isProductDetailOpen sau:', this.isProductDetailOpen);
+      console.log('🔍 - isComboImageModalOpen sau:', this.isComboImageModalOpen);
     },
 
 
