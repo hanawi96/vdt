@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Túi Dâu Tằm Phòng Giữ Vía - Giúp Bé Ngủ Ngon</title>
+    
+    <!-- Inline CSS for maximum speed -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.5;
+            background: linear-gradient(135deg, #FFE4E6 0%, #FFF8DC 50%, #E6F7F1 100%);
+            min-height: 100vh;
+            font-size: 16px !important;
+            -webkit-text-size-adjust: none;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .mobile-wrapper {
+            width: 100%;
+            max-width: 400px;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #FFE4E6 0%, #FFF8DC 50%, #E6F7F1 100%);
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px !important;
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+        
+        /* Header - Mobile First */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 16px !important;
+            font-weight: bold;
+            color: #333;
+            flex: 1;
+            min-width: 0;
+        }
+
+        .logo-icon {
+            width: 36px !important;
+            height: 36px !important;
+            background: linear-gradient(135deg, #FFC1CC, #E8B4B8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px !important;
+            flex-shrink: 0;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #FFC1CC, #E8B4B8);
+            color: white;
+            padding: 14px 20px !important;
+            border: none;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 193, 204, 0.3);
+            font-size: 14px !important;
+            min-height: 44px !important;
+            min-width: 44px !important;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .btn:hover, .btn:active {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(255, 193, 204, 0.4);
+        }
+
+        .btn-large {
+            padding: 16px 24px !important;
+            font-size: 16px !important;
+            min-height: 48px !important;
+            height: 48px !important;
+        }
+        
+        /* Hero Section - Mobile First */
+        .hero {
+            padding: 32px 0;
+        }
+
+        .hero-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+            text-align: center;
+        }
+
+        .hero-content h1 {
+            font-size: 28px !important;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 16px;
+            line-height: 1.3;
+        }
+
+        .hero-content .highlight {
+            color: #FFC1CC;
+        }
+
+        .hero-content p {
+            font-size: 18px !important;
+            color: #666;
+            margin-bottom: 24px;
+        }
+        
+        .benefits {
+            list-style: none;
+            margin-bottom: 32px;
+            text-align: left;
+            max-width: 320px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .benefits li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 12px;
+            color: #555;
+            font-size: 15px;
+            line-height: 1.4;
+        }
+
+        .check-icon {
+            width: 20px;
+            height: 20px;
+            background: #10B981;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            align-items: center;
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: #FFC1CC;
+            border: 2px solid #FFC1CC;
+            width: 100%;
+            max-width: 280px;
+        }
+
+        .btn-secondary:hover, .btn-secondary:active {
+            background: #FFC1CC;
+            color: white;
+        }
+
+        .hero-image {
+            position: relative;
+            order: -1;
+        }
+
+        .hero-image img {
+            width: 100% !important;
+            height: auto;
+            border-radius: 16px;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+            max-width: 300px !important;
+            margin: 0 auto;
+            display: block;
+        }
+        
+        /* Order Form - Mobile Only */
+        .order-section {
+            background: white;
+            padding: 48px 0;
+        }
+
+        .order-container {
+            max-width: 400px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .order-container h2 {
+            font-size: 24px !important;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 16px;
+        }
+
+        .price {
+            font-size: 20px !important;
+            color: #FFC1CC;
+            font-weight: bold;
+            margin-bottom: 32px;
+        }
+        
+        .form {
+            background: #f8f9fa;
+            padding: 24px 20px !important;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+            margin: 0 4px;
+            max-width: 360px !important;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .form-input {
+            width: 100% !important;
+            padding: 16px !important;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 16px !important;
+            transition: border-color 0.3s ease;
+            -webkit-appearance: none;
+            appearance: none;
+            background: white;
+            min-height: 48px !important;
+            height: 48px !important;
+            box-sizing: border-box;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #FFC1CC;
+            box-shadow: 0 0 0 3px rgba(255, 193, 204, 0.1);
+        }
+
+        .form-row {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .guarantee {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid #e5e7eb;
+            font-size: 13px;
+            color: #666;
+            text-align: center;
+        }
+
+        .guarantee-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        /* Success Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 400px;
+            margin: 20px;
+        }
+        
+        .success-icon {
+            width: 60px;
+            height: 60px;
+            background: #10B981;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 30px;
+            color: white;
+        }
+        
+        /* Loading */
+        .loading {
+            display: none;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #FFC1CC;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Floating Button - Mobile Optimized */
+        .floating-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, #FFC1CC, #E8B4B8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 16px rgba(255, 193, 204, 0.4);
+            z-index: 100;
+            animation: pulse 2s infinite;
+            text-decoration: none;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        /* Force Mobile-Only Design for ALL screen sizes */
+        * {
+            max-width: 100% !important;
+        }
+
+        html {
+            font-size: 16px !important;
+        }
+
+        /* Override any potential responsive behavior */
+        @media screen and (min-width: 1px) {
+            .container {
+                max-width: 400px !important;
+                width: 100% !important;
+                margin: 0 auto !important;
+                padding: 0 16px !important;
+            }
+
+            body {
+                font-size: 16px !important;
+                line-height: 1.5 !important;
+            }
+
+            .hero-content h1 {
+                font-size: 28px !important;
+                line-height: 1.3 !important;
+            }
+
+            .hero-content p {
+                font-size: 18px !important;
+            }
+
+            .order-container {
+                max-width: 400px !important;
+            }
+
+            .order-container h2 {
+                font-size: 24px !important;
+            }
+
+            .price {
+                font-size: 20px !important;
+            }
+
+            .form {
+                max-width: 360px !important;
+                padding: 24px 20px !important;
+                margin: 0 4px !important;
+            }
+
+            .form-input {
+                font-size: 16px !important;
+                height: 48px !important;
+                min-height: 48px !important;
+                padding: 16px !important;
+            }
+
+            .btn {
+                font-size: 14px !important;
+                padding: 14px 20px !important;
+                min-height: 44px !important;
+            }
+
+            .btn-large {
+                font-size: 16px !important;
+                padding: 16px 24px !important;
+                min-height: 48px !important;
+                height: 48px !important;
+            }
+
+            .logo {
+                font-size: 16px !important;
+            }
+
+            .logo-icon {
+                width: 36px !important;
+                height: 36px !important;
+                font-size: 18px !important;
+            }
+
+            .hero-image img {
+                max-width: 300px !important;
+            }
+
+            .hero-grid {
+                flex-direction: column !important;
+                gap: 32px !important;
+                text-align: center !important;
+            }
+
+            .hero-buttons {
+                flex-direction: column !important;
+                align-items: center !important;
+                gap: 16px !important;
+            }
+
+            .form-row {
+                flex-direction: column !important;
+                gap: 20px !important;
+            }
+
+            .guarantee {
+                flex-direction: column !important;
+                gap: 12px !important;
+                text-align: center !important;
+            }
+        }
+
+        /* Desktop: Show as mobile app */
+        @media screen and (min-width: 768px) {
+            body {
+                background: #f0f0f0 !important;
+                padding: 20px 0;
+            }
+
+            .mobile-wrapper {
+                max-width: 400px !important;
+                width: 400px !important;
+                margin: 0 auto;
+                border-radius: 20px;
+                overflow: hidden;
+                box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+                border: 1px solid rgba(0,0,0,0.1);
+            }
+
+            .container {
+                max-width: 400px !important;
+                width: 100% !important;
+                margin: 0 auto !important;
+            }
+
+            body {
+                font-size: 16px !important;
+            }
+        }
+
+        /* Large desktop: Center mobile app */
+        @media screen and (min-width: 1200px) {
+            body {
+                background: #f0f0f0 !important;
+                padding: 40px 0;
+            }
+
+            .mobile-wrapper {
+                max-width: 400px !important;
+                width: 400px !important;
+                margin: 0 auto;
+                border-radius: 24px;
+                box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="mobile-wrapper">
+        <!-- Header -->
+        <header class="header">
+            <div class="container">
+                <div class="header-content">
+                    <div class="logo">
+                        <div class="logo-icon">🌸</div>
+                        <span>Túi Dâu Tằm Thiên Nhiên</span>
+                    </div>
+                    <a href="#order" class="btn">Đặt Hàng Ngay</a>
+                </div>
+            </div>
+        </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-grid">
+                <div class="hero-content">
+                    <h1>Túi Dâu Tằm <span class="highlight">Phòng Giữ Vía</span></h1>
+                    <p>Giúp bé ngủ ngon, an toàn tự nhiên từ thiên nhiên</p>
+                    
+                    <ul class="benefits">
+                        <li>
+                            <span class="check-icon">✓</span>
+                            100% tự nhiên, an toàn cho bé
+                        </li>
+                        <li>
+                            <span class="check-icon">✓</span>
+                            Giúp bé ngủ sâu giấc, không giật mình
+                        </li>
+                        <li>
+                            <span class="check-icon">✓</span>
+                            Phòng giữ vía theo truyền thống dân gian
+                        </li>
+                    </ul>
+
+                    <div class="hero-buttons">
+                        <a href="#order" class="btn btn-large" style="width: 100%; max-width: 280px;">Đặt Hàng Ngay - 299.000đ</a>
+                        <a href="#order" class="btn btn-secondary">Xem Thêm Thông Tin</a>
+                    </div>
+                </div>
+                
+                <div class="hero-image">
+                    <img src="./assets/images/tui-dau-tam-hero.jpg" alt="Túi Dâu Tằm Phòng Giữ Vía" loading="eager">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Order Form -->
+    <section id="order" class="order-section">
+        <div class="container">
+            <div class="order-container">
+                <h2>Đặt Hàng Ngay</h2>
+                <div class="price">Chỉ 299.000đ - Miễn phí vận chuyển</div>
+
+                <form id="orderForm" class="form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Họ và tên *</label>
+                            <input type="text" id="customerName" name="customerName" class="form-input" required placeholder="Nhập họ tên của bạn">
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Số điện thoại *</label>
+                            <input type="tel" id="phone" name="phone" class="form-input" required placeholder="0123 456 789">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Địa chỉ giao hàng *</label>
+                        <input type="text" id="address" name="address" class="form-input" required placeholder="Số nhà, đường, phường/xã, quận/huyện, tỉnh/thành">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Số lượng</label>
+                        <select id="quantity" name="quantity" class="form-input">
+                            <option value="1">1 túi - 299.000đ</option>
+                            <option value="2">2 túi - 549.000đ (Tiết kiệm 49.000đ)</option>
+                            <option value="3">3 túi - 799.000đ (Tiết kiệm 98.000đ)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Ghi chú</label>
+                        <input type="text" id="notes" name="notes" class="form-input" placeholder="Giao hàng buổi chiều...">
+                    </div>
+
+                    <button type="submit" class="btn btn-large" style="width: 100%;">
+                        <span id="submitText">Đặt Hàng Ngay - COD Toàn Quốc</span>
+                        <span id="loadingText" class="loading">
+                            <span class="spinner"></span>
+                            Đang xử lý...
+                        </span>
+                    </button>
+
+                    <div class="guarantee">
+                        <div class="guarantee-item">
+                            <span>✅</span>
+                            <span>COD toàn quốc</span>
+                        </div>
+                        <div class="guarantee-item">
+                            <span>🚚</span>
+                            <span>Miễn phí ship</span>
+                        </div>
+                        <div class="guarantee-item">
+                            <span>🔄</span>
+                            <span>Đổi trả 7 ngày</span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal">
+        <div class="modal-content">
+            <div class="success-icon">✓</div>
+            <h3 style="margin-bottom: 15px; color: #333;">Đặt Hàng Thành Công!</h3>
+            <p style="color: #666; margin-bottom: 25px;">
+                Cảm ơn bạn đã đặt hàng. Chúng tôi sẽ liên hệ với bạn trong vòng 24h.
+            </p>
+            <button onclick="closeModal()" class="btn">Đóng</button>
+        </div>
+    </div>
+
+    <!-- Floating Button -->
+    <a href="#order" class="floating-btn">
+        <span style="font-size: 24px; color: white;">🛒</span>
+    </a>
+
+    <!-- Inline JavaScript for maximum speed -->
+    <script>
+        // Configuration - Thay YOUR_SCRIPT_ID bằng ID thực của Google Apps Script
+        const GOOGLE_APPS_SCRIPT_URL = 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec';
+
+        // DOM Elements
+        const orderForm = document.getElementById('orderForm');
+        const successModal = document.getElementById('successModal');
+        const submitText = document.getElementById('submitText');
+        const loadingText = document.getElementById('loadingText');
+
+        // Form submission
+        orderForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            if (!validateForm()) return;
+
+            setLoadingState(true);
+
+            try {
+                const formData = getFormData();
+                await submitOrder(formData);
+                showSuccessModal();
+                resetForm();
+            } catch (error) {
+                alert('Có lỗi xảy ra. Vui lòng thử lại sau.');
+            } finally {
+                setLoadingState(false);
+            }
+        });
+
+        // Get form data
+        function getFormData() {
+            return {
+                customerName: document.getElementById('customerName').value,
+                phone: document.getElementById('phone').value,
+                address: document.getElementById('address').value,
+                quantity: document.getElementById('quantity').value,
+                notes: document.getElementById('notes').value,
+                orderDate: new Date().toLocaleString('vi-VN'),
+                totalAmount: calculateTotalAmount(document.getElementById('quantity').value)
+            };
+        }
+
+        // Calculate total amount
+        function calculateTotalAmount(quantity) {
+            const prices = { '1': 299000, '2': 549000, '3': 799000 };
+            return prices[quantity] || 299000;
+        }
+
+        // Validate form
+        function validateForm() {
+            const name = document.getElementById('customerName').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const address = document.getElementById('address').value.trim();
+
+            if (!name || !phone || !address) {
+                alert('Vui lòng điền đầy đủ thông tin bắt buộc');
+                return false;
+            }
+
+            if (!/^[0-9]{10,11}$/.test(phone.replace(/\s/g, ''))) {
+                alert('Số điện thoại không hợp lệ');
+                return false;
+            }
+
+            return true;
+        }
+
+        // Submit order
+        async function submitOrder(orderData) {
+            const response = await fetch(GOOGLE_APPS_SCRIPT_URL, {
+                method: 'POST',
+                mode: 'cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(orderData)
+            });
+
+            if (!response.ok) throw new Error('Network error');
+            return response.json();
+        }
+
+        // UI state management
+        function setLoadingState(isLoading) {
+            const submitButton = orderForm.querySelector('button[type="submit"]');
+            submitButton.disabled = isLoading;
+            
+            if (isLoading) {
+                submitText.style.display = 'none';
+                loadingText.style.display = 'flex';
+            } else {
+                submitText.style.display = 'block';
+                loadingText.style.display = 'none';
+            }
+        }
+
+        function showSuccessModal() {
+            successModal.style.display = 'flex';
+        }
+
+        function closeModal() {
+            successModal.style.display = 'none';
+        }
+
+        function resetForm() {
+            orderForm.reset();
+        }
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Close modal when clicking outside
+        successModal.addEventListener('click', function(e) {
+            if (e.target === successModal) closeModal();
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && successModal.style.display === 'flex') {
+                closeModal();
+            }
+        });
+    </script>
+    </div> <!-- End mobile-wrapper -->
+</body>
+</html>

@@ -6,7 +6,7 @@
  */
 
 // ==================== CẤU HÌNH ====================
-const SHEET_NAME = "Đơn Hàng";
+const SHEET_NAME = "Đơn Hàng TDT";
 
 // CẤU HÌNH TELEGRAM BOT THÔNG BÁO
 const TELEGRAM_BOT_TOKEN = "7585519498:AAFHt6QMqI-zfVVnbQW1E_fxzQ1kNUsiEQU";
@@ -183,7 +183,7 @@ function formatProductDetails(cartItems) {
 
     // Thêm ghi chú sản phẩm nếu có
     if (item.notes && item.notes.trim()) {
-      result += `\n   📝 Ghi chú SP: ${item.notes.trim()}`;
+      result += `\n   � Ghi chú SP: ${item.notes.trim()}`;
     }
 
     // Thêm dòng trống giữa các sản phẩm (trừ sản phẩm cuối)
@@ -391,7 +391,7 @@ function createTelegramMessage(orderData) {
     message += `\n`;
 
     if (item.notes && item.notes.trim()) {
-      message += `   📝 <i>${item.notes.trim()}</i>\n`;
+      message += `   � <i>${item.notes.trim()}</i>\n`;
     }
 
     if (index < orderData.cart.length - 1) {

@@ -1,15 +1,15 @@
 [
   {
-    "id": "vong_tron_001",
-    "name": "Trơn cổ điển",
+    "id": "vong_tron_002",
+    "name": "Vòng trơn buộc mối",
     "category": "vong_tron",
     "categories": ["vong_tron", "san_pham_hot"],
-    "price": 89000,
-    "original_price": 119000,
-    "image": "./assets/images/product_img/vong_tron_co_dien_day_do.jpg",
-    "description": "Vòng dâu tằm trơn đơn giản, thanh lịch, phù hợp cho mọi lứa tuổi.",
-    "rating": 4.8,
-    "purchases": 1247
+    "price": 79000,
+    "original_price": 99000,
+    "image": "./assets/images/product_img/Vong tron/vong-tron-buoc-moi.jpg",
+    "description": "Vòng dâu tằm trơn với thiết kế buộc mối độc đáo, dễ điều chỉnh kích thước.",
+    "rating": 4.7,
+    "purchases": 234
   },
   {
     "id": "vong_tron_003",
@@ -64,7 +64,7 @@
     "categories": ["mix_charm_ran", "san_pham_hot"],
     "price": 179000,
     "original_price": 219000,
-    "image": "./assets/images/demo.jpg",
+    "image": "./assets/images/product_img/charm ran/vong-dau-tam-tron-charm-ran.jpg",
     "description": "Vòng dâu tằm trơn kết hợp charm rắn tinh tế, phong cách đơn giản nhưng ấn tượng.",
     "rating": 4.8,
     "purchases": 456
@@ -76,7 +76,7 @@
     "categories": ["mix_charm_ran", "khuyen_mai"],
     "price": 199000,
     "original_price": 249000,
-    "image": "./assets/images/demo.jpg",
+    "image": "./assets/images/product_img/charm ran/vong-sole-bac-3ly-charm-ran.jpg",
     "description": "Vòng dâu tằm mix bi bạc 3 lớp với charm rắn và dây rút tiện lợi.",
     "rating": 4.9,
     "purchases": 378
@@ -88,7 +88,7 @@
     "categories": ["mix_charm_ran", "vong_co_gian"],
     "price": 189000,
     "original_price": 229000,
-    "image": "./assets/images/demo.jpg",
+    "image": "./assets/images/product_img/charm ran/vong-mix-3ly-charm-ran-co-gian.jpg",
     "description": "Vòng dâu tằm mix bi bạc 3 lớp với charm rắn và dây co giãn mềm mại.",
     "rating": 4.7,
     "purchases": 324
@@ -100,7 +100,7 @@
     "categories": ["mix_charm_ran", "san_pham_hot"],
     "price": 219000,
     "original_price": 269000,
-    "image": "./assets/images/demo.jpg",
+    "image": "./assets/images/product_img/charm ran/vong-sole-bac-4ly-charm-ran.jpg",
     "description": "Vòng dâu tằm mix bi bạc 4 lớp với charm rắn và dây rút cao cấp.",
     "rating": 5.0,
     "purchases": 289
@@ -112,7 +112,7 @@
     "categories": ["mix_charm_ran", "vong_co_gian"],
     "price": 209000,
     "original_price": 259000,
-    "image": "./assets/images/demo.jpg",
+    "image": "./assets/images/product_img/charm ran/vong-mix-4ly-charm-ran-co-gian.jpg",
     "description": "Vòng dâu tằm mix bi bạc 4 lớp với charm rắn và dây co giãn bền bỉ.",
     "rating": 4.6,
     "purchases": 267
@@ -124,7 +124,7 @@
     "categories": ["mix_charm_ran", "san_pham_hot"],
     "price": 229000,
     "original_price": 279000,
-    "image": "./assets/images/demo.jpg",
+    "image": "./assets/images/product_img/charm ran/vong-7-bi-bac-charm-ran.jpg",
     "description": "Vòng dâu tằm với 7 bi bạc đặc biệt kết hợp charm rắn độc đáo.",
     "rating": 4.9,
     "purchases": 234
@@ -136,7 +136,7 @@
     "categories": ["mix_charm_ran", "khuyen_mai"],
     "price": 249000,
     "original_price": 299000,
-    "image": "./assets/images/demo.jpg",
+    "image": "./assets/images/product_img/charm ran/vong-9-bi-bac-charm-ran.jpg",
     "description": "Vòng dâu tằm với 9 bi bạc sang trọng kết hợp charm rắn tinh xảo.",
     "rating": 5.0,
     "purchases": 198
@@ -148,7 +148,7 @@
     "categories": ["mix_charm_ran", "san_pham_hot", "khuyen_mai"],
     "price": 239000,
     "original_price": 289000,
-    "image": "./assets/images/demo.jpg",
+    "image": "./assets/images/product_img/charm ran/vong-sole-bac-3ly-charm-ran-chuong.jpg",
     "description": "Vòng dâu tằm mix bi bạc 3 lớp với charm rắn và chuông nhỏ xinh.",
     "rating": 4.8,
     "purchases": 167
@@ -160,7 +160,7 @@
     "categories": ["mix_charm_ran", "san_pham_hot"],
     "price": 259000,
     "original_price": 309000,
-    "image": "./assets/images/demo.jpg",
+    "image": "./assets/images/product_img/charm ran/vong-sole-4li-chamr-ran-mix-chuong.jpg",
     "description": "Vòng dâu tằm mix bi bạc 4 lớp với charm rắn và chuông, thiết kế cao cấp.",
     "rating": 4.9,
     "purchases": 145
@@ -170,18 +170,7 @@
 
 
 
-  {
-    "id": "mix_day_ngu_sac_001",
-    "name": "Không mix bạc",
-    "category": "mix_day_ngu_sac",
-    "categories": ["mix_day_ngu_sac", "san_pham_hot"],
-    "price": 79000,
-    "original_price": 99000,
-    "image": "./assets/images/demo.jpg",
-    "description": "Vòng dâu tằm dây ngũ sắc truyền thống không mix bi bạc, giữ nguyên vẻ đẹp cổ điển.",
-    "rating": 4.7,
-    "purchases": 567
-  },
+
   {
     "id": "mix_day_ngu_sac_002",
     "name": "Mix 2 bi bạc 4ly",
@@ -328,7 +317,7 @@
     "categories": ["mix_ho_phach", "san_pham_hot"],
     "price": 219000,
     "original_price": 269000,
-    "image": "./assets/images/demo.jpg",
+    "image": "./assets/images/product_img/Sole ho phach/vong-tron-mix-2-ho-phach-vang-cam.jpg",
     "description": "Vòng dâu tằm trơn với 2 viên hổ phách vàng cam tự nhiên, giúp bé ngủ ngon và giảm đau mọc răng.",
     "rating": 4.9,
     "purchases": 456
@@ -340,7 +329,7 @@
     "categories": ["mix_ho_phach", "khuyen_mai"],
     "price": 199000,
     "original_price": 249000,
-    "image": "./assets/images/demo.jpg",
+    "image": "./assets/images/product_img/Sole ho phach/vong-tron-mix-2-ho-phach-nau-do.jpg",
     "description": "Vòng dâu tằm trơn với 2 viên hổ phách nâu đỏ cổ điển, mang lại năng lượng tích cực.",
     "rating": 4.8,
     "purchases": 398
@@ -352,7 +341,7 @@
     "categories": ["mix_ho_phach", "san_pham_hot"],
     "price": 249000,
     "original_price": 299000,
-    "image": "./assets/images/product_img/Sole ho phach/vong_dau_tam_sole_ho_phach_vang_cam.jpg",
+    "image": "./assets/images/product_img/Sole ho phach/mix-ho-phach-vang-cam.jpg",
     "description": "Vòng dâu tằm sole với hổ phách vàng cam độc đáo, thiết kế hiện đại và sang trọng.",
     "rating": 5.0,
     "purchases": 345
@@ -364,7 +353,7 @@
     "categories": ["mix_ho_phach"],
     "price": 229000,
     "original_price": 279000,
-    "image": "./assets/images/demo.jpg",
+    "image": "./assets/images/product_img/Sole ho phach/mix-ho-phach-nau-do.jpg",
     "description": "Vòng dâu tằm sole với hổ phách nâu đỏ, phong cách cổ điển nhưng không kém phần tinh tế.",
     "rating": 4.7,
     "purchases": 289
@@ -376,44 +365,44 @@
     "categories": ["mix_ho_phach", "khuyen_mai"],
     "price": 299000,
     "original_price": 359000,
-    "image": "./assets/images/demo.jpg",
+    "image": "./assets/images/product_img/Sole ho phach/7-ho-phach-vang-cam.jpg",
     "description": "Vòng dâu tằm với 7 viên hổ phách vàng cam, số lượng may mắn mang lại phúc lành.",
     "rating": 4.9,
     "purchases": 267
   },
   {
     "id": "mix_ho_phach_006",
-    "name": "9 hổ phách vàng cam",
+    "name": "7 hổ phách nâu đỏ",
     "category": "mix_ho_phach",
     "categories": ["mix_ho_phach", "san_pham_hot"],
     "price": 349000,
     "original_price": 419000,
-    "image": "./assets/images/demo.jpg",
-    "description": "Vòng dâu tằm với 9 viên hổ phách vàng cam cao cấp, biểu tượng của sự viên mãn và thịnh vượng.",
+    "image": "./assets/images/product_img/Sole ho phach/7-ho-phach-nau-do.jpg",
+    "description": "Vòng dâu tằm với 7 viên hổ phách nâu đỏ cao cấp, biểu tượng của sự viên mãn và thịnh vượng.",
     "rating": 5.0,
     "purchases": 234
   },
   {
     "id": "mix_ho_phach_007",
-    "name": "7 hổ phách nâu đỏ",
+    "name": "9 hổ phách vàng cam",
     "category": "mix_ho_phach",
     "categories": ["mix_ho_phach", "khuyen_mai"],
     "price": 279000,
     "original_price": 339000,
-    "image": "./assets/images/demo.jpg",
-    "description": "Vòng dâu tằm với 7 viên hổ phách nâu đỏ, mang lại năng lượng mạnh mẽ và bảo vệ.",
+    "image": "./assets/images/product_img/Sole ho phach/9-ho-phach-nau-do.jpg",
+    "description": "Vòng dâu tằm với 9 viên hổ phách nâu đỏ, mang lại năng lượng mạnh mẽ và bảo vệ.",
     "rating": 4.8,
     "purchases": 198
   },
   {
     "id": "mix_ho_phach_008",
-    "name": "9 hổ phách nâu đỏ",
+    "name": "9 hổ phách vàng cam",
     "category": "mix_ho_phach",
     "categories": ["mix_ho_phach", "san_pham_hot"],
     "price": 329000,
     "original_price": 399000,
-    "image": "./assets/images/demo.jpg",
-    "description": "Vòng dâu tằm với 9 viên hổ phách nâu đỏ, tạo năng lượng cân bằng và sức khỏe tốt.",
+    "image": "./assets/images/product_img/Sole ho phach/9-ho-phach-vang-cam.jpg",
+    "description": "Vòng dâu tằm với 9 viên hổ phách vàng cam, tạo năng lượng cân bằng và sức khỏe tốt.",
     "rating": 4.9,
     "purchases": 167
   },
@@ -484,7 +473,7 @@
     "categories": ["mix_hoa_sen", "san_pham_hot"],
     "price": 169000,
     "original_price": 209000,
-    "image": "./assets/images/demo.jpg",
+    "image": "./assets/images/product_img/hoa-sen/vong-tron-hoa-sen.jpg",
     "description": "Vòng dâu tằm trơn với charm hoa sen tinh tế, biểu tượng của sự thanh khiết và bình an.",
     "rating": 4.8,
     "purchases": 456
@@ -496,7 +485,7 @@
     "categories": ["mix_hoa_sen", "khuyen_mai"],
     "price": 199000,
     "original_price": 239000,
-    "image": "./assets/images/demo.jpg",
+    "image": "./assets/images/product_img/hoa-sen/vong-sole-3ly-hoa-sen.jpg",
     "description": "Vòng dâu tằm sole mix bi bạc 3 lớp với charm hoa sen, kết hợp hoàn hảo giữa hiện đại và truyền thống.",
     "rating": 4.9,
     "purchases": 389
@@ -539,62 +528,45 @@
   },
   {
     "id": "mix_da_do_tu_nhien_001",
-    "name": "Vòng Dâu Tằm Mix Đá Đỏ Carnelian",
+    "name": "Vòng trơn mix đá đỏ",
     "category": "mix_da_do_tu_nhien",
-    "price": 189000,
-    "original_price": 229000,
-    "image": "./assets/images/demo.jpg",
-    "description": "Đá carnelian đỏ tự nhiên, tăng cường năng lượng và sự tự tin.",
-    "rating": 4.8,
-    "purchases": 456
+    "categories": ["mix_da_do_tu_nhien", "san_pham_hot"],
+    "price": 159000,
+    "original_price": 199000,
+    "image": "./assets/images/product_img/da do/vong_dau_tam_tron_da_do.jpg",
+    "description": "Vòng dâu tằm trơn kết hợp đá đỏ tự nhiên, mang lại năng lượng tích cực và may mắn.",
+    "rating": 4.7,
+    "purchases": 234
   },
   {
     "id": "mix_da_do_tu_nhien_002",
-    "name": "Vòng Dâu Tằm Mix Đá Đỏ Jasper",
+    "name": "Sole bạc 3ly mix đá đỏ",
     "category": "mix_da_do_tu_nhien",
-    "price": 199000,
-    "image": "./assets/images/demo.jpg",
-    "description": "Đá jasper đỏ tự nhiên, mang lại sự ổn định và bình an trong tâm hồn.",
-    "rating": 4.9,
-    "purchases": 387
+    "categories": ["mix_da_do_tu_nhien", "khuyen_mai"],
+    "price": 189000,
+    "original_price": 229000,
+    "image": "./assets/images/product_img/da do/vong_dau_tam_sole_3ly_da_do.jpg",
+    "description": "Vòng dâu tằm sole bạc 3 lớp kết hợp đá đỏ tự nhiên, thiết kế sang trọng và hiện đại.",
+    "rating": 4.8,
+    "purchases": 187
   },
   {
     "id": "mix_da_do_tu_nhien_003",
-    "name": "Vòng Dâu Tằm Mix Đá Đỏ Garnet",
+    "name": "Sole bạc 4ly mix đá đỏ",
     "category": "mix_da_do_tu_nhien",
+    "categories": ["mix_da_do_tu_nhien", "san_pham_hot", "khuyen_mai"],
     "price": 219000,
-    "original_price": 259000,
-    "image": "./assets/images/demo.jpg",
-    "description": "Đá garnet đỏ thẫm, biểu tượng của tình yêu và sự bảo vệ.",
-    "rating": 5.0,
-    "purchases": 523
-  },
-  {
-    "id": "mix_da_do_tu_nhien_004",
-    "name": "Vòng Dâu Tằm Mix Đá Đỏ Agate",
-    "category": "mix_da_do_tu_nhien",
-    "price": 179000,
-    "image": "./assets/images/demo.jpg",
-    "description": "Đá agate đỏ có vân tự nhiên đẹp mắt, mang lại may mắn và thành công.",
-    "rating": 4.7,
-    "purchases": 298
-  },
-  {
-    "id": "mix_da_do_tu_nhien_005",
-    "name": "Vòng Dâu Tằm Mix Đá Đỏ Hỗn Hợp",
-    "category": "mix_da_do_tu_nhien",
-    "price": 209000,
-    "original_price": 249000,
-    "image": "./assets/images/demo.jpg",
-    "description": "Kết hợp nhiều loại đá đỏ tự nhiên, tạo vẻ đẹp đa dạng và phong phú.",
-    "rating": 4.8,
-    "purchases": 367
+    "original_price": 269000,
+    "image": "./assets/images/product_img/da do/vong_dau_tam_sole_4ly_da_do.jpg",
+    "description": "Vòng dâu tằm sole bạc 4 lớp kết hợp đá đỏ tự nhiên, đỉnh cao của sự sang trọng và phong thủy.",
+    "rating": 4.9,
+    "purchases": 156
   },
   {
     "id": "mix_chi_mau_cac_loai_001",
     "name": "Vòng trơn cổ điển dây đỏ",
     "category": "mix_chi_mau_cac_loai",
-    "categories": ["mix_chi_mau_cac_loai", "san_pham_hot"],
+    "categories": ["mix_chi_mau_cac_loai", "vong_tron", "san_pham_hot"],
     "price": 79000,
     "original_price": 99000,
     "image": "./assets/images/product_img/vong_tron_co_dien_day_do.jpg",
@@ -606,7 +578,7 @@
     "id": "mix_chi_mau_cac_loai_002",
     "name": "Vòng trơn cổ điển ngũ sắc",
     "category": "mix_chi_mau_cac_loai",
-    "categories": ["mix_chi_mau_cac_loai", "khuyen_mai"],
+    "categories": ["mix_chi_mau_cac_loai", "vong_tron", "khuyen_mai"],
     "price": 89000,
     "original_price": 109000,
     "image": "./assets/images/product_img/vong_tron_co_dien_day_ngu_sac.jpg",
@@ -618,7 +590,7 @@
     "id": "mix_chi_mau_cac_loai_003",
     "name": "Vòng trơn cổ điển dây vàng",
     "category": "mix_chi_mau_cac_loai",
-    "categories": ["mix_chi_mau_cac_loai", "san_pham_hot"],
+    "categories": ["mix_chi_mau_cac_loai", "vong_tron", "san_pham_hot"],
     "price": 69000,
     "original_price": 89000,
     "image": "./assets/images/product_img/vong_tron_co_dien_day_vang.jpg",
@@ -630,7 +602,7 @@
     "id": "mix_chi_mau_cac_loai_004",
     "name": "Vòng trơn cổ điển màu xanh lá",
     "category": "mix_chi_mau_cac_loai",
-    "categories": ["mix_chi_mau_cac_loai"],
+    "categories": ["mix_chi_mau_cac_loai", "vong_tron"],
     "price": 75000,
     "original_price": 95000,
     "image": "./assets/images/product_img/vong_tron_co_dien_day_xanh.jpg",
@@ -642,7 +614,7 @@
     "id": "mix_chi_mau_cac_loai_005",
     "name": "Vòng trơn cổ điển màu tím",
     "category": "mix_chi_mau_cac_loai",
-    "categories": ["mix_chi_mau_cac_loai", "khuyen_mai"],
+    "categories": ["mix_chi_mau_cac_loai", "vong_tron", "khuyen_mai"],
     "price": 85000,
     "original_price": 105000,
     "image": "./assets/images/product_img/vong_tron_co_dien_day_tim.jpg",
@@ -654,7 +626,7 @@
     "id": "mix_chi_mau_cac_loai_006",
     "name": "Vòng trơn cổ điển chỉ hồng",
     "category": "mix_chi_mau_cac_loai",
-    "categories": ["mix_chi_mau_cac_loai", "san_pham_hot"],
+    "categories": ["mix_chi_mau_cac_loai", "vong_tron", "san_pham_hot"],
     "price": 79000,
     "original_price": 99000,
     "image": "./assets/images/product_img/vong_tron_co_dien_day_hong.jpg",
@@ -669,7 +641,7 @@
     "categories": ["mix_the_ten_be", "san_pham_hot"],
     "price": 149000,
     "original_price": 189000,
-    "image": "./assets/images/demo.jpg",
+    "image": "./assets/images/product_img/the-ten/vong-tron-mix-the-ten-tron.jpg",
     "description": "Vòng dâu tằm trơn với thẻ tên tròn có thể khắc tên bé, đơn giản nhưng ý nghĩa.",
     "rating": 4.8,
     "purchases": 456
@@ -681,7 +653,7 @@
     "categories": ["mix_the_ten_be", "khuyen_mai"],
     "price": 169000,
     "original_price": 209000,
-    "image": "./assets/images/demo.jpg",
+    "image": "./assets/images/product_img/the-ten/vong-tron-2-mix-the-ten-tron.jpg",
     "description": "Vòng dâu tằm trơn với 1 bi bạc và thẻ tên tròn, kết hợp hoàn hảo giữa sang trọng và cá nhân.",
     "rating": 4.9,
     "purchases": 389
@@ -693,7 +665,7 @@
     "categories": ["mix_the_ten_be"],
     "price": 189000,
     "original_price": 229000,
-    "image": "./assets/images/demo.jpg",
+    "image": "./assets/images/product_img/the-ten/vong-tron-3-mix-the-ten-tron.jpg",
     "description": "Vòng dâu tằm trơn với 2 bi bạc và thẻ tên tròn, tạo điểm nhấn nổi bật và cá tính.",
     "rating": 4.7,
     "purchases": 345
@@ -705,7 +677,7 @@
     "categories": ["mix_the_ten_be", "san_pham_hot"],
     "price": 209000,
     "original_price": 249000,
-    "image": "./assets/images/demo.jpg",
+    "image": "./assets/images/product_img/the-ten/vong-tron-5-mix-the-ten-tron.jpg",
     "description": "Vòng dâu tằm trơn với 3 bi bạc và thẻ tên tròn, sang trọng và thu hút mọi ánh nhìn.",
     "rating": 5.0,
     "purchases": 298
@@ -892,12 +864,12 @@
   },
   {
     "id": "vong_ngu_sac_dau_tam_012",
-    "name": "Vòng ngũ sắc sole bồ đề",
+    "name": "Mix hạt bồ đề dây ngũ sắc",
     "category": "vong_ngu_sac_dau_tam",
     "categories": ["vong_ngu_sac_dau_tam", "mix_hat_bo_de"],
     "price": 179000,
     "original_price": 219000,
-    "image": "./assets/images/demo.jpg",
+    "image": "./assets/images/product_img/bo de/vong_dau_tam_hat_bo_de_day_ngu_sac.jpg",
     "description": "Vòng ngũ sắc dâu tằm sole với hạt bồ đề, mang lại sự bình an và tĩnh lặng.",
     "rating": 4.9,
     "purchases": 98
@@ -969,7 +941,7 @@
     "categories": ["bi_charm_bac", "san_pham_hot"],
     "price": 89000,
     "original_price": 119000,
-    "image": "./assets/images/demo.jpg",
+    "image": "./assets/images/product_img/bi-bac/bi-bac-ta-3ly.jpg",
     "description": "Bi bạc ta 3 lớp trơn mịn, chất lượng cao và bền đẹp theo thời gian.",
     "rating": 4.8,
     "purchases": 567
@@ -981,7 +953,7 @@
     "categories": ["bi_charm_bac", "khuyen_mai"],
     "price": 109000,
     "original_price": 139000,
-    "image": "./assets/images/demo.jpg",
+    "image": "./assets/images/product_img/bi-bac/bi-bac-ta-4ly.jpg",
     "description": "Bi bạc ta 4 lớp với họa tiết khía tinh tế, tạo hiệu ứng ánh sáng đẹp mắt.",
     "rating": 4.9,
     "purchases": 456
@@ -993,7 +965,7 @@
     "categories": ["bi_charm_bac", "san_pham_hot"],
     "price": 129000,
     "original_price": 159000,
-    "image": "./assets/images/demo.jpg",
+    "image": "./assets/images/product_img/bi-bac/bi-bac-ta-5ly.jpg",
     "description": "Bi bạc ta 5 lớp với họa tiết khía cao cấp, đỉnh cao của sự tinh tế và sang trọng.",
     "rating": 5.0,
     "purchases": 389
@@ -1077,7 +1049,7 @@
     "categories": ["mix_bi_bac", "khuyen_mai"],
     "price": 159000,
     "original_price": 199000,
-    "image": "./assets/images/demo.jpg",
+    "image": "./assets/images/product_img/Sole bac/vong_dau_tam_sole_bac_4ly.jpg",
     "description": "Vòng dâu tằm mix bi bạc 4 lớp với dây rút cao cấp, phong cách sang trọng.",
     "rating": 4.9,
     "purchases": 167
@@ -1088,34 +1060,10 @@
     "category": "mix_bi_bac",
     "categories": ["mix_bi_bac", "vong_co_gian"],
     "price": 149000,
-    "image": "./assets/images/demo.jpg",
+    "image": "./assets/images/product_img/Sole bac/vong_dau_tam_sole_bac_4ly_co_gian.jpg",
     "description": "Vòng dâu tằm mix bi bạc 4 lớp với dây co giãn bền bỉ, thoải mái cả ngày.",
     "rating": 4.6,
     "purchases": 145
-  },
-  {
-    "id": "mix_bi_bac_010",
-    "name": "Mix bi bạc 5ly",
-    "category": "mix_bi_bac",
-    "categories": ["mix_bi_bac", "san_pham_hot"],
-    "price": 179000,
-    "original_price": 219000,
-    "image": "./assets/images/product_img/Sole bac/vong_dau_tam_sole_bac_5ly.jpg",
-    "description": "Vòng dâu tằm mix bi bạc 5 lớp với dây rút premium, thiết kế độc đáo và nổi bật.",
-    "rating": 5.0,
-    "purchases": 123
-  },
-  {
-    "id": "mix_bi_bac_011",
-    "name": "Mix bi bạc 5ly co giãn",
-    "category": "mix_bi_bac",
-    "categories": ["mix_bi_bac", "vong_co_gian"],
-    "price": 169000,
-    "original_price": 209000,
-    "image": "./assets/images/product_img/Sole bac/vong_dau_tam_sole_bac_5ly_co_gian.jpg",
-    "description": "Vòng dâu tằm mix bi bạc 5 lớp với dây co giãn siêu mềm, phù hợp mọi kích cỡ.",
-    "rating": 4.8,
-    "purchases": 98
   },
   {
     "id": "mix_bi_bac_012",
@@ -1154,13 +1102,25 @@
     "purchases": 67
   },
   {
+    "id": "mix_bi_bac_010",
+    "name": "Mix bi bạc 3ly + bi 6ly + chuông",
+    "category": "mix_bi_bac",
+    "categories": ["mix_bi_bac", "san_pham_hot"],
+    "price": 219000,
+    "original_price": 269000,
+    "image": "./assets/images/product_img/Sole bac/vong-sole-3ly-mix-6ly-chuong.jpg",
+    "description": "Vòng dâu tằm mix bi bạc 3 lớp kết hợp bi bạc 6ly và charm chuông may mắn, thiết kế độc đáo và ý nghĩa.",
+    "rating": 4.8,
+    "purchases": 89
+  },
+  {
     "id": "vong_co_gian_001",
     "name": "Trơn co giãn",
     "category": "vong_co_gian",
     "categories": ["vong_co_gian", "san_pham_hot"],
     "price": 89000,
     "original_price": 119000,
-    "image": "./assets/images/demo.jpg",
+    "image": "./assets/images/product_img/co gian/vong_tron_co_gian.jpg",
     "description": "Vòng dâu tằm trơn với dây co giãn mềm mại, đơn giản nhưng tiện lợi.",
     "rating": 4.8,
     "purchases": 567
@@ -1173,7 +1133,7 @@
     "categories": ["vong_co_gian", "mix_ho_phach"],
     "price": 249000,
     "original_price": 299000,
-    "image": "./assets/images/demo.jpg",
+    "image": "./assets/images/product_img/Sole ho phach/sole-ho-phach-vang-cam-co-gian.jpg",
     "description": "Vòng dâu tằm mix hổ phách vàng cam tự nhiên với dây co giãn, giúp bé ngủ ngon.",
     "rating": 5.0,
     "purchases": 345
@@ -1185,7 +1145,7 @@
     "categories": ["vong_co_gian", "mix_ho_phach"],
     "price": 229000,
     "original_price": 279000,
-    "image": "./assets/images/demo.jpg",
+    "image": "./assets/images/product_img/Sole ho phach/sole-ho-phach-nau-do-co-gian.jpg",
     "description": "Vòng dâu tằm mix hổ phách nâu đỏ cổ điển với dây co giãn, mang lại năng lượng tích cực.",
     "rating": 4.8,
     "purchases": 298
@@ -1221,24 +1181,13 @@
     "categories": ["vong_co_gian", "mix_hat_bo_de"],
     "price": 179000,
     "original_price": 219000,
-    "image": "./assets/images/demo.jpg",
+    "image": "./assets/images/product_img/bo de/vong_dau_tam_mix_hat_bo_de_co_gian.jpg",
     "description": "Vòng dâu tằm mix hạt bồ đề tự nhiên với dây co giãn, mang lại bình an và may mắn.",
     "rating": 4.7,
     "purchases": 189
   },
 
-  {
-    "id": "mix_hat_bo_de_006",
-    "name": "Mix hạt bồ đề sole",
-    "category": "mix_hat_bo_de",
-    "categories": ["mix_hat_bo_de", "san_pham_hot"],
-    "price": 149000,
-    "original_price": 189000,
-    "image": "./assets/images/demo.jpg",
-    "description": "Vòng dâu tằm mix hạt bồ đề sole độc đáo, mang lại bình an và may mắn.",
-    "rating": 4.8,
-    "purchases": 345
-  },
+
   {
     "id": "mix_hat_bo_de_007",
     "name": "Mix 7 hạt bồ đề",
@@ -1246,7 +1195,7 @@
     "categories": ["mix_hat_bo_de", "khuyen_mai"],
     "price": 169000,
     "original_price": 209000,
-    "image": "./assets/images/demo.jpg",
+    "image": "./assets/images/product_img/bo de/vong_dau_tam_7_hat_bo_de.jpg",
     "description": "Vòng dâu tằm với 7 hạt bồ đề tự nhiên, số lượng may mắn mang lại phúc lành.",
     "rating": 4.9,
     "purchases": 278
@@ -1258,10 +1207,34 @@
     "categories": ["mix_hat_bo_de", "san_pham_hot", "khuyen_mai"],
     "price": 189000,
     "original_price": 239000,
-    "image": "./assets/images/demo.jpg",
+    "image": "./assets/images/product_img/bo de/vong_dau_tam_sole_9_hat_bo_de.jpg",
     "description": "Vòng dâu tằm với 9 hạt bồ đề cao cấp, biểu tượng của sự viên mãn và thịnh vượng.",
     "rating": 5.0,
     "purchases": 234
+  },
+  {
+    "id": "mix_hat_bo_de_009",
+    "name": "Mix 7 hạt bồ đề chỉ vàng",
+    "category": "mix_hat_bo_de",
+    "categories": ["mix_hat_bo_de", "san_pham_hot"],
+    "price": 179000,
+    "original_price": 219000,
+    "image": "./assets/images/product_img/bo de/vong_dau_tam_7_hat_bo_de_day_vang.jpg",
+    "description": "Vòng dâu tằm với 7 hạt bồ đề tự nhiên kết hợp chỉ vàng may mắn, mang lại phúc lành và thịnh vượng.",
+    "rating": 4.8,
+    "purchases": 156
+  },
+  {
+    "id": "mix_hat_bo_de_010",
+    "name": "Mix 9 hạt bồ đề chỉ vàng",
+    "category": "mix_hat_bo_de",
+    "categories": ["mix_hat_bo_de", "san_pham_hot", "khuyen_mai"],
+    "price": 199000,
+    "original_price": 249000,
+    "image": "./assets/images/product_img/bo de/vong_dau_tam_9_hat_bo_de_chi_vang.jpg",
+    "description": "Vòng dâu tằm với 9 hạt bồ đề cao cấp kết hợp chỉ vàng thịnh vượng, biểu tượng của sự viên mãn và giàu có.",
+    "rating": 4.9,
+    "purchases": 123
   },
   {
     "id": "mix_charm_chuong_001",
@@ -1270,7 +1243,7 @@
     "categories": ["mix_charm_chuong", "san_pham_hot"],
     "price": 129000,
     "original_price": 159000,
-    "image": "./assets/images/demo.jpg",
+    "image": "./assets/images/product_img/chuong/vong-tron-charm-chuong.jpg",
     "description": "Vòng dâu tằm trơn kết hợp charm chuông nhỏ xinh, đơn giản nhưng dễ thương.",
     "rating": 4.8,
     "purchases": 456
@@ -1294,7 +1267,7 @@
     "categories": ["mix_charm_chuong", "san_pham_hot"],
     "price": 169000,
     "original_price": 209000,
-    "image": "./assets/images/demo.jpg",
+    "image": "./assets/images/product_img/Sole bac/vong_dau_tam_sole_3ly_mix_chuong.jpg",
     "description": "Vòng dâu tằm mix bi bạc 3 lớp với charm chuông tinh tế.",
     "rating": 5.0,
     "purchases": 345
@@ -1390,9 +1363,21 @@
     "categories": ["mix_charm_chuong", "khuyen_mai"],
     "price": 179000,
     "original_price": 219000,
-    "image": "./assets/images/demo.jpg",
+    "image": "./assets/images/product_img/chuong/vong_dau_tam_sole_4ly_chuong.jpg",
     "description": "Vòng dâu tằm mix bi bạc 4 lớp với charm chuông sang trọng và tinh tế.",
     "rating": 4.8,
     "purchases": 98
+  },
+  {
+    "id": "mix_charm_chuong_012",
+    "name": "Mix bạc 3ly + chuông + thẻ tên",
+    "category": "mix_charm_chuong",
+    "categories": ["mix_charm_chuong", "mix_the_ten_be", "san_pham_hot"],
+    "price": 239000,
+    "original_price": 289000,
+    "image": "./assets/images/product_img/the-ten/vong-sole-3ly-charm-chuong-the-ten.jpg",
+    "description": "Vòng dâu tằm mix bi bạc 3 lớp kết hợp charm chuông và thẻ tên cá nhân, hoàn hảo cho bé yêu.",
+    "rating": 4.9,
+    "purchases": 87
   }
 ]
