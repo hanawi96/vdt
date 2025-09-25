@@ -21,7 +21,7 @@ document.addEventListener('alpine:init', () => {
       { id: 'mix_da_do_tu_nhien', name: 'Mix đá đỏ tự nhiên', image: './assets/images/product_img/da do/vong_dau_tam_tron_da_do.jpg' },
       { id: 'mix_chi_mau_cac_loai', name: 'Mix chỉ màu các loại', image: './assets/images/product_img/tat-ca-mau.jpg' },
       { id: 'mix_the_ten_be', name: 'Mix thẻ tên bé', image: './assets/images/product_img/the-ten/vong-tron-mix-the-ten-tron.jpg' },
-      { id: 'vong_ngu_sac_dau_tam', name: 'Vòng ngũ sắc dâu tằm', image: './assets/images/product_img/vong-ngu-sac/ngu-sac-mix-1-hat-dau.jpg' },
+      { id: 'vong_nguoi_lon', name: 'Vòng người lớn', image: './assets/images/product_img/nguoi-lon/vong-tron-nguoi-lon.jpg' },
       { id: 'san_pham_ban_kem', name: 'Sản phẩm bán kèm', image: './assets/images/product_img/bo-dau-tam-de-phong.jpg' },
       { id: 'bi_charm_bac', name: 'Bi, charm bạc', image: './assets/images/product_img/bi-bac/bi-bac-ta.jpg' }
     ],
@@ -62,7 +62,7 @@ document.addEventListener('alpine:init', () => {
         description: 'Móc chìa khóa từ khúc dâu tằm tự nhiên',
         price: 29000,
         original_price: 35000,
-        image: './assets/images/demo.jpg',
+        image: './assets/images/product_img/moc_chia_khoa_dau_tam_ko_hop_kim.jpg',
         rating: 4.8,
         purchases: 623,
         detailedInfo: {
@@ -177,6 +177,18 @@ document.addEventListener('alpine:init', () => {
       // Thêm option cho cân nặng từ 20kg trở lên
       options.push('✏️ Nhập cân nặng > 20kg');
       return options;
+    },
+
+    // Size tay options cho vòng người lớn
+    get handSizeOptions() {
+      return ['14cm', '15cm', '16cm', '17cm', '18cm'];
+    },
+
+    // Kiểm tra xem sản phẩm có phải là vòng người lớn không
+    isAdultProduct(product) {
+      if (!product) return false;
+      return product.category === 'vong_nguoi_lon' ||
+             (product.categories && product.categories.includes('vong_nguoi_lon'));
     },
 
     // Dynamic Pricing Configuration
@@ -488,7 +500,7 @@ document.addEventListener('alpine:init', () => {
 
       // Watch quickBuyWeight để clear weight error
       this.$watch('quickBuyWeight', (newValue) => {
-        if (newValue && newValue !== '-- Chọn cân nặng --') {
+        if (newValue && newValue !== '-- Chọn cân nặng --' && newValue !== '-- Chọn size tay --') {
           this.formErrors.weight = '';
         }
       });
@@ -1229,13 +1241,15 @@ document.addEventListener('alpine:init', () => {
     addItemWithOptions() {
       if (!this.currentItemForOptions) return;
 
-      // Validate weight selection
+      // Validate weight/size selection
+      const isAdult = this.isAdultProduct(this.currentItemForOptions);
+
       if (!this.itemOptions.selectedWeight) {
-        this.showAlert('Vui lòng chọn cân nặng của bé', 'error');
+        this.showAlert(isAdult ? 'Vui lòng chọn size tay' : 'Vui lòng chọn cân nặng của bé', 'error');
         return;
       }
 
-      if (this.itemOptions.selectedWeight === 'custom' && !this.itemOptions.customWeight) {
+      if (!isAdult && this.itemOptions.selectedWeight === 'custom' && !this.itemOptions.customWeight) {
         this.showAlert('Vui lòng nhập cân nặng cụ thể', 'error');
         return;
       }
@@ -1266,6 +1280,13 @@ document.addEventListener('alpine:init', () => {
         surcharge: priceData.surcharge,
         hasSurcharge: priceData.hasSurcharge
       };
+
+      console.log('🔍 DEBUG: Adding item to cart with weight/size:');
+      console.log('- Product:', this.currentItemForOptions.name);
+      console.log('- selectedWeight:', this.itemOptions.selectedWeight);
+      console.log('- finalWeight:', finalWeight);
+      console.log('- cartId:', cartId);
+      console.log('- itemToAdd:', itemToAdd);
 
       this.addToCart(itemToAdd);
       this.closeItemOptionsModal();
@@ -1491,7 +1512,8 @@ document.addEventListener('alpine:init', () => {
     },
 
     updateItemWeight(productId, weight) {
-      const item = this.cart.find(i => i.id === productId);
+      // Tìm item bằng cartId trước, fallback về id nếu không có cartId
+      const item = this.cart.find(i => i.cartId === productId || i.id === productId);
       if (item) {
         if (weight === 'custom') {
           // When "Khác..." is selected, don't update weight yet
@@ -1945,13 +1967,18 @@ document.addEventListener('alpine:init', () => {
 
       // Bỏ qua validation cân nặng cho addon products trong quick buy
       if (this.quickBuyProduct && this.quickBuyProduct.id !== 'addon_moc_chia_khoa' && this.quickBuyProduct.id !== 'addon_tui_dau_tam') {
-        if (!this.quickBuyWeight || this.quickBuyWeight.trim() === '' || this.quickBuyWeight === '-- Chọn cân nặng --') {
-          this.formErrors.weight = 'Vui lòng chọn cân nặng của bé';
+        // Kiểm tra xem có phải sản phẩm người lớn không
+        const isAdult = this.isAdultProduct(this.quickBuyProduct);
+
+        if (!this.quickBuyWeight || this.quickBuyWeight.trim() === '' ||
+            this.quickBuyWeight === '-- Chọn cân nặng --' ||
+            this.quickBuyWeight === '-- Chọn size tay --') {
+          this.formErrors.weight = isAdult ? 'Vui lòng chọn size tay' : 'Vui lòng chọn cân nặng của bé';
           isValid = false;
-        } else if (this.quickBuyWeight === '✏️ Nhập cân nặng > 20kg' && (!this.quickBuyCustomWeight || this.quickBuyCustomWeight < 20)) {
+        } else if (!isAdult && this.quickBuyWeight === '✏️ Nhập cân nặng > 20kg' && (!this.quickBuyCustomWeight || this.quickBuyCustomWeight < 20)) {
           this.formErrors.weight = 'Vui lòng nhập cân nặng cụ thể từ 20kg trở lên';
           isValid = false;
-        } else if (this.quickBuyWeight.includes('kg') && this.parseWeight(this.quickBuyWeight) >= 20 && this.parseWeight(this.quickBuyWeight) < 20) {
+        } else if (!isAdult && this.quickBuyWeight.includes('kg') && this.parseWeight(this.quickBuyWeight) >= 20 && this.parseWeight(this.quickBuyWeight) < 20) {
           // Validation cho custom weight nếu có
           this.formErrors.weight = 'Cân nặng phải từ 20kg trở lên';
           isValid = false;
@@ -2298,13 +2325,17 @@ document.addEventListener('alpine:init', () => {
           continue;
         }
 
+        // Kiểm tra xem có phải sản phẩm người lớn không
+        const isAdult = this.isAdultProduct(item);
+
         if (!item.weight || item.weight.trim() === '') {
-          this.weightErrors[item.id] = 'Vui lòng chọn cân nặng bé';
+          const itemKey = item.cartId || item.id;
+          this.weightErrors[itemKey] = isAdult ? 'Vui lòng chọn size tay' : 'Vui lòng chọn cân nặng bé';
           hasWeightError = true;
 
           // Lưu ID của sản phẩm đầu tiên thiếu cân nặng
           if (!firstErrorItemId) {
-            firstErrorItemId = item.id;
+            firstErrorItemId = itemKey;
           }
         }
       }
@@ -2316,6 +2347,18 @@ document.addEventListener('alpine:init', () => {
       }
 
       // Mở checkout modal chồng lên mini cart (mini cart vẫn mở bên dưới)
+      console.log('🔍 DEBUG: Opening checkout modal, cart items:');
+      this.cart.forEach((item, index) => {
+        console.log(`- Item ${index}:`, {
+          name: item.name,
+          id: item.id,
+          cartId: item.cartId,
+          selectedWeight: item.selectedWeight,
+          weight: item.weight,
+          isAdult: this.isAdultProduct(item)
+        });
+      });
+
       this.socialProofViewers = Math.floor(Math.random() * 5) + 1;
       this.isCheckoutModalOpen = true;
       this.startSocialProofTimer();

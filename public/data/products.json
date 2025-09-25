@@ -287,7 +287,7 @@
 
   {
     "id": "hat_dau_tam_mai_san_002",
-    "name": "Hạt dâu tằm loại đẹp",
+    "name": "Hạt dâu tằm loại đẹp + chỉ đỏ",
     "category": "hat_dau_tam_mai_san",
     "categories": ["hat_dau_tam_mai_san", "san_pham_hot", "khuyen_mai"],
     "price": 99000,
@@ -299,7 +299,7 @@
   },
   {
     "id": "hat_dau_tam_mai_san_003",
-    "name": "Hạt dâu tằm loại thường",
+    "name": "Hạt dâu tằm loại thường + chỉ đỏ",
     "category": "hat_dau_tam_mai_san",
     "categories": ["hat_dau_tam_mai_san"],
     "price": 59000,
@@ -635,6 +635,18 @@
     "purchases": 234
   },
   {
+    "id": "mix_chi_mau_cac_loai_007",
+    "name": "Vòng trơn dây ngũ sắc",
+    "category": "mix_chi_mau_cac_loai",
+    "categories": ["mix_chi_mau_cac_loai", "vong_tron"],
+    "price": 95000,
+    "original_price": 125000,
+    "image": "./assets/images/demo.jpg",
+    "description": "Vòng dâu tằm trơn với dây ngũ sắc đầy màu sắc, tượng trưng cho sự phong phú và may mắn trong cuộc sống.",
+    "rating": 4.7,
+    "purchases": 0
+  },
+  {
     "id": "mix_the_ten_be_001",
     "name": "Vòng trơn mix thẻ tên tròn",
     "category": "mix_the_ten_be",
@@ -731,173 +743,18 @@
     "purchases": 167
   },
   {
-    "id": "vong_ngu_sac_dau_tam_001",
-    "name": "Vòng trơn ngũ sắc",
-    "category": "vong_ngu_sac_dau_tam",
-    "categories": ["vong_ngu_sac_dau_tam", "san_pham_hot"],
-    "price": 89000,
-    "original_price": 119000,
-    "image": "./assets/images/demo.jpg",
-    "description": "Vòng ngũ sắc dâu tằm trơn truyền thống, đơn giản nhưng đầy ý nghĩa phong thủy.",
+    "id": "vong_nguoi_lon_001",
+    "name": "Vòng người lớn",
+    "category": "vong_nguoi_lon",
+    "categories": ["vong_nguoi_lon", "san_pham_hot"],
+    "price": 149000,
+    "original_price": 189000,
+    "image": "./assets/images/product_img/nguoi-lon/vong-tron-nguoi-lon.jpg",
+    "description": "Vòng dâu tằm dành riêng cho người lớn, thiết kế thanh lịch và sang trọng, phù hợp với mọi lứa tuổi.",
     "rating": 4.8,
     "purchases": 567
   },
-  {
-    "id": "vong_ngu_sac_dau_tam_002",
-    "name": "Vòng trơn ngũ sắc + 1 bi bạc",
-    "category": "vong_ngu_sac_dau_tam",
-    "categories": ["vong_ngu_sac_dau_tam", "khuyen_mai"],
-    "price": 109000,
-    "original_price": 139000,
-    "image": "./assets/images/demo.jpg",
-    "description": "Vòng ngũ sắc dâu tằm trơn với 1 bi bạc tinh tế, tạo điểm nhấn sang trọng.",
-    "rating": 4.9,
-    "purchases": 456
-  },
-  {
-    "id": "vong_ngu_sac_dau_tam_003",
-    "name": "Vòng trơn ngũ sắc + 2 bi bạc",
-    "category": "vong_ngu_sac_dau_tam",
-    "categories": ["vong_ngu_sac_dau_tam"],
-    "price": 129000,
-    "original_price": 159000,
-    "image": "./assets/images/demo.jpg",
-    "description": "Vòng ngũ sắc dâu tằm trơn với 2 bi bạc, cân bằng hoàn hảo giữa truyền thống và hiện đại.",
-    "rating": 4.7,
-    "purchases": 389
-  },
-  {
-    "id": "vong_ngu_sac_dau_tam_004",
-    "name": "Vòng trơn ngũ sắc + 3 bi bạc",
-    "category": "vong_ngu_sac_dau_tam",
-    "categories": ["vong_ngu_sac_dau_tam", "san_pham_hot"],
-    "price": 149000,
-    "original_price": 179000,
-    "image": "./assets/images/demo.jpg",
-    "description": "Vòng ngũ sắc dâu tằm trơn với 3 bi bạc, tạo vẻ đẹp nổi bật và thu hút.",
-    "rating": 4.8,
-    "purchases": 345
-  },
-  {
-    "id": "vong_ngu_sac_dau_tam_005",
-    "name": "Vòng ngũ sắc 7 bi bạc",
-    "category": "vong_ngu_sac_dau_tam",
-    "categories": ["vong_ngu_sac_dau_tam", "khuyen_mai"],
-    "price": 189000,
-    "original_price": 229000,
-    "image": "./assets/images/demo.jpg",
-    "description": "Vòng ngũ sắc dâu tằm với 7 bi bạc, số lượng may mắn mang lại phúc lành.",
-    "rating": 4.9,
-    "purchases": 298
-  },
-  {
-    "id": "vong_ngu_sac_dau_tam_006",
-    "name": "Vòng ngũ sắc 9 bi bạc",
-    "category": "vong_ngu_sac_dau_tam",
-    "categories": ["vong_ngu_sac_dau_tam", "san_pham_hot"],
-    "price": 219000,
-    "original_price": 269000,
-    "image": "./assets/images/demo.jpg",
-    "description": "Vòng ngũ sắc dâu tằm với 9 bi bạc, biểu tượng của sự viên mãn và thịnh vượng.",
-    "rating": 5.0,
-    "purchases": 267
-  },
-  {
-    "id": "vong_ngu_sac_dau_tam_007",
-    "name": "Vòng ngũ sắc sole bạc 3ly",
-    "category": "vong_ngu_sac_dau_tam",
-    "categories": ["vong_ngu_sac_dau_tam", "khuyen_mai"],
-    "price": 169000,
-    "original_price": 209000,
-    "image": "./assets/images/demo.jpg",
-    "description": "Vòng ngũ sắc dâu tằm sole với bi bạc 3 lớp, thiết kế hiện đại và sang trọng.",
-    "rating": 4.8,
-    "purchases": 234
-  },
-  {
-    "id": "vong_ngu_sac_dau_tam_008",
-    "name": "Vòng ngũ sắc sole bạc 4ly",
-    "category": "vong_ngu_sac_dau_tam",
-    "categories": ["vong_ngu_sac_dau_tam", "san_pham_hot"],
-    "price": 189000,
-    "original_price": 229000,
-    "image": "./assets/images/demo.jpg",
-    "description": "Vòng ngũ sắc dâu tằm sole với bi bạc 4 lớp, chất lượng cao cấp và bền đẹp.",
-    "rating": 4.9,
-    "purchases": 198
-  },
-  {
-    "id": "vong_ngu_sac_dau_tam_009",
-    "name": "Vòng ngũ sắc sole bạc 5ly",
-    "category": "vong_ngu_sac_dau_tam",
-    "categories": ["vong_ngu_sac_dau_tam"],
-    "price": 209000,
-    "original_price": 249000,
-    "image": "./assets/images/demo.jpg",
-    "description": "Vòng ngũ sắc dâu tằm sole với bi bạc 5 lớp, đỉnh cao của sự tinh tế và sang trọng.",
-    "rating": 5.0,
-    "purchases": 167
-  },
-  {
-    "id": "vong_ngu_sac_dau_tam_010",
-    "name": "Vòng ngũ sắc trơn + Charm rắn",
-    "category": "vong_ngu_sac_dau_tam",
-    "categories": ["vong_ngu_sac_dau_tam", "khuyen_mai"],
-    "price": 159000,
-    "original_price": 199000,
-    "image": "./assets/images/demo.jpg",
-    "description": "Vòng ngũ sắc dâu tằm trơn với charm rắn, biểu tượng của sự thông minh và may mắn.",
-    "rating": 4.7,
-    "purchases": 145
-  },
-  {
-    "id": "vong_ngu_sac_dau_tam_011",
-    "name": "Vòng ngũ sắc sole bạc 3ly + Charm rắn",
-    "category": "vong_ngu_sac_dau_tam",
-    "categories": ["vong_ngu_sac_dau_tam", "san_pham_hot"],
-    "price": 199000,
-    "original_price": 239000,
-    "image": "./assets/images/demo.jpg",
-    "description": "Vòng ngũ sắc dâu tằm sole bạc 3 lớp với charm rắn, kết hợp hoàn hảo giữa hiện đại và truyền thống.",
-    "rating": 4.8,
-    "purchases": 123
-  },
-  {
-    "id": "vong_ngu_sac_dau_tam_012",
-    "name": "Mix hạt bồ đề dây ngũ sắc",
-    "category": "vong_ngu_sac_dau_tam",
-    "categories": ["vong_ngu_sac_dau_tam", "mix_hat_bo_de"],
-    "price": 179000,
-    "original_price": 219000,
-    "image": "./assets/images/product_img/bo de/vong_dau_tam_hat_bo_de_day_ngu_sac.jpg",
-    "description": "Vòng ngũ sắc dâu tằm sole với hạt bồ đề, mang lại sự bình an và tĩnh lặng.",
-    "rating": 4.9,
-    "purchases": 98
-  },
-  {
-    "id": "vong_ngu_sac_dau_tam_013",
-    "name": "Vòng ngũ sắc hổ phách vàng cam",
-    "category": "vong_ngu_sac_dau_tam",
-    "categories": ["vong_ngu_sac_dau_tam", "mix_ho_phach", "san_pham_hot"],
-    "price": 229000,
-    "original_price": 279000,
-    "image": "./assets/images/demo.jpg",
-    "description": "Vòng ngũ sắc dâu tằm với hổ phách vàng cam tự nhiên, giúp bé ngủ ngon và giảm đau mọc răng.",
-    "rating": 5.0,
-    "purchases": 87
-  },
-  {
-    "id": "vong_ngu_sac_dau_tam_014",
-    "name": "Vòng ngũ sắc hổ phách nâu đỏ",
-    "category": "vong_ngu_sac_dau_tam",
-    "categories": ["vong_ngu_sac_dau_tam", "mix_ho_phach", "khuyen_mai"],
-    "price": 209000,
-    "original_price": 259000,
-    "image": "./assets/images/demo.jpg",
-    "description": "Vòng ngũ sắc dâu tằm với hổ phách nâu đỏ cổ điển, mang lại năng lượng tích cực và sức khỏe.",
-    "rating": 4.8,
-    "purchases": 76
-  },
+
   {
     "id": "san_pham_ban_kem_001",
     "name": "Túi Đựng Vòng Dâu Tằm Nhung",
@@ -1019,6 +876,42 @@
     "purchases": 234
   },
   {
+    "id": "bi_charm_bac_008",
+    "name": "Charm cỏ 4 lá bạc S925 (13.3x11.6x2mm)",
+    "category": "bi_charm_bac",
+    "categories": ["bi_charm_bac", "san_pham_hot"],
+    "price": 189000,
+    "original_price": 229000,
+    "image": "./assets/images/product_img/charm-bac/co-4-la-dac.jpg",
+    "description": "Charm cỏ 4 lá bạc S925 cao cấp, kích thước 13.3x11.6x2mm, biểu tượng may mắn và thịnh vượng.",
+    "rating": 4.8,
+    "purchases": 156
+  },
+  {
+    "id": "bi_charm_bac_009",
+    "name": "Charm cỏ 4 lá 2 bạc S925 (Size 8*10,9mm)",
+    "category": "bi_charm_bac",
+    "categories": ["bi_charm_bac"],
+    "price": 159000,
+    "original_price": 189000,
+    "image": "./assets/images/product_img/charm-bac/co-4-la-rong.jpg",
+    "description": "Charm cỏ 4 lá 2 bạc S925 cao cấp, kích thước 8*10,9mm, biểu tượng may mắn và thịnh vượng.",
+    "rating": 4.7,
+    "purchases": 0
+  },
+  {
+    "id": "bi_charm_bac_010",
+    "name": "Charm thánh giá xỏ ngang (Size 9.3x7.3x4mm)",
+    "category": "bi_charm_bac",
+    "categories": ["bi_charm_bac"],
+    "price": 149000,
+    "original_price": 179000,
+    "image": "./assets/images/product_img/charm-bac/thanh-gia-xo-ngang.jpg",
+    "description": "Charm thánh giá bạc cao cấp với thiết kế xỏ ngang tinh tế, kích thước 9.3x7.3x4mm, biểu tượng của đức tin và bảo vệ.",
+    "rating": 4.8,
+    "purchases": 0
+  },
+  {
     "id": "mix_bi_bac_006",
     "name": "Mix bi bạc 3ly",
     "category": "mix_bi_bac",
@@ -1114,6 +1007,18 @@
     "purchases": 89
   },
   {
+    "id": "mix_da_do_tu_nhien_004",
+    "name": "Sole bạc 3ly mix đá đỏ co giãn",
+    "category": "mix_da_do_tu_nhien",
+    "categories": ["mix_da_do_tu_nhien", "vong_co_gian", "san_pham_hot"],
+    "price": 239000,
+    "original_price": 289000,
+    "image": "./assets/images/product_img/da do/vong-sole-3ly-co-gian-da-do.jpg",
+    "description": "Vòng dâu tằm sole bạc 3 lớp mix đá đỏ tự nhiên với dây co giãn, mang lại năng lượng tích cực.",
+    "rating": 4.7,
+    "purchases": 123
+  },
+  {
     "id": "vong_co_gian_001",
     "name": "Trơn co giãn",
     "category": "vong_co_gian",
@@ -1186,7 +1091,18 @@
     "rating": 4.7,
     "purchases": 189
   },
-
+  {
+    "id": "vong_co_gian_008",
+    "name": "Sole bạc 4ly mix đá đỏ co giãn",
+    "category": "vong_co_gian",
+    "categories": ["vong_co_gian", "mix_da_do_tu_nhien", "san_pham_hot"],
+    "price": 259000,
+    "original_price": 309000,
+    "image": "./assets/images/product_img/da do/vong-sole-4ly-co-gian-da-do.jpg",
+    "description": "Vòng dâu tằm sole bạc 4 lớp mix đá đỏ tự nhiên với dây co giãn, mang lại năng lượng mạnh mẽ.",
+    "rating": 4.8,
+    "purchases": 156
+  },
 
   {
     "id": "mix_hat_bo_de_007",
@@ -1379,5 +1295,65 @@
     "description": "Vòng dâu tằm mix bi bạc 3 lớp kết hợp charm chuông và thẻ tên cá nhân, hoàn hảo cho bé yêu.",
     "rating": 4.9,
     "purchases": 87
+  },
+  {
+    "id": "bi_charm_bac_011",
+    "name": "Charm cúc họa mi S925 (Size 2x10mm)",
+    "category": "bi_charm_bac",
+    "categories": ["bi_charm_bac"],
+    "price": 129000,
+    "original_price": 159000,
+    "image": "./assets/images/product_img/charm-bac/charm-cuc-hoa-mi.jpg",
+    "description": "Charm cúc họa mi bạc S925 cao cấp, kích thước 2x10mm, thiết kế tinh tế và thanh lịch, biểu tượng của sự thuần khiết và may mắn.",
+    "rating": 4.8,
+    "purchases": 0
+  },
+  {
+    "id": "san_pham_ban_kem_004",
+    "name": "Bó dâu tằm 7 CÀNH cho bé trai",
+    "category": "san_pham_ban_kem",
+    "categories": ["san_pham_ban_kem"],
+    "price": 89000,
+    "original_price": 109000,
+    "image": "./assets/images/product_img/bo-dau-tam-de-phong.jpg",
+    "description": "Bó dâu tằm 7 cành tự nhiên dành riêng cho bé trai, giúp bé ngủ ngon, giảm stress và tăng cường sức khỏe tự nhiên.",
+    "rating": 4.7,
+    "purchases": 0
+  },
+  {
+    "id": "san_pham_ban_kem_005",
+    "name": "Bó dâu tằm 9 CÀNH cho bé gái",
+    "category": "san_pham_ban_kem",
+    "categories": ["san_pham_ban_kem"],
+    "price": 99000,
+    "original_price": 119000,
+    "image": "./assets/images/product_img/bo-dau-tam-de-phong.jpg",
+    "description": "Bó dâu tằm 9 cành tự nhiên dành riêng cho bé gái, giúp bé ngủ ngon, giảm căng thẳng và mang lại may mắn cho bé yêu.",
+    "rating": 4.8,
+    "purchases": 0
+  },
+  {
+    "id": "hat_dau_tam_mai_san_004",
+    "name": "Hạt dâu tằm loại đẹp + chỉ cước co giãn",
+    "category": "hat_dau_tam_mai_san",
+    "categories": ["hat_dau_tam_mai_san", "san_pham_hot"],
+    "price": 109000,
+    "original_price": 139000,
+    "image": "./assets/images/product_img/hat_dau_tam.jpg",
+    "description": "Hạt dâu tằm loại đẹp được chọn lọc kỹ càng kết hợp với chỉ cước co giãn cao cấp, tạo độ bền và thoải mái tối ưu.",
+    "rating": 4.9,
+    "purchases": 0
+  },
+  {
+    "id": "hat_dau_tam_mai_san_005",
+    "name": "Hạt dâu tằm loại thường + chỉ cước co giãn",
+    "category": "hat_dau_tam_mai_san",
+    "categories": ["hat_dau_tam_mai_san"],
+    "price": 69000,
+    "original_price": 89000,
+    "image": "./assets/images/product_img/hat_dau_tam.jpg",
+    "description": "Hạt dâu tằm loại thường với chất lượng ổn định kết hợp chỉ cước co giãn, giá cả phải chăng cho mọi gia đình.",
+    "rating": 4.7,
+    "purchases": 0
   }
 ]
