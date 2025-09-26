@@ -834,7 +834,7 @@
     "categories": ["bi_charm_bac", "khuyen_mai"],
     "price": 149000,
     "original_price": 189000,
-    "image": "./assets/images/demo.jpg",
+    "image": "./assets/images/product_img/charm-bac/charm-rong.jpg",
     "description": "Charm rồng bạc ta tinh xảo, biểu tượng của quyền lực và may mắn.",
     "rating": 4.8,
     "purchases": 345
@@ -846,7 +846,7 @@
     "categories": ["bi_charm_bac"],
     "price": 139000,
     "original_price": 169000,
-    "image": "./assets/images/demo.jpg",
+    "image": "./assets/images/product_img/charm-bac/charm-ran.jpg",
     "description": "Charm rắn bạc ta độc đáo, mang ý nghĩa thông minh và bảo vệ.",
     "rating": 4.7,
     "purchases": 298
@@ -858,7 +858,7 @@
     "categories": ["bi_charm_bac", "san_pham_hot"],
     "price": 169000,
     "original_price": 209000,
-    "image": "./assets/images/demo.jpg",
+    "image": "./assets/images/product_img/charm-bac/co-4-la.jpg",
     "description": "Thẻ bạc hình 4 lá may mắn có thể khắc tên bé 2 mặt, món quà ý nghĩa và độc đáo.",
     "rating": 4.9,
     "purchases": 267
@@ -1183,7 +1183,31 @@
     "categories": ["mix_charm_chuong", "san_pham_hot"],
     "price": 169000,
     "original_price": 209000,
-    "image": "./assets/images/product_img/Sole bac/vong_dau_tam_sole_3ly_mix_chuong.jpg",
+    "image": "./assets/images/product_img/chuong/vong_dau_tam_sole_3ly_chuong.jpg",
+    "description": "Vòng dâu tằm mix bi bạc 3 lớp với charm chuông tinh tế.",
+    "rating": 5.0,
+    "purchases": 345
+  },
+  {
+    "id": "mix_charm_chuong_0043",
+    "name": "Mix bạc 4ly khía + Charm chuông",
+    "category": "mix_charm_chuong",
+    "categories": ["mix_charm_chuong", "san_pham_hot"],
+    "price": 169000,
+    "original_price": 209000,
+    "image": "./assets/images/product_img/chuong/vong-mix-bac-4ly-charm-chuong.jpg",
+    "description": "Vòng dâu tằm mix bi bạc 3 lớp với charm chuông tinh tế.",
+    "rating": 5.0,
+    "purchases": 345
+  },
+    {
+    "id": "mix_charm_chuong_00431",
+    "name": "Mix bạc 3ly + Bi bạc 6ly + Charm chuông",
+    "category": "mix_charm_chuong",
+    "categories": ["mix_charm_chuong", "san_pham_hot"],
+    "price": 169000,
+    "original_price": 209000,
+    "image": "./assets/images/product_img/chuong/vong-sole-3ly-mix-bac-6ly-chuong.jpg",
     "description": "Vòng dâu tằm mix bi bạc 3 lớp với charm chuông tinh tế.",
     "rating": 5.0,
     "purchases": 345
@@ -1272,18 +1296,7 @@
     "rating": 5.0,
     "purchases": 123
   },
-  {
-    "id": "mix_charm_chuong_011",
-    "name": "Mix bạc 4ly + Charm chuông",
-    "category": "mix_charm_chuong",
-    "categories": ["mix_charm_chuong", "khuyen_mai"],
-    "price": 179000,
-    "original_price": 219000,
-    "image": "./assets/images/product_img/chuong/vong_dau_tam_sole_4ly_chuong.jpg",
-    "description": "Vòng dâu tằm mix bi bạc 4 lớp với charm chuông sang trọng và tinh tế.",
-    "rating": 4.8,
-    "purchases": 98
-  },
+  
   {
     "id": "mix_charm_chuong_012",
     "name": "Mix bạc 3ly + chuông + thẻ tên",
@@ -1297,13 +1310,49 @@
     "purchases": 87
   },
   {
-    "id": "bi_charm_bac_011",
+    "id": "bi_charm_bac_0111",
     "name": "Charm cúc họa mi S925 (Size 2x10mm)",
     "category": "bi_charm_bac",
     "categories": ["bi_charm_bac"],
     "price": 129000,
     "original_price": 159000,
     "image": "./assets/images/product_img/charm-bac/charm-cuc-hoa-mi.jpg",
+    "description": "Charm cúc họa mi bạc S925 cao cấp, kích thước 2x10mm, thiết kế tinh tế và thanh lịch, biểu tượng của sự thuần khiết và may mắn.",
+    "rating": 4.8,
+    "purchases": 0
+  },
+   {
+    "id": "bi_charm_bac_0112",
+    "name": "Charm hoa sen treo S925 (Size 2x10mm)",
+    "category": "bi_charm_bac",
+    "categories": ["bi_charm_bac"],
+    "price": 129000,
+    "original_price": 159000,
+    "image": "./assets/images/product_img/charm-bac/charm-hoa-sen-treo.jpg",
+    "description": "Charm cúc họa mi bạc S925 cao cấp, kích thước 2x10mm, thiết kế tinh tế và thanh lịch, biểu tượng của sự thuần khiết và may mắn.",
+    "rating": 4.8,
+    "purchases": 0
+  },
+     {
+    "id": "bi_charm_bac_0113",
+    "name": "Charm ngôi sao treo S925 (Size 2x10mm)",
+    "category": "bi_charm_bac",
+    "categories": ["bi_charm_bac"],
+    "price": 129000,
+    "original_price": 159000,
+    "image": "./assets/images/product_img/charm-bac/charm-ngoi-sao.jpg",
+    "description": "Charm cúc họa mi bạc S925 cao cấp, kích thước 2x10mm, thiết kế tinh tế và thanh lịch, biểu tượng của sự thuần khiết và may mắn.",
+    "rating": 4.8,
+    "purchases": 0
+  },
+    {
+    "id": "bi_charm_bac_011",
+    "name": "Charm hoa sen xỏ ngang S925 (Size 2x10mm)",
+    "category": "bi_charm_bac",
+    "categories": ["bi_charm_bac"],
+    "price": 129000,
+    "original_price": 159000,
+    "image": "./assets/images/product_img/charm-bac/charm-hoa-sen-xo-ngang.jpg",
     "description": "Charm cúc họa mi bạc S925 cao cấp, kích thước 2x10mm, thiết kế tinh tế và thanh lịch, biểu tượng của sự thuần khiết và may mắn.",
     "rating": 4.8,
     "purchases": 0

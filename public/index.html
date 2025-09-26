@@ -894,7 +894,7 @@
                                 <!-- Action Buttons -->
                                 <div class="mt-4 flex items-center space-x-2">
                                     <!-- Add to Cart Icon - Outline Style -->
-                                    <button @click.stop="openItemOptionsModal(product)"
+                                    <button @click.stop="isAddonProduct(product) ? addAddonToCart(product) : openItemOptionsModal(product)"
                                             class="w-10 h-10 bg-white border-[1.5px] border-pink-500 text-pink-500 rounded-lg flex items-center justify-center shadow-sm hover:bg-pink-50 hover:border-pink-600 hover:text-pink-600 hover:scale-105 transition-all duration-200 flex-shrink-0">
                                         <div class="relative">
                                             <!-- Shopping Cart Icon -->
@@ -909,12 +909,12 @@
                                     </button>
 
                                     <!-- Button Mua Ngay -->
-                                    <button @click.stop="buyNow(product)"
+                                    <button @click.stop="isAddonProduct(product) ? addAddonToCart(product) : buyNow(product)"
                                             class="flex-1 flex items-center justify-center h-10 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition-colors duration-300 font-semibold text-xs sm:text-sm shadow-lg">
                                         <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                                         </svg>
-                                        <span class="truncate">Mua ngay</span>
+                                        <span class="truncate" x-text="isAddonProduct(product) ? 'Thêm vào giỏ' : 'Mua ngay'"></span>
                                     </button>
                                 </div>
                             </div>
@@ -1825,7 +1825,7 @@
                                 </div>
 
                                 <!-- Weight Selection - Full Width (Hidden for addon products) -->
-                                <div x-show="item.id !== 'addon_moc_chia_khoa' && item.id !== 'addon_tui_dau_tam'" class="cart-item-weight-section">
+                                <div x-show="item.id !== 'addon_moc_chia_khoa' && item.id !== 'addon_tui_dau_tam' && !isAddonProduct(item)" class="cart-item-weight-section">
                                     <!-- Weight/Size Selector Row -->
                                     <div class="flex items-center space-x-2 mb-2">
                                         <div class="flex items-center space-x-1 flex-shrink-0">
@@ -1941,6 +1941,8 @@
                                                     <span x-text="isAddonInCart(addon.id) ? 'Xóa' : 'Thêm'"></span>
                                                 </button>
                                                 <template x-if="addon.id === 'addon_tui_dau_tam'"><p class="text-xs text-green-600 font-semibold" x-text="isFreeshippingFromDiscount() ? '-8K' : '+ Freeship'"></p></template>
+                                                <template x-if="addon.id === 'addon_bo_dau_tam_7_canh'"><p class="text-xs text-green-600 font-semibold">+ Freeship</p></template>
+                                                <template x-if="addon.id === 'addon_bo_dau_tam_9_canh'"><p class="text-xs text-green-600 font-semibold">+ Freeship</p></template>
                                                 <template x-if="addon.id === 'addon_moc_chia_khoa'"><p class="text-xs text-green-600 font-semibold">-5K</p></template>
                                             </div>
                                         </div>
@@ -2549,7 +2551,7 @@
                                 <p class="text-xs text-gray-600 mt-0.5">Còn: <span x-text="countdownTimer.display" class="font-mono font-semibold text-green-700 bg-green-100 px-1 py-0.5 rounded text-xs"></span></p>
                             </div>
                             <div class="space-y-1.5">
-                                <template x-for="addon in filteredAddonProducts" :key="addon.id">
+                                <template x-for="addon in filteredAddonProductsForQuickBuy" :key="addon.id">
                                     <div @click="openAddonDetail(addon)" class="flex items-center space-x-2 p-2 bg-white rounded-md border border-green-100 cursor-pointer hover:bg-gray-50 transition-colors">
                                         <img :src="addon.image" class="w-8 h-8 rounded object-cover flex-shrink-0">
                                         <div class="flex-grow min-w-0">
@@ -2570,6 +2572,8 @@
                                                 <span x-text="isAddonInCartForDisplay(addon.id) ? 'Xóa' : 'Thêm'"></span>
                                             </button>
                                             <template x-if="addon.id === 'addon_tui_dau_tam'"><p class="text-xs text-green-600 font-semibold" x-text="isFreeshippingFromDiscount() ? '-8K' : '+ Freeship'"></p></template>
+                                            <template x-if="addon.id === 'addon_bo_dau_tam_7_canh'"><p class="text-xs text-green-600 font-semibold">+ Freeship</p></template>
+                                            <template x-if="addon.id === 'addon_bo_dau_tam_9_canh'"><p class="text-xs text-green-600 font-semibold">+ Freeship</p></template>
                                             <template x-if="addon.id === 'addon_moc_chia_khoa'"><p class="text-xs text-green-600 font-semibold">-5K</p></template>
                                         </div>
                                     </div>
@@ -3130,7 +3134,7 @@
                                     <p class="text-xs text-gray-600 mt-0.5">Còn: <span x-text="countdownTimer.display" class="font-mono font-semibold text-green-700 bg-green-100 px-1 py-0.5 rounded text-xs"></span></p>
                                 </div>
                                 <div class="space-y-1.5">
-                                    <template x-for="addon in filteredAddonProducts" :key="addon.id">
+                                    <template x-for="addon in filteredAddonProductsForProductDetail" :key="addon.id">
                                         <div @click="openAddonDetail(addon)" class="flex items-center space-x-2 p-2 bg-white rounded-md border border-green-100 cursor-pointer hover:bg-gray-50 transition-colors">
                                             <img :src="addon.image" class="w-8 h-8 rounded object-cover flex-shrink-0">
                                             <div class="flex-grow min-w-0">
@@ -3151,6 +3155,8 @@
                                                     <span x-text="isAddonInCartForDisplay(addon.id) ? 'Xóa' : 'Thêm'"></span>
                                                 </button>
                                                 <template x-if="addon.id === 'addon_tui_dau_tam'"><p class="text-xs text-green-600 font-semibold" x-text="isFreeshippingFromDiscount() ? '-8K' : '+ Freeship'"></p></template>
+                                                <template x-if="addon.id === 'addon_bo_dau_tam_7_canh'"><p class="text-xs text-green-600 font-semibold">+ Freeship</p></template>
+                                                <template x-if="addon.id === 'addon_bo_dau_tam_9_canh'"><p class="text-xs text-green-600 font-semibold">+ Freeship</p></template>
                                                 <template x-if="addon.id === 'addon_moc_chia_khoa'"><p class="text-xs text-green-600 font-semibold">-5K</p></template>
                                             </div>
                                         </div>
@@ -3278,7 +3284,7 @@
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                                 </svg>
-                                <span class="text-sm">Mua ngay</span>
+                                <span class="text-sm" x-text="isAddonProduct(currentProductDetail) ? 'Thêm vào giỏ' : 'Mua ngay'"></span>
                             </button>
                         </div>
                     </div>
@@ -3523,6 +3529,8 @@
                                             <span x-text="isAddonInCartForDisplay(addon.id) ? 'Xóa' : 'Thêm'"></span>
                                         </button>
                                         <template x-if="addon.id === 'addon_tui_dau_tam'"><p class="text-xs text-green-600 font-semibold" x-text="isFreeshippingFromDiscount() ? '-8K' : '+ Freeship'"></p></template>
+                                        <template x-if="addon.id === 'addon_bo_dau_tam_7_canh'"><p class="text-xs text-green-600 font-semibold">+ Freeship</p></template>
+                                        <template x-if="addon.id === 'addon_bo_dau_tam_9_canh'"><p class="text-xs text-green-600 font-semibold">+ Freeship</p></template>
                                         <template x-if="addon.id === 'addon_moc_chia_khoa'"><p class="text-xs text-green-600 font-semibold">-5K</p></template>
                                     </div>
                                 </div>

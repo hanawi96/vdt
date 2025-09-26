@@ -80,6 +80,56 @@ document.addEventListener('alpine:init', () => {
           materials: 'Khúc dâu tằm tự nhiên, dây móc inox không gỉ',
           origin: 'Thôn Đông Cao, Tráng Việt, Hà Nội'
         }
+      },
+      {
+        id: 'addon_bo_dau_tam_7_canh',
+        name: 'Bó dâu tằm 7 CÀNH cho bé trai',
+        description: 'Bó dâu tằm 7 cành tự nhiên dành riêng cho bé trai',
+        price: 89000,
+        original_price: 109000,
+        image: './assets/images/product_img/bo-dau-tam-de-phong.jpg',
+        rating: 4.7,
+        purchases: 0,
+        detailedInfo: {
+          fullDescription:
+            'Bó dâu tằm 7 cành tự nhiên dành riêng cho bé trai, giúp bé ngủ ngon, giảm stress và tăng cường sức khỏe tự nhiên. Số lượng 7 cành mang ý nghĩa may mắn và bình an.',
+          benefits: [
+            '🌿 Giúp bé trai ngủ ngon và sâu giấc',
+            '😌 Giảm căng thẳng, lo âu cho bé',
+            '🛡️ Tăng cường hệ miễn dịch tự nhiên',
+            '🌱 100% từ thiên nhiên, an toàn cho bé',
+            '🎯 Dành riêng cho bé trai với 7 cành may mắn'
+          ],
+          usage:
+            'Đặt bó dâu tằm trong phòng bé hoặc gần giường ngủ. Có thể treo lên tường hoặc đặt trên kệ. Thay thế sau 6-12 tháng sử dụng.',
+          materials: 'Cành dâu tằm tự nhiên, dây buộc cotton',
+          origin: 'Thôn Đông Cao, Tráng Việt, Hà Nội'
+        }
+      },
+      {
+        id: 'addon_bo_dau_tam_9_canh',
+        name: 'Bó dâu tằm 9 CÀNH cho bé gái',
+        description: 'Bó dâu tằm 9 cành tự nhiên dành riêng cho bé gái',
+        price: 99000,
+        original_price: 119000,
+        image: './assets/images/product_img/bo-dau-tam-de-phong.jpg',
+        rating: 4.8,
+        purchases: 0,
+        detailedInfo: {
+          fullDescription:
+            'Bó dâu tằm 9 cành tự nhiên dành riêng cho bé gái, giúp bé ngủ ngon, giảm căng thẳng và mang lại may mắn cho bé yêu. Số lượng 9 cành mang ý nghĩa trọn vẹn và thịnh vượng.',
+          benefits: [
+            '🌸 Giúp bé gái ngủ ngon và sâu giấc',
+            '😌 Giảm căng thẳng, lo âu cho bé',
+            '🛡️ Tăng cường hệ miễn dịch tự nhiên',
+            '🌱 100% từ thiên nhiên, an toàn cho bé',
+            '💖 Dành riêng cho bé gái với 9 cành may mắn'
+          ],
+          usage:
+            'Đặt bó dâu tằm trong phòng bé hoặc gần giường ngủ. Có thể treo lên tường hoặc đặt trên kệ. Thay thế sau 6-12 tháng sử dụng.',
+          materials: 'Cành dâu tằm tự nhiên, dây buộc cotton',
+          origin: 'Thôn Đông Cao, Tráng Việt, Hà Nội'
+        }
       }
     ],
     currentCategory: {
@@ -191,6 +241,15 @@ document.addEventListener('alpine:init', () => {
              (product.categories && product.categories.includes('vong_nguoi_lon'));
     },
 
+    // Kiểm tra xem sản phẩm có phải là sản phẩm bán kèm không
+    isAddonProduct(product) {
+      if (!product) return false;
+      return product.category === 'san_pham_ban_kem' ||
+             product.category === 'bi_charm_bac' ||
+             (product.categories && product.categories.includes('san_pham_ban_kem')) ||
+             (product.categories && product.categories.includes('bi_charm_bac'));
+    },
+
     // Dynamic Pricing Configuration
     pricingConfig: {
       standardMaxWeight: 15, // Từ 16kg trở lên mới tính phụ thu (15kg vẫn là giá chuẩn)
@@ -228,12 +287,48 @@ document.addEventListener('alpine:init', () => {
 
     // Get filtered addon products (exclude túi dâu tằm when buying combo)
     get filteredAddonProducts() {
+      let filtered = this.addonProducts;
+
       if (this.isBuyingCombo) {
         // Khi đang mua combo, chỉ hiển thị móc chìa khóa
-        return this.addonProducts.filter(addon => addon.id === 'addon_moc_chia_khoa');
+        filtered = filtered.filter(addon => addon.id === 'addon_moc_chia_khoa');
       }
-      // Bình thường hiển thị tất cả
-      return this.addonProducts;
+
+      // Ẩn các addon đã có trong giỏ hàng (thông minh hơn)
+      // Áp dụng cho Mini Cart và Item Options modal
+      filtered = filtered.filter(addon => !this.cart.some(item => item.id === addon.id));
+
+      return filtered;
+    },
+
+    // Get filtered addon products for Quick Buy (exclude already selected)
+    get filteredAddonProductsForQuickBuy() {
+      let filtered = this.addonProducts;
+
+      if (this.isBuyingCombo) {
+        // Khi đang mua combo, chỉ hiển thị móc chìa khóa
+        filtered = filtered.filter(addon => addon.id === 'addon_moc_chia_khoa');
+      }
+
+      // Ẩn các addon đã được chọn trong Quick Buy
+      filtered = filtered.filter(addon => !this.quickBuySelectedAddons.some(selected => selected.id === addon.id));
+
+      return filtered;
+    },
+
+    // Get filtered addon products for Product Detail (exclude already selected)
+    get filteredAddonProductsForProductDetail() {
+      let filtered = this.addonProducts;
+
+      if (this.isBuyingCombo) {
+        // Khi đang mua combo, chỉ hiển thị móc chìa khóa
+        filtered = filtered.filter(addon => addon.id === 'addon_moc_chia_khoa');
+      }
+
+      // Ẩn các addon đã được chọn trong Product Detail
+      filtered = filtered.filter(addon => !this.productDetailSelectedAddons.some(selected => selected.id === addon.id));
+
+      return filtered;
     },
 
     // Check if addon is in cart (modified for modal context)
@@ -297,7 +392,11 @@ document.addEventListener('alpine:init', () => {
       const discountFreeship = this.availableDiscounts.find(d => d.code?.toUpperCase() === this.appliedDiscountCode && d.type === 'shipping');
 
       // Freeship từ addon túi dâu tằm được chọn trong Quick Buy
-      const addonFreeship = this.quickBuySelectedAddons.some(addon => addon.id === 'addon_tui_dau_tam');
+      const addonFreeship = this.quickBuySelectedAddons.some(addon =>
+        addon.id === 'addon_tui_dau_tam' ||
+        addon.id === 'addon_bo_dau_tam_7_canh' ||
+        addon.id === 'addon_bo_dau_tam_9_canh'
+      );
 
       return !!(discountFreeship || addonFreeship);
     },
@@ -1011,6 +1110,10 @@ document.addEventListener('alpine:init', () => {
     get freeShipping() {
       // Freeship nếu mua Túi Dâu Tằm và có sản phẩm chính
       if (this.selectedCartItems.includes('addon_tui_dau_tam') && this.hasMainProductInCart) return true;
+      // Freeship nếu mua Bó dâu tằm 7 cành và có sản phẩm chính
+      if (this.selectedCartItems.includes('addon_bo_dau_tam_7_canh') && this.hasMainProductInCart) return true;
+      // Freeship nếu mua Bó dâu tằm 9 cành và có sản phẩm chính
+      if (this.selectedCartItems.includes('addon_bo_dau_tam_9_canh') && this.hasMainProductInCart) return true;
       // Freeship nếu có mã type=shipping
       const d = this.availableDiscounts.find(d => d.code?.toUpperCase() === this.appliedDiscountCode);
       return !!(d && d.type === 'shipping');
@@ -1418,6 +1521,10 @@ document.addEventListener('alpine:init', () => {
       // Thông báo khác nhau tùy theo addon
       if (addon.id === 'addon_tui_dau_tam') {
         this.showAlert(`Đã thêm ${addon.name}! 🚚 Bạn được miễn phí ship!`, 'success');
+      } else if (addon.id === 'addon_bo_dau_tam_7_canh') {
+        this.showAlert(`Đã thêm ${addon.name}! 🚚 Bạn được miễn phí ship!`, 'success');
+      } else if (addon.id === 'addon_bo_dau_tam_9_canh') {
+        this.showAlert(`Đã thêm ${addon.name}! 🚚 Bạn được miễn phí ship!`, 'success');
       } else if (addon.id === 'addon_moc_chia_khoa') {
         this.showAlert(`Đã thêm ${addon.name}! 💰 Giảm 5K đơn hàng!`, 'success');
       } else {
@@ -1447,6 +1554,10 @@ document.addEventListener('alpine:init', () => {
       if (!existing) {
         this.productDetailSelectedAddons.push({ ...addon, quantity: 1 });
         if (addon.id === 'addon_tui_dau_tam') {
+          this.showAlert(`Đã thêm ${addon.name}! 🚚 Bạn được miễn phí ship!`, 'success');
+        } else if (addon.id === 'addon_bo_dau_tam_7_canh') {
+          this.showAlert(`Đã thêm ${addon.name}! 🚚 Bạn được miễn phí ship!`, 'success');
+        } else if (addon.id === 'addon_bo_dau_tam_9_canh') {
           this.showAlert(`Đã thêm ${addon.name}! 🚚 Bạn được miễn phí ship!`, 'success');
         } else if (addon.id === 'addon_moc_chia_khoa') {
           this.showAlert(`Đã thêm ${addon.name}! 💰 Giảm 5K đơn hàng!`, 'success');
@@ -2321,7 +2432,7 @@ document.addEventListener('alpine:init', () => {
         const item = this.cart[i];
 
         // Bỏ qua validation cân nặng cho addon products
-        if (item.id === 'addon_moc_chia_khoa' || item.id === 'addon_tui_dau_tam') {
+        if (item.id === 'addon_moc_chia_khoa' || item.id === 'addon_tui_dau_tam' || this.isAddonProduct(item)) {
           continue;
         }
 
@@ -2723,13 +2834,25 @@ document.addEventListener('alpine:init', () => {
     },
     addProductDetailToCart() {
       if (this.currentProductDetail) {
-        this.addToCart(this.currentProductDetail);
+        // Nếu là sản phẩm bán kèm, thêm trực tiếp vào giỏ hàng
+        if (this.isAddonProduct(this.currentProductDetail)) {
+          this.addAddonToCart(this.currentProductDetail);
+        } else {
+          this.addToCart(this.currentProductDetail);
+        }
         this.closeProductDetail();
         this.showAlert('Đã thêm sản phẩm vào giỏ hàng!', 'success');
       }
     },
     buyProductDetailNow() {
       if (this.currentProductDetail) {
+        // Nếu là sản phẩm bán kèm, chỉ thêm vào giỏ hàng thay vì mua ngay
+        if (this.isAddonProduct(this.currentProductDetail)) {
+          this.addAddonToCart(this.currentProductDetail);
+          this.closeProductDetail();
+          return;
+        }
+
         // Chuyển addon từ ProductDetail sang QuickBuy
         this.quickBuySelectedAddons = [...this.productDetailSelectedAddons];
 
