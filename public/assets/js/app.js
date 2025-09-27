@@ -188,6 +188,9 @@ document.addEventListener('alpine:init', () => {
     isShowingBestSellers: false,
     preventMiniCartCloseOnClickOutside: false,
     isFaqModalOpen: false,
+    faqItems: [],
+    openFaqIndex: null,
+
     isItemOptionsModalOpen: false,
     currentItemForOptions: null,
     itemOptions: { quantity: 1, note: '' },
@@ -436,10 +439,7 @@ document.addEventListener('alpine:init', () => {
       return total > 0 ? total : 0;
     },
 
-    /* ========= FAQ ========= */
-    faqItems: [],
-    openFaqIndex: null,
-    faqAnimating: false,
+
 
     /* ========= PRODUCT DETAIL MODAL ========= */
     isProductDetailOpen: false,
@@ -751,6 +751,7 @@ document.addEventListener('alpine:init', () => {
         if (!sharedRes.ok) throw new Error('Không thể tải thông tin chi tiết.');
         if (!faqRes.ok) throw new Error('Không thể tải dữ liệu FAQ.');
 
+
         // Categories đã được khởi tạo tĩnh ở trên
         this.products = await prodRes.json();
         this.shopInfo = await infoRes.json();
@@ -777,6 +778,7 @@ document.addEventListener('alpine:init', () => {
         this.availableDiscounts = await discountRes.json();
         this.sharedDetails = await sharedRes.json();
         this.faqItems = await faqRes.json();
+
 
         // Tính stats động
         if (this.products?.length) {
@@ -1105,7 +1107,7 @@ document.addEventListener('alpine:init', () => {
     cartSubtotal() {
       return this.selectedCartProducts
         .filter(i => !i.isGift)
-        .reduce((t, i) => t + ((i.finalPrice || i.price) * i.quantity), 0);
+        .reduce((t, i) => t + ((i.finalPrice || i.price) * (i.beadQuantity || i.quantity)), 0);
     },
 
     /* ========= LOGIC KHUYẾN MÃI ========= */
@@ -1356,8 +1358,8 @@ document.addEventListener('alpine:init', () => {
     addBeadWithQuantity() {
       if (!this.currentBeadProduct) return;
 
-      if (this.beadOptions.quantity < 14) {
-        this.showAlert('Số lượng hạt tối thiểu là 14 hạt', 'error');
+      if (this.beadOptions.quantity < 1) {
+        this.showAlert('Số lượng hạt tối thiểu là 1 hạt', 'error');
         return;
       }
 
@@ -1708,12 +1710,12 @@ document.addEventListener('alpine:init', () => {
 
     decreaseBeadQuantity(cartId) {
       const item = this.cart.find(i => i.cartId === cartId);
-      if (item && item.beadQuantity && item.beadQuantity > 14) {
+      if (item && item.beadQuantity && item.beadQuantity > 1) {
         item.beadQuantity--;
         this.revalidateAppliedDiscount();
-      } else if (item && item.beadQuantity && item.beadQuantity <= 14) {
-        // Không cho phép giảm dưới 14 hạt, có thể xóa sản phẩm
-        if (confirm('Số lượng hạt tối thiểu là 14. Bạn có muốn xóa sản phẩm này khỏi giỏ hàng?')) {
+      } else if (item && item.beadQuantity && item.beadQuantity <= 1) {
+        // Không cho phép giảm dưới 1 hạt, có thể xóa sản phẩm
+        if (confirm('Bạn có muốn xóa sản phẩm này khỏi giỏ hàng?')) {
           this.removeFromCart(item.id, cartId);
         }
       }
@@ -1962,6 +1964,7 @@ document.addEventListener('alpine:init', () => {
       this.isAddonDetailModalOpen = false;
       this.isProductDetailOpen = false;
       this.isFaqModalOpen = false;
+
 
       console.log('🔍 Sau khi đóng tất cả - isMiniCartOpen:', this.isMiniCartOpen);
       console.log('🔍 Sau khi đóng tất cả - isCheckoutModalOpen:', this.isCheckoutModalOpen);
@@ -2991,23 +2994,16 @@ document.addEventListener('alpine:init', () => {
     /* ========= FAQ MODAL ========= */
     openFaqModal() {
       this.isFaqModalOpen = true;
+      this.openFaqIndex = null; // Reset opened FAQ
       document.body.style.overflow = 'hidden';
     },
     closeFaqModal() {
       this.isFaqModalOpen = false;
+      this.openFaqIndex = null;
       document.body.style.overflow = 'auto';
     },
     toggleFaq(index) {
-      // Prevent rapid clicking during animation
-      if (this.faqAnimating) return;
-
-      this.faqAnimating = true;
       this.openFaqIndex = this.openFaqIndex === index ? null : index;
-
-      // Reset animation flag after transition completes
-      setTimeout(() => {
-        this.faqAnimating = false;
-      }, 300);
     },
 
     // Quick Buy revalidation - kiểm tra mã giảm giá khi thay đổi số lượng trong Quick Buy

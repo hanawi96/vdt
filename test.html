@@ -196,10 +196,12 @@
                         cartId: `${product.id}-${Date.now()}`,
                         quantity: 1,
                         beadQuantity: 17, // Test với 17 hạt
-                        notes: 'Test bead product'
+                        notes: 'Test bead product',
+                        basePrice: product.price,
+                        finalPrice: product.price
                     };
                     this.cart.push(beadItem);
-                    this.showAlert('Đã thêm ' + product.name + ' (17 hạt) vào giỏ hàng!');
+                    this.showAlert('Đã thêm ' + product.name + ' (17 hạt) vào giỏ hàng! Giá: ' + this.formatCurrency(product.price * 17));
                 },
 
                 // Test functions for bead quantity
@@ -213,11 +215,11 @@
 
                 decreaseBeadQuantity(cartId) {
                     const item = this.cart.find(i => i.cartId === cartId);
-                    if (item && item.beadQuantity && item.beadQuantity > 14) {
+                    if (item && item.beadQuantity && item.beadQuantity > 1) {
                         item.beadQuantity--;
                         this.showAlert(`Giảm xuống ${item.beadQuantity} hạt`);
-                    } else if (item && item.beadQuantity && item.beadQuantity <= 14) {
-                        if (confirm('Số lượng hạt tối thiểu là 14. Bạn có muốn xóa sản phẩm này khỏi giỏ hàng?')) {
+                    } else if (item && item.beadQuantity && item.beadQuantity <= 1) {
+                        if (confirm('Bạn có muốn xóa sản phẩm này khỏi giỏ hàng?')) {
                             this.cart = this.cart.filter(i => i.cartId !== cartId);
                             this.showAlert('Đã xóa sản phẩm khỏi giỏ hàng');
                         }
