@@ -1311,7 +1311,7 @@
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0">
 
-        <div class="bg-white rounded-3xl shadow-2xl w-full max-w-2xl max-h-[85vh] flex flex-col overflow-hidden"
+        <div class="bg-white rounded-2xl shadow-xl w-full max-w-2xl max-h-[85vh] sm:max-h-[90vh] flex flex-col overflow-hidden transform transition-all my-4"
              x-transition:enter="transition ease-out duration-300"
              x-transition:enter-start="scale-95 opacity-0 translate-y-4"
              x-transition:enter-end="scale-100 opacity-100 translate-y-0"
@@ -1319,22 +1319,20 @@
              x-transition:leave-start="scale-100 opacity-100 translate-y-0"
              x-transition:leave-end="scale-95 opacity-0 translate-y-4">
 
-            <!-- Header với gradient đẹp -->
-            <div class="bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 p-6 text-white relative overflow-hidden">
-                <div class="absolute inset-0 bg-white/10 backdrop-blur-sm"></div>
-                <div class="relative flex items-center justify-between">
-                    <div class="flex items-center space-x-3">
-                        <div class="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center backdrop-blur-sm">
-                            <span class="text-2xl">❓</span>
+            <!-- Header - Compact -->
+            <div class="bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 text-white p-2 sm:p-4 rounded-t-2xl flex-shrink-0">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-1 sm:space-x-2">
+                        <div class="w-6 h-6 sm:w-8 sm:h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                            <span class="text-sm sm:text-base">❓</span>
                         </div>
                         <div>
-                            <h3 class="text-xl font-bold">Câu hỏi thường gặp</h3>
-                            <p class="text-white/80 text-sm">Giải đáp mọi thắc mắc của bạn</p>
+                            <h3 class="text-sm sm:text-base font-bold">Câu hỏi thường gặp</h3>
                         </div>
                     </div>
                     <button @click="closeFaqModal()"
-                            class="w-10 h-10 bg-white/20 hover:bg-white/30 rounded-xl flex items-center justify-center transition-all duration-200 backdrop-blur-sm">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            class="w-6 h-6 sm:w-8 sm:h-8 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full flex items-center justify-center transition-all">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                         </svg>
                     </button>
@@ -1383,18 +1381,12 @@
                 </template>
             </div>
 
-            <!-- Footer với CTA buttons -->
-            <div class="p-6 bg-gradient-to-r from-gray-50 to-blue-50/30 border-t border-gray-100">
-                <div class="flex flex-col sm:flex-row gap-3">
-                    <button @click="closeFaqModal()"
-                            class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-3 px-6 rounded-xl transition-all duration-200 text-sm">
-                        Đã hiểu rồi
-                    </button>
-                    <a href="https://zalo.me/0972483892" target="_blank" rel="noopener noreferrer"
-                       class="flex-1 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold py-3 px-6 rounded-xl text-center transition-all duration-200 text-sm shadow-lg hover:shadow-xl transform hover:scale-[1.02]">
-                        💬 Chat với chúng tôi
-                    </a>
-                </div>
+            <!-- Footer với CTA button -->
+            <div class="p-4 sm:p-6 bg-gradient-to-r from-gray-50 to-blue-50/30 border-t border-gray-100">
+                <a href="https://zalo.me/0972483892" target="_blank" rel="noopener noreferrer"
+                   class="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold py-3 px-6 rounded-xl text-center transition-all duration-200 text-sm shadow-lg hover:shadow-xl transform hover:scale-[1.02] block">
+                    💬 Chat với chúng tôi
+                </a>
                 <p class="text-center text-xs text-gray-500 mt-3">
                     Vẫn còn thắc mắc? Liên hệ ngay để được tư vấn miễn phí!
                 </p>
