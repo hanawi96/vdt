@@ -194,6 +194,7 @@ document.addEventListener('alpine:init', () => {
     isItemOptionsModalOpen: false,
     currentItemForOptions: null,
     itemOptions: { quantity: 1, note: '' },
+    showSizeGuide: false,
 
     // Bead Quantity Modal state
     isBeadQuantityModalOpen: false,
@@ -536,11 +537,11 @@ document.addEventListener('alpine:init', () => {
 
       // Watch cart lưu ghi chú & vệ sinh selectedCartItems khi item bị xoá
       this.$watch('cart', (newCart) => {
-        const idSet = new Set(newCart.map(i => i.id));
+        const cartIdSet = new Set(newCart.map(i => i.cartId || i.id));
         // Lưu note nếu có
         newCart.forEach(item => { if (item.weight) this.productNotes[item.id] = item.weight; });
-        // Loại bỏ ID không còn trong cart
-        this.selectedCartItems = this.selectedCartItems.filter(id => idSet.has(id));
+        // Loại bỏ cartId/id không còn trong cart
+        this.selectedCartItems = this.selectedCartItems.filter(id => cartIdSet.has(id));
       }, { deep: true });
 
       // Real-time validation watchers
@@ -593,9 +594,11 @@ document.addEventListener('alpine:init', () => {
         }
       });
 
-      // Watch selected items để revalidate discount
+      // Watch selected items để revalidate discount (chỉ khi có discount được áp dụng)
       this.$watch('selectedCartItems', () => {
-        this.revalidateAppliedDiscount();
+        if (this.appliedDiscountCode || this.appliedGift || this.discountAmount > 0) {
+          this.revalidateAppliedDiscount();
+        }
       });
 
       // Watch Quick Buy quantity để revalidate discount
@@ -1364,22 +1367,44 @@ document.addEventListener('alpine:init', () => {
       }
 
       const { id } = this.currentBeadProduct;
-      const cartId = `${id}-${Date.now()}`;
+      const notes = this.beadOptions.note.trim();
 
-      const itemToAdd = {
-        ...this.currentBeadProduct,
-        cartId: cartId,
-        quantity: 1, // Luôn là 1 sản phẩm
-        beadQuantity: this.beadOptions.quantity, // Số lượng hạt
-        notes: this.beadOptions.note.trim(),
-        // Giá không thay đổi theo số lượng hạt
-        basePrice: this.currentBeadProduct.price,
-        finalPrice: this.currentBeadProduct.price
-      };
+      // Tìm sản phẩm bead cùng loại và cùng ghi chú để gộp lại
+      const existingItem = this.cart.find(item =>
+        item.id === id &&
+        item.beadQuantity &&
+        (item.notes || '') === notes
+      );
 
-      this.addToCart(itemToAdd);
+      if (existingItem) {
+        // Gộp số lượng hạt vào item hiện có
+        existingItem.beadQuantity += this.beadOptions.quantity;
+        // Đảm bảo item được select
+        const itemId = existingItem.cartId || existingItem.id;
+        if (!this.selectedCartItems.includes(itemId)) {
+          this.selectedCartItems.push(itemId);
+        }
+        this.triggerCartAnimation();
+        this.showAlert(`Đã thêm ${this.beadOptions.quantity} hạt vào ${this.currentBeadProduct.name}! Tổng: ${existingItem.beadQuantity} hạt`, 'success');
+      } else {
+        // Tạo item mới
+        const cartId = `${id}-${Date.now()}`;
+        const itemToAdd = {
+          ...this.currentBeadProduct,
+          cartId: cartId,
+          quantity: 1, // Luôn là 1 sản phẩm
+          beadQuantity: this.beadOptions.quantity, // Số lượng hạt
+          notes: notes,
+          // Giá không thay đổi theo số lượng hạt
+          basePrice: this.currentBeadProduct.price,
+          finalPrice: this.currentBeadProduct.price
+        };
+
+        this.addToCart(itemToAdd);
+        this.showAlert(`Đã thêm ${this.currentBeadProduct.name} (${this.beadOptions.quantity} hạt) vào giỏ hàng!`, 'success');
+      }
+
       this.closeBeadQuantityModal();
-      this.showAlert(`Đã thêm ${this.currentBeadProduct.name} (${this.beadOptions.quantity} hạt) vào giỏ hàng!`, 'success');
     },
 
     /* ========= Item Options Modal Logic ========= */
@@ -1391,12 +1416,14 @@ document.addEventListener('alpine:init', () => {
         selectedWeight: '',
         customWeight: ''
       };
+      this.showSizeGuide = false; // Reset size guide when opening modal
       this.isItemOptionsModalOpen = true;
       document.body.style.overflow = 'hidden';
     },
 
     closeItemOptionsModal() {
       this.isItemOptionsModalOpen = false;
+      this.showSizeGuide = false; // Reset size guide when closing modal
       document.body.style.overflow = 'auto';
       setTimeout(() => {
         this.currentItemForOptions = null;
@@ -1407,6 +1434,10 @@ document.addEventListener('alpine:init', () => {
           customWeight: ''
         };
       }, 300);
+    },
+
+    toggleSizeGuide() {
+      this.showSizeGuide = !this.showSizeGuide;
     },
 
     addItemWithOptions() {
@@ -1502,7 +1533,7 @@ document.addEventListener('alpine:init', () => {
       this.isMiniCartOpen = !this.isMiniCartOpen;
       if (this.isMiniCartOpen) {
         this.miniCartError = '';
-        this.selectedCartItems = this.cart.map(item => item.id);
+        this.selectedCartItems = this.cart.map(item => item.cartId || item.id);
         this.startSocialProofTimer();
       } else {
         this.stopSocialProofTimer();
@@ -1529,9 +1560,13 @@ document.addEventListener('alpine:init', () => {
     },
     toggleSelectAll() {
       if (this.isAllSelected) this.selectedCartItems = [];
-      else this.selectedCartItems = this.cart.map(i => i.id);
+      else this.selectedCartItems = this.cart.map(i => i.cartId || i.id);
     },
-    get isAllSelected() { return this.cart.length > 0 && this.selectedCartItems.length === this.cart.length; },
+    get isAllSelected() {
+      if (this.cart.length === 0) return false;
+      // Kiểm tra xem tất cả items trong cart có được select không
+      return this.cart.every(item => this.selectedCartItems.includes(item.cartId || item.id));
+    },
 
     // Computed property để kiểm tra có thể đặt hàng không (checkout)
     get canPlaceOrder() {
@@ -1563,7 +1598,7 @@ document.addEventListener('alpine:init', () => {
       console.log('🔍 checkoutSelected() đóng isMiniCartOpen');
       this.miniCartError = ''; this.view = 'cart'; this.isMiniCartOpen = false;
     },
-    get selectedCartProducts() { return this.cart.filter(i => this.selectedCartItems.includes(i.id)); },
+    get selectedCartProducts() { return this.cart.filter(i => this.selectedCartItems.includes(i.cartId || i.id)); },
 
     addAddonToCart(addon) {
       // Khi modal Quick Buy đang mở, thêm vào Quick Buy thay vì giỏ hàng
@@ -1579,10 +1614,19 @@ document.addEventListener('alpine:init', () => {
       }
 
       const ex = this.cart.find(i => i.id === addon.id);
-      if (ex) { ex.quantity++; }
+      if (ex) {
+        ex.quantity++;
+        // Đảm bảo item được select nếu chưa có trong selectedCartItems
+        const itemId = ex.cartId || ex.id;
+        if (!this.selectedCartItems.includes(itemId)) {
+          this.selectedCartItems.push(itemId);
+        }
+      }
       else {
-        this.cart.push({ ...addon, quantity: 1, weight: '' });
-        this.selectedCartItems.push(addon.id);
+        const cartId = `${addon.id}-${Date.now()}`;
+        const newItem = { ...addon, cartId: cartId, quantity: 1, weight: '' };
+        this.cart.push(newItem);
+        this.selectedCartItems.push(cartId);
       }
       this.triggerCartAnimation();
 
@@ -1860,8 +1904,10 @@ document.addEventListener('alpine:init', () => {
     updateCartTotal() {
       // Force reactivity update for cart calculations
       this.$nextTick(() => {
-        // Trigger recalculation of computed properties
-        this.revalidateAppliedDiscount();
+        // Chỉ revalidate discount khi thực sự có discount được áp dụng
+        if (this.appliedDiscountCode || this.appliedGift || this.discountAmount > 0) {
+          this.revalidateAppliedDiscount();
+        }
       });
     },
     buyNow(product) {

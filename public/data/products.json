@@ -413,7 +413,7 @@
     "categories": ["mix_thanh_gia", "san_pham_hot"],
     "price": 149000,
     "original_price": 189000,
-    "image": "./assets/images/demo.jpg",
+    "image": "./assets/images/product_img/thanh-gia/tron-thanh-gia.jpg",
     "description": "Vòng dâu tằm trơn kết hợp charm thánh giá, đơn giản nhưng đầy ý nghĩa tâm linh.",
     "rating": 4.8,
     "purchases": 456
@@ -509,7 +509,7 @@
     "categories": ["mix_hoa_sen", "vong_co_gian"],
     "price": 209000,
     "original_price": 249000,
-    "image": "./assets/images/demo.jpg",
+    "image": "./assets/images/product_img/hoa-sen/sole-bac-3ly-hoa-sen-co-gian.jpg",
     "description": "Vòng dâu tằm sole mix bi bạc 3 lớp với charm hoa sen và dây co giãn tiện lợi.",
     "rating": 4.8,
     "purchases": 298
@@ -744,7 +744,7 @@
   },
   {
     "id": "vong_nguoi_lon_001",
-    "name": "Vòng người lớn",
+    "name": "[NGƯỜI LỚN] Vòng trơn co giãn",
     "category": "vong_nguoi_lon",
     "categories": ["vong_nguoi_lon", "san_pham_hot"],
     "price": 149000,
@@ -754,7 +754,42 @@
     "rating": 4.8,
     "purchases": 567
   },
-
+{
+    "id": "vong_nguoi_lon_002",
+    "name": "[NGƯỜI LỚN] Vòng mix bi bạc 3ly co giãn",
+    "category": "vong_nguoi_lon",
+    "categories": ["vong_nguoi_lon", "san_pham_hot"],
+    "price": 149000,
+    "original_price": 189000,
+    "image": "./assets/images/product_img/nguoi-lon/mix-bac-3ly-mau-1.jpg",
+    "description": "Vòng dâu tằm dành riêng cho người lớn, thiết kế thanh lịch và sang trọng, phù hợp với mọi lứa tuổi.",
+    "rating": 4.8,
+    "purchases": 567
+  },
+  {
+    "id": "vong_nguoi_lon_003",
+    "name": "[NGƯỜI LỚN] Vòng mix bi bạc 3ly co giãn mẫu 2",
+    "category": "vong_nguoi_lon",
+    "categories": ["vong_nguoi_lon", "san_pham_hot"],
+    "price": 149000,
+    "original_price": 189000,
+    "image": "./assets/images/product_img/nguoi-lon/mix-bac-3ly-mau-2.jpg",
+    "description": "Vòng dâu tằm dành riêng cho người lớn, thiết kế thanh lịch và sang trọng, phù hợp với mọi lứa tuổi.",
+    "rating": 4.8,
+    "purchases": 567
+  },
+    {
+    "id": "vong_nguoi_lon_004",
+    "name": "[NGƯỜI LỚN] Vòng mix bi bạc 4ly co giãn",
+    "category": "vong_nguoi_lon",
+    "categories": ["vong_nguoi_lon", "san_pham_hot"],
+    "price": 149000,
+    "original_price": 189000,
+    "image": "./assets/images/product_img/nguoi-lon/mix-bac-4ly-co-gian.jpg",
+    "description": "Vòng dâu tằm dành riêng cho người lớn, thiết kế thanh lịch và sang trọng, phù hợp với mọi lứa tuổi.",
+    "rating": 4.8,
+    "purchases": 567
+  },
   {
     "id": "san_pham_ban_kem_001",
     "name": "Túi Đựng Vòng Dâu Tằm Nhung",
@@ -1164,18 +1199,7 @@
     "rating": 4.8,
     "purchases": 456
   },
-  {
-    "id": "mix_charm_chuong_002",
-    "name": "Trơn + 2 charm chuông",
-    "category": "mix_charm_chuong",
-    "categories": ["mix_charm_chuong", "khuyen_mai"],
-    "price": 149000,
-    "original_price": 189000,
-    "image": "./assets/images/demo.jpg",
-    "description": "Vòng dâu tằm trơn với 2 charm chuông, tạo âm thanh nhẹ nhàng và hài hòa.",
-    "rating": 4.9,
-    "purchases": 378
-  },
+  
   {
     "id": "mix_charm_chuong_003",
     "name": "Mix bạc 3ly + Charm chuông",
@@ -1219,7 +1243,7 @@
     "categories": ["mix_charm_chuong", "vong_co_gian"],
     "price": 179000,
     "original_price": 219000,
-    "image": "./assets/images/demo.jpg",
+    "image": "./assets/images/product_img/chuong/sole-3ly-mix-2-chuong-co-gian.jpg",
     "description": "Vòng dâu tằm mix bi bạc 3 lớp với 2 charm chuông và dây co giãn tiện lợi.",
     "rating": 4.8,
     "purchases": 298
@@ -1231,58 +1255,10 @@
     "categories": ["mix_charm_chuong", "khuyen_mai"],
     "price": 159000,
     "original_price": 199000,
-    "image": "./assets/images/demo.jpg",
+    "image": "./assets/images/product_img/chuong/vong-sole-3ly-mix-2-chuong.jpg",
     "description": "Vòng dâu tằm mix bi bạc 3 lớp với 2 charm chuông, âm thanh dễ thương.",
     "rating": 4.7,
     "purchases": 267
-  },
-  {
-    "id": "mix_charm_chuong_006",
-    "name": "Mix bạc 3ly + 3 chuông",
-    "category": "mix_charm_chuong",
-    "categories": ["mix_charm_chuong", "san_pham_hot"],
-    "price": 189000,
-    "original_price": 239000,
-    "image": "./assets/images/demo.jpg",
-    "description": "Vòng dâu tằm mix bi bạc 3 lớp với 3 charm chuông, tạo âm thanh phong phú.",
-    "rating": 4.9,
-    "purchases": 234
-  },
-  {
-    "id": "mix_charm_chuong_007",
-    "name": "Mix bạc 3ly + 3 chuông co giãn",
-    "category": "mix_charm_chuong",
-    "categories": ["mix_charm_chuong", "vong_co_gian"],
-    "price": 199000,
-    "original_price": 249000,
-    "image": "./assets/images/product_img/chuong/sole-3ly-chuong-co-gian.jpg",
-    "description": "Vòng dâu tằm mix bi bạc 3 lớp với 3 charm chuông và dây co giãn mềm mại.",
-    "rating": 5.0,
-    "purchases": 198
-  },
-  {
-    "id": "mix_charm_chuong_008",
-    "name": "Mix bạc 3ly + 4 chuông",
-    "category": "mix_charm_chuong",
-    "categories": ["mix_charm_chuong", "khuyen_mai"],
-    "price": 209000,
-    "original_price": 259000,
-    "image": "./assets/images/demo.jpg",
-    "description": "Vòng dâu tằm mix bi bạc 3 lớp với 4 charm chuông, âm thanh đầy đủ và vui tươi.",
-    "rating": 4.8,
-    "purchases": 167
-  },
-  {
-    "id": "mix_charm_chuong_009",
-    "name": "Mix bạc 3ly 4 chuông co giãn",
-    "category": "mix_charm_chuong",
-    "categories": ["mix_charm_chuong", "vong_co_gian"],
-    "price": 219000,
-    "original_price": 269000,
-    "image": "./assets/images/demo.jpg",
-    "description": "Vòng dâu tằm mix bi bạc 3 lớp với 4 charm chuông và dây co giãn cao cấp.",
-    "rating": 4.9,
-    "purchases": 145
   },
   {
     "id": "mix_charm_chuong_010",
