@@ -103,6 +103,14 @@
             </div>
         </div>
 
+        <div class="cart">
+            <h3>Test Bead Products (Hạt dâu tằm mài sẵn)</h3>
+            <div>
+                <h4>Hạt dâu tằm loại đẹp + chỉ đỏ</h4>
+                <button class="button add-cart" @click="openBeadQuantityModal(testBeadProduct)">Chọn số lượng hạt</button>
+            </div>
+        </div>
+
         <div x-show="isItemOptionsModalOpen" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center;">
             <div style="background: white; padding: 20px; border-radius: 8px; max-width: 400px;">
                 <h3>Chọn cân nặng</h3>
@@ -156,6 +164,14 @@
                     price: 99000
                 },
 
+                testBeadProduct: {
+                    id: 'hat_dau_tam_mai_san_002',
+                    name: 'Hạt dâu tằm loại đẹp + chỉ đỏ',
+                    category: 'hat_dau_tam_mai_san',
+                    price: 99000,
+                    image: './assets/images/product_img/hat_dau_tam.jpg'
+                },
+
                 // Kiểm tra xem sản phẩm có phải là sản phẩm bán kèm không
                 isAddonProduct(product) {
                     if (!product) return false;
@@ -163,6 +179,49 @@
                            product.category === 'bi_charm_bac' ||
                            (product.categories && product.categories.includes('san_pham_ban_kem')) ||
                            (product.categories && product.categories.includes('bi_charm_bac'));
+                },
+
+                // Kiểm tra xem sản phẩm có phải là hạt dâu tằm mài sẵn không
+                isBeadProduct(product) {
+                    if (!product) return false;
+                    return product.category === 'hat_dau_tam_mai_san' ||
+                           (product.categories && product.categories.includes('hat_dau_tam_mai_san'));
+                },
+
+                openBeadQuantityModal(product) {
+                    this.showAlert('Mở modal chọn số lượng hạt cho: ' + product.name);
+                    // Giả lập thêm sản phẩm với 17 hạt
+                    const beadItem = {
+                        ...product,
+                        cartId: `${product.id}-${Date.now()}`,
+                        quantity: 1,
+                        beadQuantity: 17, // Test với 17 hạt
+                        notes: 'Test bead product'
+                    };
+                    this.cart.push(beadItem);
+                    this.showAlert('Đã thêm ' + product.name + ' (17 hạt) vào giỏ hàng!');
+                },
+
+                // Test functions for bead quantity
+                increaseBeadQuantity(cartId) {
+                    const item = this.cart.find(i => i.cartId === cartId);
+                    if (item && item.beadQuantity && item.beadQuantity < 50) {
+                        item.beadQuantity++;
+                        this.showAlert(`Tăng lên ${item.beadQuantity} hạt`);
+                    }
+                },
+
+                decreaseBeadQuantity(cartId) {
+                    const item = this.cart.find(i => i.cartId === cartId);
+                    if (item && item.beadQuantity && item.beadQuantity > 14) {
+                        item.beadQuantity--;
+                        this.showAlert(`Giảm xuống ${item.beadQuantity} hạt`);
+                    } else if (item && item.beadQuantity && item.beadQuantity <= 14) {
+                        if (confirm('Số lượng hạt tối thiểu là 14. Bạn có muốn xóa sản phẩm này khỏi giỏ hàng?')) {
+                            this.cart = this.cart.filter(i => i.cartId !== cartId);
+                            this.showAlert('Đã xóa sản phẩm khỏi giỏ hàng');
+                        }
+                    }
                 },
 
                 openItemOptionsModal(product) {

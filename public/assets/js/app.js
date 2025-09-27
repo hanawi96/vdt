@@ -191,6 +191,15 @@ document.addEventListener('alpine:init', () => {
     isItemOptionsModalOpen: false,
     currentItemForOptions: null,
     itemOptions: { quantity: 1, note: '' },
+
+    // Bead Quantity Modal state
+    isBeadQuantityModalOpen: false,
+    currentBeadProduct: null,
+    beadOptions: {
+      quantity: 14, // Mặc định 14 hạt cho sơ sinh
+      note: ''
+    },
+
     socialProofViewers: Math.floor(Math.random() * 5) + 1,
     socialProofInterval: null,
 
@@ -248,6 +257,13 @@ document.addEventListener('alpine:init', () => {
              product.category === 'bi_charm_bac' ||
              (product.categories && product.categories.includes('san_pham_ban_kem')) ||
              (product.categories && product.categories.includes('bi_charm_bac'));
+    },
+
+    // Kiểm tra xem sản phẩm có phải là hạt dâu tằm mài sẵn không
+    isBeadProduct(product) {
+      if (!product) return false;
+      return product.category === 'hat_dau_tam_mai_san' ||
+             (product.categories && product.categories.includes('hat_dau_tam_mai_san'));
     },
 
     // Dynamic Pricing Configuration
@@ -1314,6 +1330,56 @@ document.addEventListener('alpine:init', () => {
       }, 300);
     },
 
+    /* ========= Bead Quantity Modal Logic ========= */
+    openBeadQuantityModal(product) {
+      this.currentBeadProduct = product;
+      this.beadOptions = {
+        quantity: 14, // Mặc định 14 hạt cho sơ sinh
+        note: ''
+      };
+      this.isBeadQuantityModalOpen = true;
+      document.body.style.overflow = 'hidden';
+    },
+
+    closeBeadQuantityModal() {
+      this.isBeadQuantityModalOpen = false;
+      document.body.style.overflow = 'auto';
+      setTimeout(() => {
+        this.currentBeadProduct = null;
+        this.beadOptions = {
+          quantity: 14,
+          note: ''
+        };
+      }, 300);
+    },
+
+    addBeadWithQuantity() {
+      if (!this.currentBeadProduct) return;
+
+      if (this.beadOptions.quantity < 14) {
+        this.showAlert('Số lượng hạt tối thiểu là 14 hạt', 'error');
+        return;
+      }
+
+      const { id } = this.currentBeadProduct;
+      const cartId = `${id}-${Date.now()}`;
+
+      const itemToAdd = {
+        ...this.currentBeadProduct,
+        cartId: cartId,
+        quantity: 1, // Luôn là 1 sản phẩm
+        beadQuantity: this.beadOptions.quantity, // Số lượng hạt
+        notes: this.beadOptions.note.trim(),
+        // Giá không thay đổi theo số lượng hạt
+        basePrice: this.currentBeadProduct.price,
+        finalPrice: this.currentBeadProduct.price
+      };
+
+      this.addToCart(itemToAdd);
+      this.closeBeadQuantityModal();
+      this.showAlert(`Đã thêm ${this.currentBeadProduct.name} (${this.beadOptions.quantity} hạt) vào giỏ hàng!`, 'success');
+    },
+
     /* ========= Item Options Modal Logic ========= */
     openItemOptionsModal(product) {
       this.currentItemForOptions = product;
@@ -1579,7 +1645,7 @@ document.addEventListener('alpine:init', () => {
       const d = this.availableDiscounts.find(d => d.code?.toUpperCase() === this.appliedDiscountCode);
       return !!(d && d.type === 'shipping');
     },
-    removeFromCart(productId) {
+    removeFromCart(productId, cartId = null) {
       // Khi modal Quick Buy đang mở, xóa khỏi Quick Buy thay vì giỏ hàng
       if (this.isQuickBuyModalOpen) {
         this.removeAddonFromQuickBuy(productId);
@@ -1593,10 +1659,19 @@ document.addEventListener('alpine:init', () => {
       }
 
       const isAddon = this.addonProducts.some(a => a.id === productId);
-      const removed = this.cart.find(i => i.id === productId);
+      let removed;
 
-      this.cart = this.cart.filter(i => i.id !== productId);
-      this.selectedCartItems = this.selectedCartItems.filter(id => id !== productId);
+      if (cartId) {
+        // Remove by cartId for specific items (like bead products)
+        removed = this.cart.find(i => i.cartId === cartId);
+        this.cart = this.cart.filter(i => i.cartId !== cartId);
+        this.selectedCartItems = this.selectedCartItems.filter(id => id !== cartId);
+      } else {
+        // Remove by productId for general items
+        removed = this.cart.find(i => i.id === productId);
+        this.cart = this.cart.filter(i => i.id !== productId);
+        this.selectedCartItems = this.selectedCartItems.filter(id => id !== productId);
+      }
       this.revalidateAppliedDiscount();
 
       if (isAddon) {
@@ -1620,6 +1695,28 @@ document.addEventListener('alpine:init', () => {
       const item = this.cart.find(i => i.id === productId);
       if (item && item.quantity > 1) { item.quantity--; this.revalidateAppliedDiscount(); }
       else if (item) { this.removeFromCart(productId); }
+    },
+
+    // Bead quantity management functions
+    increaseBeadQuantity(cartId) {
+      const item = this.cart.find(i => i.cartId === cartId);
+      if (item && item.beadQuantity && item.beadQuantity < 50) {
+        item.beadQuantity++;
+        this.revalidateAppliedDiscount();
+      }
+    },
+
+    decreaseBeadQuantity(cartId) {
+      const item = this.cart.find(i => i.cartId === cartId);
+      if (item && item.beadQuantity && item.beadQuantity > 14) {
+        item.beadQuantity--;
+        this.revalidateAppliedDiscount();
+      } else if (item && item.beadQuantity && item.beadQuantity <= 14) {
+        // Không cho phép giảm dưới 14 hạt, có thể xóa sản phẩm
+        if (confirm('Số lượng hạt tối thiểu là 14. Bạn có muốn xóa sản phẩm này khỏi giỏ hàng?')) {
+          this.removeFromCart(item.id, cartId);
+        }
+      }
     },
 
     updateItemWeight(productId, weight) {
