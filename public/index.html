@@ -274,8 +274,6 @@
                 <span class="hidden sm:inline text-sm font-medium">Hỏi đáp</span>
             </button>
 
-
-
             <!-- Zalo Button -->
             <a href="https://zalo.me/0972483892" target="_blank" rel="noopener noreferrer"
                class="group bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-full shadow-lg transform hover:scale-105 transition-all duration-300 flex items-center
@@ -759,78 +757,6 @@
                     </button>
                 </div>
 
-                <!-- Hạt Dâu Tằm Comparison Box -->
-                <div x-show="currentCategory?.id === 'hat_dau_tam_mai_san'" class="max-w-4xl mx-auto mb-8">
-                    <div class="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-2xl p-6 shadow-sm">
-                        <div class="text-center mb-4">
-                            <h3 class="text-lg font-bold text-amber-800 mb-2">🌟 Phân biệt chất lượng hạt dâu tằm</h3>
-                            <p class="text-sm text-amber-700">Hiểu rõ sự khác biệt để chọn sản phẩm phù hợp nhất</p>
-                        </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <!-- Loại Đẹp -->
-                            <div class="bg-white rounded-xl p-4 border border-amber-100 shadow-sm">
-                                <div class="flex items-center mb-3">
-                                    <div class="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
-                                    <h4 class="font-bold text-green-700 text-base">Hạt Dâu Tằm Loại Đẹp</h4>
-                                    <span class="ml-auto bg-green-100 text-green-700 text-xs px-2 py-1 rounded-full font-medium">Premium</span>
-                                </div>
-                                <ul class="space-y-2 text-sm text-gray-700">
-                                    <li class="flex items-start">
-                                        <span class="text-green-500 mr-2 mt-0.5">✓</span>
-                                        <span>Màu sắc đều đặn, bóng mịn tự nhiên</span>
-                                    </li>
-                                    <li class="flex items-start">
-                                        <span class="text-green-500 mr-2 mt-0.5">✓</span>
-                                        <span>Kích thước đồng nhất, không tì vết</span>
-                                    </li>
-                                    <li class="flex items-start">
-                                        <span class="text-green-500 mr-2 mt-0.5">✓</span>
-                                        <span>Độ bền cao, ít bị nứt vỡ</span>
-                                    </li>
-                                    <li class="flex items-start">
-                                        <span class="text-green-500 mr-2 mt-0.5">✓</span>
-                                        <span>Phù hợp làm quà tặng cao cấp</span>
-                                    </li>
-                                </ul>
-                            </div>
-
-                            <!-- Loại Thường -->
-                            <div class="bg-white rounded-xl p-4 border border-amber-100 shadow-sm">
-                                <div class="flex items-center mb-3">
-                                    <div class="w-3 h-3 bg-blue-500 rounded-full mr-2"></div>
-                                    <h4 class="font-bold text-blue-700 text-base">Hạt Dâu Tằm Loại Thường</h4>
-                                    <span class="ml-auto bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full font-medium">Tiết kiệm</span>
-                                </div>
-                                <ul class="space-y-2 text-sm text-gray-700">
-                                    <li class="flex items-start">
-                                        <span class="text-blue-500 mr-2 mt-0.5">✓</span>
-                                        <span>Chất lượng ổn định, giá cả hợp lý</span>
-                                    </li>
-                                    <li class="flex items-start">
-                                        <span class="text-blue-500 mr-2 mt-0.5">✓</span>
-                                        <span>Màu sắc tự nhiên, có thể có sai lệch nhẹ</span>
-                                    </li>
-                                    <li class="flex items-start">
-                                        <span class="text-blue-500 mr-2 mt-0.5">✓</span>
-                                        <span>Phù hợp sử dụng hàng ngày</span>
-                                    </li>
-                                    <li class="flex items-start">
-                                        <span class="text-blue-500 mr-2 mt-0.5">✓</span>
-                                        <span>Lựa chọn tốt cho gia đình</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <div class="mt-4 text-center">
-                            <p class="text-xs text-amber-600 bg-amber-100 rounded-lg px-3 py-2 inline-block">
-                                💡 <strong>Gợi ý:</strong> Cả hai loại đều được mài sẵn, sẵn sàng sử dụng. Chọn theo nhu cầu và ngân sách của bạn!
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
                 <div id="products-section" class="mb-4"></div>
                 <div id="product-list" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-2 sm:gap-3">
                     <template x-for="product in filteredProducts()" :key="product.id">
@@ -896,7 +822,7 @@
                                 <!-- Action Buttons -->
                                 <div class="mt-4 flex items-center space-x-2">
                                     <!-- Add to Cart Icon - Outline Style -->
-                                    <button @click.stop="isAddonProduct(product) ? addAddonToCart(product) : (isBeadProduct(product) ? openBeadQuantityModal(product) : openItemOptionsModal(product))"
+                                    <button @click.stop="openItemOptionsModal(product)"
                                             class="w-10 h-10 bg-white border-[1.5px] border-pink-500 text-pink-500 rounded-lg flex items-center justify-center shadow-sm hover:bg-pink-50 hover:border-pink-600 hover:text-pink-600 hover:scale-105 transition-all duration-200 flex-shrink-0">
                                         <div class="relative">
                                             <!-- Shopping Cart Icon -->
@@ -911,12 +837,12 @@
                                     </button>
 
                                     <!-- Button Mua Ngay -->
-                                    <button @click.stop="isAddonProduct(product) ? addAddonToCart(product) : (isBeadProduct(product) ? openBeadQuantityModal(product) : buyNow(product))"
+                                    <button @click.stop="buyNow(product)"
                                             class="flex-1 flex items-center justify-center h-10 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition-colors duration-300 font-semibold text-xs sm:text-sm shadow-lg">
                                         <svg class="w-4 h-4 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                                         </svg>
-                                        <span class="truncate" x-text="isAddonProduct(product) ? 'Thêm vào giỏ' : 'Mua ngay'"></span>
+                                        <span class="truncate">Mua ngay</span>
                                     </button>
                                 </div>
                             </div>
@@ -1010,7 +936,7 @@
                                 <h3 class="font-semibold text-gray-800">Sản phẩm đã chọn</h3>
                             </div>
                             <div class="space-y-3">
-                                <template x-for="item in selectedCartProducts" :key="item.cartId || item.id">
+                                <template x-for="item in selectedCartProducts" :key="item.id">
                                     <div class="bg-white p-3 rounded-xl border border-blue-100">
                                         <!-- Main product info row -->
                                         <div class="flex items-start space-x-3">
@@ -1018,13 +944,13 @@
                                             <div class="flex-grow min-w-0">
                                                 <p class="font-medium text-gray-800 text-sm leading-tight" x-text="item.name"></p>
                                                 <div class="flex items-center space-x-3 mt-1">
-                                                    <span x-show="!item.beadQuantity" class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full" x-text="`SL: ${item.quantity}`"></span>
+                                                    <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full" x-text="`SL: ${item.quantity}`"></span>
                                                     <span x-show="item.weight" class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full" x-text="item.weight"></span>
                                                     <span x-show="item.hasSurcharge" class="text-xs text-orange-600 bg-orange-100 px-2 py-1 rounded-full font-medium">+20k (size lớn)</span>
                                                 </div>
                                             </div>
                                             <div class="text-right">
-                                                <p class="font-semibold text-pink-600 text-sm" x-text="formatCurrency((item.finalPrice || item.price) * (item.beadQuantity || item.quantity))"></p>
+                                                <p class="font-semibold text-pink-600 text-sm" x-text="formatCurrency((item.finalPrice || item.price) * item.quantity)"></p>
                                             </div>
                                         </div>
 
@@ -1299,70 +1225,43 @@
         </div>
     </div>
 
-
-
-    <!-- FAQ Modal - Modern Design -->
+    <!-- FAQ Modal -->
     <div x-show="isFaqModalOpen" @keydown.escape.window="closeFaqModal()"
-         class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-[9000]"
+         class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-4 pt-safe-top pb-safe-bottom z-[9000]"
          x-transition:enter="transition ease-out duration-300"
          x-transition:enter-start="opacity-0"
          x-transition:enter-end="opacity-100"
          x-transition:leave="transition ease-in duration-200"
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0">
-
-        <div class="bg-white rounded-2xl shadow-xl w-full max-w-2xl max-h-[85vh] sm:max-h-[90vh] flex flex-col overflow-hidden transform transition-all my-4"
+        <div class="bg-white rounded-2xl shadow-xl w-full max-w-2xl max-h-[90vh] flex flex-col transform"
              x-transition:enter="transition ease-out duration-300"
-             x-transition:enter-start="scale-95 opacity-0 translate-y-4"
-             x-transition:enter-end="scale-100 opacity-100 translate-y-0"
+             x-transition:enter-start="scale-95 opacity-0"
+             x-transition:enter-end="scale-100 opacity-100"
              x-transition:leave="transition ease-in duration-200"
-             x-transition:leave-start="scale-100 opacity-100 translate-y-0"
-             x-transition:leave-end="scale-95 opacity-0 translate-y-4">
+             x-transition:leave-start="scale-100 opacity-100"
+             x-transition:leave-end="scale-95 opacity-0">
 
-            <!-- Header - Compact -->
-            <div class="bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 text-white p-2 sm:p-4 rounded-t-2xl flex-shrink-0">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center space-x-1 sm:space-x-2">
-                        <div class="w-6 h-6 sm:w-8 sm:h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-                            <span class="text-sm sm:text-base">❓</span>
-                        </div>
-                        <div>
-                            <h3 class="text-sm sm:text-base font-bold">Câu hỏi thường gặp</h3>
-                        </div>
-                    </div>
-                    <button @click="closeFaqModal()"
-                            class="w-6 h-6 sm:w-8 sm:h-8 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full flex items-center justify-center transition-all">
-                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                        </svg>
-                    </button>
-                </div>
+            <!-- Header -->
+            <div class="flex items-center justify-between p-6 border-b">
+                <h3 class="text-xl font-bold text-gray-800">❔ Những câu hỏi thường gặp</h3>
+                <button @click="closeFaqModal()" class="text-gray-500 hover:text-gray-800">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
             </div>
 
-            <!-- FAQ Content -->
-            <div class="flex-1 overflow-y-auto p-6 space-y-4">
-                <template x-for="(faq, index) in faqItems" :key="faq.id">
-                    <div class="bg-gradient-to-r from-gray-50 to-blue-50/30 rounded-2xl border border-gray-100 overflow-hidden transition-all duration-300 hover:shadow-md">
-                        <!-- Question Button -->
-                        <button @click="toggleFaq(index)"
-                                class="w-full p-5 text-left flex items-center justify-between hover:bg-white/50 transition-all duration-200">
-                            <div class="flex items-center space-x-4">
-                                <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-blue-500 rounded-xl flex items-center justify-center text-white font-bold text-lg shadow-lg">
-                                    <span x-text="faq.icon || '?'"></span>
-                                </div>
-                                <span class="font-semibold text-gray-800 text-base" x-text="faq.question"></span>
-                            </div>
-                            <div class="flex-shrink-0 ml-4">
-                                <div class="w-8 h-8 bg-white rounded-lg shadow-sm flex items-center justify-center transition-transform duration-200"
-                                     :class="{ 'rotate-180': openFaqIndex === index }">
-                                    <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                                    </svg>
-                                </div>
-                            </div>
+            <!-- FAQ List -->
+            <div class="flex-grow p-6 overflow-y-auto modal-scroll space-y-4">
+                <template x-for="(faq, index) in faqItems" :key="index">
+                    <div class="border-b border-gray-200 pb-4">
+                        <button @click="toggleFaq(index)" class="w-full flex justify-between items-center text-left">
+                            <span class="font-semibold text-gray-800" x-text="faq.question"></span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 transition-transform" :class="{ 'rotate-180': openFaqIndex === index }" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
                         </button>
-
-                        <!-- Answer Content -->
                         <div x-show="openFaqIndex === index"
                              x-transition:enter="transition ease-out duration-300"
                              x-transition:enter-start="opacity-0 max-h-0"
@@ -1370,26 +1269,19 @@
                              x-transition:leave="transition ease-in duration-200"
                              x-transition:leave-start="opacity-100 max-h-96"
                              x-transition:leave-end="opacity-0 max-h-0"
-                             class="overflow-hidden">
-                            <div class="px-5 pb-5 pt-0">
-                                <div class="bg-white rounded-xl p-4 shadow-sm border-l-4 border-blue-500">
-                                    <p class="text-gray-700 leading-relaxed" x-text="faq.answer"></p>
-                                </div>
-                            </div>
-                        </div>
+                             class="mt-2 text-gray-600 text-sm overflow-hidden" x-text="faq.answer"></div>
                     </div>
                 </template>
             </div>
 
-            <!-- Footer với CTA button -->
-            <div class="p-4 sm:p-6 bg-gradient-to-r from-gray-50 to-blue-50/30 border-t border-gray-100">
-                <a href="https://zalo.me/0972483892" target="_blank" rel="noopener noreferrer"
-                   class="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold py-3 px-6 rounded-xl text-center transition-all duration-200 text-sm shadow-lg hover:shadow-xl transform hover:scale-[1.02] block">
-                    💬 Chat với chúng tôi
+            <!-- Footer -->
+            <div class="p-6 border-t bg-gray-50 rounded-b-2xl flex items-center space-x-3">
+                <button @click="closeFaqModal()" class="flex-1 bg-gray-200 text-gray-700 font-semibold py-2.5 sm:py-3 px-4 rounded-lg text-xs sm:text-sm">
+                    Đã hiểu
+                </button>
+                <a href="https://zalo.me/0972483892" target="_blank" rel="noopener noreferrer" class="flex-1 bg-blue-500 text-white font-semibold py-2.5 sm:py-3 px-4 rounded-lg text-center text-xs sm:text-sm">
+                    Kết nối Zalo
                 </a>
-                <p class="text-center text-xs text-gray-500 mt-3">
-                    Vẫn còn thắc mắc? Liên hệ ngay để được tư vấn miễn phí!
-                </p>
             </div>
         </div>
     </div>
@@ -1827,45 +1719,27 @@
                         <!-- Cart Items Container - Free Flow Display -->
                         <div class="relative">
                             <div class="px-3 space-y-3">
-                            <template x-for="item in cart" :key="item.cartId || item.id">
-                            <div class="p-2.5 bg-gray-50 rounded-lg space-y-3" :data-cart-item-id="item.id"
-                                 x-init="console.log('🔍 DEBUG: Rendering cart item:', {name: item.name, selectedWeight: item.selectedWeight, weight: item.weight, isAdult: isAdultProduct(item)})">
+                            <template x-for="item in cart" :key="item.id">
+                            <div class="p-2.5 bg-gray-50 rounded-lg space-y-3" :data-cart-item-id="item.id">
                                 <!-- Main Product Row -->
                                 <div class="flex items-start space-x-2.5">
-                                    <input type="checkbox" :checked="selectedCartItems.includes(item.cartId || item.id)" @change="toggleCartItemSelection(item.cartId || item.id)" class="mt-1 h-3.5 w-3.5 text-pink-600 focus:ring-pink-500 border-gray-300 rounded flex-shrink-0">
+                                    <input type="checkbox" :checked="selectedCartItems.includes(item.id)" @change="toggleCartItemSelection(item.id)" class="mt-1 h-3.5 w-3.5 text-pink-600 focus:ring-pink-500 border-gray-300 rounded flex-shrink-0">
                                     <img :src="item.image" class="w-12 h-12 rounded-md object-cover border flex-shrink-0">
                                     <div class="flex-grow min-w-0">
                                         <p class="font-semibold text-gray-800 text-sm leading-tight" x-text="item.name"></p>
                                         <p class="text-xs text-gray-500 mt-0.5" x-text="formatCurrency(item.price)"></p>
                                         <div class="flex items-center justify-between mt-1.5">
                                             <div class="flex items-center space-x-1.5">
-                                                <!-- For bead products, show bead quantity controls -->
-                                                <template x-if="item.beadQuantity">
-                                                    <button @click="decreaseBeadQuantity(item.cartId)" class="w-5 h-5 bg-gray-200 text-gray-700 rounded-full flex items-center justify-center hover:bg-gray-300 transition-colors text-sm font-bold">-</button>
-                                                </template>
-                                                <!-- For normal products, show normal quantity controls -->
-                                                <template x-if="!item.beadQuantity">
-                                                    <button @click="decreaseQuantity(item.id)" class="w-5 h-5 bg-gray-200 text-gray-700 rounded-full flex items-center justify-center hover:bg-gray-300 transition-colors text-sm font-bold">-</button>
-                                                </template>
-
-                                                <!-- Display quantity: bead quantity for bead products, normal quantity for others -->
-                                                <span x-text="item.beadQuantity || item.quantity" class="font-semibold text-xs text-gray-800 w-4 text-center"></span>
-
-                                                <!-- For bead products, show bead quantity controls -->
-                                                <template x-if="item.beadQuantity">
-                                                    <button @click="increaseBeadQuantity(item.cartId)" class="w-5 h-5 bg-gray-200 text-gray-700 rounded-full flex items-center justify-center hover:bg-gray-300 transition-colors text-sm font-bold">+</button>
-                                                </template>
-                                                <!-- For normal products, show normal quantity controls -->
-                                                <template x-if="!item.beadQuantity">
-                                                    <button @click="increaseQuantity(item.id)" class="w-5 h-5 bg-gray-200 text-gray-700 rounded-full flex items-center justify-center hover:bg-gray-300 transition-colors text-sm font-bold">+</button>
-                                                </template>
+                                                <button @click="decreaseQuantity(item.id)" class="w-5 h-5 bg-gray-200 text-gray-700 rounded-full flex items-center justify-center hover:bg-gray-300 transition-colors text-sm font-bold">-</button>
+                                                <span x-text="item.quantity" class="font-semibold text-xs text-gray-800 w-4 text-center"></span>
+                                                <button @click="increaseQuantity(item.id)" class="w-5 h-5 bg-gray-200 text-gray-700 rounded-full flex items-center justify-center hover:bg-gray-300 transition-colors text-sm font-bold">+</button>
                                             </div>
                                             <div class="text-right">
-                                                <p class="font-bold text-pink-600 text-sm" x-text="formatCurrency((item.finalPrice || item.price) * (item.beadQuantity || item.quantity))"></p>
+                                                <p class="font-bold text-pink-600 text-sm" x-text="formatCurrency((item.finalPrice || item.price) * item.quantity)"></p>
                                                 <div x-show="item.hasSurcharge" class="text-xs text-orange-600 mt-0.5">
-                                                    <span x-text="formatCurrency(item.basePrice * (item.beadQuantity || item.quantity))"></span>
+                                                    <span x-text="formatCurrency(item.basePrice * item.quantity)"></span>
                                                     <span> + </span>
-                                                    <span x-text="formatCurrency(item.surcharge * (item.beadQuantity || item.quantity))"></span>
+                                                    <span x-text="formatCurrency(item.surcharge * item.quantity)"></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -1878,62 +1752,53 @@
                                 </div>
 
                                 <!-- Weight Selection - Full Width (Hidden for addon products) -->
-                                <div x-show="item.id !== 'addon_moc_chia_khoa' && item.id !== 'addon_tui_dau_tam' && !isAddonProduct(item) && !item.beadQuantity" class="cart-item-weight-section">
-                                    <!-- Weight/Size Selector Row -->
+                                <div x-show="item.id !== 'addon_moc_chia_khoa' && item.id !== 'addon_tui_dau_tam'" class="cart-item-weight-section">
+                                    <!-- Weight Selector Row -->
                                     <div class="flex items-center space-x-2 mb-2">
                                         <div class="flex items-center space-x-1 flex-shrink-0">
-                                            <span class="text-xs font-medium"
-                                                  :class="isAdultProduct(item) ? 'text-amber-600' : 'text-pink-600'"
-                                                  x-text="isAdultProduct(item) ? '📏' : '👶'"></span>
-                                            <span class="text-xs text-gray-700 font-medium"
-                                                  x-text="isAdultProduct(item) ? 'Size tay:' : 'Cân nặng:'"></span>
+                                            <span class="text-xs text-pink-600 font-medium">👶</span>
+                                            <span class="text-xs text-gray-700 font-medium">Cân nặng:</span>
                                         </div>
                                         <select x-model="item.selectedWeight"
-                                                @change="updateItemWeight(item.cartId || item.id, $event.target.value)"
-                                                x-init="
-                                                    console.log('🔍 DEBUG: Select init for', item.name, 'selectedWeight:', item.selectedWeight);
-                                                    $nextTick(() => {
-                                                        console.log('🔍 DEBUG: After nextTick, setting value:', item.selectedWeight);
-                                                        $el.value = item.selectedWeight;
-                                                    })
-                                                "
-                                                :class="weightErrors[item.cartId || item.id] ? 'weight-selector text-base px-2 py-1 flex-1 min-w-0 border-red-300 focus:border-red-500 focus:ring-red-500' : 'weight-selector text-base px-2 py-1 flex-1 min-w-0'">
-                                            <option value="" x-text="isAdultProduct(item) ? 'Chọn size tay' : 'Chọn cân nặng bé'"></option>
-
-                                            <!-- Options for Adult Products (Hand Size) -->
-                                            <template x-if="isAdultProduct(item)">
-                                                <template x-for="size in handSizeOptions" :key="'cart-size-' + size">
-                                                    <option :value="size" x-text="size"
-                                                            x-init="console.log('🔍 DEBUG: Adult option rendered:', size, 'selected:', item.selectedWeight === size)"></option>
-                                                </template>
-                                            </template>
-
-                                            <!-- Options for Baby Products (Weight) -->
-                                            <template x-if="!isAdultProduct(item)">
-                                                <template x-for="weight in weightOptions" :key="'cart-weight-' + weight">
-                                                    <option :value="weight" x-text="weight"
-                                                            x-init="console.log('🔍 DEBUG: Baby option rendered:', weight, 'selected:', item.selectedWeight === weight)"></option>
-                                                </template>
-                                            </template>
+                                                @change="updateItemWeight(item.id, $event.target.value)"
+                                                :class="weightErrors[item.id] ? 'weight-selector text-base px-2 py-1 flex-1 min-w-0 border-red-300 focus:border-red-500 focus:ring-red-500' : 'weight-selector text-base px-2 py-1 flex-1 min-w-0'">
+                                            <option value="">Chọn cân nặng bé</option>
+                                            <option value="Chưa sinh">🤱 Chưa sinh</option>
+                                            <option value="3kg">3kg</option>
+                                            <option value="4kg">4kg</option>
+                                            <option value="5kg">5kg</option>
+                                            <option value="6kg">6kg</option>
+                                            <option value="7kg">7kg</option>
+                                            <option value="8kg">8kg</option>
+                                            <option value="9kg">9kg</option>
+                                            <option value="10kg">10kg</option>
+                                            <option value="11kg">11kg</option>
+                                            <option value="12kg">12kg</option>
+                                            <option value="13kg">13kg</option>
+                                            <option value="14kg">14kg</option>
+                                            <option value="15kg">15kg</option>
+                                            <option value="16kg (+20k)">16kg (+20k)</option>
+                                            <option value="17kg (+20k)">17kg (+20k)</option>
+                                            <option value="18kg (+20k)">18kg (+20k)</option>
+                                            <option value="19kg (+20k)">19kg (+20k)</option>
+                                            <option value="20kg (+20k)">20kg (+20k)</option>
+                                            <option value="custom">✏️ Nhập cân nặng > 20kg</option>
                                         </select>
                                     </div>
 
-                                    <!-- Weight/Size Error Message -->
-                                    <div x-show="weightErrors[item.cartId || item.id]" class="flex items-center space-x-2 mb-2">
+                                    <!-- Weight Error Message -->
+                                    <div x-show="weightErrors[item.id]" class="flex items-center space-x-2 mb-2">
                                         <div class="flex items-center space-x-1 flex-shrink-0 invisible">
-                                            <span class="text-xs font-medium"
-                                                  :class="isAdultProduct(item) ? 'text-amber-600' : 'text-pink-600'"
-                                                  x-text="isAdultProduct(item) ? '📏' : '👶'"></span>
-                                            <span class="text-xs text-gray-700 font-medium"
-                                                  x-text="isAdultProduct(item) ? 'Size tay:' : 'Cân nặng:'"></span>
+                                            <span class="text-xs text-pink-600 font-medium">👶</span>
+                                            <span class="text-xs text-gray-700 font-medium">Cân nặng:</span>
                                         </div>
                                         <div class="text-xs text-red-500 flex-1">
-                                            <span x-text="weightErrors[item.cartId || item.id]"></span>
+                                            <span x-text="weightErrors[item.id]"></span>
                                         </div>
                                     </div>
 
-                                    <!-- Custom Weight Input - Numbers Only - Chỉ cho sản phẩm trẻ em -->
-                                    <div x-show="!isAdultProduct(item) && item.selectedWeight === 'custom'"
+                                    <!-- Custom Weight Input - Numbers Only -->
+                                    <div x-show="item.selectedWeight === 'custom'"
                                          x-transition:enter="transition ease-out duration-200"
                                          x-transition:enter-start="opacity-0 transform scale-95"
                                          x-transition:enter-end="opacity-100 transform scale-100"
@@ -1941,7 +1806,7 @@
                                         <div class="flex items-center space-x-2">
                                             <input type="number"
                                                    x-model="item.customWeight"
-                                                   @input="updateItemWeight(item.cartId || item.id, $event.target.value + 'kg')"
+                                                   @input="updateItemWeight(item.id, $event.target.value + 'kg')"
                                                    placeholder="VD: 20, 21.5, 25..."
                                                    min="20"
                                                    max="30"
@@ -1994,8 +1859,6 @@
                                                     <span x-text="isAddonInCart(addon.id) ? 'Xóa' : 'Thêm'"></span>
                                                 </button>
                                                 <template x-if="addon.id === 'addon_tui_dau_tam'"><p class="text-xs text-green-600 font-semibold" x-text="isFreeshippingFromDiscount() ? '-8K' : '+ Freeship'"></p></template>
-                                                <template x-if="addon.id === 'addon_bo_dau_tam_7_canh'"><p class="text-xs text-green-600 font-semibold">+ Freeship</p></template>
-                                                <template x-if="addon.id === 'addon_bo_dau_tam_9_canh'"><p class="text-xs text-green-600 font-semibold">+ Freeship</p></template>
                                                 <template x-if="addon.id === 'addon_moc_chia_khoa'"><p class="text-xs text-green-600 font-semibold">-5K</p></template>
                                             </div>
                                         </div>
@@ -2431,28 +2294,20 @@
                             </select>
                         </div>
 
-                        <!-- Cân nặng của bé / Số đo size tay - Riêng 1 hàng -->
+                        <!-- Cân nặng của bé - Riêng 1 hàng -->
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1"
-                                   x-text="isAdultProduct(quickBuyProduct) ? 'Số đo size tay *' : 'Cân nặng của bé *'"></label>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Cân nặng của bé *</label>
                             <select x-model="quickBuyWeight"
                                     @change="clearFieldError('weight'); if (quickBuyWeight !== '✏️ Nhập cân nặng > 20kg') quickBuyCustomWeight = ''"
                                     :class="formErrors.weight ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'border-gray-300 focus:ring-pink-500 focus:border-pink-500'"
                                     class="w-full px-3 py-2.5 text-base rounded-lg transition-all border bg-white">
-                                <option value="" x-text="isAdultProduct(quickBuyProduct) ? '-- Chọn size tay --' : '-- Chọn cân nặng --'"></option>
-                                <template x-if="isAdultProduct(quickBuyProduct)">
-                                    <template x-for="size in handSizeOptions" :key="size">
-                                        <option :value="size" x-text="size"></option>
-                                    </template>
-                                </template>
-                                <template x-if="!isAdultProduct(quickBuyProduct)">
-                                    <template x-for="weight in weightOptions" :key="weight">
-                                        <option :value="weight" x-text="weight"></option>
-                                    </template>
+                                <option value="">-- Chọn cân nặng --</option>
+                                <template x-for="weight in weightOptions" :key="weight">
+                                    <option :value="weight" x-text="weight"></option>
                                 </template>
                             </select>
                             <!-- Custom Weight Input for Quick Buy -->
-                            <div x-show="!isAdultProduct(quickBuyProduct) && quickBuyWeight === '✏️ Nhập cân nặng > 20kg'"
+                            <div x-show="quickBuyWeight === '✏️ Nhập cân nặng > 20kg'"
                                  x-transition:enter="transition ease-out duration-200"
                                  x-transition:enter-start="opacity-0 transform scale-95"
                                  x-transition:enter-end="opacity-100 transform scale-100"
@@ -2524,8 +2379,8 @@
 
                     <!-- Helper text cho cân nặng -->
                     <div x-show="!formErrors.weight" class="text-xs flex items-start">
-                        <!-- Hiển thị thông báo phụ phí khi cân nặng >= 16kg - Chỉ cho sản phẩm trẻ em -->
-                        <template x-if="!isAdultProduct(quickBuyProduct) && (() => {
+                        <!-- Hiển thị thông báo phụ phí khi cân nặng >= 16kg -->
+                        <template x-if="(() => {
                             // Determine actual weight for calculation
                             let actualWeight = quickBuyWeight;
                             if (quickBuyWeight === '✏️ Nhập cân nặng > 20kg' && quickBuyCustomWeight) {
@@ -2542,8 +2397,8 @@
                             </div>
                         </template>
 
-                        <!-- Hiển thị thông báo thường khi cân nặng < 16kg - Chỉ cho sản phẩm trẻ em -->
-                        <template x-if="!isAdultProduct(quickBuyProduct) && (() => {
+                        <!-- Hiển thị thông báo thường khi cân nặng < 16kg -->
+                        <template x-if="(() => {
                             // Determine actual weight for calculation
                             let actualWeight = quickBuyWeight;
                             if (quickBuyWeight === '✏️ Nhập cân nặng > 20kg' && quickBuyCustomWeight) {
@@ -2556,7 +2411,7 @@
                                 <svg class="w-3 h-3 mr-1 text-pink-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                 </svg>
-                                <span>Các mẹ chọn đúng cân nặng của bé giúp em nha.</span>
+                                Các mẹ chọn đúng cân nặng của bé giúp em nha.
                             </div>
                         </template>
                     </div>
@@ -2604,7 +2459,7 @@
                                 <p class="text-xs text-gray-600 mt-0.5">Còn: <span x-text="countdownTimer.display" class="font-mono font-semibold text-green-700 bg-green-100 px-1 py-0.5 rounded text-xs"></span></p>
                             </div>
                             <div class="space-y-1.5">
-                                <template x-for="addon in filteredAddonProductsForQuickBuy" :key="addon.id">
+                                <template x-for="addon in filteredAddonProducts" :key="addon.id">
                                     <div @click="openAddonDetail(addon)" class="flex items-center space-x-2 p-2 bg-white rounded-md border border-green-100 cursor-pointer hover:bg-gray-50 transition-colors">
                                         <img :src="addon.image" class="w-8 h-8 rounded object-cover flex-shrink-0">
                                         <div class="flex-grow min-w-0">
@@ -2625,8 +2480,6 @@
                                                 <span x-text="isAddonInCartForDisplay(addon.id) ? 'Xóa' : 'Thêm'"></span>
                                             </button>
                                             <template x-if="addon.id === 'addon_tui_dau_tam'"><p class="text-xs text-green-600 font-semibold" x-text="isFreeshippingFromDiscount() ? '-8K' : '+ Freeship'"></p></template>
-                                            <template x-if="addon.id === 'addon_bo_dau_tam_7_canh'"><p class="text-xs text-green-600 font-semibold">+ Freeship</p></template>
-                                            <template x-if="addon.id === 'addon_bo_dau_tam_9_canh'"><p class="text-xs text-green-600 font-semibold">+ Freeship</p></template>
                                             <template x-if="addon.id === 'addon_moc_chia_khoa'"><p class="text-xs text-green-600 font-semibold">-5K</p></template>
                                         </div>
                                     </div>
@@ -2849,7 +2702,7 @@
                                     }
                                     return calculateDynamicPrice(quickBuyProduct, actualWeight).finalPrice * quickBuyQuantity;
                                 })())"></p>
-                                <template x-if="!isAdultProduct(quickBuyProduct) && (() => {
+                                <template x-if="(() => {
                                     let actualWeight = quickBuyWeight;
                                     if (quickBuyWeight === '✏️ Nhập cân nặng > 20kg' && quickBuyCustomWeight) {
                                         actualWeight = quickBuyCustomWeight + 'kg';
@@ -3187,7 +3040,7 @@
                                     <p class="text-xs text-gray-600 mt-0.5">Còn: <span x-text="countdownTimer.display" class="font-mono font-semibold text-green-700 bg-green-100 px-1 py-0.5 rounded text-xs"></span></p>
                                 </div>
                                 <div class="space-y-1.5">
-                                    <template x-for="addon in filteredAddonProductsForProductDetail" :key="addon.id">
+                                    <template x-for="addon in filteredAddonProducts" :key="addon.id">
                                         <div @click="openAddonDetail(addon)" class="flex items-center space-x-2 p-2 bg-white rounded-md border border-green-100 cursor-pointer hover:bg-gray-50 transition-colors">
                                             <img :src="addon.image" class="w-8 h-8 rounded object-cover flex-shrink-0">
                                             <div class="flex-grow min-w-0">
@@ -3208,8 +3061,6 @@
                                                     <span x-text="isAddonInCartForDisplay(addon.id) ? 'Xóa' : 'Thêm'"></span>
                                                 </button>
                                                 <template x-if="addon.id === 'addon_tui_dau_tam'"><p class="text-xs text-green-600 font-semibold" x-text="isFreeshippingFromDiscount() ? '-8K' : '+ Freeship'"></p></template>
-                                                <template x-if="addon.id === 'addon_bo_dau_tam_7_canh'"><p class="text-xs text-green-600 font-semibold">+ Freeship</p></template>
-                                                <template x-if="addon.id === 'addon_bo_dau_tam_9_canh'"><p class="text-xs text-green-600 font-semibold">+ Freeship</p></template>
                                                 <template x-if="addon.id === 'addon_moc_chia_khoa'"><p class="text-xs text-green-600 font-semibold">-5K</p></template>
                                             </div>
                                         </div>
@@ -3337,7 +3188,7 @@
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                                 </svg>
-                                <span class="text-sm" x-text="isAddonProduct(currentProductDetail) ? 'Thêm vào giỏ' : 'Mua ngay'"></span>
+                                <span class="text-sm">Mua ngay</span>
                             </button>
                         </div>
                     </div>
@@ -3349,7 +3200,7 @@
 
     <!-- Item Options Modal - Centered with Proper Spacing -->
     <div x-show="isItemOptionsModalOpen" class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-4 pt-safe-top pb-safe-bottom z-[9400]" @click.away="closeItemOptionsModal()">
-        <div x-show="isItemOptionsModalOpen" class="bg-white w-full max-w-md sm:max-w-lg lg:max-w-xl mx-auto rounded-2xl shadow-2xl overflow-hidden max-h-[85vh] sm:max-h-[90vh] flex flex-col transform transition-all my-4" @click.stop
+        <div x-show="isItemOptionsModalOpen" class="bg-white w-full max-w-sm mx-auto rounded-2xl shadow-2xl overflow-hidden max-h-[85vh] sm:max-h-[90vh] flex flex-col transform transition-all my-4" @click.stop
              x-transition:enter="transition ease-out duration-300"
              x-transition:enter-start="opacity-0 transform scale-90"
              x-transition:enter-end="opacity-100 transform scale-100"
@@ -3358,7 +3209,7 @@
              x-transition:leave-end="opacity-0 transform scale-90">
 
             <!-- Header - Compact -->
-            <div class="flex items-center justify-between p-4 sm:p-6 bg-pink-50 rounded-t-2xl flex-shrink-0">
+            <div class="flex items-center justify-between p-4 bg-pink-50 rounded-t-2xl flex-shrink-0">
                 <div class="flex items-center space-x-3">
                     <img :src="currentItemForOptions?.image" alt="Product Image"
                          class="w-12 h-12 sm:w-14 sm:h-14 rounded-md object-cover shadow-sm border border-pink-100">
@@ -3413,130 +3264,50 @@
                 </button>
             </div>
 
-            <!-- Weight Selection Section - Scrollable Contetnt -->
-            <div class="flex-1 overflow-y-auto px-4 sm:px-6 pt-4 sm:pt-6">
+            <!-- Weight Selection Section - Scrollable Content -->
+            <div class="flex-1 overflow-y-auto px-4 pt-4">
                 <!-- Section Title -->
                 <div class="text-center mb-4 sm:mb-6">
-                    <h4 class="text-sm sm:text-base font-semibold text-gray-800 mb-1 sm:mb-2"
-                        x-text="isAdultProduct(currentItemForOptions) ? 'Chọn size tay' : 'Chọn cân nặng của bé'"></h4>
-                    <p class="text-xs sm:text-sm text-gray-600"
-                       x-text="isAdultProduct(currentItemForOptions) ? 'Để làm vòng vừa vặn' : 'Để làm vòng vừa vặn cho bé'"></p>
+                    <h4 class="text-sm sm:text-base font-semibold text-gray-800 mb-1 sm:mb-2">Chọn cân nặng của bé</h4>
+                    <p class="text-xs sm:text-sm text-gray-600">Để shop làm vòng vừa vặn nhất cho con yêu</p>
                 </div>
 
-                <!-- Weight/Size Options Grid -->
+                <!-- Weight Options Grid -->
                 <div class="space-y-3 mb-4 sm:mb-6">
-                    <!-- Options for Adult Products (Hand Size) -->
-                    <template x-if="isAdultProduct(currentItemForOptions)">
-                        <div class="bg-gradient-to-r from-amber-50 to-orange-50 p-4 sm:p-5 rounded-lg border border-amber-100">
-                            <div class="grid grid-cols-5 gap-3">
-                                <template x-for="size in handSizeOptions" :key="'size-' + size">
-                                    <button @click="itemOptions.selectedWeight = size"
-                                            :class="itemOptions.selectedWeight === size ? 'bg-amber-500 text-white border-amber-500 shadow-md' : 'bg-white text-gray-700 border-gray-200 hover:border-amber-300 active:bg-amber-50'"
-                                            class="py-3 sm:py-4 px-2 text-sm sm:text-base font-bold border-2 rounded-lg transition-all duration-200 hover:shadow-sm touch-manipulation">
-                                        <span x-text="size"></span>
-                                    </button>
-                                </template>
-                            </div>
+                    <!-- Special option - Chưa sinh (at top) -->
+                    <button @click="itemOptions.selectedWeight = 'Chưa sinh'"
+                            :class="itemOptions.selectedWeight === 'Chưa sinh' ? 'bg-pink-500 text-white border-pink-500' : 'bg-white text-gray-700 border-gray-200 hover:border-pink-300 active:bg-pink-50'"
+                            class="w-full py-2.5 sm:py-3 px-3 sm:px-4 text-xs sm:text-sm font-medium border-2 rounded-lg transition-all duration-200 hover:shadow-md flex items-center justify-center space-x-2 touch-manipulation">
+                        <span>🤱</span>
+                        <span>Chưa sinh</span>
+                    </button>
 
-                            <!-- Button "Cách đo size tay" -->
-                            <div class="mt-3">
-                                <button @click="toggleSizeGuide()"
-                                        class="w-full bg-gradient-to-r from-amber-100 to-orange-100 hover:from-amber-200 hover:to-orange-200 text-amber-800 font-medium py-2.5 px-4 rounded-lg transition-all duration-200 flex items-center justify-center space-x-2 border border-amber-200 hover:border-amber-300">
-                                    <span class="text-sm">📏</span>
-                                    <span class="text-sm">Cách đo size tay</span>
-                                    <svg class="w-4 h-4 transition-transform duration-200" :class="{ 'rotate-180': showSizeGuide }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                                    </svg>
+                    <!-- Quick Preset Weights - 3kg to 15kg, 5 buttons per row -->
+                    <div class="bg-gradient-to-r from-pink-50 to-purple-50 p-3 rounded-lg border border-pink-100">
+                        <p class="text-xs text-gray-600 mb-2 text-center font-medium">⚡ Chọn nhanh cân nặng (3kg - 15kg)</p>
+                        <div class="grid grid-cols-5 gap-1.5">
+                            <template x-for="weight in ['3kg', '4kg', '5kg', '6kg', '7kg', '8kg', '9kg', '10kg', '11kg', '12kg', '13kg', '14kg', '15kg']" :key="'preset-' + weight">
+                                <button @click="itemOptions.selectedWeight = weight"
+                                        :class="itemOptions.selectedWeight === weight ? 'bg-pink-500 text-white border-pink-500 shadow-md' : 'bg-white text-gray-700 border-gray-200 hover:border-pink-300 active:bg-pink-50'"
+                                        class="py-2 px-1 text-xs font-bold border-2 rounded-md transition-all duration-200 hover:shadow-sm touch-manipulation">
+                                    <span x-text="weight"></span>
                                 </button>
-                            </div>
-
-                            <!-- Hướng dẫn đo size tay - Expandable -->
-                            <div x-show="showSizeGuide"
-                                 x-transition:enter="transition ease-out duration-300"
-                                 x-transition:enter-start="opacity-0 max-h-0"
-                                 x-transition:enter-end="opacity-100 max-h-96"
-                                 x-transition:leave="transition ease-in duration-200"
-                                 x-transition:leave-start="opacity-100 max-h-96"
-                                 x-transition:leave-end="opacity-0 max-h-0"
-                                 class="mt-3 overflow-hidden">
-                                <div class="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200 rounded-xl p-4">
-                                    <div class="space-y-4">
-                                        <!-- Cách 1 -->
-                                        <div class="flex items-start space-x-3">
-                                            <div class="flex-1">
-                                                <h5 class="font-semibold text-amber-800 text-sm mb-1">💵 Dùng tờ tiền 500k</h5>
-                                                <p class="text-sm text-gray-700 leading-relaxed">Lấy tờ tiền 500k quấn sát cổ tay (tờ 500k dài 15cm), sau đó xem thừa thiếu bao nhiêu là ra size tay.</p>
-                                            </div>
-                                        </div>
-
-                                        <!-- Cách 2 -->
-                                        <div class="flex items-start space-x-3">
-                                            <div class="flex-1">
-                                                <h5 class="font-semibold text-amber-800 text-sm mb-1">📏 Dùng thước dây</h5>
-                                                <p class="text-sm text-gray-700 leading-relaxed">Lấy thước dây cuốn sát cổ tay và tìm số đo cm.</p>
-                                            </div>
-                                        </div>
-
-                                        <!-- Cách 3 -->
-                                        <div class="flex items-start space-x-3">
-                                            <div class="flex-1">
-                                                <h5 class="font-semibold text-amber-800 text-sm mb-1">🧵 Dùng sợi dây</h5>
-                                                <p class="text-sm text-gray-700 leading-relaxed">Lấy 1 sợi dây cuốn sát cổ tay, sau đó đo chiều dài sợi dây, xem được bao nhiêu cm là ra size tay.</p>
-                                            </div>
-                                        </div>
-
-                                        <!-- Tip -->
-                                        <div class="bg-white/60 rounded-lg p-3 border border-amber-200">
-                                            <div class="flex items-center space-x-2">
-                                                <span class="text-amber-600">💡</span>
-                                                <p class="text-sm text-amber-800 font-medium">Lưu ý: Đo sát cổ tay, không quá chặt cũng không quá lỏng để có size chính xác nhất!</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            </template>
                         </div>
-                    </template>
-
-                    <!-- Options for Baby Products (Weight) -->
-                    <template x-if="!isAdultProduct(currentItemForOptions)">
-                        <div>
-                            <!-- Quick Preset Weights - Chưa sinh + 3kg to 15kg, 5 buttons per row -->
-                            <div class="bg-gradient-to-r from-pink-50 to-purple-50 p-4 sm:p-5 rounded-lg border border-pink-100">
-                                <div class="grid grid-cols-5 gap-2 sm:gap-3">
-                                    <!-- Button Chưa sinh - vị trí đầu tiên -->
-                                    <button @click="itemOptions.selectedWeight = 'Chưa sinh'"
-                                            :class="itemOptions.selectedWeight === 'Chưa sinh' ? 'bg-pink-500 text-white border-pink-500 shadow-md' : 'bg-white text-gray-700 border-gray-200 hover:border-pink-300 active:bg-pink-50'"
-                                            class="py-2 sm:py-3 px-1 text-xs sm:text-sm font-bold border-2 rounded-md transition-all duration-200 hover:shadow-sm touch-manipulation">
-                                        <span>Chưa sinh</span>
-                                    </button>
-
-                                    <template x-for="weight in ['3kg', '4kg', '5kg', '6kg', '7kg', '8kg', '9kg', '10kg', '11kg', '12kg', '13kg', '14kg', '15kg']" :key="'preset-' + weight">
-                                        <button @click="itemOptions.selectedWeight = weight"
-                                                :class="itemOptions.selectedWeight === weight ? 'bg-pink-500 text-white border-pink-500 shadow-md' : 'bg-white text-gray-700 border-gray-200 hover:border-pink-300 active:bg-pink-50'"
-                                                class="py-2 sm:py-3 px-1 text-xs sm:text-sm font-bold border-2 rounded-md transition-all duration-200 hover:shadow-sm touch-manipulation">
-                                            <span x-text="weight"></span>
-                                        </button>
-                                    </template>
-                                </div>
-                            </div>
-                        </div>
-                    </template>
+                    </div>
 
 
 
-                    <!-- Custom weight option - Only for baby products -->
-                    <template x-if="!isAdultProduct(currentItemForOptions)">
-                        <button @click="itemOptions.selectedWeight = 'custom'"
-                                :class="itemOptions.selectedWeight === 'custom' ? 'bg-pink-500 text-white border-pink-500' : 'bg-white text-gray-700 border-gray-200 hover:border-pink-300 active:bg-pink-50'"
-                                class="w-full py-2.5 sm:py-3 px-3 sm:px-4 text-xs sm:text-sm font-medium border-2 rounded-lg transition-all duration-200 hover:shadow-md flex items-center justify-center space-x-2 touch-manipulation">
-                            <span>✏️</span>
-                            <span>Nhập cân nặng khác (từ 16kg trở lên)</span>
-                        </button>
-                    </template>
+                    <!-- Custom weight option -->
+                    <button @click="itemOptions.selectedWeight = 'custom'"
+                            :class="itemOptions.selectedWeight === 'custom' ? 'bg-pink-500 text-white border-pink-500' : 'bg-white text-gray-700 border-gray-200 hover:border-pink-300 active:bg-pink-50'"
+                            class="w-full py-2.5 sm:py-3 px-3 sm:px-4 text-xs sm:text-sm font-medium border-2 rounded-lg transition-all duration-200 hover:shadow-md flex items-center justify-center space-x-2 touch-manipulation">
+                        <span>✏️</span>
+                        <span>Nhập cân nặng khác (từ 16kg trở lên)</span>
+                    </button>
 
-                    <!-- Custom weight input - Only for baby products -->
-                    <div x-show="!isAdultProduct(currentItemForOptions) && itemOptions.selectedWeight === 'custom'"
+                    <!-- Custom weight input -->
+                    <div x-show="itemOptions.selectedWeight === 'custom'"
                          x-transition:enter="transition ease-out duration-200"
                          x-transition:enter-start="opacity-0 transform scale-95"
                          x-transition:enter-end="opacity-100 transform scale-100"
@@ -3584,11 +3355,11 @@
                         </div>
 
                         <!-- General help text -->
-                        <p x-show="!itemOptions.customWeight || itemOptions.customWeight >= 16" class="text-xs text-gray-500 mt-2">💡 Chỉ nhập từ 16kg trở lên (3kg-15kg đã có ở trên)</p>
+                        <p x-show="!itemOptions.customWeight || itemOptions.customWeight >= 16" class="text-xs text-gray-500 mt-2">💡 Chỉ nhập từ 16kg trở lên (3kg-15kg đã có preset)</p>
                     </div>
 
-                    <!-- Pricing Info Message - Chỉ cho sản phẩm trẻ em -->
-                    <div x-show="!isAdultProduct(currentItemForOptions) && (() => {
+                    <!-- Pricing Info Message -->
+                    <div x-show="(() => {
                         const weight = itemOptions.selectedWeight === 'custom' ? itemOptions.customWeight + 'kg' : itemOptions.selectedWeight;
                         const priceData = calculateDynamicPrice(currentItemForOptions, weight);
                         return priceData.hasSurcharge;
@@ -3637,8 +3408,6 @@
                                             <span x-text="isAddonInCartForDisplay(addon.id) ? 'Xóa' : 'Thêm'"></span>
                                         </button>
                                         <template x-if="addon.id === 'addon_tui_dau_tam'"><p class="text-xs text-green-600 font-semibold" x-text="isFreeshippingFromDiscount() ? '-8K' : '+ Freeship'"></p></template>
-                                        <template x-if="addon.id === 'addon_bo_dau_tam_7_canh'"><p class="text-xs text-green-600 font-semibold">+ Freeship</p></template>
-                                        <template x-if="addon.id === 'addon_bo_dau_tam_9_canh'"><p class="text-xs text-green-600 font-semibold">+ Freeship</p></template>
                                         <template x-if="addon.id === 'addon_moc_chia_khoa'"><p class="text-xs text-green-600 font-semibold">-5K</p></template>
                                     </div>
                                 </div>
@@ -3654,154 +3423,7 @@
                 <button @click="addItemWithOptions()"
                         :disabled="!itemOptions.selectedWeight || (itemOptions.selectedWeight === 'custom' && (!itemOptions.customWeight || itemOptions.customWeight < 16))"
                         :class="(!itemOptions.selectedWeight || (itemOptions.selectedWeight === 'custom' && (!itemOptions.customWeight || itemOptions.customWeight < 16))) ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-gradient-to-r from-pink-500 to-purple-500 text-white hover:from-pink-600 hover:to-purple-600 active:from-pink-600 active:to-purple-600'"
-                        class="w-full py-3 sm:py-4 px-4 sm:px-6 font-bold text-sm sm:text-base rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl active:scale-[0.98] sm:hover:scale-[1.02] flex items-center justify-center space-x-2 touch-manipulation">
-                    <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17M17 13a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                    </svg>
-                    <span>Thêm vào giỏ hàng</span>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Bead Quantity Modal - Chọn số lượng hạt dâu tằm -->
-    <div x-show="isBeadQuantityModalOpen" class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-4 pt-safe-top pb-safe-bottom z-[9450]" @click.away="closeBeadQuantityModal()">
-        <div x-show="isBeadQuantityModalOpen" class="bg-white w-full max-w-md sm:max-w-lg lg:max-w-xl mx-auto rounded-2xl shadow-2xl overflow-hidden max-h-[85vh] sm:max-h-[90vh] flex flex-col transform transition-all my-4" @click.stop
-             x-transition:enter="transition ease-out duration-300"
-             x-transition:enter-start="opacity-0 transform scale-90"
-             x-transition:enter-end="opacity-100 transform scale-100"
-             x-transition:leave="transition ease-in duration-200"
-             x-transition:leave-start="opacity-100 transform scale-100"
-             x-transition:leave-end="opacity-0 transform scale-90">
-
-            <!-- Header - Compact -->
-            <div class="flex items-center justify-between p-4 sm:p-6 bg-green-50 rounded-t-2xl flex-shrink-0">
-                <div class="flex items-center space-x-3">
-                    <img :src="currentBeadProduct?.image" alt="Product Image"
-                         class="w-12 h-12 sm:w-14 sm:h-14 rounded-md object-cover shadow-sm border border-green-100">
-                    <div>
-                        <h3 class="text-sm sm:text-lg font-bold text-slate-800" x-text="currentBeadProduct?.name || 'Chọn số lượng hạt'"></h3>
-                        <p class="text-green-600 font-bold text-sm sm:text-base" x-text="formatCurrency(currentBeadProduct?.price || 0)"></p>
-                    </div>
-                </div>
-                <button @click="closeBeadQuantityModal()" class="w-8 h-8 bg-green-100 hover:bg-green-200 rounded-full flex items-center justify-center transition-all text-green-600">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
-            </div>
-
-            <!-- Bead Selection Section - Scrollable Content -->
-            <div class="flex-1 overflow-y-auto px-4 sm:px-6 pt-4 sm:pt-6">
-                <!-- Section Title -->
-                <div class="text-center mb-4 sm:mb-6">
-                    <h4 class="text-sm sm:text-base font-semibold text-gray-800 mb-1 sm:mb-2">Chọn số lượng hạt</h4>
-                    <p class="text-xs sm:text-sm text-gray-600">Để làm vòng vừa vặn cho bé</p>
-                </div>
-
-                <!-- Bead Quantity Options -->
-                <div class="space-y-3 mb-4 sm:mb-6">
-                    <!-- Quantity Input & Preset Buttons -->
-                    <div class="bg-gradient-to-r from-green-50 to-emerald-50 p-4 sm:p-5 rounded-lg border border-green-100">
-                        <!-- Quantity Input - Professional Design -->
-                        <div class="flex items-center justify-center mb-6">
-                            <div class="bg-white rounded-2xl border-2 border-green-200 shadow-sm overflow-hidden flex items-center">
-                                <!-- Decrease Button -->
-                                <button @click="if(beadOptions.quantity > 1) beadOptions.quantity--"
-                                        :disabled="beadOptions.quantity <= 1"
-                                        :class="beadOptions.quantity <= 1 ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'bg-green-50 text-green-600 hover:bg-green-100 active:bg-green-200'"
-                                        class="w-12 h-12 flex items-center justify-center font-bold transition-all duration-200 border-r border-green-200">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M20 12H4"></path>
-                                    </svg>
-                                </button>
-
-                                <!-- Quantity Display -->
-                                <div class="flex flex-col items-center justify-center px-6 py-2 bg-white min-w-[80px]">
-                                    <input type="number"
-                                           x-model.number="beadOptions.quantity"
-                                           min="1"
-                                           max="50"
-                                           class="w-full text-center text-2xl font-bold text-green-700 bg-transparent border-none outline-none focus:ring-0 p-0">
-                                    <span class="text-xs font-medium text-green-600 uppercase tracking-wide">hạt</span>
-                                </div>
-
-                                <!-- Increase Button -->
-                                <button @click="if(beadOptions.quantity < 50) beadOptions.quantity++"
-                                        :disabled="beadOptions.quantity >= 50"
-                                        :class="beadOptions.quantity >= 50 ? 'bg-gray-100 text-gray-400 cursor-not-allowed' : 'bg-green-50 text-green-600 hover:bg-green-100 active:bg-green-200'"
-                                        class="w-12 h-12 flex items-center justify-center font-bold transition-all duration-200 border-l border-green-200">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- Quick select buttons -->
-                        <div class="grid grid-cols-3 sm:grid-cols-4 gap-2 sm:gap-3">
-                            <button @click="beadOptions.quantity = 14"
-                                    :class="beadOptions.quantity === 14 ? 'bg-green-500 text-white border-green-500 shadow-md' : 'bg-white text-gray-700 border-gray-200 hover:border-green-300 active:bg-green-50'"
-                                    class="py-3 sm:py-4 px-2 text-sm sm:text-base font-bold border-2 rounded-lg transition-all duration-200 hover:shadow-sm touch-manipulation">
-                                14 hạt
-                            </button>
-                            <button @click="beadOptions.quantity = 17"
-                                    :class="beadOptions.quantity === 17 ? 'bg-green-500 text-white border-green-500 shadow-md' : 'bg-white text-gray-700 border-gray-200 hover:border-green-300 active:bg-green-50'"
-                                    class="py-3 sm:py-4 px-2 text-sm sm:text-base font-bold border-2 rounded-lg transition-all duration-200 hover:shadow-sm touch-manipulation">
-                                17 hạt
-                            </button>
-                            <button @click="beadOptions.quantity = 21"
-                                    :class="beadOptions.quantity === 21 ? 'bg-green-500 text-white border-green-500 shadow-md' : 'bg-white text-gray-700 border-gray-200 hover:border-green-300 active:bg-green-50'"
-                                    class="py-3 sm:py-4 px-2 text-sm sm:text-base font-bold border-2 rounded-lg transition-all duration-200 hover:shadow-sm touch-manipulation">
-                                21 hạt
-                            </button>
-                            <button @click="beadOptions.quantity = 25"
-                                    :class="beadOptions.quantity === 25 ? 'bg-green-500 text-white border-green-500 shadow-md' : 'bg-white text-gray-700 border-gray-200 hover:border-green-300 active:bg-green-50'"
-                                    class="py-3 sm:py-4 px-2 text-sm sm:text-base font-bold border-2 rounded-lg transition-all duration-200 hover:shadow-sm touch-manipulation">
-                                25 hạt
-                            </button>
-                            <button @click="beadOptions.quantity = 30"
-                                    :class="beadOptions.quantity === 30 ? 'bg-green-500 text-white border-green-500 shadow-md' : 'bg-white text-gray-700 border-gray-200 hover:border-green-300 active:bg-green-50'"
-                                    class="py-3 sm:py-4 px-2 text-sm sm:text-base font-bold border-2 rounded-lg transition-all duration-200 hover:shadow-sm touch-manipulation">
-                                30 hạt
-                            </button>
-                            <button @click="beadOptions.quantity = 40"
-                                    :class="beadOptions.quantity === 40 ? 'bg-green-500 text-white border-green-500 shadow-md' : 'bg-white text-gray-700 border-gray-200 hover:border-green-300 active:bg-green-50'"
-                                    class="py-3 sm:py-4 px-2 text-sm sm:text-base font-bold border-2 rounded-lg transition-all duration-200 hover:shadow-sm touch-manipulation">
-                                40 hạt
-                            </button>
-                            <button @click="beadOptions.quantity = 50"
-                                    :class="beadOptions.quantity === 50 ? 'bg-green-500 text-white border-green-500 shadow-md' : 'bg-white text-gray-700 border-gray-200 hover:border-green-300 active:bg-green-50'"
-                                    class="py-3 sm:py-4 px-2 text-sm sm:text-base font-bold border-2 rounded-lg transition-all duration-200 hover:shadow-sm touch-manipulation">
-                                50 hạt
-                            </button>
-                    </div>
-                </div>
-
-                <!-- Hướng dẫn chọn số lượng hạt -->
-                <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-4 sm:p-5 rounded-lg border border-blue-100 mb-4 sm:mb-6">
-                    <div class="text-left">
-                        <p class="text-sm font-medium text-blue-800 mb-3">💡 Hướng dẫn chọn số lượng hạt</p>
-                        <div class="text-sm text-blue-700 leading-relaxed space-y-1">
-                            <p><strong>Bé sơ sinh:</strong> Chọn tối thiểu <strong>14 hạt dâu</strong></p>
-                            <p><strong>Bé từ 8kg trở lên:</strong> Chọn tối thiểu <strong>17 hạt dâu</strong></p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Notes Input -->
-                <div class="space-y-2 mb-4 sm:mb-6">
-                    <label class="block text-sm font-medium text-gray-700">Ghi chú (không bắt buộc)</label>
-                    <textarea x-model="beadOptions.note"
-                              placeholder="Ghi chú thêm cho shop..."
-                              class="w-full h-20 p-3 border border-gray-300 rounded-lg focus:border-green-500 focus:ring-2 focus:ring-green-200 resize-none text-sm"></textarea>
-                </div>
-            </div>
-
-            <!-- Footer - Fixed Bottom -->
-            <div class="flex-shrink-0 p-4 sm:p-6 bg-white rounded-b-2xl">
-                <button @click="addBeadWithQuantity()"
-                        class="w-full py-3 sm:py-4 px-4 sm:px-6 font-bold text-sm sm:text-base rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl active:scale-[0.98] sm:hover:scale-[1.02] flex items-center justify-center space-x-2 touch-manipulation bg-gradient-to-r from-green-500 to-emerald-500 text-white hover:from-green-600 hover:to-emerald-600 active:from-green-600 active:to-emerald-600">
+                        class="w-full py-2.5 sm:py-3 px-4 sm:px-6 font-bold text-xs sm:text-sm rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl active:scale-[0.98] sm:hover:scale-[1.02] flex items-center justify-center space-x-2 touch-manipulation">
                     <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17M17 13a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
                     </svg>
@@ -4076,14 +3698,14 @@
                         </h3>
 
                         <div class="space-y-2 max-h-32 overflow-y-auto modal-scroll bg-gray-50 rounded-lg p-3">
-                            <template x-for="item in cart" :key="item.cartId || item.id">
+                            <template x-for="item in cart" :key="item.id">
                                 <div class="flex items-center space-x-2 p-2 bg-white rounded">
                                     <img :src="item.image" :alt="item.name" class="w-8 h-8 object-cover rounded">
                                     <div class="flex-1 min-w-0">
                                         <p class="text-xs font-medium text-gray-800 truncate" x-text="item.name"></p>
-                                        <p class="text-xs text-gray-500" x-text="item.beadQuantity ? `${item.beadQuantity} hạt` : `SL: ${item.quantity}`"></p>
+                                        <p class="text-xs text-gray-500" x-text="`SL: ${item.quantity}`"></p>
                                     </div>
-                                    <p class="text-xs font-bold text-pink-600" x-text="formatCurrency(item.price * (item.beadQuantity || item.quantity))"></p>
+                                    <p class="text-xs font-bold text-pink-600" x-text="formatCurrency(item.price * item.quantity)"></p>
                                 </div>
                             </template>
                         </div>
