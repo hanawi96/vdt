@@ -1752,7 +1752,7 @@
                                 </div>
 
                                 <!-- Weight Selection - Full Width (Hidden for addon products) -->
-                                <div x-show="item.id !== 'addon_moc_chia_khoa' && item.id !== 'addon_tui_dau_tam'" class="cart-item-weight-section">
+                                <div x-show="!isAddonProduct(item) && !isBeadProduct(item)" class="cart-item-weight-section">
                                     <!-- Weight Selector Row -->
                                     <div class="flex items-center space-x-2 mb-2">
                                         <div class="flex items-center space-x-1 flex-shrink-0">
