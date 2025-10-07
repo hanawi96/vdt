@@ -1436,7 +1436,12 @@ document.addEventListener('alpine:init', () => {
 
     closeBeadQuantityModal() {
       this.isBeadQuantityModalOpen = false;
-      document.body.style.overflow = 'auto';
+      // Only restore overflow if no other modals are open
+      if (!this.isMiniCartOpen && !this.isCheckoutModalOpen && !this.isQuickBuyModalOpen &&
+          !this.isProductDetailOpen && !this.isDiscountModalOpen && !this.isAddonDetailModalOpen &&
+          !this.isItemOptionsModalOpen && !this.isHandSizeModalOpen) {
+        document.body.style.overflow = 'auto';
+      }
       setTimeout(() => {
         this.currentBeadProduct = null;
         this.beadOptions = {
@@ -1584,8 +1589,11 @@ document.addEventListener('alpine:init', () => {
 
 
     handleProductClick(product) {
-      if (this.isAddonProduct(product) || this.isBeadProduct(product)) {
-        // Thêm weight mặc định cho các sản phẩm không cần chọn cân nặng
+      if (this.isBeadProduct(product)) {
+        // Mở modal chọn số lượng hạt dâu cho sản phẩm hạt dâu mài sẵn
+        this.openBeadQuantityModal(product);
+      } else if (this.isAddonProduct(product)) {
+        // Thêm weight mặc định cho các sản phẩm bán kèm không cần chọn cân nặng
         const productWithWeight = {
           ...product,
           weight: 'N/A', // Đánh dấu không cần cân nặng
