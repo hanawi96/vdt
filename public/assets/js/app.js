@@ -1494,6 +1494,26 @@ document.addEventListener('alpine:init', () => {
       this.closeItemOptionsModal();
     },
 
+
+    handleProductClick(product) {
+      if (this.isAddonProduct(product) || this.isBeadProduct(product)) {
+        // Thêm weight mặc định cho các sản phẩm không cần chọn cân nặng
+        const productWithWeight = {
+          ...product,
+          weight: 'N/A', // Đánh dấu không cần cân nặng
+          selectedWeight: 'N/A',
+          cartId: `${product.id}-${Date.now()}`,
+          quantity: 1,
+          basePrice: product.price,
+          finalPrice: product.price
+        };
+        this.addToCart(productWithWeight);
+        this.showAlert(`Đã thêm ${product.name} vào giỏ hàng!`, 'success');
+      } else {
+        this.openItemOptionsModal(product);
+      }
+    },
+
     /* ========= CART ========= */
     // product object can be a standard product or a pre-filled cart item from options modal
     addToCart(product) {
