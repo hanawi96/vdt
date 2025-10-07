@@ -1830,11 +1830,14 @@
                                                 @change="updateItemHandSize(item.id, $event.target.value)"
                                                 class="weight-selector text-base px-2 py-1 flex-1 min-w-0">
                                             <option value="">Chọn size tay</option>
-                                            <option value="XS (14-15cm)">XS (14-15cm)</option>
-                                            <option value="S (15-16cm)">S (15-16cm)</option>
-                                            <option value="M (16-17cm)">M (16-17cm)</option>
-                                            <option value="L (17-18cm)">L (17-18cm)</option>
-                                            <option value="XL (18-19cm)">XL (18-19cm)</option>
+                                            <option value="13cm">13cm</option>
+                                            <option value="14cm">14cm</option>
+                                            <option value="15cm">15cm</option>
+                                            <option value="16cm">16cm</option>
+                                            <option value="17cm">17cm</option>
+                                            <option value="18cm">18cm</option>
+                                            <option value="19cm">19cm</option>
+                                            <option value="20cm">20cm</option>
                                         </select>
                                     </div>
                                 </div>
@@ -3221,6 +3224,104 @@
                     </div>
                 </div>
             </template>
+        </div>
+    </div>
+
+    <!-- Bead Quantity Modal for Strawberry Beads - Centered with Proper Spacing -->
+    <div x-show="isBeadQuantityModalOpen" class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-4 pt-safe-top pb-safe-bottom z-[9400]" @click.away="closeBeadQuantityModal()">
+        <div x-show="isBeadQuantityModalOpen" class="bg-white w-full max-w-sm mx-auto rounded-2xl shadow-2xl overflow-hidden max-h-[85vh] sm:max-h-[90vh] flex flex-col transform transition-all my-4" @click.stop
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 transform scale-90"
+             x-transition:enter-end="opacity-100 transform scale-100"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100 transform scale-100"
+             x-transition:leave-end="opacity-0 transform scale-90">
+
+            <!-- Header - Compact -->
+            <div class="flex items-center justify-between p-4 bg-gradient-to-r from-red-50 to-pink-50 rounded-t-2xl flex-shrink-0">
+                <div class="flex items-center space-x-3">
+                    <img :src="currentItemForBeadQuantity?.image" alt="Product Image"
+                         class="w-12 h-12 sm:w-14 sm:h-14 rounded-md object-cover shadow-sm border border-red-100">
+                    <div>
+                        <h3 class="text-sm sm:text-lg font-bold text-slate-800" x-text="currentItemForBeadQuantity?.name || 'Chọn số lượng hạt'"></h3>
+                        <p class="text-red-600 font-bold text-sm sm:text-base" x-text="formatCurrency(currentItemForBeadQuantity?.price || 0)"></p>
+                    </div>
+                </div>
+                <button @click="closeBeadQuantityModal()"
+                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center self-start">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Bead Quantity Selection Section - Scrollable Content -->
+            <div class="flex-1 overflow-y-auto px-4 pt-4">
+                <!-- Section Title -->
+                <div class="text-center mb-4 sm:mb-6">
+                    <h4 class="text-sm sm:text-base font-semibold text-gray-800 mb-1 sm:mb-2">Chọn số lượng hạt dâu</h4>
+                    <p class="text-xs sm:text-sm text-gray-600">Điều chỉnh số lượng hạt phù hợp với nhu cầu</p>
+                </div>
+
+                <!-- Quantity Counter -->
+                <div class="bg-gradient-to-r from-red-50 to-pink-50 p-4 rounded-lg border border-red-100 mb-4">
+                    <div class="flex items-center justify-center space-x-4">
+                        <button @click="decreaseBeadQuantity()"
+                                :disabled="beadQuantityOptions.quantity <= 1"
+                                :class="beadQuantityOptions.quantity <= 1 ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-white text-red-600 hover:bg-red-50 active:bg-red-100 border-red-200'"
+                                class="w-12 h-12 rounded-full border-2 font-bold text-xl transition-all duration-200 shadow-sm hover:shadow-md touch-manipulation">
+                            −
+                        </button>
+
+                        <div class="text-center">
+                            <div class="text-2xl sm:text-3xl font-bold text-red-600" x-text="beadQuantityOptions.quantity"></div>
+                            <div class="text-xs text-gray-600">hạt dâu</div>
+                        </div>
+
+                        <button @click="increaseBeadQuantity()"
+                                :disabled="beadQuantityOptions.quantity >= 100"
+                                :class="beadQuantityOptions.quantity >= 100 ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-white text-red-600 hover:bg-red-50 active:bg-red-100 border-red-200'"
+                                class="w-12 h-12 rounded-full border-2 font-bold text-xl transition-all duration-200 shadow-sm hover:shadow-md touch-manipulation">
+                            +
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Preset Quantities -->
+                <div class="bg-gradient-to-r from-orange-50 to-red-50 p-3 rounded-lg border border-orange-100 mb-4">
+                    <p class="text-xs text-gray-600 mb-3 text-center font-medium">⚡ Chọn nhanh số lượng phổ biến</p>
+                    <div class="grid grid-cols-3 gap-2">
+                        <template x-for="preset in [14, 18, 25, 30, 40, 50]" :key="'preset-' + preset">
+                            <button @click="setBeadQuantity(preset)"
+                                    :class="beadQuantityOptions.quantity === preset ? 'bg-red-500 text-white border-red-500 shadow-md' : 'bg-white text-gray-700 border-gray-200 hover:border-red-300 active:bg-red-50'"
+                                    class="py-2.5 px-2 text-xs font-bold border-2 rounded-lg transition-all duration-200 hover:shadow-sm touch-manipulation">
+                                <span x-text="preset + ' hạt'"></span>
+                            </button>
+                        </template>
+                    </div>
+                </div>
+
+                <!-- Recommendation Note -->
+                <div class="bg-blue-50 p-3 rounded-lg border border-blue-200 mb-4">
+                    <div class="flex items-start space-x-2">
+                        <span class="text-blue-600 text-sm">💡</span>
+                        <div class="text-xs text-blue-800">
+                            <p class="font-medium mb-1">Khuyến nghị:</p>
+                            <p>Nên chọn tối thiểu <strong>14 hạt dâu</strong> để đủ làm vòng cho bé.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer with Add Button -->
+            <div class="p-4 bg-gray-50 rounded-b-2xl flex-shrink-0">
+                <button @click="addItemWithBeadQuantity()"
+                        :disabled="beadQuantityOptions.quantity < 1"
+                        :class="beadQuantityOptions.quantity < 1 ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-gradient-to-r from-red-500 to-pink-500 text-white hover:from-red-600 hover:to-pink-600 active:from-red-700 active:to-pink-700'"
+                        class="w-full py-3 sm:py-3.5 px-4 text-sm sm:text-base font-bold rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl touch-manipulation">
+                    <span x-text="'Thêm ' + beadQuantityOptions.quantity + ' hạt vào giỏ hàng'"></span>
+                </button>
+            </div>
         </div>
     </div>
 
