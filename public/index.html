@@ -1751,8 +1751,8 @@
                                     </button>
                                 </div>
 
-                                <!-- Weight Selection - Full Width (Hidden for addon products) -->
-                                <div x-show="!isAddonProduct(item) && !isBeadProduct(item)" class="cart-item-weight-section">
+                                <!-- Weight Selection - For Baby Products -->
+                                <div x-show="!isAdultProduct(item) && !isAddonProduct(item) && !isBeadProduct(item)" class="cart-item-weight-section">
                                     <!-- Weight Selector Row -->
                                     <div class="flex items-center space-x-2 mb-2">
                                         <div class="flex items-center space-x-1 flex-shrink-0">
@@ -1815,6 +1815,27 @@
                                             <span class="text-xs text-gray-600 font-medium">kg</span>
                                         </div>
                                         <p class="text-xs text-gray-500 mt-1">💡 Chỉ nhập từ 20kg trở lên (VD: 20, 21.5, 25)</p>
+                                    </div>
+                                </div>
+
+                                <!-- Hand Size Selection - For Adult Products -->
+                                <div x-show="isAdultProduct(item)" class="cart-item-handsize-section">
+                                    <!-- Hand Size Selector Row -->
+                                    <div class="flex items-center space-x-2 mb-2">
+                                        <div class="flex items-center space-x-1 flex-shrink-0">
+                                            <span class="text-xs text-purple-600 font-medium">👤</span>
+                                            <span class="text-xs text-gray-700 font-medium">Size tay:</span>
+                                        </div>
+                                        <select x-model="item.selectedSize"
+                                                @change="updateItemHandSize(item.id, $event.target.value)"
+                                                class="weight-selector text-base px-2 py-1 flex-1 min-w-0">
+                                            <option value="">Chọn size tay</option>
+                                            <option value="XS (14-15cm)">XS (14-15cm)</option>
+                                            <option value="S (15-16cm)">S (15-16cm)</option>
+                                            <option value="M (16-17cm)">M (16-17cm)</option>
+                                            <option value="L (17-18cm)">L (17-18cm)</option>
+                                            <option value="XL (18-19cm)">XL (18-19cm)</option>
+                                        </select>
                                     </div>
                                 </div>
 

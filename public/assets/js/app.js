@@ -1849,6 +1849,16 @@ document.addEventListener('alpine:init', () => {
       const item = this.cart.find(i => i.id === productId);
       if (item) { item.quantity++; this.revalidateAppliedDiscount(); }
     },
+
+    updateItemHandSize(cartId, newSize) {
+      const item = this.cart.find(i => i.cartId === cartId);
+      if (item) {
+        item.selectedSize = newSize;
+        item.handSize = newSize;
+        item.weight = newSize; // Keep weight and size in sync for consistency
+        this.saveCart();
+      }
+    },
     decreaseQuantity(productId) {
       const item = this.cart.find(i => i.id === productId);
       if (item && item.quantity > 1) { item.quantity--; this.revalidateAppliedDiscount(); }
