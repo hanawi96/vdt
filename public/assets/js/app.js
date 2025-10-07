@@ -196,6 +196,12 @@ document.addEventListener('alpine:init', () => {
     itemOptions: { quantity: 1, note: '' },
     showSizeGuide: false,
 
+    // Hand Size Modal state
+    isHandSizeModalOpen: false,
+    currentItemForHandSize: null,
+    handSizeOptions: { quantity: 1, note: '', selectedSize: '' },
+    showHandSizeGuide: false,
+
     // Bead Quantity Modal state
     isBeadQuantityModalOpen: false,
     currentBeadProduct: null,
@@ -243,7 +249,7 @@ document.addEventListener('alpine:init', () => {
     },
 
     // Size tay options cho vòng người lớn
-    get handSizeOptions() {
+    get handSizeList() {
       return ['14cm', '15cm', '16cm', '17cm', '18cm'];
     },
 
@@ -252,6 +258,87 @@ document.addEventListener('alpine:init', () => {
       if (!product) return false;
       return product.category === 'vong_nguoi_lon' ||
              (product.categories && product.categories.includes('vong_nguoi_lon'));
+    },
+
+    /* ========= Hand Size Modal Logic ========= */
+    openHandSizeModal(product) {
+      this.currentItemForHandSize = product;
+      this.handSizeOptions = {
+        quantity: 1,
+        note: '',
+        selectedSize: '',
+        customSize: ''
+      };
+      this.showHandSizeGuide = false; // Reset size guide when opening modal
+      this.isHandSizeModalOpen = true;
+      document.body.style.overflow = 'hidden';
+    },
+
+    closeHandSizeModal() {
+      this.isHandSizeModalOpen = false;
+      this.showHandSizeGuide = false; // Reset size guide when closing modal
+      this.currentItemForHandSize = null;
+      this.handSizeOptions = {
+        quantity: 1,
+        note: '',
+        selectedSize: ''
+      };
+      document.body.style.overflow = '';
+    },
+
+    selectHandSize(size) {
+      this.handSizeOptions.selectedSize = size;
+    },
+
+    addItemWithHandSize() {
+
+
+      if (!this.currentItemForHandSize) return;
+
+      // Validate size selection
+      if (!this.handSizeOptions.selectedSize) {
+        this.showAlert('Vui lòng chọn size tay', 'error');
+        return;
+      }
+
+      const { id } = this.currentItemForHandSize;
+
+      // Use selected size directly (no custom option)
+      const finalSize = this.handSizeOptions.selectedSize;
+
+      // Create unique cart ID
+      const cartId = `${id}-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
+
+      const itemToAdd = {
+        ...this.currentItemForHandSize,
+        cartId: cartId,
+        quantity: this.handSizeOptions.quantity,
+        note: this.handSizeOptions.note,
+        selectedSize: this.handSizeOptions.selectedSize,
+        handSize: finalSize,
+        weight: finalSize, // Use size as weight for compatibility
+        selectedWeight: this.handSizeOptions.selectedSize, // For compatibility
+        basePrice: this.currentItemForHandSize.price,
+        finalPrice: this.currentItemForHandSize.price,
+        customWeight: '', // Add for consistency
+        surcharge: 0, // Add for consistency
+        hasSurcharge: false // Add for consistency
+      };
+
+      // Save product name before closing modal
+      const productName = this.currentItemForHandSize.name;
+
+      console.log('Adding adult product with hand size:', {
+        product: productName,
+        selectedSize: this.handSizeOptions.selectedSize,
+        finalSize: finalSize,
+        cartId: cartId,
+        itemToAdd: itemToAdd
+      });
+
+      this.addToCart(itemToAdd);
+      this.closeHandSizeModal();
+      this.showAlert(`Đã thêm ${productName} (${finalSize}) vào giỏ hàng!`, 'success');
     },
 
     // Kiểm tra xem sản phẩm có phải là sản phẩm bán kèm không
@@ -1119,8 +1206,8 @@ document.addEventListener('alpine:init', () => {
       return this.selectedCartItems.some(id => !this.addonProducts.some(p => p.id === id));
     },
     get addonDiscount() {
-      const hasKeychain = this.selectedCartItems.includes('addon_moc_chia_khoa');
-      return (hasKeychain && this.hasMainProductInCart) ? 5000 : 0;
+      const hasKeychain = this.cart.some(i => i.id === 'addon_moc_chia_khoa');
+      return hasKeychain ? 5000 : 0;
     },
     get tuiDauTamBonusDiscount() {
       const hasTui = this.selectedCartItems.includes('addon_tui_dau_tam');
@@ -1129,12 +1216,13 @@ document.addEventListener('alpine:init', () => {
     },
 
     get freeShipping() {
-      // Freeship nếu mua Túi Dâu Tằm và có sản phẩm chính
-      if (this.selectedCartItems.includes('addon_tui_dau_tam') && this.hasMainProductInCart) return true;
-      // Freeship nếu mua Bó dâu tằm 7 cành và có sản phẩm chính
-      if (this.selectedCartItems.includes('addon_bo_dau_tam_7_canh') && this.hasMainProductInCart) return true;
-      // Freeship nếu mua Bó dâu tằm 9 cành và có sản phẩm chính
-      if (this.selectedCartItems.includes('addon_bo_dau_tam_9_canh') && this.hasMainProductInCart) return true;
+      // Miễn phí ship nếu trong giỏ có 1 trong các sản phẩm freeship
+      const hasFreeShipAddon = this.cart.some(i =>
+        i.id === 'addon_tui_dau_tam' ||
+        i.id === 'addon_bo_dau_tam_7_canh' ||
+        i.id === 'addon_bo_dau_tam_9_canh'
+      );
+      if (hasFreeShipAddon) return true;
       // Freeship nếu có mã type=shipping
       const d = this.availableDiscounts.find(d => d.code?.toUpperCase() === this.appliedDiscountCode);
       return !!(d && d.type === 'shipping');
@@ -1509,7 +1597,11 @@ document.addEventListener('alpine:init', () => {
         };
         this.addToCart(productWithWeight);
         this.showAlert(`Đã thêm ${product.name} vào giỏ hàng!`, 'success');
+      } else if (this.isAdultProduct(product)) {
+        // Mở modal chọn size tay cho sản phẩm người lớn
+        this.openHandSizeModal(product);
       } else {
+        // Mở modal chọn cân nặng cho sản phẩm trẻ em
         this.openItemOptionsModal(product);
       }
     },
@@ -1573,10 +1665,10 @@ document.addEventListener('alpine:init', () => {
         this.socialProofInterval = null;
       }
     },
-    toggleCartItemSelection(productId) {
-      const idx = this.selectedCartItems.indexOf(productId);
+    toggleCartItemSelection(cartId) {
+      const idx = this.selectedCartItems.indexOf(cartId);
       if (idx > -1) this.selectedCartItems.splice(idx, 1);
-      else this.selectedCartItems.push(productId);
+      else this.selectedCartItems.push(cartId);
     },
     toggleSelectAll() {
       if (this.isAllSelected) this.selectedCartItems = [];
