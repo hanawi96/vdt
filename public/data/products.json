@@ -1404,5 +1404,17 @@
     "description": "Hạt dâu tằm loại thường với chất lượng ổn định kết hợp chỉ cước co giãn, giá cả phải chăng cho mọi gia đình.",
     "rating": 4.7,
     "purchases": 0
+  },
+  {
+    "id": "hat_dau_tam_mai_san_006",
+    "name": "[NGƯỜI LỚN] Hạt dâu tằm size to cho người lớn",
+    "category": "hat_dau_tam_mai_san",
+    "categories": ["hat_dau_tam_mai_san"],
+    "price": 69000,
+    "original_price": 89000,
+    "image": "./assets/images/product_img/hat_dau_tam.jpg",
+    "description": "Hạt dâu tằm loại thường với chất lượng ổn định kết hợp chỉ cước co giãn, giá cả phải chăng cho mọi gia đình.",
+    "rating": 4.7,
+    "purchases": 0
   }
 ]
