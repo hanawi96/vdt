@@ -16,7 +16,7 @@ document.addEventListener('alpine:init', () => {
       { id: 'hat_dau_tam_mai_san', name: 'Hạt dâu tằm mài sẵn', image: './assets/images/product_img/hat_dau_tam.jpg' },
       { id: 'mix_charm_chuong', name: 'Mix charm chuông', image: './assets/images/product_img/chuong/vong-tron-charm-chuong.jpg' },
       { id: 'mix_ho_phach', name: 'Mix hổ phách', image: './assets/images/product_img/Sole ho phach/vong-mix-ho-phach.jpg' },
-      { id: 'mix_thanh_gia', name: 'Mix thánh giá' },
+      { id: 'mix_thanh_gia', name: 'Mix thánh giá', image: './assets/images/product_img/thanh-gia/sole-3ly-thanh-gia-co-gian.jpg' },
       { id: 'mix_hoa_sen', name: 'Mix hoa sen', image: './assets/images/product_img/hoa-sen/vong-sole-3ly-hoa-sen.jpg' },
       { id: 'mix_da_do_tu_nhien', name: 'Mix đá đỏ tự nhiên', image: './assets/images/product_img/da do/vong_dau_tam_tron_da_do.jpg' },
       { id: 'mix_chi_mau_cac_loai', name: 'Mix chỉ màu các loại', image: './assets/images/product_img/tat-ca-mau.jpg' },
@@ -187,9 +187,7 @@ document.addEventListener('alpine:init', () => {
     isCartAnimating: false,
     isShowingBestSellers: false,
     preventMiniCartCloseOnClickOutside: false,
-    isFaqModalOpen: false,
-    faqItems: [],
-    openFaqIndex: null,
+
 
     isItemOptionsModalOpen: false,
     currentItemForOptions: null,
@@ -233,6 +231,11 @@ document.addEventListener('alpine:init', () => {
     isDiscountModalFromQuickBuy: false, // Flag để biết modal discount được mở từ đâu
     preventQuickBuyCloseOnEscape: false, // Flag để ngăn đóng Quick Buy khi có modal con
     quickBuySelectedAddons: [], // Addon được chọn trong Quick Buy
+
+
+    // FAQ Modal
+    isFaqModalOpen: false,
+    faqOpenItems: [], // Stores indices of open items
 
     showWeightInQuickBuy: true, // Biến để kiểm soát hiển thị ô cân nặng
     isAdultInQuickBuy: false, // Biến để kiểm soát hiển thị size tay cho người lớn
@@ -853,13 +856,12 @@ document.addEventListener('alpine:init', () => {
     async loadData() {
       this.loading = true; this.error = null;
       try {
-        const [prodRes, infoRes, addrRes, discountRes, sharedRes, faqRes] = await Promise.all([
+        const [prodRes, infoRes, addrRes, discountRes, sharedRes] = await Promise.all([
           fetch('./data/products.json'),
           fetch('./data/shop-info.json'),
           fetch('./data/vietnamAddress.json'),
           fetch('./data/discounts.json'),
-          fetch('./data/shared-details.json'),
-          fetch('./data/faq.json')
+          fetch('./data/shared-details.json')
         ]);
 
         if (!prodRes.ok) throw new Error('Không thể tải sản phẩm.');
@@ -867,7 +869,7 @@ document.addEventListener('alpine:init', () => {
         if (!addrRes.ok) throw new Error('Không thể tải dữ liệu địa chỉ.');
         if (!discountRes.ok) throw new Error('Không thể tải mã giảm giá.');
         if (!sharedRes.ok) throw new Error('Không thể tải thông tin chi tiết.');
-        if (!faqRes.ok) throw new Error('Không thể tải dữ liệu FAQ.');
+
 
 
         // Categories đã được khởi tạo tĩnh ở trên
@@ -895,7 +897,7 @@ document.addEventListener('alpine:init', () => {
 
         this.availableDiscounts = await discountRes.json();
         this.sharedDetails = await sharedRes.json();
-        this.faqItems = await faqRes.json();
+
 
 
         // Tính stats động
@@ -1407,6 +1409,25 @@ document.addEventListener('alpine:init', () => {
       this.isImageModalOpen = false;
       setTimeout(() => { this.currentImage = ''; }, 300);
       document.body.style.overflow = 'auto';
+    },
+
+    /* ========= FAQ MODAL ========= */
+    openFaqModal() {
+      this.isFaqModalOpen = true;
+      document.body.style.overflow = 'hidden';
+    },
+    closeFaqModal() {
+      this.isFaqModalOpen = false;
+      document.body.style.overflow = 'auto';
+    },
+    toggleFaqItem(itemIndex) {
+        if (this.faqOpenItems.includes(itemIndex)) {
+            this.faqOpenItems = this.faqOpenItems.filter(i => i !== itemIndex);
+        } else {
+            // Optional: close other items for a classic accordion behavior
+            // this.faqOpenItems = [itemIndex];
+            this.faqOpenItems.push(itemIndex);
+        }
     },
 
     /* ========= ADDON DETAIL MODAL ========= */
@@ -2233,7 +2254,7 @@ document.addEventListener('alpine:init', () => {
       this.isAddonDetailModalOpen = false;
       this.isProductDetailOpen = false;
       this.isSizingGuideModalOpen = false;
-      this.isFaqModalOpen = false;
+
 
 
       console.log('🔍 Sau khi đóng tất cả - isMiniCartOpen:', this.isMiniCartOpen);
@@ -3268,20 +3289,7 @@ document.addEventListener('alpine:init', () => {
       setTimeout(() => { this.quickViewProduct = null; }, 300);
     },
 
-    /* ========= FAQ MODAL ========= */
-    openFaqModal() {
-      this.isFaqModalOpen = true;
-      this.openFaqIndex = null; // Reset opened FAQ
-      document.body.style.overflow = 'hidden';
-    },
-    closeFaqModal() {
-      this.isFaqModalOpen = false;
-      this.openFaqIndex = null;
-      document.body.style.overflow = 'auto';
-    },
-    toggleFaq(index) {
-      this.openFaqIndex = this.openFaqIndex === index ? null : index;
-    },
+
 
     // Quick Buy revalidation - kiểm tra mã giảm giá khi thay đổi số lượng trong Quick Buy
     revalidateQuickBuyDiscount() {

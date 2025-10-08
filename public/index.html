@@ -556,7 +556,7 @@
                     <!-- Content -->
                     <div class="px-4 pb-4">
                         <h3 class="font-bold text-gray-800 text-base sm:text-lg mb-2 text-center">
-                            Vòng 7 Bi Bạc + Túi Dâu Tằm Để Giường
+                            Vòng 7 Bi Bạc (Bé trai) + Túi Dâu Tằm Để Giường
                         </h3>
 
                         <!-- Price -->
@@ -654,7 +654,7 @@
                     <!-- Content -->
                     <div class="px-4 pb-4">
                         <h3 class="font-bold text-gray-800 text-base sm:text-lg mb-2 text-center">
-                            Vòng 9 Bi Bạc + Túi Dâu Tằm Để Giường
+                            Vòng 9 Bi Bạc (Bé gái) + Túi Dâu Tằm Để Giường
                         </h3>
 
                         <!-- Price -->
@@ -1246,66 +1246,7 @@
         </div>
     </div>
 
-    <!-- FAQ Modal -->
-    <div x-show="isFaqModalOpen" @keydown.escape.window="closeFaqModal()"
-         class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-4 pt-safe-top pb-safe-bottom z-[9000]"
-         x-transition:enter="transition ease-out duration-300"
-         x-transition:enter-start="opacity-0"
-         x-transition:enter-end="opacity-100"
-         x-transition:leave="transition ease-in duration-200"
-         x-transition:leave-start="opacity-100"
-         x-transition:leave-end="opacity-0">
-        <div class="bg-white rounded-2xl shadow-xl w-full max-w-2xl max-h-[90vh] flex flex-col transform"
-             x-transition:enter="transition ease-out duration-300"
-             x-transition:enter-start="scale-95 opacity-0"
-             x-transition:enter-end="scale-100 opacity-100"
-             x-transition:leave="transition ease-in duration-200"
-             x-transition:leave-start="scale-100 opacity-100"
-             x-transition:leave-end="scale-95 opacity-0">
 
-            <!-- Header -->
-            <div class="flex items-center justify-between p-6 border-b">
-                <h3 class="text-xl font-bold text-gray-800">❔ Những câu hỏi thường gặp</h3>
-                <button @click="closeFaqModal()" class="text-gray-500 hover:text-gray-800">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
-
-            <!-- FAQ List -->
-            <div class="flex-grow p-6 overflow-y-auto modal-scroll space-y-4">
-                <template x-for="(faq, index) in faqItems" :key="index">
-                    <div class="border-b border-gray-200 pb-4">
-                        <button @click="toggleFaq(index)" class="w-full flex justify-between items-center text-left">
-                            <span class="font-semibold text-gray-800" x-text="faq.question"></span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 transition-transform" :class="{ 'rotate-180': openFaqIndex === index }" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                            </svg>
-                        </button>
-                        <div x-show="openFaqIndex === index"
-                             x-transition:enter="transition ease-out duration-300"
-                             x-transition:enter-start="opacity-0 max-h-0"
-                             x-transition:enter-end="opacity-100 max-h-96"
-                             x-transition:leave="transition ease-in duration-200"
-                             x-transition:leave-start="opacity-100 max-h-96"
-                             x-transition:leave-end="opacity-0 max-h-0"
-                             class="mt-2 text-gray-600 text-sm overflow-hidden" x-text="faq.answer"></div>
-                    </div>
-                </template>
-            </div>
-
-            <!-- Footer -->
-            <div class="p-6 border-t bg-gray-50 rounded-b-2xl flex items-center space-x-3">
-                <button @click="closeFaqModal()" class="flex-1 bg-gray-200 text-gray-700 font-semibold py-2.5 sm:py-3 px-4 rounded-lg text-xs sm:text-sm">
-                    Đã hiểu
-                </button>
-                <a href="https://zalo.me/0972483892" target="_blank" rel="noopener noreferrer" class="flex-1 bg-blue-500 text-white font-semibold py-2.5 sm:py-3 px-4 rounded-lg text-center text-xs sm:text-sm">
-                    Kết nối Zalo
-                </a>
-            </div>
-        </div>
-    </div>
 
     <!-- Addon Detail Modal -->
     <div x-show="isAddonDetailModalOpen" @keydown.escape.window="closeAddonDetail()"
@@ -4555,6 +4496,144 @@
     </div>
 
 
+    <!-- FAQ Modal -->
+    <div x-show="isFaqModalOpen" @keydown.escape.window="closeFaqModal()" class="fixed inset-0 z-[9992] flex items-center justify-center bg-black bg-opacity-60 backdrop-blur-sm" style="display: none;">
+        <div x-show="isFaqModalOpen"
+             x-transition:enter="transition ease-out duration-300 transform"
+             x-transition:enter-start="opacity-0 scale-90 translate-y-4"
+             x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+             x-transition:leave="transition ease-in duration-200 transform"
+             x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+             x-transition:leave-end="opacity-0 scale-90 translate-y-4"
+             @click.outside="closeFaqModal()"
+             class="relative w-full max-w-2xl mx-4 bg-white rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col"
+             style="max-height: calc(100vh - max(2rem, env(safe-area-inset-top)) - max(2rem, env(safe-area-inset-bottom)));">
+
+            <!-- Header - Compact -->
+            <div class="bg-gradient-to-r from-purple-500 to-indigo-600 text-white p-2 sm:p-4 rounded-t-2xl flex-shrink-0">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-1 sm:space-x-2">
+                        <div class="w-6 h-6 sm:w-8 sm:h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-sm sm:text-base font-bold">Câu hỏi thường gặp</h3>
+                        </div>
+                    </div>
+                    <button @click="closeFaqModal()" class="w-6 h-6 sm:w-8 sm:h-8 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full flex items-center justify-center transition-all">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="flex-1 overflow-y-auto modal-scroll p-6 space-y-4">
+                <!-- FAQ Item 1 -->
+                <div class="bg-gradient-to-r from-pink-50 to-rose-50 rounded-2xl border border-pink-100 overflow-hidden">
+                    <button @click="toggleFaqItem(1)" class="w-full text-left px-5 py-4 flex items-center justify-between hover:bg-pink-50 transition-colors">
+                        <h4 class="font-semibold text-gray-800 pr-4">Vòng có phải làm từ cây dâu tằm thật hay không?</h4>
+                        <svg class="w-5 h-5 text-pink-600 transform transition-transform duration-200" :class="{ 'rotate-180': faqOpenItems.includes(1) }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div x-show="faqOpenItems.includes(1)" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 max-h-0" x-transition:enter-end="opacity-100 max-h-96" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 max-h-96" x-transition:leave-end="opacity-0 max-h-0" class="overflow-hidden">
+                        <div class="px-5 pb-4 text-gray-700 leading-relaxed border-t border-pink-100 pt-3 bg-white">
+                            Em cam kết 100% vòng dâu tằm em làm đều làm thủ công từ cây dâu tằm thật, mà còn là cây dâu tằm đực, dương khi mạnh do chính nhà em trồng. Giống dâu tằm ta Việt Nam từ xưa mà các cụ hay dùng để làm vòng cho bé.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 2 -->
+                <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl border border-blue-100 overflow-hidden">
+                    <button @click="toggleFaqItem(2)" class="w-full text-left px-5 py-4 flex items-center justify-between hover:bg-blue-50 transition-colors">
+                        <h4 class="font-semibold text-gray-800 pr-4">Bạc mix vòng có phải bạc thật hay không?</h4>
+                        <svg class="w-5 h-5 text-blue-600 transform transition-transform duration-200" :class="{ 'rotate-180': faqOpenItems.includes(2) }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div x-show="faqOpenItems.includes(2)" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 max-h-0" x-transition:enter-end="opacity-100 max-h-96" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 max-h-96" x-transition:leave-end="opacity-0 max-h-0" class="overflow-hidden">
+                        <div class="px-5 pb-4 text-gray-700 leading-relaxed border-t border-blue-100 pt-3 bg-white">
+                            Em cũng cam kết 100% là bạc thật, tất cả đều là bạc ta S999 (chỉ có charm hoa sen và charm chuông là bạc S925). Các mẹ có thể mang ra tiệm bạc để kiểm tra thoải mái ạ.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 3 -->
+                <div class="bg-gradient-to-r from-green-50 to-emerald-50 rounded-2xl border border-green-100 overflow-hidden">
+                    <button @click="toggleFaqItem(3)" class="w-full text-left px-5 py-4 flex items-center justify-between hover:bg-green-50 transition-colors">
+                        <h4 class="font-semibold text-gray-800 pr-4">Vòng dính nước có làm sao không?</h4>
+                        <svg class="w-5 h-5 text-green-600 transform transition-transform duration-200" :class="{ 'rotate-180': faqOpenItems.includes(3) }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div x-show="faqOpenItems.includes(3)" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 max-h-0" x-transition:enter-end="opacity-100 max-h-96" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 max-h-96" x-transition:leave-end="opacity-0 max-h-0" class="overflow-hidden">
+                        <div class="px-5 pb-4 text-gray-700 leading-relaxed border-t border-green-100 pt-3 bg-white">
+                            Vòng dâu em làm đều lấy từ phần gốc của cây dâu tằm, nên rất già chắc và đặc lõi, nên ngấm nước thoải mái không bị làm sao. Nhưng ngâm nước lâu và nhiều thì hạt dâu tằm sẽ đậm hơn vì không dùng hóa chất bảo quản gì cả.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 4 -->
+                <div class="bg-gradient-to-r from-amber-50 to-orange-50 rounded-2xl border border-amber-100 overflow-hidden">
+                    <button @click="toggleFaqItem(4)" class="w-full text-left px-5 py-4 flex items-center justify-between hover:bg-amber-50 transition-colors">
+                        <h4 class="font-semibold text-gray-800 pr-4">Vòng mua cho bé sơ sinh thì bé lớn có đeo được tiếp không?</h4>
+                        <svg class="w-5 h-5 text-amber-600 transform transition-transform duration-200" :class="{ 'rotate-180': faqOpenItems.includes(4) }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div x-show="faqOpenItems.includes(4)" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 max-h-0" x-transition:enter-end="opacity-100 max-h-96" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 max-h-96" x-transition:leave-end="opacity-0 max-h-0" class="overflow-hidden">
+                        <div class="px-5 pb-4 text-gray-700 leading-relaxed border-t border-amber-100 pt-3 bg-white">
+                            Các mẫu vòng dâu rút đỏ thì đều có thể nới rộng ra khi bé lớn, nên không sợ bị trật. Còn các mẫu vòng co giãn thì sẽ không nới rộng được, nên khi bé lớn tay to hơn hẳn lúc đầu thì có thể sẽ bị chật ạ.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 5 -->
+                <div class="bg-gradient-to-r from-purple-50 to-violet-50 rounded-2xl border border-purple-100 overflow-hidden">
+                    <button @click="toggleFaqItem(5)" class="w-full text-left px-5 py-4 flex items-center justify-between hover:bg-purple-50 transition-colors">
+                        <h4 class="font-semibold text-gray-800 pr-4">Vòng không sử dụng để lâu ngày có mốc không?</h4>
+                        <svg class="w-5 h-5 text-purple-600 transform transition-transform duration-200" :class="{ 'rotate-180': faqOpenItems.includes(5) }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div x-show="faqOpenItems.includes(5)" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 max-h-0" x-transition:enter-end="opacity-100 max-h-96" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 max-h-96" x-transition:leave-end="opacity-0 max-h-0" class="overflow-hidden">
+                        <div class="px-5 pb-4 text-gray-700 leading-relaxed border-t border-purple-100 pt-3 bg-white">
+                            Dạ, có thể ạ. Vì vòng em làm không dùng hóa chất chống mốc để an toàn cho bé. Nên nếu không sử dụng để ngoài không khí nồm ẩm có thể bị mốc. Còn nếu đeo trên bé hằng ngày, có hơi người thì vòng không bao giờ mốc được ạ.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Section -->
+                <div class="mt-8 bg-gradient-to-r from-pink-50 via-purple-50 to-indigo-50 rounded-2xl p-5 border border-pink-100">
+                    <div class="text-center">
+                        <h4 class="font-semibold text-gray-800 mb-2">Còn thắc mắc gì khác?</h4>
+                        <p class="text-sm text-gray-600">Liên hệ trực tiếp với shop để được tư vấn chi tiết nhất</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="bg-white p-2 sm:p-3 border-t border-gray-100 rounded-b-2xl flex-shrink-0">
+                <div class="flex flex-col sm:flex-row gap-2">
+                    <a href="https://zalo.me/0972483892" target="_blank" rel="noopener noreferrer" class="flex-1 px-4 py-3 bg-blue-500 text-white text-sm font-bold rounded-lg hover:bg-blue-600 transition-all flex items-center justify-center space-x-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="h-5 w-5">
+                            <path d="M3.505 2.365A41.369 41.369 0 0 1 9 2c1.863 0 3.697.124 5.495.365 1.247.167 2.18 1.108 2.435 2.268a4.45 4.45 0 0 0-.577-.069 43.141 43.141 0 0 0-4.706 0C9.229 4.696 7.5 6.727 7.5 8.998v2.24c0 1.413.67 2.735 1.76 3.562l-2.98 2.98A.75.75 0 0 1 5 17.25v-3.443c-.501-.048-1-.106-1.495-.172C2.033 13.438 1 12.162 1 10.72V5.28c0-1.441 1.033-2.717 2.505-2.914Z" />
+                            <path d="M14 6c-.762 0-1.52.02-2.271.062C10.157 6.148 9 7.472 9 8.998v2.24c0 1.519 1.147 2.839 2.71 2.935.214.013.428.024.642.034.2.009.385.09.518.224l2.35 2.35a.75.75 0 0 0 1.28-.531v-2.07c1.453-.195 2.5-1.463 2.5-2.915V8.998c0-1.526-1.157-2.85-2.729-2.936A41.645 41.645 0 0 0 14 6Z" />
+                        </svg>
+                        <span>Chat Zalo ngay</span>
+                    </a>
+                    <button @click="closeFaqModal()" class="flex-1 px-4 py-3 bg-gray-100 text-gray-700 text-sm font-bold rounded-lg hover:bg-gray-200 transition-all">
+                        Đóng
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Sizing Guide Modal -->
     <div x-show="isSizingGuideModalOpen" @keydown.escape.window="closeSizingGuideModal()" class="fixed inset-0 z-[9991] flex items-center justify-center bg-black bg-opacity-60 backdrop-blur-sm" style="display: none;">
         <div x-show="isSizingGuideModalOpen" x-transition:enter="transition ease-out duration-300 transform" x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-200 transform" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-90" @click.outside="closeSizingGuideModal()" class="relative w-full max-w-lg mx-4 bg-white rounded-2xl shadow-2xl overflow-hidden">
@@ -4568,7 +4647,7 @@
 
             <!-- Content -->
             <div class="p-6 space-y-5 text-gray-700">
-                
+
                 <div>
                     <h4 class="font-semibold text-gray-800 mb-2">1. Chuẩn bị:</h4>
                     <p class="text-sm">Một sợi dây/chỉ (hoặc thước dây) và một cây thước thẳng.</p>
