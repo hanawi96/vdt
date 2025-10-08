@@ -456,6 +456,18 @@
   },
   {
     "id": "mix_thanh_gia_005",
+    "name": "Sole bạc 3ly + Thánh giá + Thẻ tên",
+    "category": "mix_thanh_gia",
+    "categories": ["mix_thanh_gia", "mix_charm_chuong", "mix_the_ten_be"],
+    "price": 209000,
+    "original_price": 259000,
+    "image": "./assets/images/product_img/thanh-gia/sole-3ly-thanh-gia-the-ten.jpg",
+    "description": "Vòng dâu tằm sole mix bi bạc 3 lớp với charm thánh giá và chuông, kết hợp hoàn hảo.",
+    "rating": 4.8,
+    "purchases": 298
+  },
+  {
+    "id": "mix_thanh_gia_007",
     "name": "Sole bạc 3ly + Thánh giá + Chuông co giãn",
     "category": "mix_thanh_gia",
     "categories": ["mix_thanh_gia", "mix_charm_chuong", "vong_co_gian"],
@@ -521,7 +533,7 @@
     "categories": ["mix_hoa_sen", "vong_co_gian", "khuyen_mai"],
     "price": 229000,
     "original_price": 269000,
-    "image": "./assets/images/demo.jpg",
+    "image": "./assets/images/product_img/hoa-sen/sole-bac-4ly-hoa-sen-co-gian.jpg",
     "description": "Vòng dâu tằm sole mix bi bạc 4 lớp với charm hoa sen và dây co giãn cao cấp.",
     "rating": 4.9,
     "purchases": 267
@@ -1269,6 +1281,18 @@
     "price": 239000,
     "original_price": 289000,
     "image": "./assets/images/product_img/the-ten/vong-sole-3ly-charm-chuong-the-ten.jpg",
+    "description": "Vòng dâu tằm mix bi bạc 3 lớp kết hợp charm chuông và thẻ tên cá nhân, hoàn hảo cho bé yêu.",
+    "rating": 4.9,
+    "purchases": 87
+  },
+  {
+    "id": "mix_charm_chuong_013",
+    "name": "Mix bạc 3ly + 4 chuông + thẻ tên",
+    "category": "mix_charm_chuong",
+    "categories": ["mix_charm_chuong", "mix_the_ten_be", "san_pham_hot"],
+    "price": 239000,
+    "original_price": 289000,
+    "image": "./assets/images/product_img/chuong/vong-sole-3ly-mix-4-chuong-the-ten.jpg",
     "description": "Vòng dâu tằm mix bi bạc 3 lớp kết hợp charm chuông và thẻ tên cá nhân, hoàn hảo cho bé yêu.",
     "rating": 4.9,
     "purchases": 87

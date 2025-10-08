@@ -778,6 +778,57 @@
                     </button>
                 </div>
 
+                <!-- Bảng so sánh hạt dâu tằm - Chỉ hiển thị khi chọn danh mục "Hạt dâu tằm mài sẵn" -->
+                <div x-show="currentCategory && currentCategory.id === 'hat_dau_tam_mai_san'"
+                     x-transition:enter="transition ease-out duration-300"
+                     x-transition:enter-start="opacity-0 transform scale-95"
+                     x-transition:enter-end="opacity-100 transform scale-100"
+                     class="mb-8">
+
+                    <!-- Header -->
+                    <div class="text-center mb-4">
+                        <h3 class="text-lg font-bold text-gray-800">Phân biệt hạt dâu tằm</h3>
+                        <p class="text-gray-500 text-sm mt-1">Giúp mẹ chọn loại phù hợp nhất cho bé</p>
+                    </div>
+
+                    <!-- Comparison Table - Compact -->
+                    <div class="max-w-2xl mx-auto">
+                        <div class="grid grid-cols-2 gap-3 sm:gap-4">
+
+                            <!-- Loại Đẹp -->
+                            <div class="p-3 text-center border">
+                                <h4 class="font-bold text-emerald-800 text-sm sm:text-base">💎 LOẠI ĐẸP</h4>
+                                <p class="text-xs text-emerald-600 mb-3 font-semibold">(Cao Cấp)</p>
+                                <ul class="space-y-2 text-left text-xs sm:text-sm text-gray-700">
+                                    <li class="flex items-start"><div><strong>Vị trí:</strong> Gốc cây dâu</div></li>
+                                    <li class="flex items-start"><div><strong>Chất lượng:</strong> Già chắc, đặc lõi</div></li>
+                                    <li class="flex items-start"><div><strong>Độ bền:</strong> Cao nhất</div></li>
+                                    <li class="flex items-start"><div><strong>Khuyên dùng:</strong> Đeo lâu dài</div></li>
+                                </ul>
+                            </div>
+
+                            <!-- Loại Thường -->
+                            <div class="p-3 text-center border">
+                                <h4 class="font-bold text-blue-800 text-sm sm:text-base">👍 LOẠI THƯỜNG</h4>
+                                <p class="text-xs text-blue-600 mb-3 font-semibold">(Tiêu Chuẩn)</p>
+                                <ul class="space-y-2 text-left text-xs sm:text-sm text-gray-700">
+                                    <li class="flex items-start"><div><strong>Vị trí:</strong> Thân cây (trên gốc)</div></li>
+                                    <li class="flex items-start"><div><strong>Chất lượng:</strong> Non, rỗng lõi hơn</div></li>
+                                    <li class="flex items-start"><div><strong>Độ bền:</strong> Tốt, đáp ứng nhu cầu</div></li>
+                                    <li class="flex items-start"><div><strong>Khuyên dùng:</strong> Đeo thông thường</div></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Bottom Note -->
+                        <div class="mt-3 text-center">
+                            <p class="text-amber-800 font-medium text-xs bg-amber-100 inline-block px-3 py-1.5 rounded-full">
+                                <span class="font-bold">💡 Lưu ý:</span> Cả 2 loại đều có ngoại hình giống nhau.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
                 <div id="products-section" class="mb-4"></div>
                 <div id="product-list" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-2 sm:gap-3">
                     <template x-for="product in filteredProducts()" :key="product.id">
