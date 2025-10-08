@@ -3213,21 +3213,24 @@
              x-transition:leave-end="opacity-0 transform scale-90">
 
             <!-- Header - Compact -->
-            <div class="flex items-center justify-between p-4 bg-gradient-to-r from-purple-50 to-pink-50 rounded-t-2xl flex-shrink-0">
-                <div class="flex items-center space-x-3">
-                    <img :src="currentItemForHandSize?.image" alt="Product Image"
-                         class="w-12 h-12 sm:w-14 sm:h-14 rounded-md object-cover shadow-sm border border-purple-100">
-                    <div>
-                        <h3 class="text-sm sm:text-lg font-bold text-slate-800" x-text="currentItemForHandSize?.name || 'Chọn size tay'"></h3>
-                        <p class="text-purple-600 font-bold text-sm sm:text-base" x-text="formatCurrency(currentItemForHandSize?.price || 0)"></p>
+            <div class="bg-gradient-to-r from-pink-500 to-purple-600 text-white p-2 sm:p-4 rounded-t-2xl flex-shrink-0">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-1 sm:space-x-2">
+                        <div class="w-6 h-6 sm:w-8 sm:h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zM21 5a2 2 0 00-2-2h-4a2 2 0 00-2 2v12a4 4 0 004 4h4a2 2 0 002-2V5z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-sm sm:text-base font-bold">Chọn size tay</h3>
+                        </div>
                     </div>
+                    <button @click="closeHandSizeModal()" class="w-6 h-6 sm:w-8 sm:h-8 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full flex items-center justify-center transition-all">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
                 </div>
-                <button @click="closeHandSizeModal()"
-                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center self-start">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                    </svg>
-                </button>
             </div>
 
             <!-- Hand Size Selection Section - Scrollable Content -->
@@ -3238,7 +3241,25 @@
                     <p class="text-xs sm:text-sm text-gray-600">Đo chu vi cổ tay để chọn size vừa vặn nhất</p>
                 </div>
 
-                <!-- Size Guide Banner -->
+                
+
+                <!-- Hand Size Options Grid -->
+                <div class="space-y-3 mb-4 sm:mb-6">
+                    <!-- Preset Hand Sizes - 13cm to 20cm -->
+                    <div class="bg-gradient-to-r from-purple-50 to-pink-50 p-3 rounded-lg border border-purple-100">
+                        <p class="text-xs text-gray-600 mb-3 text-center font-medium">⚡ Chọn nhanh size tay phổ biến</p>
+                        <div class="grid grid-cols-4 gap-2">
+                            <template x-for="size in ['13cm', '14cm', '15cm', '16cm', '17cm', '18cm', '19cm', '20cm']" :key="'handsize-' + size">
+                                <button @click="selectHandSize(size)"
+                                        :class="handSizeOptions.selectedSize === size ? 'bg-purple-500 text-white border-purple-500 shadow-md' : 'bg-white text-gray-700 border-gray-200 hover:border-purple-300 active:bg-purple-50'"
+                                        class="py-2.5 px-2 text-xs font-bold border-2 rounded-lg transition-all duration-200 hover:shadow-sm touch-manipulation">
+                                    <span x-text="size"></span>
+                                </button>
+                            </template>
+                        </div>
+                    </div>
+
+<!-- Size Guide Banner -->
                 <div class="bg-gradient-to-r from-blue-50 to-purple-50 p-3 rounded-lg border border-blue-100 mb-4">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center space-x-2">
@@ -3267,34 +3288,22 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Hand Size Options Grid -->
-                <div class="space-y-3 mb-4 sm:mb-6">
-                    <!-- Preset Hand Sizes - 13cm to 20cm -->
-                    <div class="bg-gradient-to-r from-purple-50 to-pink-50 p-3 rounded-lg border border-purple-100">
-                        <p class="text-xs text-gray-600 mb-3 text-center font-medium">⚡ Chọn nhanh size tay phổ biến</p>
-                        <div class="grid grid-cols-4 gap-2">
-                            <template x-for="size in ['13cm', '14cm', '15cm', '16cm', '17cm', '18cm', '19cm', '20cm']" :key="'handsize-' + size">
-                                <button @click="selectHandSize(size)"
-                                        :class="handSizeOptions.selectedSize === size ? 'bg-purple-500 text-white border-purple-500 shadow-md' : 'bg-white text-gray-700 border-gray-200 hover:border-purple-300 active:bg-purple-50'"
-                                        class="py-2.5 px-2 text-xs font-bold border-2 rounded-lg transition-all duration-200 hover:shadow-sm touch-manipulation">
-                                    <span x-text="size"></span>
-                                </button>
-                            </template>
-                        </div>
-                    </div>
-
-
                 </div>
+                
             </div>
 
-            <!-- Footer with Add Button -->
-            <div class="p-4 bg-gray-50 rounded-b-2xl flex-shrink-0">
+            <!-- Footer - Compact -->
+            <div class="flex-shrink-0 p-3 border-t bg-white rounded-b-2xl">
                 <button @click="addItemWithHandSize()"
                         :disabled="!handSizeOptions.selectedSize"
-                        :class="!handSizeOptions.selectedSize ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600 active:from-purple-700 active:to-pink-700'"
-                        class="w-full py-3 sm:py-3.5 px-4 text-sm sm:text-base font-bold rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl touch-manipulation">
-                    <span>Thêm vào giỏ hàng</span>
+                        :class="!handSizeOptions.selectedSize ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold'"
+                        class="w-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold py-2.5 sm:py-3 px-4 rounded-lg text-xs sm:text-sm shadow-md">
+                    <span class="flex items-center justify-center">
+                        <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                        Thêm vào giỏ hàng
+                    </span>
                 </button>
             </div>
         </div>
@@ -3996,6 +4005,16 @@
                                 <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
                             </svg>
                         </div>
+
+                        <!-- Thông báo kiểm tra hàng -->
+                        <div class="mt-3 flex items-start space-x-2">
+                            <svg class="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <p class="text-xs text-gray-600 leading-relaxed">
+                                Khi nhận hàng, bạn có thể kiểm tra hàng, hài lòng mới thanh toán
+                            </p>
+                        </div>
                     </div>
 
                     <!-- Tổng kết - Compact -->
@@ -4089,22 +4108,21 @@
              x-transition:leave-start="opacity-100 scale-100"
              x-transition:leave-end="opacity-0 scale-95">
 
-            <!-- Header -->
-            <div class="flex-shrink-0 bg-gradient-to-r from-pink-500 to-purple-600 text-white p-4 rounded-t-2xl">
+            <!-- Header - Compact -->
+            <div class="bg-gradient-to-r from-pink-500 to-purple-600 text-white p-2 sm:p-4 rounded-t-2xl flex-shrink-0">
                 <div class="flex items-center justify-between">
-                    <div class="flex items-center space-x-3">
-                        <div class="w-8 h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="flex items-center space-x-1 sm:space-x-2">
+                        <div class="w-6 h-6 sm:w-8 sm:h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4"/>
                             </svg>
                         </div>
                         <div>
-                            <h3 class="text-lg font-bold">Chọn số lượng hạt dâu</h3>
-                            <p class="text-sm text-pink-100" x-text="currentBeadProduct?.name || 'Hạt dâu tằm mài sẵn'"></p>
+                            <h3 class="text-sm sm:text-base font-bold">Chọn số lượng hạt dâu</h3>
                         </div>
                     </div>
-                    <button @click="closeBeadQuantityModal()" class="w-8 h-8 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full flex items-center justify-center transition-all">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <button @click="closeBeadQuantityModal()" class="w-6 h-6 sm:w-8 sm:h-8 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full flex items-center justify-center transition-all">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
                         </svg>
                     </button>
@@ -4213,22 +4231,22 @@
                 </div>
             </div>
 
-            <!-- Footer -->
-            <div class="flex-shrink-0 bg-white border-t border-gray-200 p-4 rounded-b-2xl">
+            <!-- Footer - Compact -->
+            <div class="flex-shrink-0 p-3 border-t bg-white rounded-b-2xl">
                 <div class="flex gap-3">
                     <button @click="closeBeadQuantityModal()"
-                            class="flex-1 py-3 px-4 bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium rounded-lg transition-colors">
+                            class="flex-1 py-2.5 sm:py-3 px-4 bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium rounded-lg text-xs sm:text-sm transition-colors">
                         Hủy
                     </button>
                     <button @click="addBeadProductToCart()"
                             :disabled="beadOptions.quantity < 1"
-                            class="flex-2 py-3 px-6 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 disabled:from-gray-400 disabled:to-gray-500 text-white font-bold rounded-lg shadow-lg transition-all transform hover:scale-105 disabled:hover:scale-100">
-                        <div class="flex items-center justify-center space-x-2">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17M17 13v4a2 2 0 01-2 2H9a2 2 0 01-2-2v-4m8 0V9a2 2 0 00-2-2H9a2 2 0 00-2 2v4.01"/>
+                            class="flex-2 bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold py-2.5 sm:py-3 px-4 rounded-lg text-xs sm:text-sm shadow-md">
+                        <span class="flex items-center justify-center">
+                            <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
                             </svg>
-                            <span>Thêm vào giỏ hàng</span>
-                        </div>
+                            Thêm vào giỏ hàng
+                        </span>
                     </button>
                 </div>
             </div>

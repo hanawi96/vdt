@@ -138,8 +138,8 @@ document.addEventListener('alpine:init', () => {
       description: 'Những sản phẩm được yêu thích và mua nhiều nhất.'
     },
     activeFilter: 'best_selling',
-    visibleProductCount: 10,
-    productsPerLoad: 10,
+    visibleProductCount: 8,
+    productsPerLoad: 8,
     loading: true,
     error: null,
     isSubmitting: false,
@@ -956,7 +956,7 @@ document.addEventListener('alpine:init', () => {
     },
     filteredProducts() {
       const list = this._fullProductList();
-      return this.isShowingBestSellers ? list.slice(0, 10) : list.slice(0, this.visibleProductCount);
+      return this.isShowingBestSellers ? list.slice(0, 8) : list.slice(0, this.visibleProductCount);
     },
     canLoadMore() { return this.visibleProductCount < this._fullProductList().length; },
     getProductCount(categoryId) { return this.products.filter(p => this.isProductInCategory(p, categoryId)).length; },
@@ -976,15 +976,15 @@ document.addEventListener('alpine:init', () => {
       return sorted.length > 0 ? sorted[0].id : null;
     },
 
-    // Function để hiển thị top 10 sản phẩm bán chạy
+    // Function để hiển thị top 8 sản phẩm bán chạy
     showTopSellingProducts() {
       // Đặt category về "Tất cả" để hiển thị tất cả sản phẩm
       this.currentCategory = this.categories.find(cat => cat.id === 'all') || this.categories[0];
 
-      // Đặt filter về best_selling và bật flag hiển thị top 10
+      // Đặt filter về best_selling và bật flag hiển thị top 8
       this.activeFilter = 'best_selling';
       this.isShowingBestSellers = true;
-      this.visibleProductCount = 10;
+      this.visibleProductCount = 8;
 
       // Reset search
       this.searchQuery = '';
@@ -1320,7 +1320,7 @@ document.addEventListener('alpine:init', () => {
       return d ? d.Wards.map(w => ({ Id: w.Id, Name: w.Name })) : [];
     },
     get bestSellingProducts() {
-      return [...this.products].sort((a, b) => (b.purchases || 0) - (a.purchases || 0)).slice(0, 10);
+      return [...this.products].sort((a, b) => (b.purchases || 0) - (a.purchases || 0)).slice(0, 8);
     },
 
     updateFullAddress() {
@@ -1338,7 +1338,7 @@ document.addEventListener('alpine:init', () => {
     /* ========= VIEW / SEARCH ========= */
     performSearch() {
       this.activeSearchQuery = this.searchQuery.trim();
-      this.visibleProductCount = 10;
+      this.visibleProductCount = 8;
       if (this.activeSearchQuery) {
         this.$nextTick(() => {
           document.getElementById('product-list-anchor')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -1347,7 +1347,7 @@ document.addEventListener('alpine:init', () => {
     },
     loadMoreProducts() { this.visibleProductCount += this.productsPerLoad; },
     selectCategory(category) {
-      this.visibleProductCount = 10;
+      this.visibleProductCount = 8;
       this.currentCategory = category;
       this.searchQuery = ''; this.activeSearchQuery = '';
       this.isShowingBestSellers = false; // Reset top selling mode
