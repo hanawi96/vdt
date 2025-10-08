@@ -58,13 +58,13 @@ document.addEventListener('alpine:init', () => {
       },
       {
         id: 'addon_moc_chia_khoa',
-        name: 'Móc Chìa Khóa Dâu Tằm',
+        name: 'Móc chìa khóa dâu tằm',
         description: 'Móc chìa khóa từ khúc dâu tằm tự nhiên',
-        price: 29000,
-        original_price: 35000,
+        price: 39000,
+        original_price: 49000,
         image: './assets/images/product_img/moc_chia_khoa_dau_tam_ko_hop_kim.jpg',
         rating: 4.8,
-        purchases: 623,
+        purchases: 912,
         detailedInfo: {
           fullDescription:
             'Móc chìa khóa độc đáo được chế tác từ khúc dâu tằm tự nhiên, mang lại may mắn và bình an. Thiết kế nhỏ gọn, tiện lợi, phù hợp làm quà tặng hoặc vật phẩm phong thủy.',
@@ -233,6 +233,8 @@ document.addEventListener('alpine:init', () => {
     preventQuickBuyCloseOnEscape: false, // Flag để ngăn đóng Quick Buy khi có modal con
     quickBuySelectedAddons: [], // Addon được chọn trong Quick Buy
 
+    showWeightInQuickBuy: true, // Biến để kiểm soát hiển thị ô cân nặng
+    isAdultInQuickBuy: false, // Biến để kiểm soát hiển thị size tay cho người lớn
     // Weight options từ 3kg đến 15kg (tăng 0.5kg) + option "Chưa sinh"
     get weightOptions() {
       const options = ['🤱 Chưa sinh'];
@@ -250,7 +252,7 @@ document.addEventListener('alpine:init', () => {
 
     // Size tay options cho vòng người lớn
     get handSizeList() {
-      return ['14cm', '15cm', '16cm', '17cm', '18cm'];
+      return ['13cm', '14cm', '15cm', '16cm', '17cm', '18cm', '19cm', '20cm'];
     },
 
     // Kiểm tra xem sản phẩm có phải là vòng người lớn không
@@ -344,7 +346,8 @@ document.addEventListener('alpine:init', () => {
     // Kiểm tra xem sản phẩm có phải là sản phẩm bán kèm không
     isAddonProduct(product) {
       if (!product) return false;
-      return product.category === 'san_pham_ban_kem' ||
+      return product.isAddon === true ||
+             product.category === 'san_pham_ban_kem' ||
              product.category === 'bi_charm_bac' ||
              (product.categories && product.categories.includes('san_pham_ban_kem')) ||
              (product.categories && product.categories.includes('bi_charm_bac'));
@@ -401,9 +404,33 @@ document.addEventListener('alpine:init', () => {
         filtered = filtered.filter(addon => addon.id === 'addon_moc_chia_khoa');
       }
 
+      // Debug: Log cart items và addon products để kiểm tra
+      console.log('=== DEBUG filteredAddonProducts ===');
+      console.log('Cart items:', this.cart.map(item => ({ id: item.id, cartId: item.cartId, name: item.name })));
+      console.log('Addon products:', this.addonProducts.map(addon => ({ id: addon.id, name: addon.name })));
+
       // Ẩn các addon đã có trong giỏ hàng (thông minh hơn)
-      // Áp dụng cho Mini Cart và Item Options modal
-      filtered = filtered.filter(addon => !this.cart.some(item => item.id === addon.id));
+      // Kiểm tra nhiều trường hợp khác nhau
+      filtered = filtered.filter(addon => {
+        const isInCart = this.cart.some(item => {
+          // Kiểm tra ID trực tiếp
+          if (item.id === addon.id) return true;
+
+          // Kiểm tra cartId bắt đầu bằng addon.id
+          if (item.cartId && item.cartId.startsWith(addon.id + '-')) return true;
+
+          // Kiểm tra tên sản phẩm (fallback)
+          if (item.name === addon.name) return true;
+
+          return false;
+        });
+
+        console.log(`Addon ${addon.name} (${addon.id}) - In cart: ${isInCart}`);
+        return !isInCart;
+      });
+
+      console.log('Filtered addons:', filtered.map(addon => ({ id: addon.id, name: addon.name })));
+      console.log('=== END DEBUG ===');
 
       return filtered;
     },
@@ -999,13 +1026,13 @@ document.addEventListener('alpine:init', () => {
       console.log('🔍 openComboImageModal() được gọi với comboType:', comboType);
       const comboData = {
         'vong_tron_tui': {
-          title: 'Combo Vòng Trơn + Túi Dâu Tằm Để Giường',
-          originalPrice: 148000,
+          title: 'Combo Vòng Trơn + Túi Dâu Tằm Để Phòng',
+          originalPrice: 128000,
           shippingFee: 30000,
-          totalWithoutCombo: 178000, // originalPrice + shippingFee
+          totalWithoutCombo: 158000,
           comboPrice: 120000,
-          savings: 58000, // totalWithoutCombo - comboPrice
-          customerCount: 689, // Số lượng khách hàng đã mua
+          savings: 38000,
+          customerCount: 689,
           product1: {
             image: './assets/images/demo.jpg',
             name: 'Vòng Dâu Tằm Trơn',
@@ -1015,20 +1042,20 @@ document.addEventListener('alpine:init', () => {
           },
           product2: {
             image: './assets/images/product_img/tui_dau_tam.jpg',
-            name: 'Túi Đựng Vòng Dâu Tằm Nhung',
-            description: 'Túi nhung cao cấp để bảo quản vòng dâu tằm, giữ nguyên chất lượng và độ bền.',
-            price: 59000,
-            benefits: ['Chất liệu nhung cao cấp', 'Bảo quản tốt', 'Tiện lợi mang theo']
+            name: 'Túi Dâu Tằm Để Phòng',
+            description: 'Khúc dâu tằm để phòng, trong túi nhung cao cấp. Giúp bé ngủ ngon, giảm stress.',
+            price: 39000,
+            benefits: ['Giúp bé ngủ ngon', 'Giảm căng thẳng', 'An toàn tự nhiên']
           }
         },
         'vong_7_bi_bac_tui': {
-          title: 'Combo 7 Bi Bạc + Túi Dâu Tằm Để Giường',
-          originalPrice: 278000,
+          title: 'Combo 7 Bi Bạc + Túi Dâu Tằm Để Phòng',
+          originalPrice: 258000,
           shippingFee: 30000,
-          totalWithoutCombo: 308000, // originalPrice + shippingFee
+          totalWithoutCombo: 288000,
           comboPrice: 230000,
-          savings: 78000, // totalWithoutCombo - comboPrice
-          customerCount: 423, // Số lượng khách hàng đã mua
+          savings: 58000,
+          customerCount: 423,
           product1: {
             image: './assets/images/demo.jpg',
             name: 'Vòng 7 Bi Bạc',
@@ -1038,20 +1065,20 @@ document.addEventListener('alpine:init', () => {
           },
           product2: {
             image: './assets/images/product_img/tui_dau_tam.jpg',
-            name: 'Túi Đựng Vòng Dâu Tằm Nhung',
-            description: 'Túi nhung cao cấp để bảo quản vòng dâu tằm, giữ nguyên chất lượng và độ bền.',
-            price: 59000,
-            benefits: ['Chất liệu nhung cao cấp', 'Bảo quản tốt', 'Tiện lợi mang theo']
+            name: 'Túi Dâu Tằm Để Phòng',
+            description: 'Khúc dâu tằm để phòng, trong túi nhung cao cấp. Giúp bé ngủ ngon, giảm stress.',
+            price: 39000,
+            benefits: ['Giúp bé ngủ ngon', 'Giảm căng thẳng', 'An toàn tự nhiên']
           }
         },
         'vong_9_bi_bac_tui': {
-          title: 'Combo 9 Bi Bạc + Túi Dâu Tằm Để Giường',
-          originalPrice: 348000,
+          title: 'Combo 9 Bi Bạc + Túi Dâu Tằm Để Phòng',
+          originalPrice: 328000,
           shippingFee: 30000,
-          totalWithoutCombo: 378000, // originalPrice + shippingFee
+          totalWithoutCombo: 358000,
           comboPrice: 290000,
-          savings: 88000, // totalWithoutCombo - comboPrice
-          customerCount: 312, // Số lượng khách hàng đã mua
+          savings: 68000,
+          customerCount: 312,
           product1: {
             image: './assets/images/demo.jpg',
             name: 'Vòng 9 Bi Bạc',
@@ -1061,10 +1088,10 @@ document.addEventListener('alpine:init', () => {
           },
           product2: {
             image: './assets/images/product_img/tui_dau_tam.jpg',
-            name: 'Túi Đựng Vòng Dâu Tằm Nhung',
-            description: 'Túi nhung cao cấp để bảo quản vòng dâu tằm, giữ nguyên chất lượng và độ bền.',
-            price: 59000,
-            benefits: ['Chất liệu nhung cao cấp', 'Bảo quản tốt', 'Tiện lợi mang theo']
+            name: 'Túi Dâu Tằm Để Phòng',
+            description: 'Khúc dâu tằm để phòng, trong túi nhung cao cấp. Giúp bé ngủ ngon, giảm stress.',
+            price: 39000,
+            benefits: ['Giúp bé ngủ ngon', 'Giảm căng thẳng', 'An toàn tự nhiên']
           }
         }
       };
@@ -1500,6 +1527,11 @@ document.addEventListener('alpine:init', () => {
       this.closeBeadQuantityModal();
     },
 
+    // Alias function for HTML compatibility
+    addBeadProductToCart() {
+      this.addBeadWithQuantity();
+    },
+
     /* ========= Item Options Modal Logic ========= */
     openItemOptionsModal(product) {
       this.currentItemForOptions = product;
@@ -1744,7 +1776,7 @@ document.addEventListener('alpine:init', () => {
       }
       else {
         const cartId = `${addon.id}-${Date.now()}`;
-        const newItem = { ...addon, cartId: cartId, quantity: 1, weight: '' };
+        const newItem = { ...addon, cartId: cartId, quantity: 1, weight: '', isAddon: true };
         this.cart.push(newItem);
         this.selectedCartItems.push(cartId);
       }
@@ -2052,6 +2084,14 @@ document.addEventListener('alpine:init', () => {
       this.quickBuyWeight = '';
       this.quickBuyCustomWeight = '';
       this.quickBuyNotes = '';
+
+      // Kiểm tra xem có cần hiển thị ô cân nặng không
+      const skipWeightCategories = ['san_pham_ban_kem', 'hat_dau_tam_mai_san', 'bi_charm_bac'];
+      this.showWeightInQuickBuy = !skipWeightCategories.includes(product.category);
+
+      // Kiểm tra xem có phải sản phẩm người lớn không
+      this.isAdultInQuickBuy = this.isAdultProduct(product);
+
       this.isQuickBuyModalOpen = true;
       this.startSocialProofTimer();
 
@@ -2093,6 +2133,8 @@ document.addEventListener('alpine:init', () => {
       this.quickBuyPaymentMethod = 'cod'; // Reset về COD
       this.isQuickBuyTransferConfirmed = false; // Reset trạng thái xác nhận
       this.quickBuySelectedAddons = []; // Reset addon được chọn
+      this.showWeightInQuickBuy = true; // Reset hiển thị cân nặng
+      this.isAdultInQuickBuy = false; // Reset hiển thị size tay
       this.clearFormErrors(); // Clear validation errors
       this.stopSocialProofTimer();
 
@@ -2352,8 +2394,14 @@ document.addEventListener('alpine:init', () => {
         isValid = false;
       }
 
-      // Bỏ qua validation cân nặng cho addon products trong quick buy
-      if (this.quickBuyProduct && this.quickBuyProduct.id !== 'addon_moc_chia_khoa' && this.quickBuyProduct.id !== 'addon_tui_dau_tam') {
+      // Bỏ qua validation cân nặng cho các sản phẩm không cần thiết trong quick buy
+      const skipWeightCategories = ['san_pham_ban_kem', 'hat_dau_tam_mai_san', 'bi_charm_bac'];
+      const shouldSkipWeightValidation = this.quickBuyProduct &&
+        (skipWeightCategories.includes(this.quickBuyProduct.category) ||
+         this.quickBuyProduct.id === 'addon_moc_chia_khoa' ||
+         this.quickBuyProduct.id === 'addon_tui_dau_tam');
+
+      if (this.quickBuyProduct && !shouldSkipWeightValidation) {
         // Kiểm tra xem có phải sản phẩm người lớn không
         const isAdult = this.isAdultProduct(this.quickBuyProduct);
 
@@ -2708,7 +2756,8 @@ document.addEventListener('alpine:init', () => {
         const item = this.cart[i];
 
         // Bỏ qua validation cân nặng cho addon products
-        if (item.id === 'addon_moc_chia_khoa' || item.id === 'addon_tui_dau_tam' || this.isAddonProduct(item)) {
+                // Bỏ qua validation cho cả sản phẩm hạt (bead product)
+        if (item.id === 'addon_moc_chia_khoa' || item.id === 'addon_tui_dau_tam' || this.isAddonProduct(item) || item.beadQuantity) {
           continue;
         }
 

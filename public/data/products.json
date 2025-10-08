@@ -792,15 +792,15 @@
   },
   {
     "id": "san_pham_ban_kem_001",
-    "name": "Túi Đựng Vòng Dâu Tằm Nhung",
+    "name": "Túi Dâu Tằm Để Phòng",
     "category": "san_pham_ban_kem",
     "categories": ["san_pham_ban_kem", "san_pham_hot"],
-    "price": 59000,
-    "original_price": 79000,
+    "price": 39000,
+    "original_price": 45000,
     "image": "./assets/images/product_img/tui_dau_tam.jpg",
-    "description": "Túi nhung cao cấp để bảo quản vòng dâu tằm, giữ nguyên chất lượng và vẻ đẹp.",
-    "rating": 4.8,
-    "purchases": 789
+    "description": "Khúc dâu tằm để phòng, trong túi nhung cao cấp. Giúp bé ngủ ngon, giảm stress và tăng cường sức khỏe tự nhiên.",
+    "rating": 4.9,
+    "purchases": 456
   },
   {
     "id": "san_pham_ban_kem_002",
@@ -810,21 +810,9 @@
     "price": 39000,
     "original_price": 49000,
     "image": "./assets/images/product_img/moc_chia_khoa_dau_tam_ko_hop_kim.jpg",
-    "description": "Móc chìa khóa làm từ gỗ dâu tằm tự nhiên, nhỏ gọn và tiện lợi.",
-    "rating": 4.7,
-    "purchases": 567
-  },
-  {
-    "id": "san_pham_ban_kem_003",
-    "name": "Móc chìa khóa dâu tằm có móc hợp kim",
-    "category": "san_pham_ban_kem",
-    "categories": ["san_pham_ban_kem"],
-    "price": 49000,
-    "original_price": 59000,
-    "image": "./assets/images/product_img/moc_chia_khoa_dau_tam_co_hop_kim.jpg",
-    "description": "Móc chìa khóa gỗ dâu tằm với móc hợp kim cao cấp, bền đẹp và sang trọng.",
-    "rating": 4.9,
-    "purchases": 345
+    "description": "Móc chìa khóa làm từ gỗ dâu tằm tự nhiên, nhỏ gọn và tiện lợi. Mang lại may mắn và bình an.",
+    "rating": 4.8,
+    "purchases": 912
   },
   {
     "id": "bi_charm_bac_001",
