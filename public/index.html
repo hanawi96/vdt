@@ -148,7 +148,7 @@
                                     <span class="text-xs">👩‍👧‍👦</span>
                                 </div>
                             </div>
-                           
+
                         </div>
 
                         <!-- Brand Story -->
@@ -328,22 +328,36 @@
         <div x-show="!loading && !error && view === 'products'" class="mb-8">
             <div class="grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-4 gap-4">
 
-                <!-- Box 1: Top 10 Sản Phẩm Bán Chạy -->
+                <!-- Box 1: Combo Vòng Co Giãn + Túi -->
                 <div class="group relative bg-gradient-to-br from-blue-50 to-indigo-100 rounded-2xl border border-blue-100 overflow-hidden">
-                    <!-- Badge -->
-                    <div class="absolute top-3 right-3 z-10">
-                        <div class="bg-blue-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg">
-                            HOT
+                    <!-- Discount Badge -->
+                    <div class="absolute top-2 right-2 z-10">
+                        <div class="bg-gradient-to-r from-red-500 to-pink-500 text-white text-[10px] sm:text-xs font-bold px-2 py-1 rounded-full shadow-lg">
+                            <div class="flex items-center space-x-0.5">
+                                <span>-20%</span>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Icon -->
+                    <!-- Product Images -->
                     <div class="p-4 pb-2">
-                        <div class="flex justify-center mb-3">
-                            <div class="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
-                                <svg class="w-8 h-8 sm:w-10 sm:h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                                </svg>
+                        <div class="flex items-start justify-center space-x-2 mb-3">
+                            <!-- Vòng Co Giãn Image -->
+                            <div class="flex flex-col items-center">
+                                <div class="relative cursor-pointer" @click="openComboImageModal('vong_co_gian_tui')">
+                                    <img src="./assets/images/product_img/co gian/vong_tron_co_gian.jpg" alt="Vòng dâu tằm trơn co giãn" class="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-lg shadow-md">
+                                </div>
+                                <span class="text-gray-600 text-xs mt-1">Vòng co giãn</span>
+                            </div>
+                            <div class="flex items-center h-full pt-8 sm:pt-10">
+                                <span class="text-gray-500 font-bold text-lg">+</span>
+                            </div>
+                            <!-- Túi Dâu Tằm Image -->
+                            <div class="flex flex-col items-center">
+                                <div class="relative cursor-pointer" @click="openComboImageModal('vong_co_gian_tui')">
+                                    <img src="./assets/images/product_img/tui_dau_tam.jpg" alt="Túi dâu tằm để giường" class="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-lg shadow-md">
+                                </div>
+                                <span class="text-gray-600 text-xs mt-1">Túi dâu tằm</span>
                             </div>
                         </div>
                     </div>
@@ -351,33 +365,40 @@
                     <!-- Content -->
                     <div class="px-4 pb-4">
                         <h3 class="font-bold text-gray-800 text-base sm:text-lg mb-2 text-center">
-                            Top 10 Bán Chạy
+                            Vòng dâu tằm trơn co giãn + Túi dâu tằm để giường
                         </h3>
 
-                        <!-- Description -->
-                        <p class="text-gray-600 text-sm mb-3 text-center leading-relaxed">
-                            Những sản phẩm được mẹ bỉm tin tưởng nhất
-                        </p>
-
-                        <!-- Stats -->
-                        <div class="flex items-center justify-center text-xs text-blue-600 font-medium mb-3">
-                            <svg class="w-4 h-4 mr-1" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                            </svg>
-                            <span>1000+ lượt mua</span>
+                        <!-- Price -->
+                        <div class="flex items-center justify-center mb-3">
+                            <p class="text-red-500 font-bold text-lg sm:text-xl mr-2">109.000đ</p>
+                            <p class="text-gray-500 line-through text-sm sm:text-base">138.000đ</p>
                         </div>
 
-                        <!-- View Now Button -->
-                        <button @click="showTopSellingProducts()"
-                                class="combo-buy-button w-full bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white font-bold py-3 px-4 rounded-xl shadow-lg">
-                            <div class="flex items-center justify-center space-x-2">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-                                </svg>
-                                <span class="text-sm sm:text-base">XEM NGAY</span>
-                            </div>
-                        </button>
+                        <!-- Action Buttons -->
+                        <div class="flex gap-2">
+                            <!-- Chi tiết Button -->
+                            <button @click="openComboImageModal('vong_co_gian_tui')"
+                                    class="flex-1 bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white font-bold py-3 px-4 rounded-xl shadow-lg transition-all">
+                                <div class="flex items-center justify-center space-x-2">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                                    </svg>
+                                    <span class="text-sm sm:text-base">Chi tiết</span>
+                                </div>
+                            </button>
+
+                            <!-- Mua ngay Button -->
+                            <button @click="buyCombo('vong_co_gian_tui', 'Combo Vòng dâu tằm trơn co giãn + Túi dâu tằm để giường', 109000)"
+                                    class="flex-1 combo-buy-button bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 text-white font-bold py-3 px-4 rounded-xl shadow-lg">
+                                <div class="flex items-center justify-center space-x-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
+                                        <path fill-rule="evenodd" d="M6 5v1H4.667a1.75 1.75 0 0 0-1.743 1.598l-.826 9.5A1.75 1.75 0 0 0 3.84 19H16.16a1.75 1.75 0 0 0 1.743-1.902l-.826-9.5A1.75 1.75 0 0 0 15.333 6H14V5a4 4 0 0 0-8 0Zm4-2.5A2.5 2.5 0 0 0 7.5 5v1h5V5A2.5 2.5 0 0 0 10 2.5ZM7.5 10a2.5 2.5 0 0 0 5 0V8.75a.75.75 0 0 1 1.5 0V10a4 4 0 0 1-8 0V8.75a.75.75 0 0 1 1.5 0V10Z" clip-rule="evenodd" />
+                                    </svg>
+                                    <span class="text-sm sm:text-base">Mua ngay</span>
+                                </div>
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -437,7 +458,7 @@
                     <!-- Content -->
                     <div class="px-4 pb-4">
                         <h3 class="font-bold text-gray-800 text-base sm:text-lg mb-2 text-center">
-                            Vòng Trơn Cổ Điển + Túi Dâu Tằm Để Phòng
+                            Vòng Trơn Cổ Điển + Túi Dâu Tằm Để Giường
                         </h3>
 
                         <!-- Price -->
@@ -496,7 +517,7 @@
                             <!-- Vòng 7 Bi Bạc Image -->
                             <div class="flex flex-col items-center">
                                 <div class="relative cursor-pointer" @click="openComboImageModal('vong_7_bi_bac_tui')">
-                                    <img src="./assets/images/demo.jpg" alt="Vòng 7 Bi Bạc" class="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-xl border-2 border-white shadow-md hover:scale-105 transition-transform">
+                                    <img src="./assets/images/product_img/Sole bac/vong_dau_tam_7_bi_bac.jpg" alt="Vòng 7 Bi Bạc" class="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-xl border-2 border-white shadow-md hover:scale-105 transition-transform">
                                     <div class="absolute -bottom-1 -right-1 bg-purple-500 text-white text-[8px] font-bold px-1.5 py-0.5 rounded-full">
                                         7 BI
                                     </div>
@@ -535,7 +556,7 @@
                     <!-- Content -->
                     <div class="px-4 pb-4">
                         <h3 class="font-bold text-gray-800 text-base sm:text-lg mb-2 text-center">
-                            Vòng 7 Bi Bạc + Túi Dâu Tằm Để Phòng
+                            Vòng 7 Bi Bạc + Túi Dâu Tằm Để Giường
                         </h3>
 
                         <!-- Price -->
@@ -594,7 +615,7 @@
                             <!-- Vòng 9 Bi Bạc Image -->
                             <div class="flex flex-col items-center">
                                 <div class="relative cursor-pointer" @click="openComboImageModal('vong_9_bi_bac_tui')">
-                                    <img src="./assets/images/demo.jpg" alt="Vòng 9 Bi Bạc" class="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-xl border-2 border-white shadow-md hover:scale-105 transition-transform">
+                                    <img src="./assets/images/product_img/Sole bac/vong_dau_tam_9_bi_bac.jpg" alt="Vòng 9 Bi Bạc" class="w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-xl border-2 border-white shadow-md hover:scale-105 transition-transform">
                                     <div class="absolute -bottom-1 -right-1 bg-amber-500 text-white text-[8px] font-bold px-1.5 py-0.5 rounded-full">
                                         9 BI
                                     </div>
@@ -633,7 +654,7 @@
                     <!-- Content -->
                     <div class="px-4 pb-4">
                         <h3 class="font-bold text-gray-800 text-base sm:text-lg mb-2 text-center">
-                            Vòng 9 Bi Bạc + Túi Dâu Tằm Để Phòng
+                            Vòng 9 Bi Bạc + Túi Dâu Tằm Để Giường
                         </h3>
 
                         <!-- Price -->
@@ -2431,7 +2452,7 @@
                                 <svg class="w-3 h-3 mr-1 text-orange-500 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
                                 </svg>
-                                Cân nặng từ 16kg trở lên sẽ có phụ phí +20k do size lớn hơn
+                                <span x-text="isAdultInQuickBuy ? 'Size tay từ 17cm trở lên sẽ có phụ phí +20k' : 'Cân nặng từ 16kg trở lên sẽ có phụ phí +20k do size lớn hơn'"></span>
                             </div>
                         </template>
 
@@ -2449,7 +2470,8 @@
                                 <svg class="w-3 h-3 mr-1 text-pink-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                 </svg>
-                                Các mẹ chọn đúng cân nặng của bé giúp em nha.
+                                <span x-text="isAdultInQuickBuy ? 'Vui lòng chọn đúng size tay!' : 'Các mẹ chọn đúng cân nặng của bé giúp em nha.'"></span>
+                                <span x-show="isAdultInQuickBuy" @click="openSizingGuideModal()" class="text-pink-600 underline cursor-pointer hover:text-pink-800 ml-1">Cách đo</span>
                             </div>
                         </template>
                     </div>
@@ -2594,7 +2616,7 @@
                                                 :class="quickBuyPaymentMethod === 'bank_transfer' ? 'text-green-700' : 'text-gray-800'">
                                                 Chuyển khoản ngân hàng
                                             </h4>
-                                            
+
                                         </div>
                                     </div>
                                 </div>
@@ -3114,7 +3136,7 @@
                         <!-- Lưu ý quan trọng -->
                         <div class="mb-6 p-4 bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl border border-amber-200">
                             <div class="flex items-start space-x-3">
-                                
+
                                 <div>
                                     <h4 class="text-sm font-bold text-amber-800 mb-2 underline">💡 Lưu ý quan trọng</h4>
                                     <p class="text-sm text-amber-700 leading-relaxed">
@@ -3511,7 +3533,7 @@
                             </div>
                             <div>
                                 <p class="text-xs font-medium text-orange-800">Thông tin giá</p>
-                                <p class="text-xs text-orange-700">Cân nặng từ 16kg trở lên sẽ có phụ phí +20k do size lớn hơn</p>
+                                <p class="text-xs text-orange-700" x-text="isAdultProduct(currentItemForOptions) ? 'Size tay từ 17cm trở lên sẽ có phụ phí +20k' : 'Cân nặng từ 16kg trở lên sẽ có phụ phí +20k do size lớn hơn'"></p>
                             </div>
                         </div>
                     </div>
@@ -3690,7 +3712,7 @@
                         <!-- Lưu ý địa chỉ hành chính -->
                         <div class="mb-3 p-2.5 bg-amber-50 border border-amber-200 rounded-lg">
                             <div class="flex items-start space-x-2">
-                                
+
                                 <p class="text-xs text-amber-700 font-medium leading-relaxed">
                                     <strong class="underline">Lưu ý:</strong> Hiện tại các đơn vị vận chuyển chưa cập nhật địa chỉ hành chính mới nên vẫn sử dụng địa chỉ hành chính cũ.
                                 </p>
@@ -3824,7 +3846,7 @@
                                         class="preset-note-btn px-2 py-1 bg-gray-50 text-gray-700 border border-gray-200 rounded-md hover:bg-gray-100">
                                     🚪 Để cửa
                                 </button>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -4359,7 +4381,7 @@
                             <!-- Cách sử dụng - Professional Guide -->
                             <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-4 mb-4 border border-blue-100">
                                 <div class="flex items-center mb-3">
-                                    
+
                                     <h3 class="text-sm font-bold text-blue-800">📋 Hướng dẫn sử dụng</h3>
                                 </div>
 
@@ -4410,7 +4432,7 @@
                                 <!-- Lưu ý quan trọng -->
                                 <div class="mt-3 p-3 bg-gradient-to-r from-amber-50 to-orange-50 rounded-lg border border-amber-200">
                                     <div class="flex items-start space-x-2">
-                                       
+
                                         <div>
                                             <p class="text-xs font-medium text-amber-800 mb-1">💡 Lưu ý quan trọng</p>
                                             <p class="text-xs text-amber-700 leading-relaxed">
@@ -4529,6 +4551,54 @@
                         </div>
                     </div>
                 </div>
+        </div>
+    </div>
+
+
+    <!-- Sizing Guide Modal -->
+    <div x-show="isSizingGuideModalOpen" @keydown.escape.window="closeSizingGuideModal()" class="fixed inset-0 z-[9991] flex items-center justify-center bg-black bg-opacity-60 backdrop-blur-sm" style="display: none;">
+        <div x-show="isSizingGuideModalOpen" x-transition:enter="transition ease-out duration-300 transform" x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-200 transform" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-90" @click.outside="closeSizingGuideModal()" class="relative w-full max-w-lg mx-4 bg-white rounded-2xl shadow-2xl overflow-hidden">
+            <!-- Header -->
+            <div class="flex items-center justify-between px-6 py-4 bg-gray-50 border-b border-gray-200">
+                <h3 class="text-lg font-semibold text-gray-800">Hướng dẫn đo size vòng tay</h3>
+                <button @click="closeSizingGuideModal()" class="text-gray-400 hover:text-gray-600 transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+
+            <!-- Content -->
+            <div class="p-6 space-y-5 text-gray-700">
+                
+                <div>
+                    <h4 class="font-semibold text-gray-800 mb-2">1. Chuẩn bị:</h4>
+                    <p class="text-sm">Một sợi dây/chỉ (hoặc thước dây) và một cây thước thẳng.</p>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold text-gray-800 mb-2">2. Thực hiện:</h4>
+                    <ul class="list-disc list-inside space-y-1 text-sm">
+                        <li>Quấn sợi dây quanh cổ tay, ngay vị trí bạn thường đeo vòng.</li>
+                        <li>Đánh dấu điểm giao nhau trên sợi dây.</li>
+                        <li>Duỗi thẳng sợi dây và dùng thước để đo chiều dài từ đầu đến điểm đã đánh dấu.</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold text-gray-800 mb-2">3. Lưu ý:</h4>
+                     <ul class="list-disc list-inside space-y-1 text-sm">
+                        <li>Đo vừa vặn, không quá chặt hay quá lỏng.</li>
+                        <li>Nếu bạn thích đeo rộng, có thể cộng thêm 1 - 1.5cm vào số đo.</li>
+                        <li>Nếu không có thước dây, bạn có thể dùng một tờ giấy.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="px-6 py-4 bg-gray-50 border-t border-gray-200 text-right">
+                <button @click="closeSizingGuideModal()" class="px-6 py-2.5 bg-pink-600 text-white font-semibold rounded-lg shadow-md hover:bg-pink-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500 transition-all">
+                    Đã hiểu
+                </button>
+            </div>
         </div>
     </div>
 

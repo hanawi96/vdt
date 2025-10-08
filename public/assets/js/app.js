@@ -33,7 +33,7 @@ document.addEventListener('alpine:init', () => {
     addonProducts: [
       {
         id: 'addon_tui_dau_tam',
-        name: 'Túi Dâu Tằm Để Phòng',
+        name: 'Túi Dâu Tằm Để Giường',
         description: 'Khúc dâu tằm để phòng, trong túi nhung',
         price: 39000,
         original_price: 45000,
@@ -42,7 +42,7 @@ document.addEventListener('alpine:init', () => {
         purchases: 456,
         detailedInfo: {
           fullDescription:
-            'Túi dâu tằm để phòng cao cấp được làm từ khúc cành dâu tằm tự nhiên, cắt nhỏ và đóng gói trong túi nhung sang trọng. Sản phẩm giúp bé ngủ ngon, giảm stress và tăng cường sức khỏe tự nhiên.',
+            'Túi Dâu Tằm Để Giường cao cấp được làm từ khúc cành dâu tằm tự nhiên, cắt nhỏ và đóng gói trong túi nhung sang trọng. Sản phẩm giúp bé ngủ ngon, giảm stress và tăng cường sức khỏe tự nhiên.',
           benefits: [
             '🌿 Giúp bé ngủ ngon và sâu giấc',
             '😌 Giảm căng thẳng, lo âu cho bé',
@@ -51,7 +51,7 @@ document.addEventListener('alpine:init', () => {
             '💝 Đóng gói trong túi nhung cao cấp'
           ],
           usage:
-            'Đặt túi dâu tằm để phòng gần gối hoặc trong cũi của bé. Có thể bóp nhẹ để tỏa hương thơm tự nhiên. Thay thế sau 3-6 tháng sử dụng.',
+            'Đặt Túi Dâu Tằm Để Giường gần gối hoặc trong cũi của bé. Có thể bóp nhẹ để tỏa hương thơm tự nhiên. Thay thế sau 3-6 tháng sử dụng.',
           materials: 'Cành dâu tằm tự nhiên, túi nhung cotton cao cấp',
           origin: 'Thôn Đông Cao, Tráng Việt, Hà Nội'
         }
@@ -219,6 +219,7 @@ document.addEventListener('alpine:init', () => {
 
     // Quick Buy state
     isQuickBuyModalOpen: false,
+    isSizingGuideModalOpen: false,
     quickBuyProduct: null,
     quickBuyQuantity: 1,
     quickBuyWeight: '',
@@ -1026,7 +1027,7 @@ document.addEventListener('alpine:init', () => {
       console.log('🔍 openComboImageModal() được gọi với comboType:', comboType);
       const comboData = {
         'vong_tron_tui': {
-          title: 'Combo Vòng Trơn + Túi Dâu Tằm Để Phòng',
+          title: 'Combo Vòng Trơn + Túi Dâu Tằm Để Giường',
           originalPrice: 128000,
           shippingFee: 30000,
           totalWithoutCombo: 158000,
@@ -1042,14 +1043,14 @@ document.addEventListener('alpine:init', () => {
           },
           product2: {
             image: './assets/images/product_img/tui_dau_tam.jpg',
-            name: 'Túi Dâu Tằm Để Phòng',
+            name: 'Túi Dâu Tằm Để Giường',
             description: 'Khúc dâu tằm để phòng, trong túi nhung cao cấp. Giúp bé ngủ ngon, giảm stress.',
             price: 39000,
             benefits: ['Giúp bé ngủ ngon', 'Giảm căng thẳng', 'An toàn tự nhiên']
           }
         },
         'vong_7_bi_bac_tui': {
-          title: 'Combo 7 Bi Bạc + Túi Dâu Tằm Để Phòng',
+          title: 'Combo 7 Bi Bạc + Túi Dâu Tằm Để Giường',
           originalPrice: 258000,
           shippingFee: 30000,
           totalWithoutCombo: 288000,
@@ -1065,14 +1066,14 @@ document.addEventListener('alpine:init', () => {
           },
           product2: {
             image: './assets/images/product_img/tui_dau_tam.jpg',
-            name: 'Túi Dâu Tằm Để Phòng',
+            name: 'Túi Dâu Tằm Để Giường',
             description: 'Khúc dâu tằm để phòng, trong túi nhung cao cấp. Giúp bé ngủ ngon, giảm stress.',
             price: 39000,
             benefits: ['Giúp bé ngủ ngon', 'Giảm căng thẳng', 'An toàn tự nhiên']
           }
         },
         'vong_9_bi_bac_tui': {
-          title: 'Combo 9 Bi Bạc + Túi Dâu Tằm Để Phòng',
+          title: 'Combo 9 Bi Bạc + Túi Dâu Tằm Để Giường',
           originalPrice: 328000,
           shippingFee: 30000,
           totalWithoutCombo: 358000,
@@ -1088,8 +1089,31 @@ document.addEventListener('alpine:init', () => {
           },
           product2: {
             image: './assets/images/product_img/tui_dau_tam.jpg',
-            name: 'Túi Dâu Tằm Để Phòng',
+            name: 'Túi Dâu Tằm Để Giường',
             description: 'Khúc dâu tằm để phòng, trong túi nhung cao cấp. Giúp bé ngủ ngon, giảm stress.',
+            price: 39000,
+            benefits: ['Giúp bé ngủ ngon', 'Giảm căng thẳng', 'An toàn tự nhiên']
+          }
+        },
+        'vong_co_gian_tui': {
+          title: 'Vòng dâu tằm trơn co giãn + Túi dâu tằm để giường',
+          originalPrice: 128000,
+          shippingFee: 30000,
+          totalWithoutCombo: 158000,
+          comboPrice: 109000,
+          savings: 49000,
+          customerCount: 578,
+          product1: {
+            image: './assets/images/product_img/co gian/vong_tron_co_gian.jpg',
+            name: 'Vòng dâu tằm trơn co giãn',
+            description: 'Vòng dâu tằm trơn với dây co giãn mềm mại, đơn giản nhưng tiện lợi, tự động vừa vặn.',
+            price: 89000,
+            benefits: ['Co giãn tiện lợi', 'An toàn cho bé', 'Thoải mái cả ngày']
+          },
+          product2: {
+            image: './assets/images/product_img/tui_dau_tam.jpg',
+            name: 'Túi Dâu Tằm Để Giường',
+            description: 'Khúc dâu tằm để giường, trong túi nhung cao cấp. Giúp bé ngủ ngon, giảm stress.',
             price: 39000,
             benefits: ['Giúp bé ngủ ngon', 'Giảm căng thẳng', 'An toàn tự nhiên']
           }
@@ -2006,15 +2030,32 @@ document.addEventListener('alpine:init', () => {
         };
       }
 
-      // Weight-based pricing
-      if (weight > this.pricingConfig.standardMaxWeight) {
-        const surcharge = this.pricingConfig.largeSizeSurcharge;
-        return {
-          finalPrice: basePrice + surcharge,
-          surcharge: surcharge,
-          hasSurcharge: true,
-          tier: 'large'
-        };
+      // Pricing logic
+      const isAdult = this.isAdultProduct(product);
+      const value = this.parseWeight(weightString); // This is now a generic value (weight or size)
+
+      if (isAdult) {
+        // Adult product: surcharge based on hand size
+        if (value >= 17) { // Size từ 17cm trở lên
+          const surcharge = this.pricingConfig.largeSizeSurcharge;
+          return {
+            finalPrice: basePrice + surcharge,
+            surcharge: surcharge,
+            hasSurcharge: true,
+            tier: 'large'
+          };
+        }
+      } else {
+        // Kid product: surcharge based on weight
+        if (value > this.pricingConfig.standardMaxWeight) {
+          const surcharge = this.pricingConfig.largeSizeSurcharge;
+          return {
+            finalPrice: basePrice + surcharge,
+            surcharge: surcharge,
+            hasSurcharge: true,
+            tier: 'large'
+          };
+        }
       }
 
       return {
@@ -2072,6 +2113,16 @@ document.addEventListener('alpine:init', () => {
         }
       });
     },
+
+    // Modal hướng dẫn cách đo size tay
+    openSizingGuideModal() {
+      this.isSizingGuideModalOpen = true;
+    },
+
+    closeSizingGuideModal() {
+      this.isSizingGuideModalOpen = false;
+    },
+
     buyNow(product) {
       console.log('🔍 buyNow() được gọi');
       console.log('🔍 - isProductDetailOpen trước buyNow:', this.isProductDetailOpen);
@@ -2181,6 +2232,7 @@ document.addEventListener('alpine:init', () => {
       this.isComboImageModalOpen = false;
       this.isAddonDetailModalOpen = false;
       this.isProductDetailOpen = false;
+      this.isSizingGuideModalOpen = false;
       this.isFaqModalOpen = false;
 
 

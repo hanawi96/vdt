@@ -25,10 +25,10 @@
   },
   {
     "code": "QUATANGTDT",
-    "title": "Tặng 1 Túi Dâu Tằm Để Phòng",
-    "description": "Nhận ngay 1 túi dâu tằm để phòng trị giá 45.000đ khi mua từ 2 sản phẩm",
+    "title": "Tặng 1 Túi Dâu Tằm Để Giường",
+    "description": "Nhận ngay 1 Túi Dâu Tằm Để Giường trị giá 45.000đ khi mua từ 2 sản phẩm",
     "type": "gift",
-    "value": { "id": "addon_tui_dau_tam", "name": "Túi Dâu Tằm Để Phòng" },
+    "value": { "id": "addon_tui_dau_tam", "name": "Túi Dâu Tằm Để Giường" },
     "minOrder": 250000,
     "minItems": 2,
     "expiry": "31/12/2025",

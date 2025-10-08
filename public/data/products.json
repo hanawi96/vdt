@@ -792,7 +792,7 @@
   },
   {
     "id": "san_pham_ban_kem_001",
-    "name": "Túi Dâu Tằm Để Phòng",
+    "name": "Túi Dâu Tằm Để Giường",
     "category": "san_pham_ban_kem",
     "categories": ["san_pham_ban_kem", "san_pham_hot"],
     "price": 39000,
