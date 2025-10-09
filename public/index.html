@@ -3157,7 +3157,7 @@
                             </div>
                             <div>
                                 <h4 class="font-semibold text-gray-800 mb-2">👶 Độ tuổi phù hợp</h4>
-                                <p class="text-gray-700 text-sm">Từ sơ sinh</p>
+                                <p class="text-gray-700 text-sm">Mọi độ tuổi</p>
                             </div>
                             <div>
                                 <h4 class="font-semibold text-gray-800 mb-2">🛡️ Bảo hành</h4>
@@ -3270,13 +3270,7 @@
 
             <!-- Hand Size Selection Section - Scrollable Content -->
             <div class="flex-1 overflow-y-auto px-4 pt-4">
-                <!-- Section Title -->
-                <div class="text-center mb-4 sm:mb-6">
-                    <h4 class="text-sm sm:text-base font-semibold text-gray-800 mb-1 sm:mb-2">Chọn size tay phù hợp</h4>
-                    <p class="text-xs sm:text-sm text-gray-600">Đo chu vi cổ tay để chọn size vừa vặn nhất</p>
-                </div>
-
-                
+               
 
                 <!-- Hand Size Options Grid -->
                 <div class="space-y-3 mb-4 sm:mb-6">
@@ -3315,10 +3309,13 @@
                          class="mt-3 pt-3 border-t border-blue-200">
                         <div class="space-y-2">
                             <p class="text-xs text-blue-700">
-                                <strong>Cách đo:</strong> Dùng thước dây hoặc sợi chỉ quấn quanh cổ tay, sau đó đo độ dài bằng thước kẻ.
+                                <strong>Cách đo:</strong> Cuốn thước dây sát cổ tay hoặc sợi chỉ quấn sát cổ tay, sau đó đo độ dài sợi dây bằng thước kẻ.
                             </p>
                             <p class="text-xs text-blue-700">
-                                <strong>Lưu ý:</strong> Chọn size lớn hơn 0.5-1cm so với chu vi cổ tay để vòng không quá chật.
+                                <strong>Mẹo:</strong> Nếu không có thước thì lấy tờ tiền 500k quấn sát cổ tay, tờ 500k dài 15cm, xem thừa thiếu bao nhiêu là ra size tay.
+                            </p>
+                            <p class="text-xs text-blue-700">
+                                <strong>Lưu ý:</strong> Quấn sát cổ tay không trừ hao cả sẽ bị rộng.
                             </p>
                         </div>
                     </div>
@@ -4208,37 +4205,15 @@
                     <!-- Preset Buttons -->
                     <div class="space-y-3">
                         <h5 class="font-medium text-gray-700 text-center">Chọn nhanh số lượng phổ biến</h5>
-                        <div class="grid grid-cols-3 gap-2">
-                            <button @click="beadOptions.quantity = 14"
-                                    :class="beadOptions.quantity === 14 ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white' : 'bg-gray-100 hover:bg-pink-50 text-gray-700'"
-                                    class="py-3 px-4 rounded-lg font-medium transition-all transform hover:scale-105 border-2 border-transparent hover:border-pink-200">
-                                14 hạt
-                            </button>
-                            <button @click="beadOptions.quantity = 18"
-                                    :class="beadOptions.quantity === 18 ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white' : 'bg-gray-100 hover:bg-pink-50 text-gray-700'"
-                                    class="py-3 px-4 rounded-lg font-medium transition-all transform hover:scale-105 border-2 border-transparent hover:border-pink-200">
-                                18 hạt
-                            </button>
-                            <button @click="beadOptions.quantity = 25"
-                                    :class="beadOptions.quantity === 25 ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white' : 'bg-gray-100 hover:bg-pink-50 text-gray-700'"
-                                    class="py-3 px-4 rounded-lg font-medium transition-all transform hover:scale-105 border-2 border-transparent hover:border-pink-200">
-                                25 hạt
-                            </button>
-                            <button @click="beadOptions.quantity = 30"
-                                    :class="beadOptions.quantity === 30 ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white' : 'bg-gray-100 hover:bg-pink-50 text-gray-700'"
-                                    class="py-3 px-4 rounded-lg font-medium transition-all transform hover:scale-105 border-2 border-transparent hover:border-pink-200">
-                                30 hạt
-                            </button>
-                            <button @click="beadOptions.quantity = 40"
-                                    :class="beadOptions.quantity === 40 ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white' : 'bg-gray-100 hover:bg-pink-50 text-gray-700'"
-                                    class="py-3 px-4 rounded-lg font-medium transition-all transform hover:scale-105 border-2 border-transparent hover:border-pink-200">
-                                40 hạt
-                            </button>
-                            <button @click="beadOptions.quantity = 50"
-                                    :class="beadOptions.quantity === 50 ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white' : 'bg-gray-100 hover:bg-pink-50 text-gray-700'"
-                                    class="py-3 px-4 rounded-lg font-medium transition-all transform hover:scale-105 border-2 border-transparent hover:border-pink-200">
-                                50 hạt
-                            </button>
+                                                <div class="grid grid-cols-4 gap-2 text-xs sm:text-sm">
+                            <button @click="beadOptions.quantity = 14" :class="beadOptions.quantity === 14 ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white' : 'bg-gray-100 hover:bg-pink-50 text-gray-700'" class="py-2 sm:py-3 px-1 sm:px-2 rounded-lg font-medium transition-all transform hover:scale-105 border-2 border-transparent hover:border-pink-200">14 hạt</button>
+                            <button @click="beadOptions.quantity = 18" :class="beadOptions.quantity === 18 ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white' : 'bg-gray-100 hover:bg-pink-50 text-gray-700'" class="py-2 sm:py-3 px-1 sm:px-2 rounded-lg font-medium transition-all transform hover:scale-105 border-2 border-transparent hover:border-pink-200">18 hạt</button>
+                            <button @click="beadOptions.quantity = 25" :class="beadOptions.quantity === 25 ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white' : 'bg-gray-100 hover:bg-pink-50 text-gray-700'" class="py-2 sm:py-3 px-1 sm:px-2 rounded-lg font-medium transition-all transform hover:scale-105 border-2 border-transparent hover:border-pink-200">25 hạt</button>
+                            <button @click="beadOptions.quantity = 30" :class="beadOptions.quantity === 30 ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white' : 'bg-gray-100 hover:bg-pink-50 text-gray-700'" class="py-2 sm:py-3 px-1 sm:px-2 rounded-lg font-medium transition-all transform hover:scale-105 border-2 border-transparent hover:border-pink-200">30 hạt</button>
+                            <button @click="beadOptions.quantity = 35" :class="beadOptions.quantity === 35 ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white' : 'bg-gray-100 hover:bg-pink-50 text-gray-700'" class="py-2 sm:py-3 px-1 sm:px-2 rounded-lg font-medium transition-all transform hover:scale-105 border-2 border-transparent hover:border-pink-200">35 hạt</button>
+                            <button @click="beadOptions.quantity = 40" :class="beadOptions.quantity === 40 ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white' : 'bg-gray-100 hover:bg-pink-50 text-gray-700'" class="py-2 sm:py-3 px-1 sm:px-2 rounded-lg font-medium transition-all transform hover:scale-105 border-2 border-transparent hover:border-pink-200">40 hạt</button>
+                            <button @click="beadOptions.quantity = 45" :class="beadOptions.quantity === 45 ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white' : 'bg-gray-100 hover:bg-pink-50 text-gray-700'" class="py-2 sm:py-3 px-1 sm:px-2 rounded-lg font-medium transition-all transform hover:scale-105 border-2 border-transparent hover:border-pink-200">45 hạt</button>
+                            <button @click="beadOptions.quantity = 50" :class="beadOptions.quantity === 50 ? 'bg-gradient-to-r from-pink-500 to-rose-500 text-white' : 'bg-gray-100 hover:bg-pink-50 text-gray-700'" class="py-2 sm:py-3 px-1 sm:px-2 rounded-lg font-medium transition-all transform hover:scale-105 border-2 border-transparent hover:border-pink-200">50 hạt</button>
                         </div>
                     </div>
 
