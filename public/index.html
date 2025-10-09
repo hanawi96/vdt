@@ -3394,68 +3394,89 @@
              x-transition:leave-start="opacity-100 transform scale-100"
              x-transition:leave-end="opacity-0 transform scale-90">
 
-            <!-- Header - Compact -->
-            <div class="flex items-center justify-between p-4 bg-pink-50 rounded-t-2xl flex-shrink-0">
-                <div class="flex items-center space-x-3">
-                    <img :src="currentItemForOptions?.image" alt="Product Image"
-                         class="w-12 h-12 sm:w-14 sm:h-14 rounded-md object-cover shadow-sm border border-pink-100">
-                    <div>
-                        <h3 class="text-sm sm:text-lg font-bold text-slate-800" x-text="currentItemForOptions?.name || 'Tùy chỉnh sản phẩm'"></h3>
-                        <!-- Dynamic Price Display -->
-                        <div class="space-y-1">
-                            <template x-if="!itemOptions.selectedWeight || itemOptions.selectedWeight === 'Chưa sinh'">
-                                <p class="text-pink-600 font-bold text-sm sm:text-base" x-text="formatCurrency(currentItemForOptions?.price || 0)"></p>
-                            </template>
-                            <template x-if="itemOptions.selectedWeight && itemOptions.selectedWeight !== 'Chưa sinh'">
-                                <div>
-                                    <template x-if="(() => {
-                                        const weight = itemOptions.selectedWeight === 'custom' ? itemOptions.customWeight + 'kg' : itemOptions.selectedWeight;
-                                        const priceData = calculateDynamicPrice(currentItemForOptions, weight);
-                                        return !priceData.hasSurcharge;
-                                    })()">
-                                        <p class="text-pink-600 font-bold text-sm sm:text-base" x-text="(() => {
-                                            const weight = itemOptions.selectedWeight === 'custom' ? itemOptions.customWeight + 'kg' : itemOptions.selectedWeight;
-                                            const priceData = calculateDynamicPrice(currentItemForOptions, weight);
-                                            return formatCurrency(priceData.finalPrice);
-                                        })()"></p>
-                                    </template>
-                                    <template x-if="(() => {
-                                        const weight = itemOptions.selectedWeight === 'custom' ? itemOptions.customWeight + 'kg' : itemOptions.selectedWeight;
-                                        const priceData = calculateDynamicPrice(currentItemForOptions, weight);
-                                        return priceData.hasSurcharge;
-                                    })()">
-                                        <div>
-                                            <p class="text-pink-600 font-bold text-sm sm:text-base" x-text="(() => {
-                                                const weight = itemOptions.selectedWeight === 'custom' ? itemOptions.customWeight + 'kg' : itemOptions.selectedWeight;
-                                                const priceData = calculateDynamicPrice(currentItemForOptions, weight);
-                                                return formatCurrency(priceData.finalPrice);
-                                            })()"></p>
-                                            <p class="text-xs text-gray-600" x-text="(() => {
-                                                const weight = itemOptions.selectedWeight === 'custom' ? itemOptions.customWeight + 'kg' : itemOptions.selectedWeight;
-                                                const priceData = calculateDynamicPrice(currentItemForOptions, weight);
-                                                return formatCurrency(currentItemForOptions?.price) + ' + ' + formatCurrency(priceData.surcharge) + ' (size lớn)';
-                                            })()"></p>
-                                        </div>
-                                    </template>
-                                </div>
-                            </template>
-                        </div>
-                    </div>
-                </div>
-                <button @click="closeItemOptionsModal()"
-                        class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center self-start">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                    </svg>
-                </button>
-            </div>
+			<!-- Header - Compact (Unified with Bead Quantity Modal) -->
+			<div class="bg-gradient-to-r from-pink-500 to-purple-600 text-white p-2 sm:p-4 rounded-t-2xl flex-shrink-0">
+				<div class="flex items-center justify-between">
+					<div class="flex items-center space-x-1 sm:space-x-2">
+						<div class="w-6 h-6 sm:w-8 sm:h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+							<svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h8M8 11h8m-8 4h5"/>
+							</svg>
+						</div>
+						<div>
+							<h3 class="text-sm sm:text-base font-bold">Chọn cân nặng bé</h3>
+						</div>
+					</div>
+					<button @click="closeItemOptionsModal()" class="w-6 h-6 sm:w-8 sm:h-8 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full flex items-center justify-center transition-all">
+						<svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+						</svg>
+					</button>
+				</div>
+			</div>
 
-            <!-- Weight Selection Section - Scrollable Content -->
+			<!-- Weight Selection Section - Scrollable Content -->
             <div class="flex-1 overflow-y-auto px-4 pt-4">
+				<!-- Product Info (moved from header for consistency) -->
+				<div class="bg-gradient-to-r from-pink-50 to-purple-50 rounded-xl p-3 sm:p-4 border border-pink-100 mb-3">
+					<div class="flex items-center space-x-3">
+						<img :src="currentItemForOptions?.image" alt="Product Image" class="w-12 h-12 sm:w-14 sm:h-14 rounded-md object-cover shadow-sm border border-pink-100">
+						<div>
+							<h3 class="text-sm sm:text-base font-bold text-gray-800" x-text="currentItemForOptions?.name || 'Tùy chỉnh sản phẩm'"></h3>
+							<!-- Dynamic Price Display -->
+							<div class="space-y-1">
+								<template x-if="!itemOptions.selectedWeight || itemOptions.selectedWeight === 'Chưa sinh'">
+									<p class="text-pink-600 font-bold text-sm sm:text-base" x-text="formatCurrency(currentItemForOptions?.price || 0)"></p>
+								</template>
+								<template x-if="itemOptions.selectedWeight && itemOptions.selectedWeight !== 'Chưa sinh'">
+									<div>
+										<template x-if="(() => {
+											const weight = itemOptions.selectedWeight === 'custom' ? itemOptions.customWeight + 'kg' : itemOptions.selectedWeight;
+											const priceData = calculateDynamicPrice(currentItemForOptions, weight);
+											return !priceData.hasSurcharge;
+										})()">
+											<p class="text-pink-600 font-bold text-sm sm:text-base" x-text="(() => {
+												const weight = itemOptions.selectedWeight === 'custom' ? itemOptions.customWeight + 'kg' : itemOptions.selectedWeight;
+												const priceData = calculateDynamicPrice(currentItemForOptions, weight);
+												return formatCurrency(priceData.finalPrice);
+											})()"></p>
+										</template>
+										<template x-if="(() => {
+											const weight = itemOptions.selectedWeight === 'custom' ? itemOptions.customWeight + 'kg' : itemOptions.selectedWeight;
+											const priceData = calculateDynamicPrice(currentItemForOptions, weight);
+											return priceData.hasSurcharge;
+										})()">
+											<div>
+												<p class="text-pink-600 font-bold text-sm sm:text-base" x-text="(() => {
+													const weight = itemOptions.selectedWeight === 'custom' ? itemOptions.customWeight + 'kg' : itemOptions.selectedWeight;
+													const priceData = calculateDynamicPrice(currentItemForOptions, weight);
+													return formatCurrency(priceData.finalPrice);
+												})()"></p>
+												<p class="text-xs text-gray-600" x-text="(() => {
+													const weight = itemOptions.selectedWeight === 'custom' ? itemOptions.customWeight + 'kg' : itemOptions.selectedWeight;
+													const priceData = calculateDynamicPrice(currentItemForOptions, weight);
+													return formatCurrency(currentItemForOptions?.price) + ' + ' + formatCurrency(priceData.surcharge) + ' (size lớn)';
+												})()"></p>
+											</div>
+										</template>
+									</div>
+								</template>
+							</div>
+						</div>
+					</div>
+				</div>
                 <!-- Section Title -->
-                <div class="text-center mb-4 sm:mb-6">
-                    <p class="text-xs sm:text-sm text-gray-600">Lưu ý: Vui lòng chọn đúng cân nặng của bé không chọn trừ hao</p>
-                </div>
+				<div class="mb-4 sm:mb-6">
+					<div class="flex items-start gap-2.5 rounded-lg border border-amber-200 bg-gradient-to-r from-amber-50 to-orange-50 p-3 sm:p-4 shadow-[0_1px_0_rgba(251,191,36,0.25)]">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="h-4 w-4 sm:h-5 sm:w-5 text-amber-600 mt-0.5 flex-shrink-0">
+							<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+						</svg>
+						<div class="text-left">
+							<p class="text-xs sm:text-sm text-amber-800 font-medium">Lưu ý: Vui lòng chọn đúng cân nặng của bé, không trừ hao.</p>
+							<p class="hidden sm:block text-xs text-amber-700 mt-0.5">Chọn chính xác giúp vòng vừa tay và lên form đẹp cho bé.</p>
+						</div>
+					</div>
+				</div>
 
                 <!-- Weight Options Grid -->
                 <div class="space-y-3 mb-4 sm:mb-6">
