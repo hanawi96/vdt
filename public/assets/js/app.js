@@ -30,6 +30,7 @@ document.addEventListener('alpine:init', () => {
     cart: Alpine.$persist([]).as('shoppingCart'),
     selectedCartItems: Alpine.$persist([]).as('selectedCartItems'),
     miniCartError: '',
+    activeTab: 'combo', // Default active tab
     addonProducts: [
       {
         id: 'addon_tui_dau_tam',
@@ -1384,19 +1385,110 @@ document.addEventListener('alpine:init', () => {
       // Đảm bảo đang ở view products
       this.view = 'products';
 
-      // Scroll đến phần đầu của danh mục (categories grid)
+      // Scroll đến phần "Khu Vườn Sản Phẩm"
       this.$nextTick(() => {
-        const categoriesSection = document.querySelector('.grid.grid-cols-1.sm\\:grid-cols-2.md\\:grid-cols-3.lg\\:grid-cols-4');
-        if (categoriesSection) {
-          categoriesSection.scrollIntoView({
+        // Tìm bằng text content
+        const allH2 = document.querySelectorAll('h2');
+        const targetH2 = Array.from(allH2).find(h2 => h2.textContent.includes('Khu Vườn Sản Phẩm'));
+        if (targetH2) {
+          targetH2.scrollIntoView({
             behavior: 'smooth',
             block: 'start'
           });
         } else {
-          // Fallback: scroll to top
-          window.scrollTo({ top: 0, behavior: 'smooth' });
+          // Fallback: scroll to categories grid
+          const categoriesSection = document.querySelector('.grid.grid-cols-1.sm\\:grid-cols-2.md\\:grid-cols-3.lg\\:grid-cols-3');
+          if (categoriesSection) {
+            categoriesSection.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          } else {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
         }
       });
+    },
+
+    // Scroll to combo section
+    scrollToCombo() {
+      // Đóng tất cả modal nếu có
+      this.closeAllModals();
+
+      // Đảm bảo đang ở view products
+      this.view = 'products';
+
+      // Scroll đến phần sản phẩm (phía trên "Khu Vườn Sản Phẩm")
+      setTimeout(() => {
+        // Tìm phần products view
+        const productsView = document.querySelector('[x-show="!loading && !error && view === \'products\'"]');
+        if (productsView) {
+          productsView.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        } else {
+          // Fallback: scroll to top of products section
+          const productSection = document.querySelector('.mb-6.sm\\:mb-8');
+          if (productSection) {
+            productSection.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          } else {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
+        }
+      }, 100);
+    },
+
+    // Scroll to top products section
+    scrollToTopProducts() {
+      // Đóng tất cả modal nếu có
+      this.closeAllModals();
+
+      // Đảm bảo đang ở view products
+      this.view = 'products';
+
+      // Scroll đến phần "🔥 Bán chạy" (sorting filters)
+      setTimeout(() => {
+        // Tìm button có text "🔥 Bán chạy" hoặc "Bán chạy"
+        const allButtons = document.querySelectorAll('button');
+        const targetButton = Array.from(allButtons).find(button => {
+          return button.textContent.includes('🔥 Bán chạy') || 
+                 button.textContent.includes('Bán chạy') && button.textContent.includes('🔥');
+        });
+        
+        if (targetButton) {
+          targetButton.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        } else {
+          // Fallback: tìm sorting filters section
+          const sortingSection = document.querySelector('.flex.items-center.justify-center.flex-wrap.gap-2.mb-8');
+          if (sortingSection) {
+            sortingSection.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start'
+            });
+          } else {
+            // Final fallback: scroll to products section
+            const productSection = document.querySelector('.mb-6.sm\\:mb-8');
+            if (productSection) {
+              productSection.scrollIntoView({
+                behavior: 'smooth',
+                block: 'start'
+              });
+            } else {
+              window.scrollTo({ 
+                top: document.documentElement.scrollHeight, 
+                behavior: 'smooth' 
+              });
+            }
+          }
+        }
+      }, 100); // Delay 100ms để đảm bảo DOM đã render
     },
 
     /* ========= IMAGE MODAL ========= */
