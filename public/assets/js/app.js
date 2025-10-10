@@ -6,7 +6,7 @@ document.addEventListener('alpine:init', () => {
     /* ========= STATE ========= */
     view: 'products',
     categories: [
-      { id: 'all', name: 'Tất cả', isPopular: true, image: './assets/images/product_img/tat-ca-mau.jpg' },
+      { id: 'all', name: 'Tất cả sản phẩm', isPopular: true, image: './assets/images/product_img/tat-ca-mau.jpg' },
       { id: 'vong_tron', name: 'Vòng trơn', isPopular: true, image: './assets/images/product_img/vong_tron_co_dien_day_do.jpg' },
       { id: 'mix_bi_bac', name: 'Mix bi bạc', isPopular: true, image: './assets/images/product_img/Sole bac/vong_dau_tam_sole_bac_4ly.jpg' },
       { id: 'mix_charm_ran', name: 'Mix charm rắn', isPopular: true, image: './assets/images/product_img/charm ran/vong-dau-tam-tron-charm-ran.jpg' },
@@ -135,7 +135,7 @@ document.addEventListener('alpine:init', () => {
     ],
     currentCategory: {
       id: 'all',
-      name: 'Top bán chạy',
+      name: 'Tất cả sản phẩm',
       description: 'Những sản phẩm được yêu thích và mua nhiều nhất.'
     },
     activeFilter: 'best_selling',
