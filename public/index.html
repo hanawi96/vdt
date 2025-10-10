@@ -1050,7 +1050,7 @@
                                     <!-- Các ưu đãi -->
                                     <template x-if="shippingDiscount > 0">
                                         <div class="flex justify-between items-center text-green-600 bg-green-50 px-2 py-1 rounded-lg">
-                                            <span class="text-sm">🚚 Ưu đãi Freeship:</span>
+                                            <span class="text-sm">💥 Ưu đãi Freeship:</span>
                                             <span class="font-medium" x-text="'-' + formatCurrency(shippingDiscount)"></span>
                                         </div>
                                     </template>
@@ -1595,7 +1595,7 @@
                                         <div class="flex items-center space-x-2 mb-1">
                                             <span class="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-2 py-0.5 rounded-md text-xs font-bold" x-text="discount.code"></span>
                                             <template x-if="discount.type === 'gift'"><span class="text-blue-600 text-xs">🎁</span></template>
-                                            <template x-if="discount.type === 'shipping'"><span class="text-green-600 text-xs">🚚</span></template>
+                                            <template x-if="discount.type === 'shipping'"><span class="text-green-600 text-xs">💥</span></template>
                                             <template x-if="discount.type === 'percentage'"><span class="text-red-600 text-xs font-bold" x-text="discount.value + '%'"></span></template>
                                             <template x-if="discount.type === 'fixed'"><span class="text-indigo-600 text-xs font-bold" x-text="formatCurrency(discount.value)"></span></template>
                                         </div>
@@ -1872,7 +1872,7 @@
                         <div class="px-3 pt-2 space-y-3">
                             <div class="bg-green-50 border border-green-200 rounded-lg p-2.5">
                                 <div class="text-center mb-2">
-                                    <p class="text-xs font-semibold text-green-700">🚚 Mua kèm TIẾT KIỆM 21K phí ship!</p>
+                                    <p class="text-xs font-semibold text-green-700">💥 CỰC SỐC! Ưu đãi mua kèm!</p>
                                     <p class="text-xs text-gray-600 mt-0.5">Còn: <span x-text="countdownTimer.display" class="font-mono font-semibold text-green-700 bg-green-100 px-1 py-0.5 rounded text-xs"></span></p>
                                 </div>
                                 <div class="space-y-1.5">
@@ -2528,7 +2528,7 @@
                     <div class="space-y-3">
                         <div class="bg-green-50 border border-green-200 rounded-lg p-2.5">
                             <div class="text-center mb-2">
-                                <p class="text-xs font-semibold text-green-700">🚚 Mua kèm TIẾT KIỆM 21K phí ship!</p>
+                                <p class="text-xs font-semibold text-green-700">💥 CỰC SỐC! Ưu đãi mua kèm!</p>
                                 <p class="text-xs text-gray-600 mt-0.5">Còn: <span x-text="countdownTimer.display" class="font-mono font-semibold text-green-700 bg-green-100 px-1 py-0.5 rounded text-xs"></span></p>
                             </div>
                             <div class="space-y-1.5">
@@ -2825,7 +2825,7 @@
                         <!-- Miễn phí ship cho combo -->
                         <template x-if="quickBuyProduct && quickBuyProduct.freeShipping">
                             <div class="flex justify-between text-sm text-green-600 font-medium">
-                                <span>🚚 Freeship combo</span>
+                                <span>💥 Freeship combo</span>
                                 <span>-21.000đ</span>
                             </div>
                         </template>
@@ -3111,7 +3111,7 @@
                         <div class="space-y-3 mb-6">
                             <div class="bg-green-50 border border-green-200 rounded-lg p-2.5">
                                 <div class="text-center mb-2">
-                                    <p class="text-xs font-semibold text-green-700">🚚 Mua kèm TIẾT KIỆM 21K phí ship!</p>
+                                    <p class="text-xs font-semibold text-green-700">💥 CỰC SỐC! Ưu đãi mua kèm!</p>
                                     <p class="text-xs text-gray-600 mt-0.5">Còn: <span x-text="countdownTimer.display" class="font-mono font-semibold text-green-700 bg-green-100 px-1 py-0.5 rounded text-xs"></span></p>
                                 </div>
                                 <div class="space-y-1.5">
@@ -3357,8 +3357,47 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Upsell Section - Compact -->
+                <div class="space-y-3 mb-4">
+                    <div class="bg-green-50 border border-green-200 rounded-lg p-2.5">
+                        <div class="text-center mb-2">
+                            <p class="text-xs font-semibold text-green-700">💥 CỰC SỐC! Ưu đãi mua kèm!</p>
+                            <p class="text-xs text-gray-600 mt-0.5">Còn: <span x-text="countdownTimer.display" class="font-mono font-semibold text-green-700 bg-green-100 px-1 py-0.5 rounded text-xs"></span></p>
+                        </div>
+                        <div class="space-y-1.5">
+                            <template x-for="addon in filteredAddonProducts" :key="addon.id">
+                                <div @click="openAddonDetail(addon)" class="flex items-center space-x-2 p-2 bg-white rounded-md border border-green-100 cursor-pointer hover:bg-gray-50 transition-colors">
+                                    <img :src="addon.image" class="w-8 h-8 rounded object-cover flex-shrink-0">
+                                    <div class="flex-grow min-w-0">
+                                        <div class="flex items-center space-x-1">
+                                            <p class="font-semibold text-gray-800 text-xs leading-tight truncate" x-text="addon.name"></p>
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4 text-blue-600">
+                                                <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+                                                <path fill-rule="evenodd" d="M1.323 11.447C2.811 6.976 7.028 3.75 12.001 3.75c4.97 0 9.185 3.223 10.675 7.69.12.362.12.752 0 1.113-1.487 4.471-5.705 7.697-10.677 7.697-4.97 0-9.186-3.223-10.675-7.69a1.762 1.762 0 0 1 0-1.113ZM17.25 12a5.25 5.25 0 1 1-10.5 0 5.25 5.25 0 0 1 10.5 0Z" clip-rule="evenodd" />
+                                            </svg>
+                                        </div>
+                                        <div class="flex items-center space-x-1">
+                                            <p class="text-xs text-pink-600 font-bold" x-text="formatCurrency(addon.price)"></p>
+                                            <template x-if="addon.original_price"><s class="text-xs text-gray-400" x-text="formatCurrency(addon.original_price)"></s></template>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col items-center space-y-1">
+                                        <button @click.stop="isAddonInCartForDisplay(addon.id) ? removeFromCart(addon.id) : addAddonToCart(addon)" class="text-xs font-medium rounded-md transition-colors h-6 w-12 flex items-center justify-center" :class="isAddonInCartForDisplay(addon.id) ? 'bg-red-500 text-white hover:bg-red-600' : 'bg-pink-600 text-white hover:bg-pink-700'">
+                                            <span x-text="isAddonInCartForDisplay(addon.id) ? 'Xóa' : 'Thêm'"></span>
+                                        </button>
+                                        <template x-if="addon.id === 'addon_tui_dau_tam'"><p class="text-xs text-green-600 font-semibold" x-text="isFreeshippingFromDiscount() ? '-8K' : '+ Freeship'"></p></template>
+                                        <template x-if="addon.id === 'addon_bo_dau_tam_7_canh'"><p class="text-xs text-green-600 font-semibold">+ Freeship</p></template>
+                                        <template x-if="addon.id === 'addon_bo_dau_tam_9_canh'"><p class="text-xs text-green-600 font-semibold">+ Freeship</p></template>
+                                        <template x-if="addon.id === 'addon_moc_chia_khoa'"><p class="text-xs text-green-600 font-semibold">-5K</p></template>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
                 </div>
-                
+                </div>
+
             </div>
 
             <!-- Footer - Compact -->
@@ -3581,7 +3620,7 @@
                 <div class="space-y-3 mb-4">
                     <div class="bg-green-50 border border-green-200 rounded-lg p-2.5">
                         <div class="text-center mb-2">
-                            <p class="text-xs font-semibold text-green-700">🚚 Mua kèm TIẾT KIỆM 21K phí ship!</p>
+                            <p class="text-xs font-semibold text-green-700">💥 CỰC SỐC! Ưu đãi mua kèm!</p>
                             <p class="text-xs text-gray-600 mt-0.5">Còn: <span x-text="countdownTimer.display" class="font-mono font-semibold text-green-700 bg-green-100 px-1 py-0.5 rounded text-xs"></span></p>
                         </div>
                         <div class="space-y-1.5">
