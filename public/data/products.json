@@ -166,35 +166,6 @@
     "purchases": 145
   },
 
-
-
-
-
-
-  {
-    "id": "mix_day_ngu_sac_002",
-    "name": "Mix 2 bi bạc 4ly",
-    "category": "mix_day_ngu_sac",
-    "categories": ["mix_day_ngu_sac", "khuyen_mai"],
-    "price": 119000,
-    "original_price": 149000,
-    "image": "./assets/images/demo.jpg",
-    "description": "Vòng dâu tằm dây ngũ sắc mix 2 bi bạc 4 lớp, tạo điểm nhấn tinh tế.",
-    "rating": 4.8,
-    "purchases": 456
-  },
-  {
-    "id": "mix_day_ngu_sac_003",
-    "name": "Mix 2 bi bạc 5ly",
-    "category": "mix_day_ngu_sac",
-    "categories": ["mix_day_ngu_sac"],
-    "price": 129000,
-    "original_price": 159000,
-    "image": "./assets/images/demo.jpg",
-    "description": "Vòng dâu tằm dây ngũ sắc mix 2 bi bạc 5 lớp, sang trọng và nổi bật.",
-    "rating": 4.9,
-    "purchases": 398
-  },
   {
     "id": "mix_day_ngu_sac_004",
     "name": "Mix bạc cỏ 4 lá rỗng",
@@ -695,6 +666,18 @@
     "purchases": 345
   },
   {
+    "id": "mix_the_ten_be_009",
+    "name": "7 bi bạc + thẻ tên bé",
+    "category": "mix_the_ten_be",
+    "categories": ["mix_the_ten_be"],
+    "price": 189000,
+    "original_price": 229000,
+    "image": "./assets/images/product_img/the-ten/7-bi-bac-the-ten-be.jpg",
+    "description": "Vòng dâu tằm trơn với 2 bi bạc và thẻ tên tròn, tạo điểm nhấn nổi bật và cá tính.",
+    "rating": 4.7,
+    "purchases": 345
+  },
+  {
     "id": "mix_the_ten_be_004",
     "name": "Trơn mix 3 bi bạc + thẻ tên tròn",
     "category": "mix_the_ten_be",
@@ -828,7 +811,7 @@
   },
   {
     "id": "bi_charm_bac_001",
-    "name": "Bi bạc ta 3ly trơn",
+    "name": "Bi bạc ta 3ly trơn (3mm)",
     "category": "bi_charm_bac",
     "categories": ["bi_charm_bac", "san_pham_hot"],
     "price": 89000,
@@ -840,7 +823,7 @@
   },
   {
     "id": "bi_charm_bac_002",
-    "name": "Bi bạc ta 4ly khía",
+    "name": "Bi bạc ta 4ly khía (4mm)",
     "category": "bi_charm_bac",
     "categories": ["bi_charm_bac", "khuyen_mai"],
     "price": 109000,
@@ -852,7 +835,7 @@
   },
   {
     "id": "bi_charm_bac_003",
-    "name": "Bi bạc ta 5ly khía",
+    "name": "Bi bạc ta 5ly khía (5mm)",
     "category": "bi_charm_bac",
     "categories": ["bi_charm_bac", "san_pham_hot"],
     "price": 129000,
@@ -905,7 +888,7 @@
     "categories": ["bi_charm_bac", "khuyen_mai"],
     "price": 159000,
     "original_price": 199000,
-    "image": "./assets/images/demo.jpg",
+    "image": "./assets/images/product_img/charm-bac/the-ten-tron.jpg",
     "description": "Thẻ bạc tròn có thể khắc tên bé 2 mặt, thiết kế cổ điển và thanh lịch.",
     "rating": 4.8,
     "purchases": 234
