@@ -223,6 +223,7 @@ document.addEventListener('alpine:init', () => {
     quickBuyQuantity: 1,
     quickBuyWeight: '',
     quickBuyCustomWeight: '', // Biến để lưu cân nặng tùy chỉnh
+    quickBuyBabyName: '', // Tên bé cần khắc cho sản phẩm mix thẻ tên bé
     quickBuyNotes: '',
     quickBuyPaymentMethod: 'cod', // Phương thức thanh toán cho quick buy
     isQuickBuySubmitting: false,
@@ -1676,7 +1677,8 @@ document.addEventListener('alpine:init', () => {
         quantity: 1,
         note: '',
         selectedWeight: '',
-        customWeight: ''
+        customWeight: '',
+        babyName: ''
       };
       this.showSizeGuide = false; // Reset size guide when opening modal
       this.isItemOptionsModalOpen = true;
@@ -1693,7 +1695,8 @@ document.addEventListener('alpine:init', () => {
           quantity: 1,
           note: '',
           selectedWeight: '',
-          customWeight: ''
+          customWeight: '',
+          babyName: ''
         };
       }, 300);
     },
@@ -1718,6 +1721,12 @@ document.addEventListener('alpine:init', () => {
         return;
       }
 
+      // Require baby name for Mix thẻ tên bé category
+      if (this.currentItemForOptions?.category === 'mix_the_ten_be' && !this.itemOptions.babyName?.trim()) {
+        this.showAlert('Vui lòng nhập tên của bé', 'error');
+        return;
+      }
+
       const { id } = this.currentItemForOptions;
       const cartId = `${id}-${Date.now()}`;
 
@@ -1737,6 +1746,7 @@ document.addEventListener('alpine:init', () => {
         weight: finalWeight,
         selectedWeight: this.itemOptions.selectedWeight,
         customWeight: this.itemOptions.customWeight,
+        babyName: this.itemOptions.babyName ? this.itemOptions.babyName.trim() : '',
         notes: this.itemOptions.note.trim(),
         // Dynamic pricing fields
         basePrice: this.currentItemForOptions.price,
@@ -1749,6 +1759,7 @@ document.addEventListener('alpine:init', () => {
       console.log('- Product:', this.currentItemForOptions.name);
       console.log('- selectedWeight:', this.itemOptions.selectedWeight);
       console.log('- finalWeight:', finalWeight);
+      console.log('- babyName:', this.itemOptions.babyName);
       console.log('- cartId:', cartId);
       console.log('- itemToAdd:', itemToAdd);
 
@@ -1788,6 +1799,16 @@ document.addEventListener('alpine:init', () => {
     addToCart(product) {
       // If it's a new item from the options modal, it will have a unique cartId
       if (product.cartId) {
+        // For Mix thẻ tên bé products, automatically add baby name to notes
+        if (product.category === 'mix_the_ten_be' && product.babyName && product.babyName.trim()) {
+          const babyNameNote = `Tên bé: ${product.babyName.trim()}`;
+          if (product.notes && product.notes.trim()) {
+            product.notes = `${babyNameNote} | ${product.notes.trim()}`;
+          } else {
+            product.notes = babyNameNote;
+          }
+        }
+
         this.cart.push(product);
         this.selectedCartItems.push(product.cartId);
       } else {
@@ -2252,6 +2273,7 @@ document.addEventListener('alpine:init', () => {
       }
       this.quickBuyWeight = '';
       this.quickBuyCustomWeight = '';
+      this.quickBuyBabyName = '';
       this.quickBuyNotes = '';
 
       // Kiểm tra xem có cần hiển thị ô cân nặng không
@@ -2298,6 +2320,7 @@ document.addEventListener('alpine:init', () => {
       this.quickBuyQuantity = 1;
       this.quickBuyWeight = '';
       this.quickBuyCustomWeight = '';
+      this.quickBuyBabyName = '';
       this.quickBuyNotes = '';
       this.quickBuyPaymentMethod = 'cod'; // Reset về COD
       this.isQuickBuyTransferConfirmed = false; // Reset trạng thái xác nhận
@@ -2368,6 +2391,7 @@ document.addEventListener('alpine:init', () => {
           ...this.quickBuyProduct,
           quantity: this.quickBuyQuantity,
           weight: this.quickBuyWeight,
+          babyName: this.quickBuyBabyName, // Tên bé cần khắc
           note: this.quickBuyNotes,
           cartId: `quickbuy-${Date.now()}`
         };
@@ -2473,6 +2497,9 @@ document.addEventListener('alpine:init', () => {
                   break;
                 case 'weight':
                   selector = 'select[x-model="quickBuyWeight"]';
+                  break;
+                case 'babyName':
+                  selector = 'input[x-model="quickBuyBabyName"]';
                   break;
                 case 'paymentMethod':
                   selector = '[x-model="quickBuyPaymentMethod"]';
@@ -2593,6 +2620,14 @@ document.addEventListener('alpine:init', () => {
         }
       }
 
+      // Validation cho tên bé - chỉ cho sản phẩm mix thẻ tên bé
+      if (this.quickBuyProduct && this.quickBuyProduct.categories && this.quickBuyProduct.categories.includes('mix_the_ten_be')) {
+        if (!this.quickBuyBabyName || this.quickBuyBabyName.trim() === '') {
+          this.formErrors.babyName = 'Nhập tên bé ví dụ Nhím - Nhím hoặc Nhím - Nhật Minh';
+          isValid = false;
+        }
+      }
+
       // Validation cho sản phẩm hạt dâu tằm mài sẵn - kiểm tra số lượng hạt
       if (this.quickBuyProduct && this.quickBuyProduct.category === 'hat_dau_tam_mai_san') {
         if (!this.quickBuyQuantity || this.quickBuyQuantity < 1) {
@@ -2625,6 +2660,7 @@ document.addEventListener('alpine:init', () => {
           ...this.quickBuyProduct,
           quantity: this.quickBuyQuantity,
           weight: this.quickBuyWeight,
+          babyName: this.quickBuyBabyName, // Tên bé cần khắc
           note: this.quickBuyNotes, // Ghi chú thêm
           cartId: `quickbuy-${Date.now()}`
         };
