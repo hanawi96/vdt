@@ -2168,7 +2168,11 @@
                                     if (quickBuyWeight === '✏️ Nhập cân nặng > 20kg' && quickBuyCustomWeight) {
                                         actualWeight = quickBuyCustomWeight + 'kg';
                                     }
-                                    return calculateDynamicPrice(quickBuyProduct, actualWeight).finalPrice;
+                                    const priceData = calculateDynamicPrice(quickBuyProduct, actualWeight);
+                                    if (quickBuyProduct?.category === 'hat_dau_tam_mai_san') {
+                                        return priceData.finalPrice * quickBuyQuantity;
+                                    }
+                                    return priceData.finalPrice;
                                 })())"></span>
                                 <span x-show="(() => {
                                     let actualWeight = quickBuyWeight;
@@ -2320,18 +2324,46 @@
 
                     <!-- Số lượng sản phẩm -->
                     <div class="space-y-4">
-                        <!-- Số lượng sản phẩm -->
+                        <!-- Conditional Quantity Selector -->
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-1">Số lượng *</label>
-                            <select x-model="quickBuyQuantity"
-                                    @change="revalidateQuickBuyDiscount()"
-                                    class="w-full px-3 py-2.5 text-base rounded-lg transition-all border border-gray-300 focus:ring-pink-500 focus:border-pink-500 bg-white">
-                                <option value="1">1 sản phẩm</option>
-                                <option value="2">2 sản phẩm</option>
-                                <option value="3">3 sản phẩm</option>
-                                <option value="4">4 sản phẩm</option>
-                                <option value="5">5 sản phẩm</option>
-                            </select>
+                            <!-- Selector for Bead Products -->
+                            <template x-if="quickBuyProduct?.category === 'hat_dau_tam_mai_san'">
+                                <div id="quick-buy-quantity-section">
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Số lượng hạt *</label>
+                                    <select x-model="quickBuyQuantity"
+                                            @change="revalidateQuickBuyDiscount(); if (quickBuyQuantity) formErrors.quantity = ''"
+                                            :class="formErrors.quantity ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'border-gray-300 focus:ring-pink-500 focus:border-pink-500'"
+                                            class="w-full px-3 py-2.5 text-base rounded-lg transition-all border bg-white">
+                                        <option value="">-- Chọn số lượng hạt --</option>
+                                        <template x-for="i in Array.from({ length: 21 }, (_, index) => 10 + index * 2)">
+                                            <option :value="i" x-text="i + ' hạt'"></option>
+                                        </template>
+                                    </select>
+                                    <!-- Error Message -->
+                                    <div x-show="formErrors.quantity" class="text-red-500 text-xs mt-1 flex items-center error-message">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-3 h-3 mr-1 flex-shrink-0">
+                                            <path fill-rule="evenodd" d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm8.706-1.442c1.146-.573 2.437.463 2.126 1.706l-.709 2.836.042-.02a.75.75 0 0 1 .67 1.34l-.04.022c-1.147.573-2.438-.463-2.127-1.706l.71-2.836-.042.02a.75.75 0 1 1-.671-1.34l.041-.022ZM12 9a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" clip-rule="evenodd" />
+                                        </svg>
+                                        <span x-text="formErrors.quantity"></span>
+                                    </div>
+                                </div>
+                            </template>
+
+                            <!-- Default Selector for Other Products -->
+                            <template x-if="quickBuyProduct?.category !== 'hat_dau_tam_mai_san'">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-1">Số lượng *</label>
+                                    <select x-model="quickBuyQuantity"
+                                            @change="revalidateQuickBuyDiscount()"
+                                            class="w-full px-3 py-2.5 text-base rounded-lg transition-all border border-gray-300 focus:ring-pink-500 focus:border-pink-500 bg-white">
+                                        <option value="1">1 sản phẩm</option>
+                                        <option value="2">2 sản phẩm</option>
+                                        <option value="3">3 sản phẩm</option>
+                                        <option value="4">4 sản phẩm</option>
+                                        <option value="5">5 sản phẩm</option>
+                                    </select>
+                                </div>
+                            </template>
                         </div>
 
                         <!-- Cân nặng của bé - Riêng 1 hàng -->

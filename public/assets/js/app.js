@@ -1618,8 +1618,8 @@ document.addEventListener('alpine:init', () => {
     addBeadWithQuantity() {
       if (!this.currentBeadProduct) return;
 
-      if (this.beadOptions.quantity < 1) {
-        this.showAlert('Số lượng hạt tối thiểu là 1 hạt', 'error');
+      if (!this.beadOptions.quantity || this.beadOptions.quantity < 1) {
+        this.showAlert('Vui lòng chọn số lượng hạt dâu trước khi thêm vào giỏ hàng', 'error');
         return;
       }
 
@@ -2244,7 +2244,12 @@ document.addEventListener('alpine:init', () => {
 
       // Mua ngay - bỏ qua giỏ hàng hoàn toàn
       this.quickBuyProduct = { ...product };
-      this.quickBuyQuantity = 1;
+      // Set default quantity based on product category
+      if (product.category === 'hat_dau_tam_mai_san') {
+        this.quickBuyQuantity = ''; // Default to the placeholder option
+      } else {
+        this.quickBuyQuantity = 1; // Default to 1 for other products
+      }
       this.quickBuyWeight = '';
       this.quickBuyCustomWeight = '';
       this.quickBuyNotes = '';
@@ -2437,7 +2442,7 @@ document.addEventListener('alpine:init', () => {
       this.$nextTick(() => {
         setTimeout(() => {
           // Priority order for error fields (most important first)
-          const errorPriority = ['name', 'phone', 'province', 'district', 'ward', 'streetAddress', 'weight', 'paymentMethod'];
+          const errorPriority = ['quantity', 'name', 'phone', 'province', 'district', 'ward', 'streetAddress', 'weight', 'paymentMethod'];
 
           for (const fieldName of errorPriority) {
             if (this.formErrors[fieldName]) {
@@ -2445,6 +2450,9 @@ document.addEventListener('alpine:init', () => {
 
               // Map field names to their selectors
               switch (fieldName) {
+                case 'quantity':
+                  selector = '#quick-buy-quantity-section';
+                  break;
                 case 'name':
                   selector = 'input[x-model="customer.name"]';
                   break;
@@ -2581,6 +2589,14 @@ document.addEventListener('alpine:init', () => {
         } else if (!isAdult && this.quickBuyWeight.includes('kg') && this.parseWeight(this.quickBuyWeight) >= 20 && this.parseWeight(this.quickBuyWeight) < 20) {
           // Validation cho custom weight nếu có
           this.formErrors.weight = 'Cân nặng phải từ 20kg trở lên';
+          isValid = false;
+        }
+      }
+
+      // Validation cho sản phẩm hạt dâu tằm mài sẵn - kiểm tra số lượng hạt
+      if (this.quickBuyProduct && this.quickBuyProduct.category === 'hat_dau_tam_mai_san') {
+        if (!this.quickBuyQuantity || this.quickBuyQuantity < 1) {
+          this.formErrors.quantity = 'Vui lòng chọn số lượng hạt dâu';
           isValid = false;
         }
       }
@@ -3073,6 +3089,14 @@ document.addEventListener('alpine:init', () => {
       if (!this.cart.length) {
         this.showAlert('Giỏ hàng của bạn đang trống.', 'error');
         return false;
+      }
+
+      // Validate bead quantity for specific products in cart
+      for (const item of this.cart) {
+        if (item.category === 'hat_dau_tam_mai_san' && (!item.beadQuantity || item.beadQuantity < 1)) {
+          this.showAlert(`Vui lòng chọn số lượng hạt cho sản phẩm "${item.name}" trong giỏ hàng.`, 'error');
+          return false; // Stop validation
+        }
       }
 
       // Validate name
