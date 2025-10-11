@@ -1806,47 +1806,67 @@ document.addEventListener('alpine:init', () => {
     /* ========= CART ========= */
     // product object can be a standard product or a pre-filled cart item from options modal
     addToCart(product) {
-      // If it's a new item from the options modal, it will have a unique cartId
-      if (product.cartId) {
-        // For Mix thẻ tên bé products, automatically add baby name to notes
-        if (product.category === 'mix_the_ten_be' && product.babyName && product.babyName.trim()) {
-          const babyNameNote = `Tên bé: ${product.babyName.trim()}`;
-          if (product.notes && product.notes.trim()) {
-            product.notes = `${babyNameNote} | ${product.notes.trim()}`;
-          } else {
-            product.notes = babyNameNote;
-          }
-        }
+      // Helper function to check if two items are identical
+      const areItemsIdentical = (item1, item2) => {
+        return item1.id === item2.id &&
+               (item1.selectedWeight || item1.weight || '') === (item2.selectedWeight || item2.weight || '') &&
+               (item1.babyName || '') === (item2.babyName || '') &&
+               (item1.beadQuantity || '') === (item2.beadQuantity || '') &&
+               (item1.handSize || '') === (item2.handSize || '');
+      };
 
-        this.cart.push(product);
-        this.selectedCartItems.push(product.cartId);
+      // Check if an identical item already exists in the cart
+      const existingItem = this.cart.find(item => areItemsIdentical(item, product));
+
+      if (existingItem) {
+        // If identical item found, increase quantity
+        existingItem.quantity += (product.quantity || 1);
+        this.showAlert(`Đã cập nhật số lượng ${existingItem.name}!`, 'success');
       } else {
-        // Standard behavior: find by product ID and increment quantity
-        const existingItem = this.cart.find(item => item.id === product.id && !item.weight); // Only merge if there's no note
-        if (existingItem) {
-          existingItem.quantity++;
+        // If no identical item found, add as new item
+        let itemToAdd;
+
+        if (product.cartId) {
+          // Item from options modal - already has cartId and all properties
+          itemToAdd = { ...product };
+
+          // For Mix thẻ tên bé products, automatically add baby name to notes
+          if (product.category === 'mix_the_ten_be' && product.babyName && product.babyName.trim()) {
+            const babyNameNote = `Tên bé: ${product.babyName.trim()}`;
+            if (product.notes && product.notes.trim()) {
+              itemToAdd.notes = `${babyNameNote} | ${product.notes.trim()}`;
+            } else {
+              itemToAdd.notes = babyNameNote;
+            }
+          }
         } else {
+          // Standard product - create new cart item
           const cartId = `${product.id}-${Date.now()}`;
-          const newItem = {
+          itemToAdd = {
             ...product,
             cartId: cartId,
-            quantity: 1,
-            weight: '',
-            selectedWeight: '',
-            customWeight: '',
-            notes: '',
+            quantity: product.quantity || 1,
+            weight: product.weight || '',
+            selectedWeight: product.selectedWeight || '',
+            customWeight: product.customWeight || '',
+            notes: product.notes || '',
+            babyName: product.babyName || '',
+            beadQuantity: product.beadQuantity || '',
+            handSize: product.handSize || '',
             // Dynamic pricing fields
-            basePrice: product.price,
-            finalPrice: product.price,
-            surcharge: 0,
-            hasSurcharge: false
+            basePrice: product.basePrice || product.price,
+            finalPrice: product.finalPrice || product.price,
+            surcharge: product.surcharge || 0,
+            hasSurcharge: product.hasSurcharge || false
           };
-          this.cart.push(newItem);
-          this.selectedCartItems.push(cartId);
         }
+
+        this.cart.push(itemToAdd);
+        this.selectedCartItems.push(itemToAdd.cartId);
+        this.showAlert('Đã thêm sản phẩm vào giỏ hàng!', 'success');
       }
+
       this.triggerCartAnimation();
-      this.showAlert('Đã thêm sản phẩm vào giỏ hàng!', 'success');
     },
     toggleMiniCart() {
       this.isMiniCartOpen = !this.isMiniCartOpen;
