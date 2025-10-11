@@ -346,6 +346,9 @@ document.addEventListener('alpine:init', () => {
 
       this.addToCart(itemToAdd);
       this.closeHandSizeModal();
+      if (this.isProductDetailOpen) {
+        this.closeProductDetail();
+      }
       this.showAlert(`Đã thêm ${productName} (${finalSize}) vào giỏ hàng!`, 'success');
     },
 
@@ -1663,6 +1666,9 @@ document.addEventListener('alpine:init', () => {
       }
 
       this.closeBeadQuantityModal();
+      if (this.isProductDetailOpen) {
+        this.closeProductDetail();
+      }
     },
 
     // Alias function for HTML compatibility
@@ -1765,6 +1771,9 @@ document.addEventListener('alpine:init', () => {
 
       this.addToCart(itemToAdd);
       this.closeItemOptionsModal();
+      if (this.isProductDetailOpen) {
+        this.closeProductDetail();
+      }
     },
 
 
@@ -3384,14 +3393,15 @@ document.addEventListener('alpine:init', () => {
     },
     addProductDetailToCart() {
       if (this.currentProductDetail) {
-        // Nếu là sản phẩm bán kèm, thêm trực tiếp vào giỏ hàng
+        // Nếu là sản phẩm bán kèm, thêm trực tiếp vào giỏ hàng và đóng modal
         if (this.isAddonProduct(this.currentProductDetail)) {
           this.addAddonToCart(this.currentProductDetail);
+          this.closeProductDetail();
+          this.showAlert('Đã thêm sản phẩm vào giỏ hàng!', 'success');
         } else {
-          this.addToCart(this.currentProductDetail);
+          // Mở modal tùy chọn (cân nặng, size...) mà không đóng modal chi tiết
+          this.handleProductClick(this.currentProductDetail);
         }
-        this.closeProductDetail();
-        this.showAlert('Đã thêm sản phẩm vào giỏ hàng!', 'success');
       }
     },
     buyProductDetailNow() {

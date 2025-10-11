@@ -1753,7 +1753,7 @@
                         <div class="relative">
                             <div class="px-3 space-y-3">
                             <template x-for="item in cart" :key="item.cartId">
-                            <div class="p-2.5 bg-gray-50 rounded-lg space-y-3" :data-cart-item-id="item.id">
+                            <div class="p-2.5 bg-gray-50 rounded-lg space-y-3" :data-cart-item-id="item.cartId || item.id">
                                 <!-- Main Product Row -->
                                 <div class="flex items-start space-x-2.5">
                                     <input type="checkbox" :checked="selectedCartItems.includes(item.cartId)" @change="toggleCartItemSelection(item.cartId)" class="mt-1 h-3.5 w-3.5 text-pink-600 focus:ring-pink-500 border-gray-300 rounded flex-shrink-0">
@@ -1806,7 +1806,8 @@
                                         </div>
                                         <select x-model="item.selectedWeight"
                                                 @change="updateItemWeight(item.id, $event.target.value)"
-                                                :class="weightErrors[item.id] ? 'weight-selector text-base px-2 py-1 flex-1 min-w-0 border-red-300 focus:border-red-500 focus:ring-red-500' : 'weight-selector text-base px-2 py-1 flex-1 min-w-0'">
+                                                class="weight-selector text-base px-2 py-1 flex-1 min-w-0 rounded-md border"
+                                                :class="(weightErrors[item.cartId || item.id]) ? 'border-red-300 focus:border-red-500 focus:ring-red-500' : 'border-gray-200 focus:border-pink-300 focus:ring-pink-300'">
                                             <option value="">Chọn cân nặng bé</option>
                                             <option value="Chưa sinh">🤱 Chưa sinh</option>
                                             <option value="3kg">3kg</option>
@@ -1832,13 +1833,18 @@
                                     </div>
 
                                     <!-- Weight Error Message -->
-                                    <div x-show="weightErrors[item.id]" class="flex items-center space-x-2 mb-2">
-                                        <div class="flex items-center space-x-1 flex-shrink-0 invisible">
-                                            <span class="text-xs text-pink-600 font-medium">👶</span>
-                                            <span class="text-xs text-gray-700 font-medium">Cân nặng:</span>
-                                        </div>
-                                        <div class="text-xs text-red-500 flex-1">
-                                            <span x-text="weightErrors[item.id]"></span>
+                                    <div x-show="weightErrors[item.cartId || item.id]" x-transition class="mt-1.5">
+                                        <div class="bg-red-50 border-l-4 border-red-400 p-2">
+                                            <div class="flex items-center">
+                                                <div class="flex-shrink-0">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4 text-red-400">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" d="m11.25 11.25.041-.02a.75.75 0 0 1 1.063.852l-.708 2.836a.75.75 0 0 0 1.063.853l.041-.021M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9-3.75h.008v.008H12V8.25Z" />
+                                                    </svg>
+                                                </div>
+                                                <div class="ml-2">
+                                                    <p class="text-xs font-semibold text-red-700" x-text="weightErrors[item.cartId || item.id]"></p>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
 
