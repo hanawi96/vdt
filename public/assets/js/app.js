@@ -209,6 +209,9 @@ document.addEventListener('alpine:init', () => {
       note: ''
     },
 
+
+    // Process Showcase Modal
+    isProcessModalOpen: false,
     socialProofViewers: Math.floor(Math.random() * 5) + 1,
     socialProofInterval: null,
 
@@ -815,7 +818,36 @@ document.addEventListener('alpine:init', () => {
           this.cart = [];
         }
       }
+
+      // Check if process modal should be shown
+      // TEMP: Always show modal for testing - remove this when ready for production
+      this.openProcessModal(); // Show immediately
+
+      // PRODUCTION CODE (commented out for testing):
+      // const processModalData = JSON.parse(localStorage.getItem('processModalViewed'));
+      // if (!processModalData || new Date().getTime() > processModalData.expiry) {
+      //   setTimeout(() => {
+      //     this.openProcessModal();
+      //   }, 2000);
+      // }
+
     },
+
+    /* ========= Process Showcase Modal Logic ========= */
+    openProcessModal() {
+      this.isProcessModalOpen = true;
+      document.body.style.overflow = 'hidden';
+    },
+
+    closeProcessModal() {
+      this.isProcessModalOpen = false;
+      document.body.style.overflow = 'auto';
+      // Save the timestamp to localStorage with a 3-day expiry
+      const expiry = new Date().getTime() + (3 * 24 * 60 * 60 * 1000);
+      localStorage.setItem('processModalViewed', JSON.stringify({ expiry: expiry }));
+    },
+
+
 
     /* ========= HELPERS ========= */
     generateOrderId() {
@@ -1459,10 +1491,10 @@ document.addEventListener('alpine:init', () => {
         // Tìm button có text "🔥 Bán chạy" hoặc "Bán chạy"
         const allButtons = document.querySelectorAll('button');
         const targetButton = Array.from(allButtons).find(button => {
-          return button.textContent.includes('🔥 Bán chạy') || 
+          return button.textContent.includes('🔥 Bán chạy') ||
                  button.textContent.includes('Bán chạy') && button.textContent.includes('🔥');
         });
-        
+
         if (targetButton) {
           targetButton.scrollIntoView({
             behavior: 'smooth',
@@ -1485,9 +1517,9 @@ document.addEventListener('alpine:init', () => {
                 block: 'start'
               });
             } else {
-              window.scrollTo({ 
-                top: document.documentElement.scrollHeight, 
-                behavior: 'smooth' 
+              window.scrollTo({
+                top: document.documentElement.scrollHeight,
+                behavior: 'smooth'
               });
             }
           }
@@ -3517,6 +3549,7 @@ document.addEventListener('alpine:init', () => {
         } else if (promotion.type === 'fixed') {
           this.discountAmount = promotion.value;
         }
+
         if (this.discountAmount > this.quickBuySubtotal) {
           this.discountAmount = this.quickBuySubtotal;
         }
