@@ -154,8 +154,20 @@
     "purchases": 167
   },
   {
-    "id": "mix_charm_ran_009",
+    "id": "mix_charm_ran_010",
     "name": "Mix bạc 4ly + Charm rắn + Chuông",
+    "category": "mix_charm_ran",
+    "categories": ["mix_charm_ran", "san_pham_hot"],
+    "price": 259000,
+    "original_price": 309000,
+    "image": "./assets/images/product_img/charm ran/vong-sole-3ly-charm-ran-the-ten-chuong.jpg",
+    "description": "Vòng dâu tằm mix bi bạc 4 lớp với charm rắn và chuông, thiết kế cao cấp.",
+    "rating": 4.9,
+    "purchases": 145
+  },
+ {
+    "id": "mix_charm_ran_009",
+    "name": "Mix bạc 3ly + Charm rắn + Thẻ tên + Chuông",
     "category": "mix_charm_ran",
     "categories": ["mix_charm_ran", "san_pham_hot"],
     "price": 259000,
@@ -165,7 +177,6 @@
     "rating": 4.9,
     "purchases": 145
   },
-
   {
     "id": "mix_day_ngu_sac_004",
     "name": "Mix bạc cỏ 4 lá rỗng",
@@ -929,6 +940,18 @@
     "rating": 4.8,
     "purchases": 0
   },
+    {
+    "id": "mix_bi_bac_011",
+    "name": "Sole 10 bi bạc 3ly tai dâu",
+    "category": "mix_bi_bac",
+    "categories": ["mix_bi_bac", "san_pham_hot"],
+    "price": 139000,
+    "original_price": 169000,
+    "image": "./assets/images/product_img/Sole bac/mix-10-bi-bac-3ly.jpg",
+    "description": "Vòng dâu tằm mix bi bạc 3 lớp với dây rút tiện lợi, dễ dàng điều chỉnh kích thước.",
+    "rating": 4.8,
+    "purchases": 234
+  },
   {
     "id": "mix_bi_bac_006",
     "name": "Mix bi bạc 3ly",
@@ -1032,6 +1055,18 @@
     "price": 239000,
     "original_price": 289000,
     "image": "./assets/images/product_img/da do/vong-sole-3ly-co-gian-da-do.jpg",
+    "description": "Vòng dâu tằm sole bạc 3 lớp mix đá đỏ tự nhiên với dây co giãn, mang lại năng lượng tích cực.",
+    "rating": 4.7,
+    "purchases": 123
+  },
+  {
+    "id": "mix_da_do_tu_nhien_005",
+    "name": "Sole bạc 3ly mix đá đỏ + chuông co giãn",
+    "category": "mix_da_do_tu_nhien",
+    "categories": ["mix_da_do_tu_nhien", "vong_co_gian", "san_pham_hot"],
+    "price": 239000,
+    "original_price": 289000,
+    "image": "./assets/images/product_img/da do/vong-sole-3ly-co-gian-da-do-chuong.jpg",
     "description": "Vòng dâu tằm sole bạc 3 lớp mix đá đỏ tự nhiên với dây co giãn, mang lại năng lượng tích cực.",
     "rating": 4.7,
     "purchases": 123
@@ -1182,7 +1217,18 @@
     "rating": 4.8,
     "purchases": 456
   },
-  
+   {
+    "id": "mix_charm_chuong_0011",
+    "name": "Sole 10 bi bạc 3y + Chuông",
+    "category": "mix_charm_chuong",
+    "categories": ["mix_charm_chuong", "san_pham_hot"],
+    "price": 129000,
+    "original_price": 159000,
+    "image": "./assets/images/product_img/chuong/sole-10bi-bac-3ly-chuong.jpg",
+    "description": "Vòng dâu tằm trơn kết hợp charm chuông nhỏ xinh, đơn giản nhưng dễ thương.",
+    "rating": 4.8,
+    "purchases": 456
+  },
   {
     "id": "mix_charm_chuong_003",
     "name": "Mix bạc 3ly + Charm chuông",
@@ -1257,13 +1303,13 @@
   },
   
   {
-    "id": "mix_charm_chuong_012",
-    "name": "Mix bạc 3ly + chuông + thẻ tên",
+    "id": "mix_charm_chuong_016",
+    "name": "Mix bạc 3ly + thẻ tên + 2 chuông",
     "category": "mix_charm_chuong",
     "categories": ["mix_charm_chuong", "mix_the_ten_be", "san_pham_hot"],
     "price": 239000,
     "original_price": 289000,
-    "image": "./assets/images/product_img/the-ten/vong-sole-3ly-charm-chuong-the-ten.jpg",
+    "image": "./assets/images/product_img/the-ten/vong-sole-3ly-2-charm-chuong-the-ten.jpg",
     "description": "Vòng dâu tằm mix bi bạc 3 lớp kết hợp charm chuông và thẻ tên cá nhân, hoàn hảo cho bé yêu.",
     "rating": 4.9,
     "purchases": 87
