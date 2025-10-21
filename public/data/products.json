@@ -676,6 +676,19 @@
     "rating": 4.7,
     "purchases": 345
   },
+  
+  {
+    "id": "mix_the_ten_be_004",
+    "name": "Trơn mix 3 bi bạc + thẻ tên tròn",
+    "category": "mix_the_ten_be",
+    "categories": ["mix_the_ten_be", "san_pham_hot"],
+    "price": 209000,
+    "original_price": 249000,
+    "image": "./assets/images/product_img/the-ten/vong-tron-5-mix-the-ten-tron.jpg",
+    "description": "Vòng dâu tằm trơn với 3 bi bạc và thẻ tên tròn, sang trọng và thu hút mọi ánh nhìn.",
+    "rating": 5.0,
+    "purchases": 298
+  },
   {
     "id": "mix_the_ten_be_009",
     "name": "7 bi bạc + thẻ tên bé",
@@ -689,16 +702,16 @@
     "purchases": 345
   },
   {
-    "id": "mix_the_ten_be_004",
-    "name": "Trơn mix 3 bi bạc + thẻ tên tròn",
+    "id": "mix_the_ten_be_010",
+    "name": "Sole 10 bi bạc 3ly + thẻ tên rắn (Khắc tên mặt sau)",
     "category": "mix_the_ten_be",
-    "categories": ["mix_the_ten_be", "san_pham_hot"],
-    "price": 209000,
-    "original_price": 249000,
-    "image": "./assets/images/product_img/the-ten/vong-tron-5-mix-the-ten-tron.jpg",
-    "description": "Vòng dâu tằm trơn với 3 bi bạc và thẻ tên tròn, sang trọng và thu hút mọi ánh nhìn.",
-    "rating": 5.0,
-    "purchases": 298
+    "categories": ["mix_the_ten_be"],
+    "price": 189000,
+    "original_price": 229000,
+    "image": "./assets/images/product_img/the-ten/sole-10-bac-3ly-the-hinh-ran.jpg",
+    "description": "Vòng dâu tằm trơn với 2 bi bạc và thẻ tên tròn, tạo điểm nhấn nổi bật và cá tính.",
+    "rating": 4.7,
+    "purchases": 345
   },
   {
     "id": "mix_the_ten_be_005",
