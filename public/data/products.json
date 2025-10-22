@@ -1038,6 +1038,18 @@
   },
   {
     "id": "bi_charm_bac_007",
+    "name": "Thẻ 4 lá khắc tên bé (2 mặt)",
+    "category": "bi_charm_bac",
+    "categories": ["bi_charm_bac", "khuyen_mai"],
+    "price": 159000,
+    "original_price": 199000,
+    "image": "./assets/images/product_img/charm-bac/the-hinh-ran.jpg",
+    "description": "Thẻ bạc tròn có thể khắc tên bé 2 mặt, thiết kế cổ điển và thanh lịch.",
+    "rating": 4.8,
+    "purchases": 234
+  },
+  {
+    "id": "bi_charm_bac_013",
     "name": "Thẻ tròn khắc tên bé (2 mặt)",
     "category": "bi_charm_bac",
     "categories": ["bi_charm_bac", "khuyen_mai"],
