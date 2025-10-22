@@ -237,6 +237,8 @@ document.addEventListener('alpine:init', () => {
     // Quick Buy state
     isQuickBuyModalOpen: false,
     isSizingGuideModalOpen: false,
+    isSizingGuideModalOpen: false,
+    isSizingGuideModalOpen: false,
     quickBuyProduct: null,
     quickBuyQuantity: 1,
     quickBuyWeight: '',
@@ -2480,6 +2482,18 @@ document.addEventListener('alpine:init', () => {
 
       console.log('🔍 Sau khi đóng tất cả - isMiniCartOpen:', this.isMiniCartOpen);
       console.log('🔍 Sau khi đóng tất cả - isCheckoutModalOpen:', this.isCheckoutModalOpen);
+    },
+
+    // Mở modal hướng dẫn đo size
+    openSizingGuideModal() {
+      this.isSizingGuideModalOpen = true;
+      this.preventQuickBuyCloseOnEscape = true; // Ngăn modal Quick Buy đóng khi bấm ESC
+    },
+
+    // Đóng modal hướng dẫn đo size
+    closeSizingGuideModal() {
+      this.isSizingGuideModalOpen = false;
+      this.preventQuickBuyCloseOnEscape = false; // Cho phép modal Quick Buy đóng lại
     },
 
     // Xác nhận chuyển khoản và tiếp tục đặt hàng
