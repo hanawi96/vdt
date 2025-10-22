@@ -5,6 +5,21 @@ document.addEventListener('alpine:init', () => {
 
     /* ========= STATE ========= */
     view: 'products',
+
+    /* ========= BABY NAME MODAL STATE ========= */
+    isBabyNameModalOpen: false,
+    babyNameInput: '',
+    babyNameError: '',
+    babyNameProductInfo: {},
+    pendingBabyNameProduct: null,
+
+    // Danh sách các sản phẩm cần khắc tên
+    babyNameRequiredProducts: [
+      'Thẻ hình rắn khắc tên bé mặt sau',
+      'Thẻ 4 lá khắc tên bé (2 mặt)',
+      'Thẻ tròn khắc tên bé (2 mặt)'
+    ],
+
     categories: [
       { id: 'all', name: 'Tất cả sản phẩm', isPopular: true, image: './assets/images/product_img/tat-ca-mau.jpg' },
       { id: 'vong_tron', name: 'Vòng trơn', isPopular: true, image: './assets/images/product_img/vong_tron_co_dien_day_do.jpg' },
@@ -1810,6 +1825,12 @@ document.addEventListener('alpine:init', () => {
 
 
     handleProductClick(product) {
+      // Kiểm tra xem sản phẩm có cần khắc tên không
+      if (this.requiresBabyName(product)) {
+        this.openBabyNameModal(product);
+        return;
+      }
+
       if (this.isBeadProduct(product)) {
         // Mở modal chọn số lượng hạt dâu cho sản phẩm hạt dâu mài sẵn
         this.openBeadQuantityModal(product);
@@ -3581,6 +3602,110 @@ document.addEventListener('alpine:init', () => {
       // Ngược lại, nếu có đầy đủ dropdown values thì update address
       if (this.selectedProvince && this.selectedDistrict && this.selectedWard && this.streetAddress) {
         this.updateFullAddress();
+      }
+    },
+
+    /* ========= BABY NAME MODAL FUNCTIONS ========= */
+
+    // Kiểm tra xem sản phẩm có cần khắc tên không
+    requiresBabyName(product) {
+      if (!product || !product.name) return false;
+      return this.babyNameRequiredProducts.some(requiredName =>
+        product.name.toLowerCase().includes(requiredName.toLowerCase()) ||
+        requiredName.toLowerCase().includes(product.name.toLowerCase())
+      );
+    },
+
+    // Mở modal nhập tên bé
+    openBabyNameModal(product) {
+      this.babyNameProductInfo = {
+        id: product.id,
+        name: product.name,
+        price: product.price
+      };
+      this.pendingBabyNameProduct = product;
+      this.babyNameInput = '';
+      this.babyNameError = '';
+      this.isBabyNameModalOpen = true;
+    },
+
+    // Đóng modal nhập tên bé
+    closeBabyNameModal() {
+      this.isBabyNameModalOpen = false;
+      this.babyNameInput = '';
+      this.babyNameError = '';
+      this.babyNameProductInfo = {};
+      this.pendingBabyNameProduct = null;
+    },
+
+    // Validate tên bé
+    validateBabyName() {
+      this.babyNameError = '';
+      const name = this.babyNameInput.trim();
+
+      if (!name) {
+        this.babyNameError = 'Vui lòng nhập tên bé cần khắc';
+        return false;
+      }
+
+      if (name.length < 2) {
+        this.babyNameError = 'Tên bé phải có ít nhất 2 ký tự';
+        return false;
+      }
+
+      if (name.length > 50) {
+        this.babyNameError = 'Tên bé không được quá 50 ký tự';
+        return false;
+      }
+
+      // Kiểm tra ký tự đặc biệt không hợp lệ
+      const invalidChars = /[<>{}[\]\\\/]/;
+      if (invalidChars.test(name)) {
+        this.babyNameError = 'Tên bé không được chứa ký tự đặc biệt như < > { } [ ] \\ /';
+        return false;
+      }
+
+      return true;
+    },
+
+    // Xác nhận và thêm sản phẩm với tên bé vào giỏ hàng
+    confirmBabyName() {
+      if (!this.validateBabyName()) {
+        return;
+      }
+
+      if (!this.pendingBabyNameProduct) {
+        this.showAlert('Có lỗi xảy ra, vui lòng thử lại', 'error');
+        return;
+      }
+
+      const product = this.pendingBabyNameProduct;
+      const babyName = this.babyNameInput.trim();
+
+      // Tạo sản phẩm với thông tin tên bé
+      const productWithBabyName = {
+        ...product,
+        babyName: babyName,
+        notes: `Khắc tên: ${babyName}`, // Gán tên bé vào notes để hiển thị trong giỏ hàng
+        weight: 'N/A', // Sản phẩm khắc tên không cần cân nặng
+        selectedWeight: 'N/A',
+        cartId: `${product.id}-${Date.now()}`,
+        quantity: 1,
+        basePrice: product.price,
+        finalPrice: product.price,
+        displayName: `${product.name} - Khắc tên: ${babyName}`
+      };
+
+      // Thêm vào giỏ hàng
+      this.addToCart(productWithBabyName);
+
+      // Đóng modal và hiển thị thông báo
+      this.closeBabyNameModal();
+      this.showAlert(`Đã thêm ${product.name} với tên "${babyName}" vào giỏ hàng!`, 'success');
+
+      // Đóng modal chi tiết sản phẩm nếu đang mở
+      if (this.isProductDetailOpen) {
+        this.closeProductDetail();
       }
     }
   }));
