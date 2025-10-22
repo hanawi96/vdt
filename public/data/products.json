@@ -881,6 +881,18 @@
     "purchases": 167
   },
   {
+    "id": "mix_the_ten_be_018",
+    "name": "Vòng sole 3ly + Chuông + Thẻ tên bé",
+    "category": "mix_the_ten_be",
+    "categories": ["mix_the_ten_be", "mix_charm_chuong","khuyen_mai"],
+    "price": 219000,
+    "original_price": 259000,
+    "image": "./assets/images/product_img/the-ten/vong-sole-3ly-charm-chuong-the-ten.jpg",
+    "description": "Vòng dâu tằm trơn với 3 bi bạc và thẻ tên hình rắn, đỉnh cao của sự sang trọng và cá tính.",
+    "rating": 4.9,
+    "purchases": 167
+  },
+  {
     "id": "vong_nguoi_lon_001",
     "name": "[NGƯỜI LỚN] Vòng trơn co giãn",
     "category": "vong_nguoi_lon",
