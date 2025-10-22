@@ -398,6 +398,10 @@ document.addEventListener('alpine:init', () => {
     },
 
     // Quick Buy calculations - tính riêng cho mua ngay với dynamic pricing
+    get isEngravingProductInQuickBuy() {
+      return this.quickBuyProduct && this.requiresBabyName(this.quickBuyProduct);
+    },
+
     get quickBuySubtotal() {
       if (!this.quickBuyProduct) return 0;
 
@@ -637,7 +641,8 @@ document.addEventListener('alpine:init', () => {
       ward: '',
       streetAddress: '',
       paymentMethod: '',
-      weight: ''
+      weight: '',
+      quickBuyNotes: ''
     },
 
     // Weight validation errors for cart items (key: item.id, value: error message)
@@ -2655,6 +2660,16 @@ document.addEventListener('alpine:init', () => {
 
       // Validate form using formErrors system
       let isValid = true;
+
+      // 1. Validate baby name if it's an engraving product
+      if (this.isEngravingProductInQuickBuy && !this.quickBuyNotes.trim()) {
+        this.formErrors.quickBuyNotes = 'Vui lòng nhập tên bé cần khắc...Ví dụ "Hoàng Anh - Khoai"';
+        isValid = false;
+        this.$nextTick(() => {
+          this.$refs.quickBuyNotesInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        });
+        return; // Dừng lại và cuộn đến lỗi đầu tiên
+      }
 
       if (!this.customer.name.trim()) {
         this.formErrors.name = 'Vui lòng nhập họ và tên';
