@@ -1838,6 +1838,13 @@ document.addEventListener('alpine:init', () => {
     /* ========= CART ========= */
     // product object can be a standard product or a pre-filled cart item from options modal
     addToCart(product) {
+
+      // First, check for stock
+      if (product.stock_quantity === 0) {
+        this.showAlert('Sản phẩm này đã hết hàng!', 'error');
+        return;
+      }
+
       // Helper function to check if two items are identical
       const areItemsIdentical = (item1, item2) => {
         return item1.id === item2.id &&
@@ -2319,6 +2326,13 @@ document.addEventListener('alpine:init', () => {
     },
 
     buyNow(product) {
+
+      // First, check for stock
+      if (product.stock_quantity === 0) {
+        this.showAlert('Sản phẩm này đã hết hàng!', 'error');
+        return;
+      }
+
       console.log('🔍 buyNow() được gọi');
       console.log('🔍 - isProductDetailOpen trước buyNow:', this.isProductDetailOpen);
       console.log('🔍 - isQuickBuyModalOpen trước buyNow:', this.isQuickBuyModalOpen);
