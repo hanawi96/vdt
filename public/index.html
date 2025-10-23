@@ -853,7 +853,7 @@
                 <div id="product-list" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-2 sm:gap-3">
                     <template x-for="product in filteredProducts()" :key="product.id">
                         <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden group">
-                            <div @click="product.stock_quantity !== 0 && openProductDetail(product)" class="relative overflow-hidden" :class="{'cursor-pointer': product.stock_quantity !== 0}">
+                            <div @click="product.stock_quantity !== 0 && openQuickView(product)" class="relative overflow-hidden cursor-pointer">
                                 <img :src="product.image" :alt="product.name" class="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300">
                                 <!-- Out of Stock Overlay - Mom-friendly design -->
                                 <div x-show="product.stock_quantity === 0" class="absolute inset-0 bg-white bg-opacity-70 flex items-center justify-center p-2" x-cloak>
@@ -4968,47 +4968,7 @@
         </div>
     </div>
 
-    <!-- Sizing Guide Modal -->
-    <div x-show="isSizingGuideModalOpen" @keydown.escape.window="closeSizingGuideModal()" class="fixed inset-0 z-[9991] flex items-center justify-center bg-black bg-opacity-60 backdrop-blur-sm" style="display: none;">
-        <div x-show="isSizingGuideModalOpen" x-transition:enter="transition ease-out duration-300 transform" x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-200 transform" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-90" @click.outside="closeSizingGuideModal()" class="relative w-full max-w-lg mx-4 bg-white rounded-2xl shadow-2xl overflow-hidden">
-            <!-- Header -->
-            <div class="flex items-center justify-between px-6 py-4 bg-gray-50 border-b border-gray-200">
-                <h3 class="text-lg font-semibold text-gray-800">Hướng dẫn đo size vòng tay</h3>
-                <button @click="closeSizingGuideModal()" class="text-gray-400 hover:text-gray-600 transition-colors">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                </button>
-            </div>
 
-            <!-- Content -->
-            <div class="p-6 space-y-5 text-gray-700">
-
-                <div>
-                    <h4 class="font-semibold text-gray-800 mb-2">1. Chuẩn bị:</h4>
-                    <p class="text-sm">Một sợi dây/chỉ (hoặc thước dây) và một cây thước thẳng.</p>
-                </div>
-
-                <div>
-                    <h4 class="font-semibold text-gray-800 mb-2">2. Thực hiện:</h4>
-                    <ul class="list-disc list-inside space-y-1 text-sm">
-                        <li>Quấn sợi dây quanh cổ tay, ngay vị trí bạn thường đeo vòng.</li>
-                        <li>Đánh dấu điểm giao nhau trên sợi dây.</li>
-                        <li>Duỗi thẳng sợi dây và dùng thước để đo chiều dài từ đầu đến điểm đã đánh dấu.</li>
-                    </ul>
-                </div>
-
-                <div>
-                    <h4 class="font-semibold text-gray-800 mb-2">3. Lưu ý:</h4>
-                     <ul class="list-disc list-inside space-y-1 text-sm">
-                        <li>Đo vừa vặn, không quá chặt hay quá lỏng.</li>
-                        <li>Nếu bạn thích đeo rộng, có thể cộng thêm 1 - 1.5cm vào số đo.</li>
-                        <li>Nếu không có thước dây, bạn có thể dùng một tờ giấy.</li>
-                    </ul>
-                </div>
-            </div>
-
-
-        </div>
-    </div>
 
 </body>
 </html>
@@ -5080,7 +5040,7 @@
     </div>
 
 
-    <!-- Modal Hướng dẫn đo size -->
+    <!-- Modal Hướng dẫn đo size (New, Simplified Design) -->
     <div x-show="isSizingGuideModalOpen"
          x-transition:enter="transition ease-out duration-300"
          x-transition:enter-start="opacity-0"
@@ -5088,26 +5048,34 @@
          x-transition:leave="transition ease-in duration-200"
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0"
-         class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-[9999]"
+         class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-4 pt-safe-top pb-safe-bottom z-[9950]"
          @click.self="closeSizingGuideModal()"
          @keydown.escape.window="closeSizingGuideModal()">
 
         <div x-show="isSizingGuideModalOpen"
              x-transition:enter="transition ease-out duration-300"
-             x-transition:enter-start="opacity-0 transform scale-95"
-             x-transition:enter-end="opacity-100 transform scale-100"
+             x-transition:enter-start="opacity-0 scale-95"
+             x-transition:enter-end="opacity-100 scale-100"
              x-transition:leave="transition ease-in duration-200"
-             x-transition:leave-start="opacity-100 transform scale-100"
-             x-transition:leave-end="opacity-0 transform scale-95"
-             class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+             x-transition:leave-start="opacity-100 scale-100"
+             x-transition:leave-end="opacity-0 scale-95"
+             class="bg-white rounded-2xl shadow-xl w-full max-w-sm sm:max-w-md flex flex-col transform transition-all my-4 max-h-[85vh] sm:max-h-[90vh]">
 
-            <!-- Header -->
-            <div class="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 rounded-t-2xl">
+            <!-- Header (Synced with Mini Cart) -->
+            <div class="bg-gradient-to-r from-pink-500 to-purple-600 text-white p-3 sm:p-4 rounded-t-2xl flex-shrink-0">
                 <div class="flex items-center justify-between">
-                    <h3 class="text-xl font-bold text-gray-900">[object Object]ướng dẫn đo size vòng tay</h3>
-                    <button @click="closeSizingGuideModal()"
-                            class="text-gray-400 hover:text-gray-600 transition-colors">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-6 h-6 sm:w-8 sm:h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-sm sm:text-base font-bold">Hướng dẫn đo size</h3>
+                        </div>
+                    </div>
+                    <button @click="closeSizingGuideModal()" class="w-6 h-6 sm:w-8 sm:h-8 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full flex items-center justify-center transition-all">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
                         </svg>
                     </button>
@@ -5115,108 +5083,86 @@
             </div>
 
             <!-- Content -->
-            <div class="p-6 space-y-6">
-                <!-- Cách đo cho trẻ em -->
-                <div class="bg-gradient-to-r from-pink-50 to-purple-50 rounded-xl p-5 border border-pink-200">
-                    <h4 class="text-lg font-semibold text-pink-800 mb-3 flex items-center">
-                        👶 Cách đo size cho bé (0-12 tuổi)
-                    </h4>
-                    <div class="space-y-3 text-sm text-gray-700">
-                        <p><strong>Bước 1:</strong> Dùng thước dây hoặc sợi chỉ quấn quanh cổ tay bé</p>
-                        <p><strong>Bước 2:</strong> Đo vừa khít, không quá chặt hoặc quá lỏng</p>
-                        <p><strong>Bước 3:</strong> Ghi lại số đo và tham khảo bảng size bên dưới</p>
-                        <div class="bg-white rounded-lg p-3 mt-3 border border-pink-100">
-                            <p class="text-xs text-pink-600 font-medium">💡 Mẹo: Nếu không có thước, có thể dùng sợi chỉ đo rồi đặt lên thước kẻ</p>
-                        </div>
-                    </div>
+            <div class="flex-1 overflow-y-auto modal-scroll p-4 sm:p-6 space-y-4">
+                <!-- Cách đo -->
+                <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                    <h4 class="font-semibold text-gray-800 mb-2">Cách đo:</h4>
+                    <p class="text-sm text-gray-600">Cuốn thước dây sát cổ tay hoặc dùng sợi chỉ quấn sát cổ tay, sau đó đo độ dài sợi dây bằng thước kẻ.</p>
                 </div>
 
-                <!-- Cách đo cho người lớn -->
-                <div class="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-5 border border-blue-200">
-                    <h4 class="text-lg font-semibold text-blue-800 mb-3 flex items-center">
-                        👩 Cách đo size cho người lớn
-                    </h4>
-                    <div class="space-y-3 text-sm text-gray-700">
-                        <p><strong>Bước 1:</strong> Đo chu vi cổ tay tại vị trí nhỏ nhất (gần bàn tay)</p>
-                        <p><strong>Bước 2:</strong> Thước vừa khít, có thể luồn được 1 ngón tay</p>
-                        <p><strong>Bước 3:</strong> Cộng thêm 1-2cm để vòng không quá chặt</p>
-                    </div>
+                <!-- Mẹo -->
+                <div class="bg-blue-50 rounded-lg p-4 border border-blue-200">
+                    <h4 class="font-semibold text-blue-800 mb-2">💡 Mẹo:</h4>
+                    <p class="text-sm text-gray-600">Nếu không có thước, lấy tờ tiền 500k quấn sát cổ tay (tờ 500k dài 15cm), xem thừa thiếu bao nhiêu là ra size tay.</p>
                 </div>
 
-                <!-- Bảng size tham khảo -->
-                <div class="bg-gray-50 rounded-xl p-5 border border-gray-200">
-                    <h4 class="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-                       [object Object]Bảng size tham khảo theo cân nặng
-                    </h4>
-
-                    <!-- Bảng cho trẻ em -->
-                    <div class="mb-6">
-                        <h5 class="font-medium text-pink-700 mb-3">[object Object]rẻ em (0-12 tuổi)</h5>
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-sm border-collapse">
-                                <thead>
-                                    <tr class="bg-pink-100">
-                                        <th class="border border-pink-200 px-3 py-2 text-left">Cân nặng</th>
-                                        <th class="border border-pink-200 px-3 py-2 text-left">Chu vi cổ tay</th>
-                                        <th class="border border-pink-200 px-3 py-2 text-left">Size vòng</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr><td class="border border-pink-200 px-3 py-2">3-6kg</td><td class="border border-pink-200 px-3 py-2">8-9cm</td><td class="border border-pink-200 px-3 py-2">10-11cm</td></tr>
-                                    <tr class="bg-pink-25"><td class="border border-pink-200 px-3 py-2">6-9kg</td><td class="border border-pink-200 px-3 py-2">9-10cm</td><td class="border border-pink-200 px-3 py-2">11-12cm</td></tr>
-                                    <tr><td class="border border-pink-200 px-3 py-2">9-12kg</td><td class="border border-pink-200 px-3 py-2">10-11cm</td><td class="border border-pink-200 px-3 py-2">12-13cm</td></tr>
-                                    <tr class="bg-pink-25"><td class="border border-pink-200 px-3 py-2">12-15kg</td><td class="border border-pink-200 px-3 py-2">11-12cm</td><td class="border border-pink-200 px-3 py-2">13-14cm</td></tr>
-                                    <tr><td class="border border-pink-200 px-3 py-2">15-20kg</td><td class="border border-pink-200 px-3 py-2">12-13cm</td><td class="border border-pink-200 px-3 py-2">14-15cm</td></tr>
-                                    <tr class="bg-pink-25"><td class="border border-pink-200 px-3 py-2">20kg+</td><td class="border border-pink-200 px-3 py-2">13cm+</td><td class="border border-pink-200 px-3 py-2">15cm+</td></tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <!-- Bảng cho người lớn -->
-                    <div>
-                        <h5 class="font-medium text-blue-700 mb-3">👩 Người lớn</h5>
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-sm border-collapse">
-                                <thead>
-                                    <tr class="bg-blue-100">
-                                        <th class="border border-blue-200 px-3 py-2 text-left">Size</th>
-                                        <th class="border border-blue-200 px-3 py-2 text-left">Chu vi cổ tay</th>
-                                        <th class="border border-blue-200 px-3 py-2 text-left">Size vòng</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr><td class="border border-blue-200 px-3 py-2">XS (14-15cm)</td><td class="border border-blue-200 px-3 py-2">13-14cm</td><td class="border border-blue-200 px-3 py-2">15-16cm</td></tr>
-                                    <tr class="bg-blue-25"><td class="border border-blue-200 px-3 py-2">S (15-16cm)</td><td class="border border-blue-200 px-3 py-2">14-15cm</td><td class="border border-blue-200 px-3 py-2">16-17cm</td></tr>
-                                    <tr><td class="border border-blue-200 px-3 py-2">M (16-17cm)</td><td class="border border-blue-200 px-3 py-2">15-16cm</td><td class="border border-blue-200 px-3 py-2">17-18cm</td></tr>
-                                    <tr class="bg-blue-25"><td class="border border-blue-200 px-3 py-2">L (17-18cm)</td><td class="border border-blue-200 px-3 py-2">16-17cm</td><td class="border border-blue-200 px-3 py-2">18-19cm</td></tr>
-                                    <tr><td class="border border-blue-200 px-3 py-2">XL (18cm+)</td><td class="border border-blue-200 px-3 py-2">17cm+</td><td class="border border-blue-200 px-3 py-2">19cm+</td></tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Lưu ý quan trọng -->
-                <div class="bg-amber-50 border border-amber-200 rounded-xl p-4">
-                    <h5 class="font-semibold text-amber-800 mb-2 flex items-center">
-                        ⚠️ Lưu ý quan trọng
-                    </h5>
-                    <ul class="text-sm text-amber-700 space-y-1">
-                        <li>• Đo khi bé/người lớn ở trạng thái bình thường, không sưng tay</li>
-                        <li>• Vòng tay nên vừa khít, không quá chặt hoặc quá lỏng</li>
-                        <li>• Nếu đo được giữa 2 size, nên chọn size lớn hơn</li>
-                        <li>• Liên hệ shop nếu cần tư vấn thêm về size</li>
-                    </ul>
+                <!-- Lưu ý -->
+                <div class="bg-red-50 rounded-lg p-4 border border-red-200">
+                    <h4 class="font-semibold text-red-800 mb-2">⚠️ Lưu ý:</h4>
+                    <p class="text-sm text-gray-600">Quấn sát cổ tay không trừ hao, nếu không vòng sẽ bị rộng.</p>
                 </div>
             </div>
 
-            <!-- Footer -->
-            <div class="sticky bottom-0 bg-gray-50 px-6 py-4 rounded-b-2xl border-t border-gray-200">
+            <!-- Footer (Synced with Mini Cart) -->
+            <div class="flex-shrink-0 bg-gray-50 p-3 sm:p-4 border-t border-gray-200 rounded-b-2xl">
                 <button @click="closeSizingGuideModal()"
-                        class="w-full bg-pink-600 hover:bg-pink-700 text-white font-medium py-3 px-4 rounded-xl transition-colors">
-                    Đã hiểu, đóng hướng dẫn
+                        class="w-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold py-2.5 sm:py-3 px-4 rounded-lg shadow-md hover:shadow-lg transition-all flex items-center justify-center space-x-2 text-sm">
+                    <span>Đã hiểu</span>
                 </button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Quick View Modal -->
+    <div x-show="isQuickViewOpen"
+         @keydown.escape.window="closeQuickView()"
+         class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-4 z-[9800]"
+         x-transition:enter="transition ease-out duration-300"
+         x-transition:enter-start="opacity-0"
+         x-transition:enter-end="opacity-100"
+         x-transition:leave="transition ease-in duration-200"
+         x-transition:leave-start="opacity-100"
+         x-transition:leave-end="opacity-0">
+
+        <div @click.away="closeQuickView()"
+             class="bg-white rounded-2xl shadow-xl w-full max-w-4xl max-h-[90vh] flex flex-col sm:flex-row transform transition-all"
+             x-show="isQuickViewOpen"
+             x-transition:enter="transition ease-out duration-300"
+             x-transition:enter-start="opacity-0 scale-95"
+             x-transition:enter-end="opacity-100 scale-100"
+             x-transition:leave="transition ease-in duration-200"
+             x-transition:leave-start="opacity-100 scale-100"
+             x-transition:leave-end="opacity-0 scale-95">
+
+            <!-- Image Section -->
+            <div class="w-full sm:w-1/2 h-64 sm:h-auto relative">
+                <img :src="quickViewProduct?.image" :alt="quickViewProduct?.name" class="w-full h-full object-cover rounded-t-2xl sm:rounded-l-2xl sm:rounded-tr-none">
+                <button @click="closeQuickView()" class="absolute top-3 right-3 bg-gray-800 bg-opacity-50 text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-opacity-75 transition-all">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+
+            <!-- Details Section -->
+            <div class="w-full sm:w-1/2 p-6 flex flex-col justify-between">
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900" x-text="quickViewProduct?.name"></h2>
+                    <div class="flex items-baseline my-4">
+                        <span class="text-3xl font-bold text-pink-600" x-text="formatCurrency(quickViewProduct?.price)"></span>
+                        <span x-show="quickViewProduct?.original_price" class="ml-3 text-lg text-gray-400 line-through" x-text="formatCurrency(quickViewProduct?.original_price)"></span>
+                    </div>
+                    <p class="text-gray-600 text-sm" x-text="quickViewProduct?.description"></p>
+                </div>
+
+                <div class="mt-6 space-y-3">
+                    <button @click="addToCart(quickViewProduct); closeQuickView();" class="w-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold py-3 px-4 rounded-lg shadow-md hover:shadow-lg transition-all flex items-center justify-center space-x-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                        <span>Thêm vào giỏ</span>
+                    </button>
+                    <button @click="openProductDetail(quickViewProduct); closeQuickView();" class="w-full bg-gray-100 text-gray-800 font-bold py-3 px-4 rounded-lg hover:bg-gray-200 transition-all">
+                        Xem chi tiết sản phẩm
+                    </button>
+                </div>
             </div>
         </div>
     </div>

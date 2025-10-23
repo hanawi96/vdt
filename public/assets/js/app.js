@@ -589,6 +589,10 @@ document.addEventListener('alpine:init', () => {
 
 
 
+    /* ========= QUICK VIEW ========= */
+    isQuickViewOpen: false,
+    quickViewProduct: null,
+
     /* ========= PRODUCT DETAIL MODAL ========= */
     isProductDetailOpen: false,
     currentProductDetail: null,
@@ -2482,6 +2486,23 @@ document.addEventListener('alpine:init', () => {
 
       console.log('🔍 Sau khi đóng tất cả - isMiniCartOpen:', this.isMiniCartOpen);
       console.log('🔍 Sau khi đóng tất cả - isCheckoutModalOpen:', this.isCheckoutModalOpen);
+    },
+
+    // Mở modal Quick View
+    openQuickView(product) {
+      this.quickViewProduct = product;
+      this.isQuickViewOpen = true;
+      document.body.style.overflow = 'hidden';
+    },
+
+    // Đóng modal Quick View
+    closeQuickView() {
+      this.isQuickViewOpen = false;
+      this.quickViewProduct = null;
+      // Restore body scroll only if no other modal is open
+      if (!this.isMiniCartOpen && !this.isCheckoutModalOpen && !this.isProductDetailOpen && !this.isQuickBuyModalOpen && !this.isSizingGuideModalOpen) {
+        document.body.style.overflow = 'auto';
+      }
     },
 
     // Mở modal hướng dẫn đo size
