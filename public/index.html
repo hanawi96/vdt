@@ -2633,8 +2633,8 @@
                                 <svg class="w-3 h-3 mr-1 text-pink-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                 </svg>
-                                <span x-text="isAdultInQuickBuy ? 'Vui lòng chọn đúng size tay!' : 'Các mẹ chọn đúng cân nặng của bé giúp em nha.'"></span>
-                                <span @click="openSizingGuideModal()" class="text-pink-600 underline cursor-pointer hover:text-pink-800 ml-1">Cách đo size</span>
+                                <span x-text="isAdultInQuickBuy ? 'Vui lòng chọn đúng size tay!' : 'Các mẹ chọn đúng cân nặng của bé không trừ hao nha.'"></span>
+                                <span x-show="isAdultInQuickBuy" @click="openSizingGuideModal()" class="text-pink-600 underline cursor-pointer hover:text-pink-800 ml-1">Cách đo size</span>
                             </div>
                         </template>
                     </div>
