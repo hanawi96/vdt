@@ -3337,88 +3337,43 @@
                             </div>
                         </div>
 
-                        <!-- Benefits Section -->
-                        <div class="mb-6">
-                            <h3 class="text-lg font-semibold text-gray-800 mb-3">💎 Tác dụng của Vòng Dâu Tằm</h3>
-                            <div class="space-y-2">
-                                <div class="flex items-start space-x-2">
-                                    <span class="text-green-500 mt-1">•</span>
-                                    <span class="text-gray-700">Giúp bé ngủ ngon, sâu giấc và ít giật mình</span>
-                                </div>
-                                <div class="flex items-start space-x-2">
-                                    <span class="text-green-500 mt-1">•</span>
-                                    <span class="text-gray-700">Bảo vệ bé khỏi tà ma theo quan niệm dân gian</span>
-                                </div>
-                                <div class="flex items-start space-x-2">
-                                    <span class="text-green-500 mt-1">•</span>
-                                    <span class="text-gray-700">Mang lại may mắn và bình an cho gia đình</span>
-                                </div>
-                                <div class="flex items-start space-x-2">
-                                    <span class="text-green-500 mt-1">•</span>
-                                    <span class="text-gray-700">100% tự nhiên, an toàn cho làn da nhạy cảm</span>
-                                </div>
-                            </div>
-                        </div>
+                        <!-- Dynamic Product Details Section -->
+                        <template x-if="productDetailContent">
+                            <div class="mb-6">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4" x-text="productDetailContent.title"></h3>
 
-                        <!-- Product Details -->
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-                            <div>
-                                <h4 class="font-semibold text-gray-800 mb-2">🧱 Chất liệu</h4>
-                                <p class="text-gray-700 text-sm">Gỗ dâu tằm tự nhiên 100%</p>
+                                <template x-for="section in productDetailContent.sections" :key="section.heading">
+                                    <div class="mb-6">
+                                        <h4 class="text-base font-semibold text-gray-800 mb-3" x-text="section.heading"></h4>
+                                        <div class="space-y-2">
+                                            <template x-for="item in section.content" :key="item">
+                                                <div class="flex items-start space-x-2">
+                                                    <span class="text-green-500 mt-1">•</span>
+                                                    <span class="text-gray-700" x-text="item"></span>
+                                                </div>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </template>
                             </div>
-                            <div>
-                                <h4 class="font-semibold text-gray-800 mb-2">🏭 Xuất xứ</h4>
-                                <p class="text-gray-700 text-sm">Việt Nam</p>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold text-gray-800 mb-2">👶 Độ tuổi phù hợp</h4>
-                                <p class="text-gray-700 text-sm">Mọi độ tuổi</p>
-                            </div>
-                            <div>
-                                <h4 class="font-semibold text-gray-800 mb-2">🛡️ Bảo hành</h4>
-                                <p class="text-gray-700 text-sm">Đổi trả trong 7 ngày</p>
-                            </div>
-                        </div>
+                        </template>
 
-
-
-                        <!-- Cách sử dụng -->
-                        <div class="mb-6">
-                            <h3 class="text-lg font-semibold text-gray-800 mb-3">📋 Cách sử dụng</h3>
-                            <p class="text-gray-700 leading-relaxed">
-                                1. Đeo vòng vào cổ tay hoặc cổ chân của bé<br>
-                                2. Điều chỉnh kích thước phù hợp, không quá chặt<br>
-                                3. Sử dụng liên tục để đạt hiệu quả tốt nhất<br>
-                                4. Vệ sinh nhẹ nhàng bằng khăn ẩm khi cần
-                            </p>
-                        </div>
-
-                        <!-- Cam kết từ shop -->
-                        <div class="mb-6">
-                            <h3 class="text-lg font-semibold text-gray-800 mb-3">🛡️ Cam kết từ An Nhiên</h3>
-                            <div class="space-y-2">
-                                <div class="flex items-start space-x-2">
-                                    <span class="text-green-500 mt-1">✓</span>
-                                    <span class="text-gray-700">Làm thủ công bằng tay 100%, không máy móc</span>
-                                </div>
-                                <div class="flex items-start space-x-2">
-                                    <span class="text-green-500 mt-1">✓</span>
-                                    <span class="text-gray-700">Gỗ dâu tằm đực Việt Nam, không ra quả</span>
-                                </div>
-                                <div class="flex items-start space-x-2">
-                                    <span class="text-green-500 mt-1">✓</span>
-                                    <span class="text-gray-700">Được kiểm tra hàng trước khi thanh toán</span>
-                                </div>
-                                <div class="flex items-start space-x-2">
-                                    <span class="text-green-500 mt-1">✓</span>
-                                    <span class="text-gray-700">Không hóa chất, không chất bảo quản, an toàn tuyệt đối</span>
-                                </div>
-                                <div class="flex items-start space-x-2">
-                                    <span class="text-green-500 mt-1">✓</span>
-                                    <span class="text-gray-700">Đổi trả miễn phí trong 7 ngày nếu không hài lòng</span>
+                        <!-- Fallback content if productDetailContent is not available -->
+                        <template x-if="!productDetailContent">
+                            <div class="mb-6">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-3">💎 Thông Tin Sản Phẩm</h3>
+                                <div class="space-y-2">
+                                    <div class="flex items-start space-x-2">
+                                        <span class="text-green-500 mt-1">•</span>
+                                        <span class="text-gray-700">100% tự nhiên, an toàn cho làn da nhạy cảm</span>
+                                    </div>
+                                    <div class="flex items-start space-x-2">
+                                        <span class="text-green-500 mt-1">•</span>
+                                        <span class="text-gray-700">Chất lượng cao, được kiểm tra kỹ lưỡng</span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </template>
 
 
                     </div>

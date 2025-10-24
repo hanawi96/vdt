@@ -595,6 +595,8 @@ document.addEventListener('alpine:init', () => {
 
     /* ========= PRODUCT DETAIL MODAL ========= */
     isProductDetailOpen: false,
+    sharedDetails: null,
+    productDetailContent: null,
     currentProductDetail: null,
     productDetailQuantity: 1,
     productDetailViewers: Math.floor(Math.random() * 5) + 1, // 1-5 người đang xem
@@ -3490,6 +3492,18 @@ document.addEventListener('alpine:init', () => {
       this.currentProductDetail = product;
       this.productDetailQuantity = 1;
       this.productDetailViewers = Math.floor(Math.random() * 5) + 1; // 1-5 người đang xem
+
+      // --- NEW: DYNAMIC CONTENT LOGIC ---
+      if (this.sharedDetails) {
+        const category = product.category;
+        // Use specific details if available, otherwise use the default
+        this.productDetailContent = this.sharedDetails[category] || this.sharedDetails['default_vong_dau_tam'];
+      } else {
+        // Fallback if sharedDetails hasn't loaded
+        this.productDetailContent = null;
+      }
+      // --- END NEW LOGIC ---
+
       this.isProductDetailOpen = true;
       document.body.style.overflow = 'hidden';
 

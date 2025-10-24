@@ -1,11 +1,95 @@
 {
-  "benefits": [
-    "Làm từ cành dâu tằm gốc 100%",
-    "Giúp bé ngủ ngon, không giật mình, bớt khóc đêm",
-    "Kỵ gió, bảo vệ sức khỏe cho bé yêu",
-    "Là món quà truyền thống, ý nghĩa cho bé"
-  ],
-  "full_description": "Mỗi chiếc vòng tại An Nhiên đều được làm từ cành của cây dâu tằm thật, được lựa chọn kỹ lưỡng từ những vùng đất có thổ nhưỡng tốt nhất. Đây là một món quà truyền thống đã được các thế hệ cha mẹ Việt Nam tin dùng từ hàng trăm năm nay để bảo vệ con trẻ. Chúng tôi cam kết mang đến những sản phẩm tự nhiên, an toàn tuyệt đối, giúp bé yêu của bạn luôn khỏe mạnh và bình an.",
-  "materials": "Gỗ dâu tằm tự nhiên, Bạc ta (tùy sản phẩm), Hổ phách (tùy sản phẩm)",
-  "origin": "Làng nghề thủ công Việt Nam"
+  "default_vong_dau_tam": {
+    "title": "Thông Tin Vòng Dâu Tằm",
+    "sections": [
+      {
+        "heading": "🌿 Công Dụng Chính",
+        "content": [
+          "Giúp bé ngủ ngon, sâu giấc, không còn giật mình, khóc đêm (khóc dạ đề).",
+          "Kỵ gió, giảm mồ hôi trộm, bảo vệ sức khỏe cho bé yêu.",
+          "Bạc ta nguyên chất giúp kháng khuẩn, tránh cảm, kỵ gió độc."
+        ]
+      },
+      {
+        "heading": "📝 Chất Liệu & Cam Kết",
+        "content": [
+          "100% gỗ dâu tằm gốc Việt Nam, được chọn lọc kỹ lưỡng.",
+          "Bạc ta S999 nguyên chất.",
+          "An toàn tuyệt đối cho làn da nhạy cảm của bé."
+        ]
+      },
+      {
+        "heading": "📖 Hướng Dẫn Sử Dụng",
+        "content": [
+          "Đeo 1 vòng ở tay hoặc chân cho bé.",
+          "Tránh tiếp xúc trực tiếp với nước và hóa chất để vòng bền đẹp.",
+          "Khi bạc xỉn màu, dùng khăn lau bạc hoặc kem đánh răng để làm sáng lại."
+        ]
+      }
+    ]
+  },
+  "bi_charm_bac": {
+    "title": "Thông Tin Charm Bạc",
+    "sections": [
+      {
+        "heading": "💎 Chất Liệu & Chất Lượng",
+        "content": [
+          "Bạc ta S999 nguyên chất, đảm bảo an toàn cho da.",
+          "Chế tác tinh xảo, sắc nét, độ bền cao."
+        ]
+      },
+      {
+        "heading": "✨ Ý Nghĩa",
+        "content": [
+          "Là món phụ kiện tô điểm, giúp chiếc vòng của bé thêm xinh xắn.",
+          "Mỗi charm mang một ý nghĩa may mắn, bình an riêng."
+        ]
+      },
+      {
+        "heading": "🧼 Cách Bảo Quản",
+        "content": [
+          "Nên tháo ra khi bé tắm hoặc tiếp xúc với hóa chất.",
+          "Dùng khăn lau bạc chuyên dụng để làm sáng khi bị xỉn màu."
+        ]
+      }
+    ]
+  },
+  "san_pham_ban_kem": {
+    "title": "Thông Tin Sản Phẩm",
+    "sections": [
+      {
+        "heading": "🌿 Công Dụng",
+        "content": [
+          "Túi dâu tằm giúp bé ngủ ngon, sâu giấc hơn khi để ở đầu giường.",
+          "Móc chìa khóa dâu tằm mang lại may mắn, bình an cho người lớn."
+        ]
+      },
+      {
+        "heading": "📝 Chất Liệu",
+        "content": [
+          "100% gỗ dâu tằm tự nhiên của Việt Nam."
+        ]
+      }
+    ]
+  },
+  "vong_nguoi_lon": {
+    "title": "Thông Tin Vòng Dâu Tằm Người Lớn",
+    "sections": [
+      {
+        "heading": "🌿 Công Dụng",
+        "content": [
+          "Mang lại may mắn, bình an và tài lộc.",
+          "Kỵ gió độc, bảo vệ sức khỏe.",
+          "Là món trang sức thời trang, tinh tế và ý nghĩa."
+        ]
+      },
+      {
+        "heading": "📝 Chất Liệu & Cam Kết",
+        "content": [
+          "100% gỗ dâu tằm gốc Việt Nam.",
+          "Bạc ta S999 nguyên chất."
+        ]
+      }
+    ]
+  }
 }
