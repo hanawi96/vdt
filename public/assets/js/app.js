@@ -634,6 +634,7 @@ document.addEventListener('alpine:init', () => {
     customer: Alpine.$persist({ name: '', phone: '', email: '', address: '', notes: '' }).as('customerInfo'),
     paymentMethod: 'cod',
     addressData: [],
+    isAddressLoading: false,
     selectedProvince: Alpine.$persist('').as('selectedProvince'),
     selectedDistrict: Alpine.$persist('').as('selectedDistrict'),
     selectedWard: Alpine.$persist('').as('selectedWard'),
@@ -918,20 +919,36 @@ document.addEventListener('alpine:init', () => {
     },
 
     /* ========= DATA FETCH ========= */
+    async getAddressData() {
+      // Chỉ tải nếu dữ liệu chưa có và không đang trong quá trình tải
+      if (this.addressData.length === 0 && !this.isAddressLoading) {
+        this.isAddressLoading = true;
+        try {
+          const response = await fetch('./data/vietnamAddress.json');
+          if (!response.ok) throw new Error('Không thể tải dữ liệu địa chỉ.');
+          this.addressData = await response.json();
+        } catch (error) {
+          console.error('Lỗi tải địa chỉ:', error);
+          this.formErrors.province = 'Lỗi tải dữ liệu địa chỉ.';
+        } finally {
+          this.isAddressLoading = false;
+        }
+      }
+    },
+
     async loadData() {
       this.loading = true; this.error = null;
       try {
-        const [prodRes, infoRes, addrRes, discountRes, sharedRes] = await Promise.all([
+        const [prodRes, infoRes, discountRes, sharedRes] = await Promise.all([
           fetch('./data/products.json'),
           fetch('./data/shop-info.json'),
-          fetch('./data/vietnamAddress.json'),
           fetch('./data/discounts.json'),
           fetch('./data/shared-details.json')
         ]);
 
         if (!prodRes.ok) throw new Error('Không thể tải sản phẩm.');
         if (!infoRes.ok) throw new Error('Không thể tải thông tin shop.');
-        if (!addrRes.ok) throw new Error('Không thể tải dữ liệu địa chỉ.');
+
         if (!discountRes.ok) throw new Error('Không thể tải mã giảm giá.');
         if (!sharedRes.ok) throw new Error('Không thể tải thông tin chi tiết.');
 
@@ -940,7 +957,7 @@ document.addEventListener('alpine:init', () => {
         // Categories đã được khởi tạo tĩnh ở trên
         this.products = await prodRes.json();
         this.shopInfo = await infoRes.json();
-        this.addressData = await addrRes.json();
+
 
         // Force re-render dropdown để sync với model values
         this.$nextTick(() => {
