@@ -270,8 +270,10 @@
                         <div class="flex items-start justify-center space-x-2 mb-3">
                             <!-- Vòng Trơn Image -->
                             <div class="flex flex-col items-center">
-                                <div class="relative cursor-pointer" @click="openComboImageModal('vong_tron_tui')">
-                                    <img src="./assets/images/product_img/vong_tron_co_dien_day_do.jpg" alt="Vòng Dâu Tằm Trơn" class="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-xl border-2 border-white shadow-md hover:scale-105 transition-transform" loading="lazy">
+                                <div class="relative cursor-pointer bg-gradient-to-br from-pink-50 to-rose-50 rounded-xl" @click="openComboImageModal('vong_tron_tui')">
+                                    <img src="./assets/images/product_img/vong_tron_co_dien_day_do.jpg" alt="Vòng Dâu Tằm Trơn"
+                                         @load="$el.classList.remove('opacity-0')"
+                                         class="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-xl border-2 border-white shadow-md hover:scale-105 transition-transform opacity-0 transition-opacity duration-300" loading="lazy">
 
                                     <!-- Zoom Icon -->
                                     <div class="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-20 rounded-xl flex items-center justify-center transition-all">
@@ -288,8 +290,10 @@
 
                             <!-- Túi Image -->
                             <div class="flex flex-col items-center">
-                                <div class="relative cursor-pointer" @click="openComboImageModal('vong_tron_tui')">
-                                    <img src="./assets/images/product_img/tui_dau_tam.jpg" alt="Túi Dâu Tằm" class="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-xl border-2 border-white shadow-md hover:scale-105 transition-transform" loading="lazy">
+                                <div class="relative cursor-pointer bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl" @click="openComboImageModal('vong_tron_tui')">
+                                    <img src="./assets/images/product_img/tui_dau_tam.jpg" alt="Túi Dâu Tằm"
+                                         @load="$el.classList.remove('opacity-0')"
+                                         class="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-xl border-2 border-white shadow-md hover:scale-105 transition-transform opacity-0 transition-opacity duration-300" loading="lazy">
 
                                     <!-- Zoom Icon -->
                                     <div class="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-20 rounded-xl flex items-center justify-center transition-all">
@@ -376,8 +380,10 @@
                         <div class="flex items-start justify-center space-x-2 mb-3">
                             <!-- Vòng Co Giãn Image -->
                             <div class="flex flex-col items-center">
-                                <div class="relative cursor-pointer" @click="openComboImageModal('vong_co_gian_tui')">
-                                    <img src="./assets/images/product_img/co gian/vong_tron_co_gian.jpg" alt="Vòng dâu tằm trơn co giãn" class="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-lg shadow-md" loading="lazy">
+                                <div class="relative cursor-pointer bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg" @click="openComboImageModal('vong_co_gian_tui')">
+                                    <img src="./assets/images/product_img/co gian/vong_tron_co_gian.jpg" alt="Vòng dâu tằm trơn co giãn"
+                                         @load="$el.classList.remove('opacity-0')"
+                                         class="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-lg shadow-md opacity-0 transition-opacity duration-300" loading="lazy">
                                 </div>
                                 <div class="text-pink-600 font-semibold text-xs mt-1">89.000đ</div>
                             </div>
@@ -386,8 +392,10 @@
                             </div>
                             <!-- Túi Dâu Tằm Image -->
                             <div class="flex flex-col items-center">
-                                <div class="relative cursor-pointer" @click="openComboImageModal('vong_co_gian_tui')">
-                                    <img src="./assets/images/product_img/tui_dau_tam.jpg" alt="Túi dâu tằm để giường" class="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-lg shadow-md" loading="lazy">
+                                <div class="relative cursor-pointer bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg" @click="openComboImageModal('vong_co_gian_tui')">
+                                    <img src="./assets/images/product_img/tui_dau_tam.jpg" alt="Túi dâu tằm để giường"
+                                         @load="$el.classList.remove('opacity-0')"
+                                         class="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-lg shadow-md opacity-0 transition-opacity duration-300" loading="lazy">
                                 </div>
                                 <div class="text-pink-600 font-semibold text-xs mt-1">59.000đ</div>
                             </div>
@@ -468,8 +476,10 @@
                         <div class="flex items-start justify-center space-x-2 mb-3">
                             <!-- Vòng 7 Bi Bạc Image -->
                             <div class="flex flex-col items-center">
-                                <div class="relative cursor-pointer" @click="openComboImageModal('vong_7_bi_bac_tui')">
-                                    <img src="./assets/images/product_img/Sole bac/vong_dau_tam_7_bi_bac.jpg" alt="Vòng 7 Bi Bạc" class="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-xl border-2 border-white shadow-md hover:scale-105 transition-transform" loading="lazy">
+                                <div class="relative cursor-pointer bg-gradient-to-br from-yellow-50 to-amber-50 rounded-xl" @click="openComboImageModal('vong_7_bi_bac_tui')">
+                                    <img src="./assets/images/product_img/Sole bac/vong_dau_tam_7_bi_bac.jpg" alt="Vòng 7 Bi Bạc"
+                                         @load="$el.classList.remove('opacity-0')"
+                                         class="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-xl border-2 border-white shadow-md hover:scale-105 transition-transform opacity-0 transition-opacity duration-300" loading="lazy">
 
                                     <!-- Zoom Icon -->
                                     <div class="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-20 rounded-xl flex items-center justify-center transition-all">
@@ -486,8 +496,10 @@
 
                             <!-- Túi Image -->
                             <div class="flex flex-col items-center">
-                                <div class="relative cursor-pointer" @click="openComboImageModal('vong_7_bi_bac_tui')">
-                                    <img src="./assets/images/product_img/tui_dau_tam.jpg" alt="Túi Dâu Tằm" class="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-xl border-2 border-white shadow-md hover:scale-105 transition-transform" loading="lazy">
+                                <div class="relative cursor-pointer bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl" @click="openComboImageModal('vong_7_bi_bac_tui')">
+                                    <img src="./assets/images/product_img/tui_dau_tam.jpg" alt="Túi Dâu Tằm"
+                                         @load="$el.classList.remove('opacity-0')"
+                                         class="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-xl border-2 border-white shadow-md hover:scale-105 transition-transform opacity-0 transition-opacity duration-300" loading="lazy">
 
                                     <!-- Zoom Icon -->
                                     <div class="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-20 rounded-xl flex items-center justify-center transition-all">
@@ -574,8 +586,10 @@
                         <div class="flex items-start justify-center space-x-2 mb-3">
                             <!-- Vòng 9 Bi Bạc Image -->
                             <div class="flex flex-col items-center">
-                                <div class="relative cursor-pointer" @click="openComboImageModal('vong_9_bi_bac_tui')">
-                                    <img src="./assets/images/product_img/Sole bac/vong_dau_tam_9_bi_bac.jpg" alt="Vòng 9 Bi Bạc" class="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-xl border-2 border-white shadow-md hover:scale-105 transition-transform" loading="lazy">
+                                <div class="relative cursor-pointer bg-gradient-to-br from-purple-50 to-violet-50 rounded-xl" @click="openComboImageModal('vong_9_bi_bac_tui')">
+                                    <img src="./assets/images/product_img/Sole bac/vong_dau_tam_9_bi_bac.jpg" alt="Vòng 9 Bi Bạc"
+                                         @load="$el.classList.remove('opacity-0')"
+                                         class="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-xl border-2 border-white shadow-md hover:scale-105 transition-transform opacity-0 transition-opacity duration-300" loading="lazy">
 
                                     <!-- Zoom Icon -->
                                     <div class="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-20 rounded-xl flex items-center justify-center transition-all">
@@ -592,8 +606,10 @@
 
                             <!-- Túi Image -->
                             <div class="flex flex-col items-center">
-                                <div class="relative cursor-pointer" @click="openComboImageModal('vong_9_bi_bac_tui')">
-                                    <img src="./assets/images/product_img/tui_dau_tam.jpg" alt="Túi Dâu Tằm" class="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-xl border-2 border-white shadow-md hover:scale-105 transition-transform" loading="lazy">
+                                <div class="relative cursor-pointer bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl" @click="openComboImageModal('vong_9_bi_bac_tui')">
+                                    <img src="./assets/images/product_img/tui_dau_tam.jpg" alt="Túi Dâu Tằm"
+                                         @load="$el.classList.remove('opacity-0')"
+                                         class="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-xl border-2 border-white shadow-md hover:scale-105 transition-transform opacity-0 transition-opacity duration-300" loading="lazy">
 
                                     <!-- Zoom Icon -->
                                     <div class="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-20 rounded-xl flex items-center justify-center transition-all">
@@ -684,7 +700,7 @@
                                 </div>
                             </div>
 
-                            <img :src="category.image || './assets/images/demo.jpg'" :alt="category.name" class="w-16 h-16 object-cover flex-shrink-0 rounded-l-2xl">
+                            <img :src="category.image || './assets/images/demo.jpg'" :alt="category.name" class="w-16 h-16 object-cover flex-shrink-0 rounded-l-2xl" loading="lazy">
                             <div class="p-3 flex-grow">
                                 <h4 class="font-semibold text-sm text-gray-800 leading-tight"
                                     :class="{ 'pr-20 sm:pr-24': category.isPopular, 'pr-2': !category.isPopular }"
@@ -804,8 +820,11 @@
                 <div id="product-list" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-2 sm:gap-3">
                     <template x-for="product in filteredProducts()" :key="product.id">
                         <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden group">
-                            <div @click="product.stock_quantity !== 0 && openQuickView(product)" class="relative overflow-hidden cursor-pointer">
-                                <img :src="product.image" :alt="product.name" class="w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300">
+                            <div @click="product.stock_quantity !== 0 && openQuickView(product)" class="relative overflow-hidden cursor-pointer bg-gray-100 aspect-square rounded-t-xl">
+                                <img :src="product.image" :alt="product.name"
+                                     @load="$el.classList.remove('opacity-0')"
+                                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 opacity-0 transition-opacity"
+                                     loading="lazy">
                                 <!-- Out of Stock Overlay - Mom-friendly design -->
                                 <div x-show="product.stock_quantity === 0" class="absolute inset-0 bg-white bg-opacity-70 flex items-center justify-center p-2" x-cloak>
                                     <div class="bg-gradient-to-r from-purple-400 to-pink-400 text-white font-bold text-xs sm:text-sm px-4 py-2 rounded-full shadow-lg text-center">
@@ -991,7 +1010,7 @@
                                     <div class="bg-white p-3 rounded-xl border border-blue-100">
                                         <!-- Main product info row -->
                                         <div class="flex items-start space-x-3">
-                                            <img :src="item.image" class="w-12 h-12 rounded-lg object-cover border border-gray-200">
+                                            <img :src="item.image" class="w-12 h-12 rounded-lg object-cover border border-gray-200" loading="lazy">
                                             <div class="flex-grow min-w-0">
                                                 <p class="font-medium text-gray-800 text-sm leading-tight" x-text="item.name"></p>
                                                 <div class="flex items-center space-x-3 mt-1">
@@ -1268,7 +1287,7 @@
     <!-- Image Viewer Modal -->
     <div x-show="isImageModalOpen" @keydown.escape.window="closeImageModal()" class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-4 pt-safe-top pb-safe-bottom z-[9000]" x-transition>
         <div class="relative">
-            <img :src="currentImage" alt="Xem ảnh lớn" class="max-w-full max-h-[90vh] rounded-lg shadow-lg">
+            <img :src="currentImage" alt="Xem ảnh lớn" class="max-w-full max-h-[90vh] rounded-lg shadow-lg" loading="lazy">
             <button @click="closeImageModal()" class="absolute -top-4 -right-4 bg-white text-black w-10 h-10 rounded-full flex items-center justify-center shadow-lg hover:bg-gray-200">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -1313,9 +1332,10 @@
                     <!-- Content - Scrollable (bao gồm cả hình ảnh) -->
                     <div class="flex-1 overflow-y-auto modal-scroll p-2 sm:p-4 space-y-2 sm:space-y-6">
                         <!-- Product Image -->
-                        <div class="relative">
+                        <div class="relative bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl aspect-square">
                             <img :src="currentAddonDetail.image" :alt="currentAddonDetail.name"
-                                 class="w-full aspect-square object-cover rounded-xl shadow-lg">
+                                 @load="$el.classList.remove('opacity-0')"
+                                 class="w-full h-full object-cover rounded-xl shadow-lg opacity-0 transition-opacity duration-300" loading="lazy">
                         </div>
                         <!-- Price Section - Professional Design -->
                         <div class="bg-white rounded-2xl p-3 sm:p-5 shadow-sm border border-gray-100 mb-4">
@@ -1820,7 +1840,7 @@
                                 <!-- Main Product Row -->
                                 <div class="flex items-start space-x-2.5">
                                     <input type="checkbox" :checked="selectedCartItems.includes(item.cartId)" @change="toggleCartItemSelection(item.cartId)" class="mt-1 h-3.5 w-3.5 text-pink-600 focus:ring-pink-500 border-gray-300 rounded flex-shrink-0">
-                                    <img :src="item.image" class="w-12 h-12 rounded-md object-cover border flex-shrink-0">
+                                    <img :src="item.image" class="w-12 h-12 rounded-md object-cover border flex-shrink-0" loading="lazy">
                                     <div class="flex-grow min-w-0">
                                         <p class="font-semibold text-gray-800 text-sm leading-tight" x-text="item.name"></p>
                                         <p class="text-xs text-gray-500 mt-0.5" x-text="formatCurrency(item.price)"></p>
@@ -1979,7 +1999,7 @@
                                 <div class="space-y-1.5">
                                     <template x-for="addon in filteredAddonProducts" :key="addon.id">
                                         <div @click="openAddonDetail(addon)" class="flex items-center space-x-2 p-2 bg-white rounded-md border border-green-100 cursor-pointer hover:bg-gray-50 transition-colors">
-                                            <img :src="addon.image" class="w-8 h-8 rounded object-cover flex-shrink-0">
+                                            <img :src="addon.image" class="w-8 h-8 rounded object-cover flex-shrink-0" loading="lazy">
                                             <div class="flex-grow min-w-0">
                                                 <div class="flex items-center space-x-1">
                                                     <p class="font-semibold text-gray-800 text-xs leading-tight truncate" x-text="addon.name"></p>
@@ -2260,7 +2280,7 @@
                 <!-- Product Info -->
                 <div x-show="quickBuyProduct" class="bg-orange-50 border border-orange-200 rounded-lg p-3">
                     <div class="flex items-center space-x-3">
-                        <img :src="quickBuyProduct?.image" class="w-12 h-12 rounded-lg object-cover">
+                        <img :src="quickBuyProduct?.image" class="w-12 h-12 rounded-lg object-cover" loading="lazy">
                         <div class="flex-1">
                             <h4 class="font-semibold text-gray-800 text-sm" x-text="quickBuyProduct?.name"></h4>
                             <div class="text-orange-600 font-bold text-sm flex items-center space-x-2">
@@ -2663,7 +2683,7 @@
                             <div class="space-y-1.5">
                                 <template x-for="addon in filteredAddonProducts" :key="addon.id">
                                     <div @click="openAddonDetail(addon)" class="flex items-center space-x-2 p-2 bg-white rounded-md border border-green-100 cursor-pointer hover:bg-gray-50 transition-colors">
-                                        <img :src="addon.image" class="w-8 h-8 rounded object-cover flex-shrink-0">
+                                        <img :src="addon.image" class="w-8 h-8 rounded object-cover flex-shrink-0" loading="lazy">
                                         <div class="flex-grow min-w-0">
                                             <div class="flex items-center space-x-1">
                                                 <p class="font-semibold text-gray-800 text-xs leading-tight truncate" x-text="addon.name"></p>
@@ -2887,7 +2907,7 @@
                     <div class="space-y-2">
                         <div class="flex justify-between items-start text-sm">
                             <div class="flex items-start space-x-2 flex-1 pr-2">
-                                <img :src="quickBuyProduct?.image" class="w-10 h-10 rounded object-cover flex-shrink-0" :alt="quickBuyProduct?.name">
+                                <img :src="quickBuyProduct?.image" class="w-10 h-10 rounded object-cover flex-shrink-0" :alt="quickBuyProduct?.name" loading="lazy">
                                 <div class="flex-1 min-w-0">
                                     <p class="font-medium text-gray-800 leading-tight" x-text="quickBuyProduct?.name"></p>
                                     <p class="text-xs text-gray-500">
@@ -3146,9 +3166,10 @@
                     <!-- Content - Scrollable (bao gồm cả hình ảnh) -->
                     <div class="flex-1 overflow-y-auto modal-scroll px-3 py-2 space-y-2">
                         <!-- Product Image -->
-                        <div class="relative">
+                        <div class="relative bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl aspect-square">
                             <img :src="currentProductDetail.image" :alt="currentProductDetail.name"
-                                 class="w-full aspect-square object-cover rounded-xl shadow-lg">
+                                 @load="$el.classList.remove('opacity-0')"
+                                 class="w-full h-full object-cover rounded-xl shadow-lg opacity-0 transition-opacity duration-300" loading="lazy">
                             <!-- Sale Badge -->
                             <template x-if="currentProductDetail.original_price">
                                 <div class="absolute top-3 left-3 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-bold">
@@ -3246,7 +3267,7 @@
                                 <div class="space-y-1.5">
                                     <template x-for="addon in filteredAddonProducts" :key="addon.id">
                                         <div @click="openAddonDetail(addon)" class="flex items-center space-x-2 p-2 bg-white rounded-md border border-green-100 cursor-pointer hover:bg-gray-50 transition-colors">
-                                            <img :src="addon.image" class="w-8 h-8 rounded object-cover flex-shrink-0">
+                                            <img :src="addon.image" class="w-8 h-8 rounded object-cover flex-shrink-0" loading="lazy">
                                             <div class="flex-grow min-w-0">
                                                 <div class="flex items-center space-x-1">
                                                     <p class="font-semibold text-gray-800 text-xs leading-tight truncate" x-text="addon.name"></p>
@@ -3452,7 +3473,7 @@
                         <div class="space-y-1.5">
                             <template x-for="addon in filteredAddonProducts" :key="addon.id">
                                 <div @click="openAddonDetail(addon)" class="flex items-center space-x-2 p-2 bg-white rounded-md border border-green-100 cursor-pointer hover:bg-gray-50 transition-colors">
-                                    <img :src="addon.image" class="w-8 h-8 rounded object-cover flex-shrink-0">
+                                    <img :src="addon.image" class="w-8 h-8 rounded object-cover flex-shrink-0" loading="lazy">
                                     <div class="flex-grow min-w-0">
                                         <div class="flex items-center space-x-1">
                                             <p class="font-semibold text-gray-800 text-xs leading-tight truncate" x-text="addon.name"></p>
@@ -3537,7 +3558,7 @@
 				<!-- Product Info (moved from header for consistency) -->
 				<div class="bg-gradient-to-r from-pink-50 to-purple-50 rounded-xl p-3 sm:p-4 border border-pink-100 mb-3">
 					<div class="flex items-center space-x-3">
-						<img :src="currentItemForOptions?.image" alt="Product Image" class="w-12 h-12 sm:w-14 sm:h-14 rounded-md object-cover shadow-sm border border-pink-100">
+						<img :src="currentItemForOptions?.image" alt="Product Image" class="w-12 h-12 sm:w-14 sm:h-14 rounded-md object-cover shadow-sm border border-pink-100" loading="lazy">
 						<div>
 							<h3 class="text-sm sm:text-base font-bold text-gray-800" x-text="currentItemForOptions?.name || 'Tùy chỉnh sản phẩm'"></h3>
 							<!-- Dynamic Price Display -->
@@ -3743,7 +3764,7 @@
                         <div class="space-y-1.5">
                             <template x-for="addon in filteredAddonProducts" :key="addon.id">
                                 <div @click="openAddonDetail(addon)" class="flex items-center space-x-2 p-2 bg-white rounded-md border border-green-100 cursor-pointer hover:bg-gray-50 transition-colors">
-                                    <img :src="addon.image" class="w-8 h-8 rounded object-cover flex-shrink-0">
+                                    <img :src="addon.image" class="w-8 h-8 rounded object-cover flex-shrink-0" loading="lazy">
                                     <div class="flex-grow min-w-0">
                                         <div class="flex items-center space-x-1">
                                             <p class="font-semibold text-gray-800 text-xs leading-tight truncate" x-text="addon.name"></p>
@@ -4056,7 +4077,7 @@
                         <div class="space-y-2 max-h-32 overflow-y-auto modal-scroll bg-gray-50 rounded-lg p-3">
                             <template x-for="item in cart" :key="item.cartId">
                                 <div class="flex items-center space-x-2 p-2 bg-white rounded">
-                                    <img :src="item.image" :alt="item.name" class="w-8 h-8 object-cover rounded">
+                                    <img :src="item.image" :alt="item.name" class="w-8 h-8 object-cover rounded" loading="lazy">
                                     <div class="flex-1 min-w-0">
                                         <p class="text-xs font-medium text-gray-800 truncate" x-text="item.displayName || item.name"></p>
                                         <p class="text-xs text-gray-500" x-text="`SL: ${item.beadQuantity || item.quantity}`"></p>
@@ -4379,7 +4400,7 @@
                 <!-- Product Info -->
                 <div class="bg-gradient-to-r from-pink-50 to-purple-50 rounded-xl p-4 border border-pink-100">
                     <div class="flex items-center space-x-3">
-                        <img :src="currentBeadProduct?.image" class="w-16 h-16 rounded-xl object-cover shadow-md">
+                        <img :src="currentBeadProduct?.image" class="w-16 h-16 rounded-xl object-cover shadow-md" loading="lazy">
                         <div class="flex-1">
                             <h4 class="font-bold text-gray-800" x-text="currentBeadProduct?.name"></h4>
                             <p class="text-pink-600 font-bold text-lg" x-text="formatCurrency(currentBeadProduct?.price || 0)"></p>
@@ -4518,7 +4539,8 @@
                                     <div class="relative overflow-hidden rounded-xl bg-gradient-to-br from-rose-50 to-pink-50 border border-rose-100">
                                         <img :src="currentComboImages.product1.image"
                                              :alt="currentComboImages.product1.name"
-                                             class="combo-product-image w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300">
+                                             @load="$el.classList.remove('opacity-0')"
+                                             class="combo-product-image w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300 opacity-0 transition-opacity" loading="lazy">
                                         <!-- Product Badge -->
                                         <div class="absolute top-2 left-2 bg-gradient-to-r from-pink-500 to-rose-500 text-white px-2 py-1 rounded-full text-xs font-bold shadow-lg">
                                             #1
@@ -4540,7 +4562,8 @@
                                     <div class="relative overflow-hidden rounded-xl bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100">
                                         <img :src="currentComboImages.product2.image"
                                              :alt="currentComboImages.product2.name"
-                                             class="combo-product-image w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300">
+                                             @load="$el.classList.remove('opacity-0')"
+                                             class="combo-product-image w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300 opacity-0 transition-opacity" loading="lazy">
                                         <!-- Product Badge -->
                                         <div class="absolute top-2 left-2 bg-gradient-to-r from-blue-500 to-indigo-500 text-white px-2 py-1 rounded-full text-xs font-bold shadow-lg">
                                             #2
@@ -5042,8 +5065,10 @@
              x-transition:leave-end="opacity-0 scale-95">
 
             <!-- Image Section -->
-            <div class="w-full sm:w-1/2 h-64 sm:h-auto relative">
-                <img :src="quickViewProduct?.image" :alt="quickViewProduct?.name" class="w-full h-full object-cover rounded-t-2xl sm:rounded-l-2xl sm:rounded-tr-none">
+            <div class="w-full sm:w-1/2 h-64 sm:h-auto relative bg-gray-100">
+                <img :src="quickViewProduct?.image" :alt="quickViewProduct?.name"
+                     @load="$el.classList.remove('opacity-0')"
+                     class="w-full h-full object-cover rounded-t-2xl sm:rounded-l-2xl sm:rounded-tr-none opacity-0 transition-opacity duration-300" loading="lazy">
                 <button @click="closeQuickView()" class="absolute top-3 right-3 bg-gray-800 bg-opacity-50 text-white w-8 h-8 rounded-full flex items-center justify-center hover:bg-opacity-75 transition-all">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
                 </button>
@@ -5073,7 +5098,6 @@
         </div>
     </div>
 
-    <!-- Optimized JavaScript - Minified for production -->
-    <script src="assets/js/app.min.js"></script>
+    <!-- JavaScript đã được load tự động ở trên dựa trên môi trường -->
 </body>
 </html>
