@@ -3297,7 +3297,7 @@
                         </div>
 
                         <!-- Lưu ý quan trọng -->
-                        <div class="mb-6 p-4 bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl border border-amber-200">
+                        <div x-show="shouldShowBeadCountNote(currentProductDetail)" class="mb-6 p-4 bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl border border-amber-200">
                             <div class="flex items-start space-x-3">
 
                                 <div>
@@ -3852,6 +3852,8 @@
                     </button>
                 </div>
             </div>
+
+
 
             <!-- Body - Scrollable content -->
             <div class="flex-1 overflow-y-auto modal-scroll">

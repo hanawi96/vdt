@@ -382,6 +382,34 @@ document.addEventListener('alpine:init', () => {
              (product.categories && product.categories.includes('bi_charm_bac'));
     },
 
+    // Kiểm tra xem có nên hiển thị lưu ý về "Sinh Lão Bệnh Tử" không
+    shouldShowBeadCountNote(product) {
+      if (!product) return false;
+
+      // Ẩn lưu ý đối với các danh mục không phù hợp
+      const hideNoteCategories = ['san_pham_ban_kem', 'bi_charm_bac'];
+
+      // Kiểm tra category trực tiếp
+      if (hideNoteCategories.includes(product.category)) {
+        return false;
+      }
+
+      // Kiểm tra trong mảng categories (nếu có)
+      if (product.categories && product.categories.some(cat => hideNoteCategories.includes(cat))) {
+        return false;
+      }
+
+      // Kiểm tra các sản phẩm addon cụ thể
+      if (product.isAddon === true ||
+          product.id === 'addon_moc_chia_khoa' ||
+          product.id === 'addon_tui_dau_tam') {
+        return false;
+      }
+
+      // Hiển thị lưu ý cho tất cả các sản phẩm khác (vòng dâu và hạt dâu tằm)
+      return true;
+    },
+
     // Kiểm tra xem sản phẩm có phải là hạt dâu tằm mài sẵn không
     isBeadProduct(product) {
       if (!product) return false;
@@ -2620,8 +2648,8 @@ document.addEventListener('alpine:init', () => {
     scrollToFirstQuickBuyError() {
       this.$nextTick(() => {
         setTimeout(() => {
-          // Priority order for error fields (most important first)
-          const errorPriority = ['quantity', 'name', 'phone', 'province', 'district', 'ward', 'streetAddress', 'weight', 'paymentMethod'];
+          // Priority order for error fields (top to bottom in form layout)
+          const errorPriority = ['name', 'phone', 'province', 'district', 'ward', 'streetAddress', 'quantity', 'weight', 'babyName', 'paymentMethod'];
 
           for (const fieldName of errorPriority) {
             if (this.formErrors[fieldName]) {
@@ -2697,6 +2725,13 @@ document.addEventListener('alpine:init', () => {
         }, 100);
       });
     },
+
+    // Scroll to first error in Checkout modal - DISABLED
+    scrollToFirstCheckoutError() {
+      // Scroll functionality has been removed - validation errors will show inline without scrolling
+      console.log('🔍 Scroll to error functionality disabled for checkout modal');
+    },
+
     async quickBuySubmit() {
       // Clear previous errors
       this.clearFormErrors();
@@ -3265,14 +3300,23 @@ document.addEventListener('alpine:init', () => {
 
     /* ========= CHECKOUT ========= */
     validateAndShowConfirmModal() {
+      console.log('🔍 validateAndShowConfirmModal() called');
+
       // Clear previous errors
       this.clearFormErrors();
+      console.log('🔍 Form errors cleared');
 
       // Validate form
-      if (!this.validateForm()) {
+      console.log('🔍 About to call validateForm()');
+      const isValid = this.validateForm();
+      console.log('🔍 validateForm() returned:', isValid);
+
+      if (!isValid) {
+        console.log('🔍 Validation failed - errors will show inline');
         return; // Errors will be shown inline
       }
 
+      console.log('🔍 Validation passed, opening confirm modal');
       // Mở Confirm Modal chồng lên Checkout Modal
       this.isConfirmModalOpen = true;
     },
@@ -3283,11 +3327,29 @@ document.addEventListener('alpine:init', () => {
       });
     },
 
+    // Debug function để reset form data
+    resetFormData() {
+      console.log('🔍 Resetting form data...');
+      this.selectedProvince = '';
+      this.selectedDistrict = '';
+      this.selectedWard = '';
+      this.streetAddress = '';
+      this.customer.name = '';
+      this.customer.phone = '';
+      this.customer.email = '';
+      this.customer.address = '';
+      this.paymentMethod = 'cod';
+      this.clearFormErrors();
+      console.log('🔍 Form data reset complete');
+    },
+
     validateForm() {
+      console.log('🔍 validateForm() called');
       let isValid = true;
 
       // Validate cart
       if (!this.cart.length) {
+        console.log('🔍 Cart validation failed - empty cart');
         this.showAlert('Giỏ hàng của bạn đang trống.', 'error');
         return false;
       }
@@ -3295,24 +3357,38 @@ document.addEventListener('alpine:init', () => {
       // Validate bead quantity for specific products in cart
       for (const item of this.cart) {
         if (item.category === 'hat_dau_tam_mai_san' && (!item.beadQuantity || item.beadQuantity < 1)) {
+          console.log('🔍 Bead quantity validation failed for item:', item.name);
           this.showAlert(`Vui lòng chọn số lượng hạt cho sản phẩm "${item.name}" trong giỏ hàng.`, 'error');
           return false; // Stop validation
         }
       }
 
+      // Debug current form values
+      console.log('🔍 Form validation debug:');
+      console.log('  - customer.name:', this.customer.name);
+      console.log('  - customer.phone:', this.customer.phone);
+      console.log('  - selectedProvince:', this.selectedProvince);
+      console.log('  - selectedDistrict:', this.selectedDistrict);
+      console.log('  - selectedWard:', this.selectedWard);
+      console.log('  - streetAddress:', this.streetAddress);
+      console.log('  - paymentMethod:', this.paymentMethod);
+
       // Validate name
       if (!this.customer.name.trim()) {
+        console.log('🔍 Name validation failed');
         this.formErrors.name = 'Vui lòng nhập họ và tên';
         isValid = false;
       }
 
       // Validate phone
       if (!this.customer.phone.trim()) {
+        console.log('🔍 Phone validation failed - empty');
         this.formErrors.phone = 'Vui lòng nhập số điện thoại';
         isValid = false;
       } else {
         const phoneRegex = /(0[3|5|7|8|9])+([0-9]{8})\b/;
         if (!phoneRegex.test(this.customer.phone)) {
+          console.log('🔍 Phone validation failed - invalid format');
           this.formErrors.phone = 'Số điện thoại không hợp lệ';
           isValid = false;
         }
@@ -3320,35 +3396,52 @@ document.addEventListener('alpine:init', () => {
 
       // Validate address
       if (!this.selectedProvince) {
+        console.log('🔍 Province validation failed');
         this.formErrors.province = 'Vui lòng chọn tỉnh/thành phố';
         isValid = false;
       }
 
       if (!this.selectedDistrict) {
+        console.log('🔍 District validation failed');
         this.formErrors.district = 'Vui lòng chọn quận/huyện';
         isValid = false;
       }
 
       if (!this.selectedWard) {
+        console.log('🔍 Ward validation failed');
         this.formErrors.ward = 'Vui lòng chọn phường/xã';
         isValid = false;
       }
 
       if (!this.streetAddress.trim()) {
+        console.log('🔍 Street address validation failed');
         this.formErrors.streetAddress = 'Vui lòng nhập địa chỉ cụ thể';
         isValid = false;
       }
 
       // Validate payment method
       if (!this.paymentMethod) {
+        console.log('🔍 Payment method validation failed');
         this.formErrors.paymentMethod = 'Vui lòng chọn phương thức thanh toán';
         isValid = false;
       }
 
+      console.log('🔍 Form validation result:', isValid);
+      console.log('🔍 Form errors:', this.formErrors);
       return isValid;
     },
 
     async confirmAndSubmitOrder() {
+      // Validate form again before submitting (double check)
+      this.clearFormErrors();
+      if (!this.validateForm()) {
+        this.isSubmitting = false;
+        // Close confirm modal and go back to checkout modal to show errors
+        this.isConfirmModalOpen = false;
+        this.isCheckoutModalOpen = true;
+        return;
+      }
+
       this.isSubmitting = true;
       this.updateFullAddress();
 
