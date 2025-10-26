@@ -1592,18 +1592,7 @@
     "rating": 4.8,
     "purchases": 0
   },
-      {
-    "id": "bi_charm_bac_012",
-    "name": "Hạt bồ đề tinh nguyệt 6mm",
-    "category": "bi_charm_bac",
-    "categories": ["bi_charm_bac"],
-    "price": 129000,
-    "original_price": 159000,
-    "image": "./assets/images/product_img/hat-bo-de-tinh-nguyet.webp",
-    "description": "Charm cúc họa mi bạc S925 cao cấp, kích thước 2x10mm, thiết kế tinh tế và thanh lịch, biểu tượng của sự thuần khiết và may mắn.",
-    "rating": 4.8,
-    "purchases": 0
-  },
+   
   {
     "id": "san_pham_ban_kem_004",
     "name": "Bó dâu tằm 7 CÀNH cho bé trai",

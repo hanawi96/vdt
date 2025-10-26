@@ -3584,9 +3584,9 @@ document.addEventListener('alpine:init', () => {
         this.cart = [];
         this.resetDiscount();
 
-        // Giữ Confirm Modal mở, để Success Modal hiển thị chồng lên
-        // Với inline bank info, không cần Bank Transfer Modal nữa
+        // Đóng tất cả các modal khác và chỉ hiển thị modal thành công
         this.$nextTick(() => {
+            this.closeAllModals();
             this.isSuccessModalOpen = true;
         });
 
