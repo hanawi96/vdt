@@ -974,6 +974,9 @@ document.addEventListener('alpine:init', () => {
           fetch('./data/shared-details.json')
         ]);
 
+        // Load address data ngay từ đầu để tránh timing issue
+        await this.getAddressData();
+
         if (!prodRes.ok) throw new Error('Không thể tải sản phẩm.');
         if (!infoRes.ok) throw new Error('Không thể tải thông tin shop.');
 
@@ -2726,10 +2729,89 @@ document.addEventListener('alpine:init', () => {
       });
     },
 
-    // Scroll to first error in Checkout modal - DISABLED
+    // Scroll to first error in Checkout modal
     scrollToFirstCheckoutError() {
-      // Scroll functionality has been removed - validation errors will show inline without scrolling
-      console.log('🔍 Scroll to error functionality disabled for checkout modal');
+      console.log('🔍 Scrolling to first checkout error');
+
+      // Priority order for error fields (top to bottom in checkout form layout)
+      const errorPriority = ['name', 'phone', 'province', 'district', 'ward', 'streetAddress', 'paymentMethod'];
+
+      // Find the first error field based on priority
+      let firstErrorField = null;
+      for (const field of errorPriority) {
+        if (this.formErrors[field]) {
+          firstErrorField = field;
+          break;
+        }
+      }
+
+      if (!firstErrorField) {
+        console.log('🔍 No error field found to scroll to');
+        return;
+      }
+
+      console.log('🔍 First error field:', firstErrorField);
+
+      // Map field names to their corresponding input selectors in checkout modal
+      const fieldSelectors = {
+        name: 'input[x-model="customer.name"]',
+        phone: 'input[x-model="customer.phone"]',
+        province: 'select[x-model="selectedProvince"]',
+        district: 'select[x-model="selectedDistrict"]',
+        ward: 'select[x-model="selectedWard"]',
+        streetAddress: 'input[x-model="streetAddress"]',
+        paymentMethod: 'div[x-show="paymentMethod === \'cod\'"], div[x-show="paymentMethod === \'transfer\'"]'
+      };
+
+      const selector = fieldSelectors[firstErrorField];
+      if (!selector) {
+        console.log('🔍 No selector found for field:', firstErrorField);
+        return;
+      }
+
+      // Find the checkout modal container
+      const checkoutModal = document.querySelector('[x-show="isCheckoutModalOpen"]');
+      if (!checkoutModal) {
+        console.log('🔍 Checkout modal not found');
+        return;
+      }
+
+      // Find the scrollable content area within checkout modal
+      const scrollContainer = checkoutModal.querySelector('.overflow-y-auto');
+      if (!scrollContainer) {
+        console.log('🔍 Scroll container not found in checkout modal');
+        return;
+      }
+
+      // Find the target element within the checkout modal
+      const targetElement = checkoutModal.querySelector(selector);
+      if (!targetElement) {
+        console.log('🔍 Target element not found:', selector);
+        return;
+      }
+
+      // Calculate scroll position
+      const containerRect = scrollContainer.getBoundingClientRect();
+      const targetRect = targetElement.getBoundingClientRect();
+      const scrollTop = scrollContainer.scrollTop;
+
+      // Calculate the position to scroll to (with some offset for better visibility)
+      const targetScrollPosition = scrollTop + (targetRect.top - containerRect.top) - 20;
+
+      console.log('🔍 Scrolling to position:', targetScrollPosition);
+
+      // Smooth scroll to the target position
+      scrollContainer.scrollTo({
+        top: Math.max(0, targetScrollPosition),
+        behavior: 'smooth'
+      });
+
+      // Optional: Focus the element after a short delay
+      setTimeout(() => {
+        if (targetElement.focus && typeof targetElement.focus === 'function') {
+          targetElement.focus();
+        }
+      }, 300);
     },
 
     async quickBuySubmit() {
@@ -2777,15 +2859,15 @@ document.addEventListener('alpine:init', () => {
       }
 
       // Validate address fields individually for Quick Buy
-      if (!this.selectedProvince) {
+      if (!this.selectedProvince || String(this.selectedProvince).trim() === '') {
         this.formErrors.province = 'Vui lòng chọn tỉnh/thành phố';
         isValid = false;
       }
-      if (!this.selectedDistrict) {
+      if (!this.selectedDistrict || String(this.selectedDistrict).trim() === '') {
         this.formErrors.district = 'Vui lòng chọn quận/huyện';
         isValid = false;
       }
-      if (!this.selectedWard) {
+      if (!this.selectedWard || String(this.selectedWard).trim() === '') {
         this.formErrors.ward = 'Vui lòng chọn phường/xã';
         isValid = false;
       }
@@ -3301,6 +3383,13 @@ document.addEventListener('alpine:init', () => {
     /* ========= CHECKOUT ========= */
     validateAndShowConfirmModal() {
       console.log('🔍 validateAndShowConfirmModal() called');
+      console.log('🔍 Current form state:');
+      console.log('  - selectedProvince:', this.selectedProvince);
+      console.log('  - selectedDistrict:', this.selectedDistrict);
+      console.log('  - selectedWard:', this.selectedWard);
+      console.log('  - streetAddress:', this.streetAddress);
+      console.log('  - customer.name:', this.customer.name);
+      console.log('  - customer.phone:', this.customer.phone);
 
       // Clear previous errors
       this.clearFormErrors();
@@ -3310,9 +3399,11 @@ document.addEventListener('alpine:init', () => {
       console.log('🔍 About to call validateForm()');
       const isValid = this.validateForm();
       console.log('🔍 validateForm() returned:', isValid);
+      console.log('🔍 Form errors after validation:', this.formErrors);
 
       if (!isValid) {
         console.log('🔍 Validation failed - errors will show inline');
+        console.log('🔍 Stopping here - should NOT open confirm modal');
         return; // Errors will be shown inline
       }
 
@@ -3394,21 +3485,21 @@ document.addEventListener('alpine:init', () => {
         }
       }
 
-      // Validate address
-      if (!this.selectedProvince) {
-        console.log('🔍 Province validation failed');
+      // Validate address - check for empty string, null, undefined, or just whitespace
+      if (!this.selectedProvince || String(this.selectedProvince).trim() === '') {
+        console.log('[object Object] validation failed - selectedProvince:', this.selectedProvince);
         this.formErrors.province = 'Vui lòng chọn tỉnh/thành phố';
         isValid = false;
       }
 
-      if (!this.selectedDistrict) {
-        console.log('🔍 District validation failed');
+      if (!this.selectedDistrict || String(this.selectedDistrict).trim() === '') {
+        console.log('🔍 District validation failed - selectedDistrict:', this.selectedDistrict);
         this.formErrors.district = 'Vui lòng chọn quận/huyện';
         isValid = false;
       }
 
-      if (!this.selectedWard) {
-        console.log('🔍 Ward validation failed');
+      if (!this.selectedWard || String(this.selectedWard).trim() === '') {
+        console.log('🔍 Ward validation failed - selectedWard:', this.selectedWard);
         this.formErrors.ward = 'Vui lòng chọn phường/xã';
         isValid = false;
       }
@@ -3428,6 +3519,14 @@ document.addEventListener('alpine:init', () => {
 
       console.log('🔍 Form validation result:', isValid);
       console.log('🔍 Form errors:', this.formErrors);
+
+      // If validation failed, scroll to first error
+      if (!isValid) {
+        setTimeout(() => {
+          this.scrollToFirstCheckoutError();
+        }, 100);
+      }
+
       return isValid;
     },
 

@@ -228,7 +228,8 @@ html {
 
 /* Button enhancements */
 .btn-confirm {
-  background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%);
+  background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%) !important;
+  color: white !important;
 }
 
 .btn-edit {
