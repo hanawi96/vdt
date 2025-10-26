@@ -1150,7 +1150,7 @@ document.addEventListener('alpine:init', () => {
           savings: 38000,
           customerCount: 689,
           product1: {
-            image: './assets/images/demo.webp',
+            image: './assets/images/product_img/vong_tron_co_dien_day_do.webp',
             name: 'Vòng Dâu Tằm Trơn',
             description: 'Vòng dâu tằm trơn đơn giản, thanh lịch, phù hợp cho mọi lứa tuổi. An toàn cho bé, không gây dị ứng.',
             price: 89000,
@@ -1173,7 +1173,7 @@ document.addEventListener('alpine:init', () => {
           savings: 58000,
           customerCount: 423,
           product1: {
-            image: './assets/images/demo.webp',
+            image: './assets/images/product_img/Sole bac/vong_dau_tam_7_bi_bac.webp',
             name: 'Vòng 7 Bi Bạc',
             description: 'Vòng dâu tằm với 7 viên bi bạc thật, sang trọng và phong thủy, mang lại may mắn cho bé.',
             price: 219000,
@@ -1196,7 +1196,7 @@ document.addEventListener('alpine:init', () => {
           savings: 68000,
           customerCount: 312,
           product1: {
-            image: './assets/images/demo.webp',
+            image: './assets/images/product_img/Sole bac/vong_dau_tam_9_bi_bac.webp',
             name: 'Vòng 9 Bi Bạc',
             description: 'Vòng dâu tằm với 9 viên bi bạc thật, cao cấp nhất cho bé yêu, mang ý nghĩa trường thọ.',
             price: 289000,

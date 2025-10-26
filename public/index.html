@@ -1284,7 +1284,7 @@
     </div>
 
     <!-- Image Viewer Modal -->
-    <div x-show="isImageModalOpen" @keydown.escape.window="closeImageModal()" class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-4 pt-safe-top pb-safe-bottom z-[9000]" x-transition>
+    <div x-show="isImageModalOpen" @keydown.escape.window="closeImageModal()" class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-4 pt-safe-top pb-safe-bottom z-[9000]">
         <div class="relative">
             <img :src="currentImage" alt="Xem ảnh lớn" class="max-w-full max-h-[90vh] rounded-lg shadow-lg" loading="lazy">
             <button @click="closeImageModal()" class="absolute -top-4 -right-4 bg-white text-black w-10 h-10 rounded-full flex items-center justify-center shadow-lg hover:bg-gray-200">
@@ -1299,21 +1299,8 @@
 
     <!-- Addon Detail Modal -->
     <div x-show="isAddonDetailModalOpen" @keydown.escape.window="closeAddonDetail()"
-
-         class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 pt-safe-top pb-safe-bottom z-[9950]"
-         x-transition:enter="transition ease-out duration-300"
-         x-transition:enter-start="opacity-0"
-         x-transition:enter-end="opacity-100"
-         x-transition:leave="transition ease-in duration-200"
-         x-transition:leave-start="opacity-100"
-         x-transition:leave-end="opacity-0">
-        <div class="bg-white rounded-3xl sm:rounded-2xl shadow-xl w-full max-w-sm sm:max-w-2xl max-h-[85vh] sm:max-h-[90vh] overflow-hidden transform"
-             x-transition:enter="transition ease-out duration-300"
-             x-transition:enter-start="scale-95 opacity-0"
-             x-transition:enter-end="scale-100 opacity-100"
-             x-transition:leave="transition ease-in duration-200"
-             x-transition:leave-start="scale-100 opacity-100"
-             x-transition:leave-end="scale-95 opacity-0">
+         class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 pt-safe-top pb-safe-bottom z-[9950]">
+        <div class="bg-white rounded-3xl sm:rounded-2xl shadow-xl w-full max-w-sm sm:max-w-2xl max-h-[85vh] sm:max-h-[90vh] overflow-hidden transform">
 
             <template x-if="currentAddonDetail">
                 <div class="flex flex-col h-full max-h-[85vh] sm:max-h-[90vh]">
@@ -1516,20 +1503,8 @@
 
     <!-- Discount Code Modal - Redesigned for Moms -->
     <div x-show="isDiscountModalOpen" @keydown.escape.window="closeDiscountModal()"
-         class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-4 pt-safe-top pb-safe-bottom z-[9950]"
-         x-transition:enter="transition ease-out duration-300"
-         x-transition:enter-start="opacity-0"
-         x-transition:enter-end="opacity-100"
-         x-transition:leave="transition ease-in duration-200"
-         x-transition:leave-start="opacity-100"
-         x-transition:leave-end="opacity-0">
-        <div class="bg-white rounded-2xl shadow-xl w-full max-w-sm sm:max-w-md max-h-[90vh] overflow-hidden transform"
-             x-transition:enter="transition ease-out duration-300"
-             x-transition:enter-start="scale-95 opacity-0"
-             x-transition:enter-end="scale-100 opacity-100"
-             x-transition:leave="transition ease-in duration-200"
-             x-transition:leave-start="scale-100 opacity-100"
-             x-transition:leave-end="scale-95 opacity-0">
+         class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-4 pt-safe-top pb-safe-bottom z-[9950]">
+        <div class="bg-white rounded-2xl shadow-xl w-full max-w-sm sm:max-w-md max-h-[90vh] overflow-hidden transform">
 
             <template x-if="isDiscountModalOpen">
                 <div class="flex flex-col h-full max-h-[90vh]">
@@ -1650,22 +1625,10 @@
 
     <!-- Modal Nhập Tên Bé -->
     <div x-show="isBabyNameModalOpen" @keydown.escape.window="closeBabyNameModal()"
-         class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-4 pt-safe-top pb-safe-bottom z-[9600]"
-         x-transition:enter="transition ease-out duration-300"
-         x-transition:enter-start="opacity-0"
-         x-transition:enter-end="opacity-100"
-         x-transition:leave="transition ease-in duration-200"
-         x-transition:leave-start="opacity-100"
-         x-transition:leave-end="opacity-0">
+         class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-4 pt-safe-top pb-safe-bottom z-[9600]">
         <div @click.stop
-             class="bg-white rounded-2xl shadow-xl w-full max-w-sm sm:max-w-md max-h-[85vh] sm:max-h-[90vh] flex flex-col transform transition-all my-4"
-             x-show="isBabyNameModalOpen"
-             x-transition:enter="transition ease-out duration-300"
-             x-transition:enter-start="opacity-0 scale-95"
-             x-transition:enter-end="opacity-100 scale-100"
-             x-transition:leave="transition ease-in duration-200"
-             x-transition:leave-start="opacity-100 scale-100"
-             x-transition:leave-end="opacity-0 scale-95">
+             class="bg-white rounded-2xl shadow-xl w-full max-w-sm sm:max-w-md max-h-[85vh] sm:max-h-[90vh] flex flex-col transform my-4"
+             x-show="isBabyNameModalOpen">
 
             <!-- Header - Đồng bộ với modal giỏ hàng -->
             <div class="bg-gradient-to-r from-pink-500 to-purple-600 text-white p-3 sm:p-4 rounded-t-2xl flex-shrink-0">
@@ -3078,20 +3041,8 @@
 
         <!-- Product Detail Modal -->
     <div x-show="isProductDetailOpen" @keydown.escape.window="console.log('🔍 ESC pressed on ProductDetail, isQuickBuyModalOpen:', isQuickBuyModalOpen, 'isDiscountModalOpen:', isDiscountModalOpen); if (!isQuickBuyModalOpen && !isDiscountModalOpen) closeProductDetail()"
-         class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 pt-safe-top pb-safe-bottom z-[9000]"
-         x-transition:enter="transition ease-out duration-300"
-         x-transition:enter-start="opacity-0"
-         x-transition:enter-end="opacity-100"
-         x-transition:leave="transition ease-in duration-200"
-         x-transition:leave-start="opacity-100"
-         x-transition:leave-end="opacity-0">
-        <div class="bg-white rounded-3xl sm:rounded-2xl shadow-xl w-full max-w-sm sm:max-w-2xl max-h-[85vh] sm:max-h-[90vh] overflow-hidden transform"
-             x-transition:enter="transition ease-out duration-300"
-             x-transition:enter-start="scale-95 opacity-0"
-             x-transition:enter-end="scale-100 opacity-100"
-             x-transition:leave="transition ease-in duration-200"
-             x-transition:leave-start="scale-100 opacity-100"
-             x-transition:leave-end="scale-95 opacity-0">
+         class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 pt-safe-top pb-safe-bottom z-[9000]">
+        <div class="bg-white rounded-3xl sm:rounded-2xl shadow-xl w-full max-w-sm sm:max-w-2xl max-h-[85vh] sm:max-h-[90vh] overflow-hidden transform">
 
             <template x-if="currentProductDetail">
                 <div class="flex flex-col h-full max-h-[85vh] sm:max-h-[90vh]">
@@ -3115,8 +3066,7 @@
                         <!-- Product Image -->
                         <div class="relative bg-gradient-to-br from-gray-100 to-gray-200 rounded-xl aspect-square">
                             <img :src="currentProductDetail.image" :alt="currentProductDetail.name"
-                                 @load="$el.classList.remove('opacity-0')"
-                                 class="w-full h-full object-cover rounded-xl shadow-lg opacity-0 transition-opacity duration-300" loading="lazy">
+                                 class="w-full h-full object-cover rounded-xl shadow-lg" loading="lazy">
                             <!-- Sale Badge -->
                             <template x-if="currentProductDetail.original_price">
                                 <div class="absolute top-3 left-3 bg-red-500 text-white px-2 py-1 rounded-full text-xs font-bold">
@@ -3328,13 +3278,7 @@
 
     <!-- Hand Size Modal for Adult Products - Centered with Proper Spacing -->
     <div x-show="isHandSizeModalOpen" class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-4 pt-safe-top pb-safe-bottom z-[9400]" @click.away="closeHandSizeModal()">
-        <div x-show="isHandSizeModalOpen" class="bg-white w-full max-w-sm sm:max-w-md lg:max-w-lg xl:max-w-xl mx-auto rounded-2xl shadow-2xl overflow-hidden max-h-[85vh] sm:max-h-[90vh] flex flex-col transform transition-all my-4" @click.stop
-             x-transition:enter="transition ease-out duration-300"
-             x-transition:enter-start="opacity-0 transform scale-90"
-             x-transition:enter-end="opacity-100 transform scale-100"
-             x-transition:leave="transition ease-in duration-200"
-             x-transition:leave-start="opacity-100 transform scale-100"
-             x-transition:leave-end="opacity-0 transform scale-90">
+        <div x-show="isHandSizeModalOpen" class="bg-white w-full max-w-sm sm:max-w-md lg:max-w-lg xl:max-w-xl mx-auto rounded-2xl shadow-2xl overflow-hidden max-h-[85vh] sm:max-h-[90vh] flex flex-col transform my-4" @click.stop>
 
             <!-- Header - Compact -->
             <div class="bg-gradient-to-r from-pink-500 to-purple-600 text-white p-2 sm:p-4 rounded-t-2xl flex-shrink-0">
@@ -3471,13 +3415,7 @@
 
     <!-- Item Options Modal - Centered with Proper Spacing -->
     <div x-show="isItemOptionsModalOpen" class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-4 pt-safe-top pb-safe-bottom z-[9400]" @click.away="closeItemOptionsModal()">
-        <div x-show="isItemOptionsModalOpen" class="bg-white w-full max-w-sm sm:max-w-md lg:max-w-lg xl:max-w-xl mx-auto rounded-2xl shadow-2xl overflow-hidden max-h-[85vh] sm:max-h-[90vh] flex flex-col transform transition-all my-4" @click.stop
-             x-transition:enter="transition ease-out duration-300"
-             x-transition:enter-start="opacity-0 transform scale-90"
-             x-transition:enter-end="opacity-100 transform scale-100"
-             x-transition:leave="transition ease-in duration-200"
-             x-transition:leave-start="opacity-100 transform scale-100"
-             x-transition:leave-end="opacity-0 transform scale-90">
+        <div x-show="isItemOptionsModalOpen" class="bg-white w-full max-w-sm sm:max-w-md lg:max-w-lg xl:max-w-xl mx-auto rounded-2xl shadow-2xl overflow-hidden max-h-[85vh] sm:max-h-[90vh] flex flex-col transform my-4" @click.stop>
 
 			<!-- Header - Compact (Unified with Bead Quantity Modal) -->
 			<div class="bg-gradient-to-r from-pink-500 to-purple-600 text-white p-2 sm:p-4 rounded-t-2xl flex-shrink-0">
@@ -4295,20 +4233,8 @@
 
     <!-- Bead Quantity Selection Modal - Chọn số lượng hạt dâu -->
     <div x-show="isBeadQuantityModalOpen" @keydown.escape.window="closeBeadQuantityModal()"
-         class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-4 pt-safe-top pb-safe-bottom z-[9400]"
-         x-transition:enter="transition ease-out duration-300"
-         x-transition:enter-start="opacity-0"
-         x-transition:enter-end="opacity-100"
-         x-transition:leave="transition ease-in duration-200"
-         x-transition:leave-start="opacity-100"
-         x-transition:leave-end="opacity-0">
-        <div x-show="isBeadQuantityModalOpen" class="bg-white rounded-2xl shadow-2xl w-full max-w-sm sm:max-w-md lg:max-w-lg xl:max-w-xl mx-auto max-h-[85vh] sm:max-h-[90vh] flex flex-col transform transition-all my-4"
-             x-transition:enter="transition ease-out duration-300"
-             x-transition:enter-start="opacity-0 scale-95"
-             x-transition:enter-end="opacity-100 scale-100"
-             x-transition:leave="transition ease-in duration-200"
-             x-transition:leave-start="opacity-100 scale-100"
-             x-transition:leave-end="opacity-0 scale-95">
+         class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-4 pt-safe-top pb-safe-bottom z-[9400]">
+        <div x-show="isBeadQuantityModalOpen" class="bg-white rounded-2xl shadow-2xl w-full max-w-sm sm:max-w-md lg:max-w-lg xl:max-w-xl mx-auto max-h-[85vh] sm:max-h-[90vh] flex flex-col transform my-4">
 
             <!-- Header - Compact -->
             <div class="bg-gradient-to-r from-pink-500 to-purple-600 text-white p-2 sm:p-4 rounded-t-2xl flex-shrink-0">
@@ -4435,20 +4361,8 @@
 
     <!-- Combo Detail Modal - Redesigned for Mom-Friendly Experience -->
     <div x-show="isComboImageModalOpen" @keydown.escape.window="if (!isQuickBuyModalOpen) closeComboImageModal()"
-         class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 pt-safe-top pb-safe-bottom z-[9000]"
-         x-transition:enter="transition ease-out duration-300"
-         x-transition:enter-start="opacity-0"
-         x-transition:enter-end="opacity-100"
-         x-transition:leave="transition ease-in duration-200"
-         x-transition:leave-start="opacity-100"
-         x-transition:leave-end="opacity-0">
-        <div x-show="isComboImageModalOpen" class="combo-modal-content bg-white rounded-3xl sm:rounded-2xl shadow-2xl w-full max-w-sm sm:max-w-2xl max-h-[85vh] sm:max-h-[90vh] flex flex-col transform transition-all my-4"
-             x-transition:enter="transition ease-out duration-300"
-             x-transition:enter-start="opacity-0 scale-95 translate-y-4"
-             x-transition:enter-end="opacity-100 scale-100 translate-y-0"
-             x-transition:leave="transition ease-in duration-200"
-             x-transition:leave-start="opacity-100 scale-100 translate-y-0"
-             x-transition:leave-end="opacity-0 scale-95 translate-y-4">
+         class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 pt-safe-top pb-safe-bottom z-[9000]">
+        <div x-show="isComboImageModalOpen" class="combo-modal-content bg-white rounded-3xl sm:rounded-2xl shadow-2xl w-full max-w-sm sm:max-w-2xl max-h-[85vh] sm:max-h-[90vh] flex flex-col my-4">
 
                 <div class="flex flex-col h-full max-h-[85vh] sm:max-h-[90vh]">
                     <!-- Header - Simple & Compact -->
@@ -4697,12 +4611,6 @@
     <!-- FAQ Modal -->
     <div x-show="isFaqModalOpen" @keydown.escape.window="closeFaqModal()" class="fixed inset-0 z-[9992] flex items-center justify-center bg-black bg-opacity-60 backdrop-blur-sm p-4 pt-safe-top pb-safe-bottom" style="display: none;">
         <div x-show="isFaqModalOpen"
-             x-transition:enter="transition ease-out duration-300 transform"
-             x-transition:enter-start="opacity-0 scale-90"
-             x-transition:enter-end="opacity-100 scale-100"
-             x-transition:leave="transition ease-in duration-200 transform"
-             x-transition:leave-start="opacity-100 scale-100"
-             x-transition:leave-end="opacity-0 scale-90"
              @click.outside="closeFaqModal()"
              class="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl overflow-hidden max-h-[85vh] sm:max-h-[90vh] flex flex-col my-4">
 
@@ -4737,7 +4645,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
                     </button>
-                    <div x-show="faqOpenItems.includes(1)" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 max-h-0" x-transition:enter-end="opacity-100 max-h-96" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 max-h-96" x-transition:leave-end="opacity-0 max-h-0" class="overflow-hidden">
+                    <div x-show="faqOpenItems.includes(1)" class="overflow-hidden">
                         <div class="px-5 pb-4 text-gray-700 leading-relaxed border-t border-pink-100 pt-3 bg-white">
                             Em cam kết 100% vòng dâu tằm em làm đều làm thủ công từ cây dâu tằm thật, mà còn là cây dâu tằm đực, dương khi mạnh do chính nhà em trồng. Giống dâu tằm ta Việt Nam từ xưa mà các cụ hay dùng để làm vòng cho bé.
                         </div>
@@ -4752,7 +4660,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
                     </button>
-                    <div x-show="faqOpenItems.includes(2)" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 max-h-0" x-transition:enter-end="opacity-100 max-h-96" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 max-h-96" x-transition:leave-end="opacity-0 max-h-0" class="overflow-hidden">
+                    <div x-show="faqOpenItems.includes(2)" class="overflow-hidden">
                         <div class="px-5 pb-4 text-gray-700 leading-relaxed border-t border-blue-100 pt-3 bg-white">
                             Em cũng cam kết 100% là bạc thật, tất cả đều là bạc ta S999 (chỉ có charm hoa sen và charm chuông là bạc S925). Các mẹ có thể mang ra tiệm bạc để kiểm tra thoải mái ạ.
                         </div>
@@ -4767,7 +4675,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
                     </button>
-                    <div x-show="faqOpenItems.includes(3)" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 max-h-0" x-transition:enter-end="opacity-100 max-h-96" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 max-h-96" x-transition:leave-end="opacity-0 max-h-0" class="overflow-hidden">
+                    <div x-show="faqOpenItems.includes(3)" class="overflow-hidden">
                         <div class="px-5 pb-4 text-gray-700 leading-relaxed border-t border-green-100 pt-3 bg-white">
                             Vòng dâu em làm đều lấy từ phần gốc của cây dâu tằm, nên rất già chắc và đặc lõi, nên ngấm nước thoải mái không bị làm sao. Nhưng ngâm nước lâu và nhiều thì hạt dâu tằm sẽ đậm hơn vì không dùng hóa chất bảo quản gì cả.
                         </div>
@@ -4782,7 +4690,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
                     </button>
-                    <div x-show="faqOpenItems.includes(4)" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 max-h-0" x-transition:enter-end="opacity-100 max-h-96" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 max-h-96" x-transition:leave-end="opacity-0 max-h-0" class="overflow-hidden">
+                    <div x-show="faqOpenItems.includes(4)" class="overflow-hidden">
                         <div class="px-5 pb-4 text-gray-700 leading-relaxed border-t border-amber-100 pt-3 bg-white">
                             Các mẫu vòng dâu rút đỏ thì đều có thể nới rộng ra khi bé lớn, nên không sợ bị trật. Còn các mẫu vòng co giãn thì sẽ không nới rộng được, nên khi bé lớn tay to hơn hẳn lúc đầu thì có thể sẽ bị chật ạ.
                         </div>
@@ -4797,7 +4705,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                         </svg>
                     </button>
-                    <div x-show="faqOpenItems.includes(5)" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 max-h-0" x-transition:enter-end="opacity-100 max-h-96" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 max-h-96" x-transition:leave-end="opacity-0 max-h-0" class="overflow-hidden">
+                    <div x-show="faqOpenItems.includes(5)" class="overflow-hidden">
                         <div class="px-5 pb-4 text-gray-700 leading-relaxed border-t border-purple-100 pt-3 bg-white">
                             Dạ, có thể ạ. Vì vòng em làm không dùng hóa chất chống mốc để an toàn cho bé. Nên nếu không sử dụng để ngoài không khí nồm ẩm có thể bị mốc. Còn nếu đeo trên bé hằng ngày, có hơi người thì vòng không bao giờ mốc được ạ.
                         </div>
@@ -4905,24 +4813,12 @@
 
     <!-- Modal Hướng dẫn đo size (New, Simplified Design) -->
     <div x-show="isSizingGuideModalOpen"
-         x-transition:enter="transition ease-out duration-300"
-         x-transition:enter-start="opacity-0"
-         x-transition:enter-end="opacity-100"
-         x-transition:leave="transition ease-in duration-200"
-         x-transition:leave-start="opacity-100"
-         x-transition:leave-end="opacity-0"
          class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-4 pt-safe-top pb-safe-bottom z-[9950]"
          @click.self="closeSizingGuideModal()"
          @keydown.escape.window="closeSizingGuideModal()">
 
         <div x-show="isSizingGuideModalOpen"
-             x-transition:enter="transition ease-out duration-300"
-             x-transition:enter-start="opacity-0 scale-95"
-             x-transition:enter-end="opacity-100 scale-100"
-             x-transition:leave="transition ease-in duration-200"
-             x-transition:leave-start="opacity-100 scale-100"
-             x-transition:leave-end="opacity-0 scale-95"
-             class="bg-white rounded-2xl shadow-xl w-full max-w-sm sm:max-w-md flex flex-col transform transition-all my-4 max-h-[85vh] sm:max-h-[90vh]">
+             class="bg-white rounded-2xl shadow-xl w-full max-w-sm sm:max-w-md flex flex-col transform my-4 max-h-[85vh] sm:max-h-[90vh]">
 
             <!-- Header (Synced with Mini Cart) -->
             <div class="bg-gradient-to-r from-pink-500 to-purple-600 text-white p-3 sm:p-4 rounded-t-2xl flex-shrink-0">
@@ -4980,23 +4876,11 @@
     <!-- Quick View Modal -->
     <div x-show="isQuickViewOpen"
          @keydown.escape.window="closeQuickView()"
-         class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-4 z-[9800]"
-         x-transition:enter="transition ease-out duration-300"
-         x-transition:enter-start="opacity-0"
-         x-transition:enter-end="opacity-100"
-         x-transition:leave="transition ease-in duration-200"
-         x-transition:leave-start="opacity-100"
-         x-transition:leave-end="opacity-0">
+         class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-4 z-[9800]">
 
         <div @click.away="closeQuickView()"
-             class="bg-white rounded-2xl shadow-xl w-full max-w-4xl max-h-[90vh] flex flex-col sm:flex-row transform transition-all"
-             x-show="isQuickViewOpen"
-             x-transition:enter="transition ease-out duration-300"
-             x-transition:enter-start="opacity-0 scale-95"
-             x-transition:enter-end="opacity-100 scale-100"
-             x-transition:leave="transition ease-in duration-200"
-             x-transition:leave-start="opacity-100 scale-100"
-             x-transition:leave-end="opacity-0 scale-95">
+             class="bg-white rounded-2xl shadow-xl w-full max-w-4xl max-h-[90vh] flex flex-col sm:flex-row transform"
+             x-show="isQuickViewOpen">
 
             <!-- Image Section -->
             <div class="w-full sm:w-1/2 h-64 sm:h-auto relative bg-gray-100">
