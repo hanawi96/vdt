@@ -3496,7 +3496,6 @@
 						</svg>
 						<div class="text-left">
 							<p class="text-xs sm:text-sm text-amber-800 font-medium">Lưu ý: Vui lòng chọn đúng cân nặng của bé, không trừ hao.</p>
-							<p class="hidden sm:block text-xs text-amber-700 mt-0.5">Chọn chính xác giúp vòng vừa tay và lên form đẹp cho bé.</p>
 						</div>
 					</div>
 				</div>
@@ -3617,7 +3616,7 @@
                             <div class="flex-1">
                                 <h4 class="text-sm font-bold text-gray-800 mb-2 flex items-center">
                                     <span class="mr-2">👶</span>
-                                    Tên của bé
+                                    Nhập tên của bé cần khắc
                                 </h4>
                                 <div class="space-y-2">
                                     <input type="text"
@@ -4337,18 +4336,20 @@
                 </div>
             </div>
 
-            <!-- Footer - Compact -->
-            <div class="flex-shrink-0 p-3 border-t bg-white rounded-b-2xl">
-                <div class="flex gap-3">
+            <!-- Footer - Full Width Buttons -->
+            <div class="flex-shrink-0 p-4 border-t bg-gray-50 rounded-b-2xl">
+                <div class="flex gap-2">
+                    <!-- Cancel Button - Kích thước cố định nhỏ -->
                     <button @click="closeBeadQuantityModal()"
-                            class="flex-1 py-2.5 sm:py-3 px-4 bg-gray-200 hover:bg-gray-300 text-gray-700 font-medium rounded-lg text-xs sm:text-sm transition-colors">
+                            class="px-6 py-2.5 sm:py-3 bg-gray-200 text-gray-700 font-medium rounded-lg text-xs sm:text-sm">
                         Hủy
                     </button>
+                    <!-- Add to Cart Button - Chiếm phần còn lại -->
                     <button @click="addBeadProductToCart()"
                             :disabled="beadOptions.quantity < 1"
-                            class="flex-2 bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold py-2.5 sm:py-3 px-4 rounded-lg text-xs sm:text-sm shadow-md">
+                            class="flex-1 px-4 py-2.5 sm:py-3 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 disabled:from-gray-300 disabled:to-gray-400 text-white font-bold rounded-lg text-xs sm:text-sm shadow-lg">
                         <span class="flex items-center justify-center">
-                            <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
                             </svg>
                             Thêm vào giỏ hàng

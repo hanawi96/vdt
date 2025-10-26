@@ -217,101 +217,31 @@
     "purchases": 145
   },
   {
-    "id": "mix_day_ngu_sac_004",
-    "name": "Mix bạc cỏ 4 lá rỗng",
+    "id": "mix_day_ngu_sac_001",
+    "name": "Vòng ngũ sắc mix 1 hạt dâu",
     "category": "mix_day_ngu_sac",
     "categories": ["mix_day_ngu_sac", "san_pham_hot"],
     "price": 149000,
     "original_price": 189000,
-    "image": "./assets/images/product_img/vong_tron_co_dien_day_ngu_sac.webp",
+    "image": "./assets/images/product_img/vong-ngu-sac/vong-ngu-sac-mix-1-hat-dau.webp",
     "description": "Vòng dâu tằm dây ngũ sắc mix charm cỏ 4 lá rỗng, biểu tượng may mắn.",
     "rating": 5.0,
     "purchases": 345,
     "stock_quantity": 15
   },
   {
-    "id": "mix_day_ngu_sac_005",
-    "name": "Mix bạc cỏ 4 lá đặc",
-    "category": "mix_day_ngu_sac",
-    "categories": ["mix_day_ngu_sac", "khuyen_mai"],
-    "price": 159000,
-    "original_price": 199000,
-    "image": "./assets/images/product_img/vong_tron_co_dien_day_ngu_sac.webp",
-    "description": "Vòng dâu tằm dây ngũ sắc mix charm cỏ 4 lá đặc, mang lại vận may.",
-    "rating": 4.8,
-    "purchases": 289,
-    "stock_quantity": 15
-  },
-  {
-    "id": "mix_day_ngu_sac_006",
-    "name": "Mix ngôi sao bạc",
+    "id": "mix_day_ngu_sac_002",
+    "name": "Vòng ngũ sắc mix 1 hạt dâu + 2 bi bạc 4ly",
     "category": "mix_day_ngu_sac",
     "categories": ["mix_day_ngu_sac", "san_pham_hot"],
-    "price": 139000,
-    "original_price": 179000,
-    "image": "./assets/images/product_img/vong_tron_co_dien_day_ngu_sac.webp",
-    "description": "Vòng dâu tằm dây ngũ sắc mix charm ngôi sao bạc, tỏa sáng ước mơ.",
-    "rating": 4.9,
-    "purchases": 267,
-    "stock_quantity": 15
-  },
-  {
-    "id": "mix_day_ngu_sac_007",
-    "name": "Mix bạc hoa 6 cánh",
-    "category": "mix_day_ngu_sac",
-    "categories": ["mix_day_ngu_sac"],
-    "price": 169000,
-    "original_price": 209000,
-    "image": "./assets/images/product_img/vong_tron_co_dien_day_ngu_sac.webp",
-    "description": "Vòng dâu tằm dây ngũ sắc mix charm hoa 6 cánh bạc, nữ tính và duyên dáng.",
-    "rating": 4.7,
-    "purchases": 234,
-    "stock_quantity": 15
-  },
-  {
-    "id": "mix_day_ngu_sac_008",
-    "name": "Mix trăng khuyết",
-    "category": "mix_day_ngu_sac",
-    "categories": ["mix_day_ngu_sac", "khuyen_mai"],
-    "price": 129000,
-    "original_price": 169000,
-    "image": "./assets/images/product_img/vong_tron_co_dien_day_ngu_sac.webp",
-    "description": "Vòng dâu tằm dây ngũ sắc mix charm trăng khuyết, thơ mộng và bí ẩn.",
-    "rating": 4.8,
-    "purchases": 198,
-    "stock_quantity": 15
-  },
-  {
-    "id": "mix_day_ngu_sac_009",
-    "name": "Mix hoa sen bạc",
-    "category": "mix_day_ngu_sac",
-    "categories": ["mix_day_ngu_sac", "san_pham_hot"],
-    "price": 179000,
-    "original_price": 219000,
-    "image": "./assets/images/product_img/vong_tron_co_dien_day_ngu_sac.webp",
-    "description": "Vòng dâu tằm dây ngũ sắc mix charm hoa sen bạc, thanh khiết và bình an.",
+    "price": 149000,
+    "original_price": 189000,
+    "image": "./assets/images/product_img/vong-ngu-sac/vong-ngu-sac-mix-1-hat-dau.webp",
+    "description": "Vòng dâu tằm dây ngũ sắc mix charm cỏ 4 lá rỗng, biểu tượng may mắn.",
     "rating": 5.0,
-    "purchases": 167,
+    "purchases": 345,
     "stock_quantity": 15
   },
-  {
-    "id": "mix_day_ngu_sac_010",
-    "name": "Mix cúc họa mi bạc",
-    "category": "mix_day_ngu_sac",
-    "categories": ["mix_day_ngu_sac", "khuyen_mai"],
-    "price": 159000,
-    "original_price": 199000,
-    "image": "./assets/images/product_img/vong_tron_co_dien_day_ngu_sac.webp",
-    "description": "Vòng dâu tằm dây ngũ sắc mix charm cúc họa mi bạc, tinh khôi và dễ thương.",
-    "rating": 4.9,
-    "purchases": 145,
-    "stock_quantity": 15
-  },
-
-
-
-
-
 
   {
     "id": "hat_dau_tam_mai_san_002",
