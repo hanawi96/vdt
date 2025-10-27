@@ -192,6 +192,32 @@
     "stock_quantity": 15
   },
   {
+    "id": "mix_charm_ran_015",
+    "name": "Mix bạc 3ly + Charm rắn + Thẻ tên co giãn",
+    "category": "mix_charm_ran",
+    "categories": ["mix_charm_ran", "mix_charm_chuong", "vong_co_gian"],
+    "price": 189000,
+    "original_price": 229000,
+    "image": "./assets/images/product_img/charm ran/sole-3ly-charm-ran-the-ten-co-gian.webp",
+    "description": "Vòng dâu tằm mix bi bạc 3 lớp với charm rắn và dây co giãn mềm mại.",
+    "rating": 4.7,
+    "purchases": 324,
+    "stock_quantity": 15
+  },
+  {
+    "id": "mix_charm_ran_016",
+    "name": "Mix bạc 3ly + Charm rắn + Chuông + Thẻ tên co giãn",
+    "category": "mix_charm_ran",
+    "categories": ["mix_charm_ran", "mix_charm_chuong", "vong_co_gian"],
+    "price": 189000,
+    "original_price": 229000,
+    "image": "./assets/images/product_img/charm ran/sole-3ly-charm-ran-the-ten-chuong-co-gian.webp",
+    "description": "Vòng dâu tằm mix bi bạc 3 lớp với charm rắn và dây co giãn mềm mại.",
+    "rating": 4.7,
+    "purchases": 324,
+    "stock_quantity": 15
+  },
+  {
     "id": "mix_charm_ran_010",
     "name": "Mix bạc 4ly + Charm rắn + Chuông",
     "category": "mix_charm_ran",
