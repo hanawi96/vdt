@@ -698,6 +698,53 @@ document.addEventListener('alpine:init', () => {
       this.startFreeshipCountdown();
       this.startSocialProofLoop();
 
+      // Xử lý deep link cho modal sản phẩm và combo
+      const hash = window.location.hash;
+      if (hash.startsWith('#product=')) {
+        const productId = hash.substring(9); // '#product='.length
+        // Chờ một chút để UI render xong xuôi
+        this.$nextTick(() => {
+            const product = this.products.find(p => p.id === productId);
+            if (product) {
+                console.log('🔍 Deep link found, opening product:', productId);
+                this.openProductDetail(product);
+            } else {
+                console.warn('🔍 Deep link product not found:', productId);
+            }
+        });
+      } else if (hash.startsWith('#combo=')) {
+        const comboType = hash.substring(7); // '#combo='.length
+        // Danh sách các combo hợp lệ
+        const validCombos = ['vong_tron_tui', 'vong_tron_bo_sua', 'vong_tron_goi', 'vong_tron_khan'];
+        // Chờ một chút để UI render xong xuôi
+        this.$nextTick(() => {
+            if (validCombos.includes(comboType)) {
+                console.log('🔍 Deep link found, opening combo:', comboType);
+                this.openComboImageModal(comboType);
+            } else {
+                console.warn('🔍 Deep link combo not found:', comboType);
+            }
+        });
+      } else if (hash.startsWith('#search=')) {
+        const searchQuery = decodeURIComponent(hash.substring(8)); // '#search='.length
+        this.$nextTick(() => {
+            console.log('🔍 Deep link found, performing search for:', searchQuery);
+            this.searchQuery = searchQuery;
+            this.performSearch();
+        });
+      } else if (hash.startsWith('#category=')) {
+        const categoryId = hash.substring(10); // '#category='.length
+        this.$nextTick(() => {
+            const category = this.categories.find(c => c.id === categoryId);
+            if (category) {
+                console.log('🔍 Deep link found, selecting category:', categoryId);
+                this.selectCategory(category);
+            } else {
+                console.warn('🔍 Deep link category not found:', categoryId);
+            }
+        });
+      }
+
       // Validate address consistency sau khi load
       console.log('🔄 Calling validateAddressConsistency');
       this.validateAddressConsistency();
@@ -1112,6 +1159,11 @@ document.addEventListener('alpine:init', () => {
       this.searchQuery = '';
       this.activeSearchQuery = '';
 
+      // Xóa hash tìm kiếm khi hiển thị sản phẩm bán chạy
+      if (window.location.hash.startsWith('#search=')) {
+        history.pushState(null, null, ' ');
+      }
+
       // Cuộn xuống phần sản phẩm với smooth scroll
       setTimeout(() => {
         const productsSection = document.querySelector('#products-section');
@@ -1250,7 +1302,9 @@ document.addEventListener('alpine:init', () => {
         this.currentComboImages = combo;
         this.currentComboType = comboType;
         this.isComboImageModalOpen = true;
-        console.log('🔍 - isComboImageModalOpen set to true');
+        console.log('[object Object]sComboImageModalOpen set to true');
+        // Thêm hash vào URL cho deep linking
+        history.pushState(null, null, '#combo=' + comboType);
         document.body.style.overflow = 'hidden';
       }
     },
@@ -1261,6 +1315,10 @@ document.addEventListener('alpine:init', () => {
       console.log('🔍 - isComboImageModalOpen trước:', this.isComboImageModalOpen);
       console.trace('🔍 Stack trace cho closeComboImageModal');
       this.isComboImageModalOpen = false;
+      // Xóa hash khỏi URL
+      if (history.state === null) {
+        history.pushState(null, null, ' ');
+      }
       document.body.style.overflow = 'auto';
     },
 
@@ -1461,10 +1519,18 @@ document.addEventListener('alpine:init', () => {
     performSearch() {
       this.activeSearchQuery = this.searchQuery.trim();
       this.visibleProductCount = 8;
+
+      // Cập nhật URL với từ khóa tìm kiếm
       if (this.activeSearchQuery) {
+        history.pushState(null, null, '#search=' + encodeURIComponent(this.activeSearchQuery));
         this.$nextTick(() => {
           document.getElementById('product-list-anchor')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
+      } else {
+        // Xóa hash khi không có từ khóa tìm kiếm
+        if (window.location.hash.startsWith('#search=')) {
+          history.pushState(null, null, ' ');
+        }
       }
     },
     loadMoreProducts() { this.visibleProductCount += this.productsPerLoad; },
@@ -1474,6 +1540,17 @@ document.addEventListener('alpine:init', () => {
       this.searchQuery = ''; this.activeSearchQuery = '';
       this.isShowingBestSellers = false; // Reset top selling mode
       this.view = 'products';
+
+      // Cập nhật URL hash cho danh mục
+      if (category && category.id !== 'all') {
+        history.pushState(null, null, '#category=' + category.id);
+      } else {
+        // Xóa hash nếu chọn 'Tất cả sản phẩm' hoặc hash cũ là của category/search
+        if (window.location.hash.startsWith('#category=') || window.location.hash.startsWith('#search=')) {
+            history.pushState(null, null, ' ');
+        }
+      }
+
       this.$nextTick(() => {
         document.getElementById('product-list-anchor')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
@@ -3723,6 +3800,9 @@ document.addEventListener('alpine:init', () => {
       // --- END NEW LOGIC ---
 
       this.isProductDetailOpen = true;
+      if (product && product.id) {
+        history.pushState(null, null, '#product=' + product.id);
+      }
       document.body.style.overflow = 'hidden';
 
       // Bắt đầu timer để thay đổi số người xem
@@ -3736,6 +3816,9 @@ document.addEventListener('alpine:init', () => {
       console.trace('🔍 Stack trace cho closeProductDetail');
 
       this.isProductDetailOpen = false;
+      if (history.state === null) { // Chỉ xóa hash nếu nó được thêm bởi app
+        history.pushState(null, null, ' ');
+      }
 
       // Chỉ restore overflow nếu không có modal nào khác đang mở
       if (!this.isQuickBuyModalOpen && !this.isDiscountModalOpen && !this.isMiniCartOpen &&
