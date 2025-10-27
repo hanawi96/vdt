@@ -154,6 +154,7 @@ document.addEventListener('alpine:init', () => {
       description: 'Những sản phẩm được yêu thích và mua nhiều nhất.'
     },
     activeFilter: 'best_selling',
+    sortBy: 'default', // 'default', 'price_asc', 'price_desc'
     visibleProductCount: 8,
     productsPerLoad: 8,
     loading: true,
@@ -1065,6 +1066,14 @@ document.addEventListener('alpine:init', () => {
         case 'newest': arr.reverse(); break; // giả định “mới” nằm cuối file như cũ
         case 'top_rated': arr.sort((a, b) => (b.rating || 0) - (a.rating || 0)); break;
       }
+
+      // Sắp xếp theo giá sau khi đã lọc
+      switch (this.sortBy) {
+        case 'price_asc': arr.sort((a, b) => (a.price || 0) - (b.price || 0)); break;
+        case 'price_desc': arr.sort((a, b) => (b.price || 0) - (a.price || 0)); break;
+        // 'default' không làm gì thêm, giữ nguyên thứ tự từ activeFilter
+      }
+
       return arr;
     },
     filteredProducts() {
