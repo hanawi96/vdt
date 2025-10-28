@@ -23,7 +23,8 @@
     "description": "Thiết kế nhỏ gọn dành riêng cho trẻ sơ sinh và trẻ nhỏ.",
     "rating": 5.0,
     "purchases": 756,
-    "stock_quantity": 10
+    "stock_quantity": 10,
+    "hasSilver": true
   },
   {
     "id": "vong_tron_004",
@@ -38,7 +39,8 @@
     "description": "Chất liệu dâu tằm cao cấp, bền đẹp theo thời gian.",
     "rating": 4.7,
     "purchases": 543,
-    "stock_quantity": 0
+    "stock_quantity": 0,
+    "hasSilver": true
   },
   {
     "id": "vong_tron_005",
@@ -54,7 +56,8 @@
     "description": "Giữ nguyên màu sắc và vân gỗ tự nhiên của dâu tằm.",
     "rating": 4.6,
     "purchases": 432,
-    "stock_quantity": 15
+    "stock_quantity": 15,
+    "hasSilver": true
   },
 
 
@@ -72,7 +75,8 @@
     "description": "Vòng dâu tằm trơn kết hợp charm rắn tinh tế, phong cách đơn giản nhưng ấn tượng.",
     "rating": 4.8,
     "purchases": 456,
-    "stock_quantity": 15
+    "stock_quantity": 15,
+    "hasSilver": true
   },
   {
     "id": "mix_charm_ran_002",
@@ -85,7 +89,8 @@
     "description": "Vòng dâu tằm mix bi bạc 3 lớp với charm rắn và dây rút tiện lợi.",
     "rating": 4.9,
     "purchases": 378,
-    "stock_quantity": 15
+    "stock_quantity": 15,
+    "hasSilver": true
   },
   {
     "id": "mix_charm_ran_003",
@@ -98,7 +103,8 @@
     "description": "Vòng dâu tằm mix bi bạc 3 lớp với charm rắn và dây co giãn mềm mại.",
     "rating": 4.7,
     "purchases": 324,
-    "stock_quantity": 15
+    "stock_quantity": 15,
+    "hasSilver": true
   },
   {
     "id": "mix_charm_ran_004",
@@ -111,7 +117,8 @@
     "description": "Vòng dâu tằm mix bi bạc 4 lớp với charm rắn và dây rút cao cấp.",
     "rating": 5.0,
     "purchases": 289,
-    "stock_quantity": 15
+    "stock_quantity": 15,
+    "hasSilver": true
   },
   {
     "id": "mix_charm_ran_005",
@@ -124,7 +131,8 @@
     "description": "Vòng dâu tằm mix bi bạc 4 lớp với charm rắn và dây co giãn bền bỉ.",
     "rating": 4.6,
     "purchases": 267,
-    "stock_quantity": 15
+    "stock_quantity": 15,
+    "hasSilver": true
   },
   {
     "id": "mix_charm_ran_006",
@@ -137,7 +145,8 @@
     "description": "Vòng dâu tằm với 7 bi bạc đặc biệt kết hợp charm rắn độc đáo.",
     "rating": 4.9,
     "purchases": 234,
-    "stock_quantity": 15
+    "stock_quantity": 15,
+    "hasSilver": true
   },
   {
     "id": "mix_charm_ran_007",
@@ -150,7 +159,8 @@
     "description": "Vòng dâu tằm với 9 bi bạc sang trọng kết hợp charm rắn tinh xảo.",
     "rating": 5.0,
     "purchases": 198,
-    "stock_quantity": 15
+    "stock_quantity": 15,
+    "hasSilver": true
   },
   {
     "id": "mix_charm_ran_008",
@@ -163,7 +173,8 @@
     "description": "Vòng dâu tằm mix bi bạc 3 lớp với charm rắn và chuông nhỏ xinh.",
     "rating": 4.8,
     "purchases": 167,
-    "stock_quantity": 15
+    "stock_quantity": 15,
+    "hasSilver": true
   },
   {
     "id": "mix_charm_ran_013",
@@ -176,7 +187,8 @@
     "description": "Vòng dâu tằm mix bi bạc 3 lớp với charm rắn và dây co giãn mềm mại.",
     "rating": 4.7,
     "purchases": 324,
-    "stock_quantity": 15
+    "stock_quantity": 15,
+    "hasSilver": true
   },
   {
     "id": "mix_charm_ran_014",
@@ -189,7 +201,8 @@
     "description": "Vòng dâu tằm mix bi bạc 3 lớp với charm rắn và dây co giãn mềm mại.",
     "rating": 4.7,
     "purchases": 324,
-    "stock_quantity": 15
+    "stock_quantity": 15,
+    "hasSilver": true
   },
   {
     "id": "mix_charm_ran_015",
@@ -202,7 +215,8 @@
     "description": "Vòng dâu tằm mix bi bạc 3 lớp với charm rắn và dây co giãn mềm mại.",
     "rating": 4.7,
     "purchases": 324,
-    "stock_quantity": 15
+    "stock_quantity": 15,
+    "hasSilver": true
   },
   {
     "id": "mix_charm_ran_016",
@@ -215,7 +229,8 @@
     "description": "Vòng dâu tằm mix bi bạc 3 lớp với charm rắn và dây co giãn mềm mại.",
     "rating": 4.7,
     "purchases": 324,
-    "stock_quantity": 15
+    "stock_quantity": 15,
+    "hasSilver": true
   },
   {
     "id": "mix_charm_ran_010",
@@ -228,7 +243,8 @@
     "description": "Vòng dâu tằm mix bi bạc 4 lớp với charm rắn và chuông, thiết kế cao cấp.",
     "rating": 4.9,
     "purchases": 145,
-    "stock_quantity": 15
+    "stock_quantity": 15,
+    "hasSilver": true
   },
  {
     "id": "mix_charm_ran_009",
@@ -240,7 +256,8 @@
     "image": "./assets/images/product_img/charm ran/vong-sole-4li-chamr-ran-mix-chuong.webp",
     "description": "Vòng dâu tằm mix bi bạc 4 lớp với charm rắn và chuông, thiết kế cao cấp.",
     "rating": 4.9,
-    "purchases": 145
+    "purchases": 145,
+    "hasSilver": true
   },
   {
     "id": "mix_day_ngu_sac_001",
@@ -411,7 +428,8 @@
     "description": "Vòng dâu tằm trơn kết hợp charm thánh giá, đơn giản nhưng đầy ý nghĩa tâm linh.",
     "rating": 4.8,
     "purchases": 456,
-    "stock_quantity": 15
+    "stock_quantity": 15,
+    "hasSilver": true
   },
   {
     "id": "mix_thanh_gia_002",
@@ -424,7 +442,8 @@
     "description": "Vòng dâu tằm sole mix bi bạc 3 lớp với charm thánh giá, thiết kế hiện đại và trang nhã.",
     "rating": 4.9,
     "purchases": 378,
-    "stock_quantity": 15
+    "stock_quantity": 15,
+    "hasSilver": true
   },
   {
     "id": "mix_thanh_gia_003",
@@ -437,7 +456,8 @@
     "description": "Vòng dâu tằm sole mix bi bạc 3 lớp với charm thánh giá và dây co giãn tiện lợi.",
     "rating": 5.0,
     "purchases": 345,
-    "stock_quantity": 15
+    "stock_quantity": 15,
+    "hasSilver": true
   },
   {
     "id": "mix_thanh_gia_004",
@@ -450,7 +470,8 @@
     "description": "Vòng dâu tằm sole mix bi bạc 3 lớp với charm thánh giá và chuông, kết hợp hoàn hảo.",
     "rating": 4.8,
     "purchases": 298,
-    "stock_quantity": 15
+    "stock_quantity": 15,
+    "hasSilver": true
   },
   {
     "id": "mix_thanh_gia_005",
@@ -462,7 +483,8 @@
     "image": "./assets/images/product_img/thanh-gia/sole-3ly-thanh-gia-the-ten.webp",
     "description": "Vòng dâu tằm sole mix bi bạc 3 lớp với charm thánh giá và chuông, kết hợp hoàn hảo.",
     "rating": 4.8,
-    "purchases": 298
+    "purchases": 298,
+    "hasSilver": true
   },
   {
     "id": "mix_thanh_gia_007",
@@ -474,7 +496,8 @@
     "image": "./assets/images/product_img/thanh-gia/sole-3ly-thanh-gia-chuong-co-gian.webp",
     "description": "Vòng dâu tằm sole mix bi bạc 3 lớp với charm thánh giá, chuông và dây co giãn cao cấp.",
     "rating": 4.9,
-    "purchases": 267
+    "purchases": 267,
+    "hasSilver": true
   },
     {
     "id": "mix_thanh_gia_008",
@@ -486,7 +509,8 @@
     "image": "./assets/images/product_img/thanh-gia/sole-4ly-thanh-gia-co-gian.webp",
     "description": "Vòng dâu tằm sole mix bi bạc 3 lớp với charm thánh giá, chuông và dây co giãn cao cấp.",
     "rating": 4.9,
-    "purchases": 267
+    "purchases": 267,
+    "hasSilver": true
   },
   {
     "id": "mix_hoa_sen_001",
@@ -498,7 +522,8 @@
     "image": "./assets/images/product_img/hoa-sen/vong-tron-hoa-sen.webp",
     "description": "Vòng dâu tằm trơn với charm hoa sen tinh tế, biểu tượng của sự thanh khiết và bình an.",
     "rating": 4.8,
-    "purchases": 456
+    "purchases": 456,
+    "hasSilver": true
   },
   {
     "id": "mix_hoa_sen_002",
@@ -510,7 +535,8 @@
     "image": "./assets/images/product_img/hoa-sen/vong-sole-3ly-hoa-sen.webp",
     "description": "Vòng dâu tằm sole mix bi bạc 3 lớp với charm hoa sen, kết hợp hoàn hảo giữa hiện đại và truyền thống.",
     "rating": 4.9,
-    "purchases": 389
+    "purchases": 389,
+    "hasSilver": true
   },
   {
     "id": "mix_hoa_sen_003",
@@ -522,7 +548,8 @@
     "image": "./assets/images/product_img/vong_tron_co_dien_day_ngu_sac.webp",
     "description": "Vòng dâu tằm sole mix bi bạc 4 lớp với charm hoa sen, sang trọng và đầy ý nghĩa.",
     "rating": 5.0,
-    "purchases": 345
+    "purchases": 345,
+    "hasSilver": true
   },
   {
     "id": "mix_hoa_sen_004",
@@ -534,7 +561,8 @@
     "image": "./assets/images/product_img/hoa-sen/sole-bac-3ly-hoa-sen-co-gian.webp",
     "description": "Vòng dâu tằm sole mix bi bạc 3 lớp với charm hoa sen và dây co giãn tiện lợi.",
     "rating": 4.8,
-    "purchases": 298
+    "purchases": 298,
+    "hasSilver": true
   },
   {
     "id": "mix_hoa_sen_005",
@@ -546,7 +574,8 @@
     "image": "./assets/images/product_img/hoa-sen/sole-bac-4ly-hoa-sen-co-gian.webp",
     "description": "Vòng dâu tằm sole mix bi bạc 4 lớp với charm hoa sen và dây co giãn cao cấp.",
     "rating": 4.9,
-    "purchases": 267
+    "purchases": 267,
+    "hasSilver": true
   },
   {
     "id": "mix_hoa_sen_006",
@@ -558,7 +587,8 @@
     "image": "./assets/images/product_img/hoa-sen/sole-bac-3ly-hoa-sen-chuong-co-gian.webp",
     "description": "Vòng dâu tằm sole mix bi bạc 4 lớp với charm hoa sen và dây co giãn cao cấp.",
     "rating": 4.9,
-    "purchases": 267
+    "purchases": 267,
+    "hasSilver": true
   },
     {
     "id": "mix_hoa_sen_007",
@@ -570,7 +600,8 @@
     "image": "./assets/images/product_img/hoa-sen/sole-bac-3ly-hoa-sen-chuong.webp",
     "description": "Vòng dâu tằm sole mix bi bạc 4 lớp với charm hoa sen và dây co giãn cao cấp.",
     "rating": 4.9,
-    "purchases": 267
+    "purchases": 267,
+    "hasSilver": true
   },
   {
     "id": "mix_da_do_tu_nhien_001",
@@ -582,7 +613,8 @@
     "image": "./assets/images/product_img/da do/vong_dau_tam_tron_da_do.webp",
     "description": "Vòng dâu tằm trơn kết hợp đá đỏ tự nhiên, mang lại năng lượng tích cực và may mắn.",
     "rating": 4.7,
-    "purchases": 234
+    "purchases": 234,
+    "hasSilver": true
   },
   {
     "id": "mix_da_do_tu_nhien_002",
@@ -594,7 +626,8 @@
     "image": "./assets/images/product_img/da do/vong_dau_tam_sole_3ly_da_do.webp",
     "description": "Vòng dâu tằm sole bạc 3 lớp kết hợp đá đỏ tự nhiên, thiết kế sang trọng và hiện đại.",
     "rating": 4.8,
-    "purchases": 187
+    "purchases": 187,
+    "hasSilver": true
   },
   {
     "id": "mix_da_do_tu_nhien_003",
@@ -606,7 +639,8 @@
     "image": "./assets/images/product_img/da do/vong_dau_tam_sole_4ly_da_do.webp",
     "description": "Vòng dâu tằm sole bạc 4 lớp kết hợp đá đỏ tự nhiên, đỉnh cao của sự sang trọng và phong thủy.",
     "rating": 4.9,
-    "purchases": 156
+    "purchases": 156,
+    "hasSilver": true
   },
   {
     "id": "mix_chi_mau_cac_loai_001",
@@ -619,7 +653,8 @@
     "description": "Vòng dâu tằm trơn cổ điển với dây đỏ truyền thống, mang lại may mắn và bình an.",
     "rating": 4.8,
     "purchases": 678,
-    "stock_quantity": 5
+    "stock_quantity": 5,
+    "hasSilver": true
   },
   {
     "id": "mix_chi_mau_cac_loai_003",
@@ -631,7 +666,8 @@
     "image": "./assets/images/product_img/vong_tron_co_dien_day_vang.webp",
     "description": "Vòng dâu tằm trơn cổ điển với dây vàng kim, tượng trưng cho sự thịnh vượng và may mắn trong cuộc sống.",
     "rating": 4.7,
-    "purchases": 432
+    "purchases": 432,
+    "hasSilver": true
   },
   {
     "id": "mix_chi_mau_cac_loai_004",
@@ -643,7 +679,8 @@
     "image": "./assets/images/product_img/vong_tron_co_dien_day_xanh.webp",
     "description": "Vòng dâu tằm trơn cổ điển với dây màu xanh lá, mang lại cảm giác bình yên và sự an lành cho người đeo.",
     "rating": 4.6,
-    "purchases": 356
+    "purchases": 356,
+    "hasSilver": true
   },
   {
     "id": "mix_chi_mau_cac_loai_005",
@@ -655,7 +692,8 @@
     "image": "./assets/images/product_img/vong_tron_co_dien_day_tim.webp",
     "description": "Vòng dâu tằm trơn cổ điển với dây màu tím sang trọng, tạo vẻ đẹp quý phái và thanh lịch.",
     "rating": 4.8,
-    "purchases": 298
+    "purchases": 298,
+    "hasSilver": true
   },
   {
     "id": "mix_chi_mau_cac_loai_006",
@@ -667,7 +705,8 @@
     "image": "./assets/images/product_img/vong_tron_co_dien_day_hong.webp",
     "description": "Vòng dâu tằm trơn cổ điển với chỉ hồng dịu dàng, mang lại vẻ đẹp nữ tính và duyên dáng.",
     "rating": 4.9,
-    "purchases": 234
+    "purchases": 234,
+    "hasSilver": true
   },
   {
     "id": "mix_chi_mau_cac_loai_007",
@@ -679,7 +718,8 @@
     "image": "./assets/images/product_img/vong_tron_co_dien_day_ngu_sac.webp",
     "description": "Vòng dâu tằm trơn với dây ngũ sắc đầy màu sắc, tượng trưng cho sự phong phú và may mắn trong cuộc sống.",
     "rating": 4.7,
-    "purchases": 0
+    "purchases": 0,
+    "hasSilver": true
   },
   {
     "id": "mix_the_ten_be_001",
@@ -691,7 +731,8 @@
     "image": "./assets/images/product_img/the-ten/vong-tron-mix-the-ten-tron.webp",
     "description": "Vòng dâu tằm trơn với thẻ tên tròn có thể khắc tên bé, đơn giản nhưng ý nghĩa.",
     "rating": 4.8,
-    "purchases": 456
+    "purchases": 456,
+    "hasSilver": true
   },
   {
     "id": "mix_the_ten_be_002",
@@ -703,7 +744,8 @@
     "image": "./assets/images/product_img/the-ten/vong-tron-2-mix-the-ten-tron.webp",
     "description": "Vòng dâu tằm trơn với 1 bi bạc và thẻ tên tròn, kết hợp hoàn hảo giữa sang trọng và cá nhân.",
     "rating": 4.9,
-    "purchases": 389
+    "purchases": 389,
+    "hasSilver": true
   },
   {
     "id": "mix_the_ten_be_003",
@@ -715,7 +757,8 @@
     "image": "./assets/images/product_img/the-ten/vong-tron-3-mix-the-ten-tron.webp",
     "description": "Vòng dâu tằm trơn với 2 bi bạc và thẻ tên tròn, tạo điểm nhấn nổi bật và cá tính.",
     "rating": 4.7,
-    "purchases": 345
+    "purchases": 345,
+    "hasSilver": true
   },
   
   {
@@ -728,7 +771,8 @@
     "image": "./assets/images/product_img/the-ten/vong-tron-5-mix-the-ten-tron.webp",
     "description": "Vòng dâu tằm trơn với 3 bi bạc và thẻ tên tròn, sang trọng và thu hút mọi ánh nhìn.",
     "rating": 5.0,
-    "purchases": 298
+    "purchases": 298,
+    "hasSilver": true
   },
   {
     "id": "mix_the_ten_be_009",
@@ -740,7 +784,8 @@
     "image": "./assets/images/product_img/the-ten/7-bi-bac-the-ten-be.webp",
     "description": "Vòng dâu tằm trơn với 2 bi bạc và thẻ tên tròn, tạo điểm nhấn nổi bật và cá tính.",
     "rating": 4.7,
-    "purchases": 345
+    "purchases": 345,
+    "hasSilver": true
   },
   {
     "id": "mix_the_ten_be_010",
@@ -752,7 +797,8 @@
     "image": "./assets/images/product_img/the-ten/sole-10-bac-3ly-the-hinh-ran.webp",
     "description": "Vòng dâu tằm trơn với 2 bi bạc và thẻ tên tròn, tạo điểm nhấn nổi bật và cá tính.",
     "rating": 4.7,
-    "purchases": 345
+    "purchases": 345,
+    "hasSilver": true
   },
   {
     "id": "mix_the_ten_be_005",
@@ -764,7 +810,8 @@
     "image": "./assets/images/product_img/the-ten/vong-tron-mix-the-hinh-ran.webp",
     "description": "Vòng dâu tằm trơn với thẻ tên hình rắn độc đáo, mang ý nghĩa thông minh và may mắn.",
     "rating": 4.8,
-    "purchases": 267
+    "purchases": 267,
+    "hasSilver": true
   },
   {
     "id": "mix_the_ten_be_006",
@@ -776,7 +823,8 @@
     "image": "./assets/images/product_img/the-ten/vong-tron-2-mix-the-hinh-ran.webp",
     "description": "Vòng dâu tằm trơn với 1 bi bạc và thẻ tên hình rắn, kết hợp tinh tế và cá tính.",
     "rating": 4.9,
-    "purchases": 234
+    "purchases": 234,
+    "hasSilver": true
   },
   {
     "id": "mix_the_ten_be_007",
@@ -788,7 +836,8 @@
     "image": "./assets/images/product_img/the-ten/vong-tron-3-mix-the-hinh-ran.webp",
     "description": "Vòng dâu tằm trơn với 2 bi bạc và thẻ tên hình rắn, phong cách hiện đại và độc đáo.",
     "rating": 4.8,
-    "purchases": 198
+    "purchases": 198,
+    "hasSilver": true
   },
   {
     "id": "mix_the_ten_be_008",
@@ -800,7 +849,8 @@
     "image": "./assets/images/product_img/the-ten/vong-tron-5-mix-the-hinh-ran.webp",
     "description": "Vòng dâu tằm trơn với 3 bi bạc và thẻ tên hình rắn, đỉnh cao của sự sang trọng và cá tính.",
     "rating": 4.9,
-    "purchases": 167
+    "purchases": 167,
+    "hasSilver": true
   },
   {
     "id": "mix_the_ten_be_011",
@@ -812,7 +862,8 @@
     "image": "./assets/images/product_img/the-ten/vong-tron-mix-the-ten-hoa-4-canh.webp",
     "description": "Vòng dâu tằm trơn với thẻ tên hình rắn độc đáo, mang ý nghĩa thông minh và may mắn.",
     "rating": 4.8,
-    "purchases": 267
+    "purchases": 267,
+    "hasSilver": true
   },
   {
     "id": "mix_the_ten_be_012",
@@ -824,7 +875,8 @@
     "image": "./assets/images/product_img/the-ten/vong-tron-2-mix-the-ten-hoa-4-canh.webp",
     "description": "Vòng dâu tằm trơn với 1 bi bạc và thẻ tên hình rắn, kết hợp tinh tế và cá tính.",
     "rating": 4.9,
-    "purchases": 234
+    "purchases": 234,
+    "hasSilver": true
   },
   {
     "id": "mix_the_ten_be_013",
@@ -836,7 +888,8 @@
     "image": "./assets/images/product_img/the-ten/vong-tron-3-mix-the-hoa-4-canh.webp",
     "description": "Vòng dâu tằm trơn với 2 bi bạc và thẻ tên hình rắn, phong cách hiện đại và độc đáo.",
     "rating": 4.8,
-    "purchases": 198
+    "purchases": 198,
+    "hasSilver": true
   },
   {
     "id": "mix_the_ten_be_014",
@@ -848,7 +901,8 @@
     "image": "./assets/images/product_img/the-ten/vong-tron-5-mix-the-ten-hoa-4-canh.webp",
     "description": "Vòng dâu tằm trơn với 3 bi bạc và thẻ tên hình rắn, đỉnh cao của sự sang trọng và cá tính.",
     "rating": 4.9,
-    "purchases": 167
+    "purchases": 167,
+    "hasSilver": true
   },
   {
     "id": "mix_the_ten_be_015",
@@ -860,7 +914,8 @@
     "image": "./assets/images/product_img/the-ten/sole-3ly-mix-the-tron.webp",
     "description": "Vòng dâu tằm trơn với 3 bi bạc và thẻ tên hình rắn, đỉnh cao của sự sang trọng và cá tính.",
     "rating": 4.9,
-    "purchases": 167
+    "purchases": 167,
+    "hasSilver": true
   },
   {
     "id": "mix_the_ten_be_016",
@@ -872,7 +927,8 @@
     "image": "./assets/images/product_img/the-ten/sole-3ly-mix-the-hinh-ran.webp",
     "description": "Vòng dâu tằm trơn với 3 bi bạc và thẻ tên hình rắn, đỉnh cao của sự sang trọng và cá tính.",
     "rating": 4.9,
-    "purchases": 167
+    "purchases": 167,
+    "hasSilver": true
   },
   {
     "id": "mix_the_ten_be_017",
@@ -884,7 +940,8 @@
     "image": "./assets/images/product_img/the-ten/sole-3ly-khac-the-ten-hoa-4-canh.webp",
     "description": "Vòng dâu tằm trơn với 3 bi bạc và thẻ tên hình rắn, đỉnh cao của sự sang trọng và cá tính.",
     "rating": 4.9,
-    "purchases": 167
+    "purchases": 167,
+    "hasSilver": true
   },
   {
     "id": "mix_the_ten_be_018",
@@ -896,7 +953,8 @@
     "image": "./assets/images/product_img/the-ten/vong-sole-3ly-charm-chuong-the-ten.webp",
     "description": "Vòng dâu tằm trơn với 3 bi bạc và thẻ tên hình rắn, đỉnh cao của sự sang trọng và cá tính.",
     "rating": 4.9,
-    "purchases": 167
+    "purchases": 167,
+    "hasSilver": true
   },
   {
     "id": "vong_nguoi_lon_001",
@@ -920,7 +978,8 @@
     "image": "./assets/images/product_img/nguoi-lon/mix-bac-3ly-mau-1.webp",
     "description": "Vòng dâu tằm dành riêng cho người lớn, thiết kế thanh lịch và sang trọng, phù hợp với mọi lứa tuổi.",
     "rating": 4.8,
-    "purchases": 567
+    "purchases": 567,
+    "hasSilver": true
   },
   {
     "id": "vong_nguoi_lon_003",
@@ -932,7 +991,8 @@
     "image": "./assets/images/product_img/nguoi-lon/mix-bac-3ly-mau-2.webp",
     "description": "Vòng dâu tằm dành riêng cho người lớn, thiết kế thanh lịch và sang trọng, phù hợp với mọi lứa tuổi.",
     "rating": 4.8,
-    "purchases": 567
+    "purchases": 567,
+    "hasSilver": true
   },
     {
     "id": "vong_nguoi_lon_004",
@@ -944,7 +1004,8 @@
     "image": "./assets/images/product_img/nguoi-lon/mix-bac-4ly-co-gian.webp",
     "description": "Vòng dâu tằm dành riêng cho người lớn, thiết kế thanh lịch và sang trọng, phù hợp với mọi lứa tuổi.",
     "rating": 4.8,
-    "purchases": 567
+    "purchases": 567,
+    "hasSilver": true
   },
   {
     "id": "san_pham_ban_kem_001",
@@ -980,7 +1041,9 @@
     "image": "./assets/images/product_img/bi-bac/bi-bac-ta-3ly.webp",
     "description": "Bi bạc ta 3 lớp trơn mịn, chất lượng cao và bền đẹp theo thời gian.",
     "rating": 4.8,
-    "purchases": 567
+    "purchases": 567,
+    "hasSilver": true,
+    "hasSilver": true
   },
   {
     "id": "bi_charm_bac_002",
@@ -992,7 +1055,8 @@
     "image": "./assets/images/product_img/bi-bac/bi-bac-ta-4ly.webp",
     "description": "Bi bạc ta 4 lớp với họa tiết khía tinh tế, tạo hiệu ứng ánh sáng đẹp mắt.",
     "rating": 4.9,
-    "purchases": 456
+    "purchases": 456,
+    "hasSilver": true
   },
   {
     "id": "bi_charm_bac_003",
@@ -1004,7 +1068,8 @@
     "image": "./assets/images/product_img/bi-bac/bi-bac-ta-5ly.webp",
     "description": "Bi bạc ta 5 lớp với họa tiết khía cao cấp, đỉnh cao của sự tinh tế và sang trọng.",
     "rating": 5.0,
-    "purchases": 389
+    "purchases": 389,
+    "hasSilver": true
   },
   {
     "id": "bi_charm_bac_004",
@@ -1016,7 +1081,8 @@
     "image": "./assets/images/product_img/charm-bac/charm-rong.webp",
     "description": "Charm rồng bạc ta tinh xảo, biểu tượng của quyền lực và may mắn.",
     "rating": 4.8,
-    "purchases": 345
+    "purchases": 345,
+    "hasSilver": true
   },
   {
     "id": "bi_charm_bac_005",
@@ -1028,7 +1094,8 @@
     "image": "./assets/images/product_img/charm-bac/charm-ran.webp",
     "description": "Charm rắn bạc ta độc đáo, mang ý nghĩa thông minh và bảo vệ.",
     "rating": 4.7,
-    "purchases": 298
+    "purchases": 298,
+    "hasSilver": true
   },
   {
     "id": "bi_charm_bac_006",
@@ -1040,7 +1107,8 @@
     "image": "./assets/images/product_img/charm-bac/co-4-la.webp",
     "description": "Thẻ bạc hình 4 lá may mắn có thể khắc tên bé 2 mặt, món quà ý nghĩa và độc đáo.",
     "rating": 4.9,
-    "purchases": 267
+    "purchases": 267,
+    "hasSilver": true
   },
   {
     "id": "bi_charm_bac_007",
@@ -1052,7 +1120,8 @@
     "image": "./assets/images/product_img/charm-bac/the-hinh-ran.webp",
     "description": "Thẻ bạc tròn có thể khắc tên bé 2 mặt, thiết kế cổ điển và thanh lịch.",
     "rating": 4.8,
-    "purchases": 234
+    "purchases": 234,
+    "hasSilver": true
   },
   {
     "id": "bi_charm_bac_013",
@@ -1064,7 +1133,8 @@
     "image": "./assets/images/product_img/charm-bac/the-ten-tron.webp",
     "description": "Thẻ bạc tròn có thể khắc tên bé 2 mặt, thiết kế cổ điển và thanh lịch.",
     "rating": 4.8,
-    "purchases": 234
+    "purchases": 234,
+    "hasSilver": true
   },
   {
     "id": "bi_charm_bac_008",
@@ -1076,7 +1146,8 @@
     "image": "./assets/images/product_img/charm-bac/co-4-la-dac.webp",
     "description": "Charm cỏ 4 lá bạc S925 cao cấp, kích thước 13.3x11.6x2mm, biểu tượng may mắn và thịnh vượng.",
     "rating": 4.8,
-    "purchases": 156
+    "purchases": 156,
+    "hasSilver": true
   },
   {
     "id": "bi_charm_bac_009",
@@ -1088,7 +1159,8 @@
     "image": "./assets/images/product_img/charm-bac/co-4-la-rong.webp",
     "description": "Charm cỏ 4 lá 2 bạc S925 cao cấp, kích thước 8*10,9mm, biểu tượng may mắn và thịnh vượng.",
     "rating": 4.7,
-    "purchases": 0
+    "purchases": 0,
+    "hasSilver": true
   },
   {
     "id": "bi_charm_bac_010",
@@ -1100,7 +1172,8 @@
     "image": "./assets/images/product_img/charm-bac/thanh-gia-xo-ngang.webp",
     "description": "Charm thánh giá bạc cao cấp với thiết kế xỏ ngang tinh tế, kích thước 9.3x7.3x4mm, biểu tượng của đức tin và bảo vệ.",
     "rating": 4.8,
-    "purchases": 0
+    "purchases": 0,
+    "hasSilver": true
   },
     {
     "id": "mix_bi_bac_011",
@@ -1112,7 +1185,8 @@
     "image": "./assets/images/product_img/Sole bac/mix-10-bi-bac-3ly.webp",
     "description": "Vòng dâu tằm mix bi bạc 3 lớp với dây rút tiện lợi, dễ dàng điều chỉnh kích thước.",
     "rating": 4.8,
-    "purchases": 234
+    "purchases": 234,
+    "hasSilver": true
   },
   {
     "id": "mix_bi_bac_006",
@@ -1124,7 +1198,8 @@
     "image": "./assets/images/product_img/Sole bac/vong_dau_tam_sole_bac_3ly.webp",
     "description": "Vòng dâu tằm mix bi bạc 3 lớp với dây rút tiện lợi, dễ dàng điều chỉnh kích thước.",
     "rating": 4.8,
-    "purchases": 234
+    "purchases": 234,
+    "hasSilver": true
   },
   {
     "id": "mix_bi_bac_007",
@@ -1136,7 +1211,8 @@
     "image": "./assets/images/product_img/Sole bac/vong_dau_tam_sole_bac_3ly_co_gian.webp",
     "description": "Vòng dâu tằm mix bi bạc 3 lớp với dây co giãn mềm mại, tự động vừa vặn.",
     "rating": 4.7,
-    "purchases": 198
+    "purchases": 198,
+    "hasSilver": true
   },
   {
     "id": "mix_bi_bac_008",
@@ -1148,7 +1224,8 @@
     "image": "./assets/images/product_img/Sole bac/vong_dau_tam_sole_bac_4ly.webp",
     "description": "Vòng dâu tằm mix bi bạc 4 lớp với dây rút cao cấp, phong cách sang trọng.",
     "rating": 4.9,
-    "purchases": 167
+    "purchases": 167,
+    "hasSilver": true
   },
   {
     "id": "mix_bi_bac_009",
@@ -1159,7 +1236,8 @@
     "image": "./assets/images/product_img/Sole bac/vong_dau_tam_sole_bac_4ly_co_gian.webp",
     "description": "Vòng dâu tằm mix bi bạc 4 lớp với dây co giãn bền bỉ, thoải mái cả ngày.",
     "rating": 4.6,
-    "purchases": 145
+    "purchases": 145,
+    "hasSilver": true
   },
   {
     "id": "mix_bi_bac_012",
@@ -1171,7 +1249,8 @@
     "image": "./assets/images/product_img/Sole bac/vong_dau_tam_sole_3ly_mix_bac_6ly.webp",
     "description": "Vòng dâu tằm mix bi bạc 3 lớp kết hợp bi bạc 6ly đặc biệt, tạo điểm nhấn ấn tượng.",
     "rating": 4.9,
-    "purchases": 156
+    "purchases": 156,
+    "hasSilver": true
   },
   {
     "id": "mix_bi_bac_013",
@@ -1183,7 +1262,8 @@
     "image": "./assets/images/product_img/Sole bac/vong_dau_tam_7_bi_bac.webp",
     "description": "Vòng dâu tằm mix 7 bi bạc cao cấp, thiết kế sang trọng và đẳng cấp, phù hợp cho những dịp đặc biệt.",
     "rating": 4.8,
-    "purchases": 89
+    "purchases": 89,
+    "hasSilver": true
   },
   {
     "id": "mix_bi_bac_014",
@@ -1195,7 +1275,8 @@
     "image": "./assets/images/product_img/Sole bac/vong_dau_tam_9_bi_bac.webp",
     "description": "Vòng dâu tằm mix 9 bi bạc siêu cao cấp, thiết kế đỉnh cao và xa xỉ, dành cho những người yêu thích sự hoàn hảo.",
     "rating": 4.9,
-    "purchases": 67
+    "purchases": 67,
+    "hasSilver": true
   },
   {
     "id": "mix_bi_bac_010",
@@ -1207,7 +1288,8 @@
     "image": "./assets/images/product_img/Sole bac/vong-sole-3ly-mix-6ly-chuong.webp",
     "description": "Vòng dâu tằm mix bi bạc 3 lớp kết hợp bi bạc 6ly và charm chuông may mắn, thiết kế độc đáo và ý nghĩa.",
     "rating": 4.8,
-    "purchases": 89
+    "purchases": 89,
+    "hasSilver": true
   },
   {
     "id": "mix_da_do_tu_nhien_004",
@@ -1219,7 +1301,8 @@
     "image": "./assets/images/product_img/da do/vong-sole-3ly-co-gian-da-do.webp",
     "description": "Vòng dâu tằm sole bạc 3 lớp mix đá đỏ tự nhiên với dây co giãn, mang lại năng lượng tích cực.",
     "rating": 4.7,
-    "purchases": 123
+    "purchases": 123,
+    "hasSilver": true
   },
   {
     "id": "mix_da_do_tu_nhien_005",
@@ -1231,7 +1314,8 @@
     "image": "./assets/images/product_img/da do/vong-sole-3ly-da-do-chuong.webp",
     "description": "Vòng dâu tằm sole bạc 3 lớp mix đá đỏ tự nhiên với dây co giãn, mang lại năng lượng tích cực.",
     "rating": 4.7,
-    "purchases": 123
+    "purchases": 123,
+    "hasSilver": true
   },
     {
     "id": "mix_da_do_tu_nhien_006",
@@ -1243,7 +1327,8 @@
     "image": "./assets/images/product_img/da do/vong-sole-3ly-co-gian-da-do-chuong.webp",
     "description": "Vòng dâu tằm sole bạc 3 lớp mix đá đỏ tự nhiên với dây co giãn, mang lại năng lượng tích cực.",
     "rating": 4.7,
-    "purchases": 123
+    "purchases": 123,
+    "hasSilver": true
   },
   {
     "id": "vong_co_gian_001",
@@ -1292,7 +1377,8 @@
     "image": "./assets/images/product_img/co gian/sole-3ly-charm-rong-co-gian.webp",
     "description": "Vòng dâu tằm mix bi bạc 3 lớp với charm rồng uy quyền và dây co giãn.",
     "rating": 4.9,
-    "purchases": 267
+    "purchases": 267,
+    "hasSilver": true
   },
   {
     "id": "vong_co_gian_006",
@@ -1304,7 +1390,8 @@
     "image": "./assets/images/product_img/vong_tron_co_dien_day_ngu_sac.webp",
     "description": "Vòng dâu tằm mix bi bạc 4 lớp với charm rồng cao cấp và dây co giãn bền bỉ.",
     "rating": 5.0,
-    "purchases": 234
+    "purchases": 234,
+    "hasSilver": true
   },
   {
     "id": "vong_co_gian_007",
@@ -1328,7 +1415,8 @@
     "image": "./assets/images/product_img/da do/vong-sole-4ly-co-gian-da-do.webp",
     "description": "Vòng dâu tằm sole bạc 4 lớp mix đá đỏ tự nhiên với dây co giãn, mang lại năng lượng mạnh mẽ.",
     "rating": 4.8,
-    "purchases": 156
+    "purchases": 156,
+    "hasSilver": true
   },
 
   {
@@ -1389,7 +1477,8 @@
     "image": "./assets/images/product_img/chuong/vong-tron-charm-chuong.webp",
     "description": "Vòng dâu tằm trơn kết hợp charm chuông nhỏ xinh, đơn giản nhưng dễ thương.",
     "rating": 4.8,
-    "purchases": 456
+    "purchases": 456,
+    "hasSilver": true
   },
    {
     "id": "mix_charm_chuong_0011",
@@ -1401,7 +1490,8 @@
     "image": "./assets/images/product_img/chuong/sole-10bi-bac-3ly-chuong.webp",
     "description": "Vòng dâu tằm trơn kết hợp charm chuông nhỏ xinh, đơn giản nhưng dễ thương.",
     "rating": 4.8,
-    "purchases": 456
+    "purchases": 456,
+    "hasSilver": true
   },
   {
     "id": "mix_charm_chuong_003",
@@ -1413,7 +1503,8 @@
     "image": "./assets/images/product_img/chuong/vong_dau_tam_sole_3ly_chuong.webp",
     "description": "Vòng dâu tằm mix bi bạc 3 lớp với charm chuông tinh tế.",
     "rating": 5.0,
-    "purchases": 345
+    "purchases": 345,
+    "hasSilver": true
   },
   {
     "id": "mix_charm_chuong_0043",
@@ -1425,7 +1516,8 @@
     "image": "./assets/images/product_img/chuong/vong-mix-bac-4ly-charm-chuong.webp",
     "description": "Vòng dâu tằm mix bi bạc 3 lớp với charm chuông tinh tế.",
     "rating": 5.0,
-    "purchases": 345
+    "purchases": 345,
+    "hasSilver": true
   },
     {
     "id": "mix_charm_chuong_00431",
@@ -1437,7 +1529,8 @@
     "image": "./assets/images/product_img/chuong/vong-sole-3ly-mix-bac-6ly-chuong.webp",
     "description": "Vòng dâu tằm mix bi bạc 3 lớp với charm chuông tinh tế.",
     "rating": 5.0,
-    "purchases": 345
+    "purchases": 345,
+    "hasSilver": true
   },
   {
     "id": "mix_charm_chuong_004",
@@ -1449,7 +1542,8 @@
     "image": "./assets/images/product_img/chuong/sole-3ly-mix-2-chuong-co-gian.webp",
     "description": "Vòng dâu tằm mix bi bạc 3 lớp với 2 charm chuông và dây co giãn tiện lợi.",
     "rating": 4.8,
-    "purchases": 298
+    "purchases": 298,
+    "hasSilver": true
   },
   {
     "id": "mix_charm_chuong_005",
@@ -1461,7 +1555,8 @@
     "image": "./assets/images/product_img/chuong/vong-sole-3ly-mix-2-chuong.webp",
     "description": "Vòng dâu tằm mix bi bạc 3 lớp với 2 charm chuông, âm thanh dễ thương.",
     "rating": 4.7,
-    "purchases": 267
+    "purchases": 267,
+    "hasSilver": true
   },
   {
     "id": "mix_charm_chuong_010",
@@ -1473,7 +1568,8 @@
     "image": "./assets/images/product_img/chuong/sole-4ly-chuong-co-gian.webp",
     "description": "Vòng dâu tằm mix bi bạc 4 lớp với charm chuông và dây co giãn bền bỉ.",
     "rating": 5.0,
-    "purchases": 123
+    "purchases": 123,
+    "hasSilver": true
   },
   
   {
@@ -1486,7 +1582,8 @@
     "image": "./assets/images/product_img/the-ten/vong-sole-3ly-2-charm-chuong-the-ten.webp",
     "description": "Vòng dâu tằm mix bi bạc 3 lớp kết hợp charm chuông và thẻ tên cá nhân, hoàn hảo cho bé yêu.",
     "rating": 4.9,
-    "purchases": 87
+    "purchases": 87,
+    "hasSilver": true
   },
   {
     "id": "mix_charm_chuong_013",
@@ -1498,7 +1595,8 @@
     "image": "./assets/images/product_img/chuong/vong-sole-3ly-mix-4-chuong-the-ten.webp",
     "description": "Vòng dâu tằm mix bi bạc 3 lớp kết hợp charm chuông và thẻ tên cá nhân, hoàn hảo cho bé yêu.",
     "rating": 4.9,
-    "purchases": 87
+    "purchases": 87,
+    "hasSilver": true
   },
   {
     "id": "bi_charm_bac_0111",
@@ -1510,7 +1608,8 @@
     "image": "./assets/images/product_img/charm-bac/charm-cuc-hoa-mi.webp",
     "description": "Charm cúc họa mi bạc S925 cao cấp, kích thước 2x10mm, thiết kế tinh tế và thanh lịch, biểu tượng của sự thuần khiết và may mắn.",
     "rating": 4.8,
-    "purchases": 0
+    "purchases": 0,
+    "hasSilver": true
   },
    {
     "id": "bi_charm_bac_0112",
@@ -1522,7 +1621,8 @@
     "image": "./assets/images/product_img/charm-bac/charm-hoa-sen-treo.webp",
     "description": "Charm cúc họa mi bạc S925 cao cấp, kích thước 2x10mm, thiết kế tinh tế và thanh lịch, biểu tượng của sự thuần khiết và may mắn.",
     "rating": 4.8,
-    "purchases": 0
+    "purchases": 0,
+    "hasSilver": true
   },
      {
     "id": "bi_charm_bac_0113",
@@ -1534,7 +1634,8 @@
     "image": "./assets/images/product_img/charm-bac/charm-ngoi-sao.webp",
     "description": "Charm cúc họa mi bạc S925 cao cấp, kích thước 2x10mm, thiết kế tinh tế và thanh lịch, biểu tượng của sự thuần khiết và may mắn.",
     "rating": 4.8,
-    "purchases": 0
+    "purchases": 0,
+    "hasSilver": true
   },
     {
     "id": "bi_charm_bac_011",
@@ -1546,7 +1647,8 @@
     "image": "./assets/images/product_img/charm-bac/charm-hoa-sen-xo-ngang.webp",
     "description": "Charm cúc họa mi bạc S925 cao cấp, kích thước 2x10mm, thiết kế tinh tế và thanh lịch, biểu tượng của sự thuần khiết và may mắn.",
     "rating": 4.8,
-    "purchases": 0
+    "purchases": 0,
+    "hasSilver": true
   },
    
   {

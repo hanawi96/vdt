@@ -40,6 +40,9 @@ document.addEventListener('alpine:init', () => {
       { id: 'san_pham_ban_kem', name: 'Sản phẩm bán kèm', image: './assets/images/product_img/bo-dau-tam-de-phong.webp' },
       { id: 'bi_charm_bac', name: 'Bi, charm bạc', image: './assets/images/product_img/bi-bac/bi-bac-ta.webp' }
     ],
+
+
+
     products: [],
     shopInfo: { stats: {} },
     cart: Alpine.$persist([]).as('shoppingCart'),
@@ -381,6 +384,23 @@ document.addEventListener('alpine:init', () => {
              product.category === 'bi_charm_bac' ||
              (product.categories && product.categories.includes('san_pham_ban_kem')) ||
              (product.categories && product.categories.includes('bi_charm_bac'));
+    },
+
+    // Kiểm tra xem sản phẩm có chứa bạc thật không
+    hasRealSilver(product) {
+      return product && product.hasSilver === true;
+    },
+
+    // Tạo HTML cho badge "Bạc thật"
+    createSilverBadge() {
+      return `
+        <div class="real-silver-badge">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+          Bạc thật
+        </div>
+      `;
     },
 
     // Kiểm tra xem có nên hiển thị lưu ý về "Sinh Lão Bệnh Tử" không
