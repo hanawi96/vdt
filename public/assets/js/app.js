@@ -1202,16 +1202,29 @@ document.addEventListener('alpine:init', () => {
       // Đánh dấu đang mua combo
       this.isBuyingCombo = true;
 
+      // Lấy ảnh combo phù hợp dựa trên comboType
+      const getComboImage = (type) => {
+        const comboImages = {
+          'vong_tron_tui': './assets/images/product_img/combo/combo-tron-tui-dau.webp',
+          'vong_co_gian_tui': './assets/images/product_img/combo/combo-tron-co-gian-tui-dau.webp',
+          'vong_7_bi_bac_tui': './assets/images/product_img/combo/combo-7-bi-bac-tui-dau.webp',
+          'vong_9_bi_bac_tui': './assets/images/product_img/combo/combo-9-bi-bac-tui-dau.webp'
+        };
+        return comboImages[type] || './assets/images/product_img/vong_tron_co_dien_day_do.webp';
+      };
+
       // Tạo object combo giống như sản phẩm
       const comboProduct = {
         id: comboId,
         name: comboName,
         price: comboPrice,
-        image: './assets/images/demo.webp',
+        image: getComboImage(comboId),
         description: `Combo đặc biệt: ${comboName}`,
         category: 'combo',
         isCombo: true,
-        freeShipping: true // Đánh dấu miễn phí ship
+        freeShipping: true, // Đánh dấu miễn phí ship
+        specialOffer: true,
+        momFriendly: true
       };
 
       // Gọi function buyNow với combo product
@@ -1347,12 +1360,23 @@ document.addEventListener('alpine:init', () => {
       // Đánh dấu đang mua combo
       this.isBuyingCombo = true;
 
+      // Lấy ảnh combo phù hợp dựa trên comboType
+      const getComboImage = (type) => {
+        const comboImages = {
+          'vong_tron_tui': './assets/images/product_img/combo/combo-tron-tui-dau.webp',
+          'vong_co_gian_tui': './assets/images/product_img/combo/combo-tron-co-gian-tui-dau.webp',
+          'vong_7_bi_bac_tui': './assets/images/product_img/combo/combo-7-bi-bac-tui-dau.webp',
+          'vong_9_bi_bac_tui': './assets/images/product_img/combo/combo-9-bi-bac-tui-dau.webp'
+        };
+        return comboImages[type] || './assets/images/product_img/vong_tron_co_dien_day_do.webp';
+      };
+
       // Tạo object combo với thông tin chi tiết
       const comboProduct = {
         id: comboType,
         name: comboTitle,
         price: comboPrice,
-        image: './assets/images/demo.webp',
+        image: getComboImage(comboType),
         description: `Combo đặc biệt dành cho mẹ bỉm: ${comboTitle}`,
         category: 'combo',
         isCombo: true,

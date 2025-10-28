@@ -2957,7 +2957,7 @@
                         <!-- Miễn phí ship cho combo -->
                         <template x-if="quickBuyProduct && quickBuyProduct.freeShipping">
                             <div class="flex justify-between text-sm text-green-600 font-medium">
-                                <span>💥 Freeship combo</span>
+                                <span>Freeship combo</span>
                                 <span>-21.000đ</span>
                             </div>
                         </template>
@@ -4459,44 +4459,48 @@
                                 <!-- Product 1 - Large Image -->
                                 <div class="relative group">
                                     <div class="relative overflow-hidden rounded-xl bg-gradient-to-br from-rose-50 to-pink-50 border border-rose-100">
-                                        <img :src="currentComboImages.product1.image"
-                                             :alt="currentComboImages.product1.name"
-                                             class="combo-product-image w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy">
+                                        <img :src="currentComboImages?.product1?.image || ''"
+                                             :alt="currentComboImages?.product1?.name || ''"
+                                             class="combo-product-image w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300"
+                                             loading="lazy"
+                                             @error="console.log('Lỗi load ảnh product1:', $event.target.src)">
                                         <!-- Product Badge -->
                                         <div class="absolute top-2 left-2 bg-gradient-to-r from-pink-500 to-rose-500 text-white px-2 py-1 rounded-full text-xs font-bold shadow-lg">
                                             #1
                                         </div>
                                         <!-- Price Tag -->
                                         <div class="absolute bottom-2 right-2 bg-white/90 backdrop-blur-sm text-pink-600 px-2 py-1 rounded-lg text-xs font-bold shadow-md">
-                                            <span x-text="formatCurrency(currentComboImages.product1.price)"></span>
+                                            <span x-text="formatCurrency(currentComboImages?.product1?.price || 0)"></span>
                                         </div>
                                     </div>
                                     <!-- Product Info -->
                                     <div class="mt-2">
-                                        <h4 class="font-bold text-gray-800 text-sm leading-tight" x-text="currentComboImages.product1.name"></h4>
-                                        <p class="text-xs text-gray-500 mt-1 line-clamp-2" x-text="currentComboImages.product1.description"></p>
+                                        <h4 class="font-bold text-gray-800 text-sm leading-tight" x-text="currentComboImages?.product1?.name || ''"></h4>
+                                        <p class="text-xs text-gray-500 mt-1 line-clamp-2" x-text="currentComboImages?.product1?.description || ''"></p>
                                     </div>
                                 </div>
 
                                 <!-- Product 2 - Large Image -->
                                 <div class="relative group">
                                     <div class="relative overflow-hidden rounded-xl bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100">
-                                        <img :src="currentComboImages.product2.image"
-                                             :alt="currentComboImages.product2.name"
-                                             class="combo-product-image w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy">
+                                        <img :src="currentComboImages?.product2?.image || ''"
+                                             :alt="currentComboImages?.product2?.name || ''"
+                                             class="combo-product-image w-full aspect-square object-cover group-hover:scale-105 transition-transform duration-300"
+                                             loading="lazy"
+                                             @error="console.log('Lỗi load ảnh product2:', $event.target.src)">
                                         <!-- Product Badge -->
                                         <div class="absolute top-2 left-2 bg-gradient-to-r from-blue-500 to-indigo-500 text-white px-2 py-1 rounded-full text-xs font-bold shadow-lg">
                                             #2
                                         </div>
                                         <!-- Price Tag -->
                                         <div class="absolute bottom-2 right-2 bg-white/90 backdrop-blur-sm text-blue-600 px-2 py-1 rounded-lg text-xs font-bold shadow-md">
-                                            <span x-text="formatCurrency(currentComboImages.product2.price)"></span>
+                                            <span x-text="formatCurrency(currentComboImages?.product2?.price || 0)"></span>
                                         </div>
                                     </div>
                                     <!-- Product Info -->
                                     <div class="mt-2">
-                                        <h4 class="font-bold text-gray-800 text-sm leading-tight" x-text="currentComboImages.product2.name"></h4>
-                                        <p class="text-xs text-gray-500 mt-1 line-clamp-2" x-text="currentComboImages.product2.description"></p>
+                                        <h4 class="font-bold text-gray-800 text-sm leading-tight" x-text="currentComboImages?.product2?.name || ''"></h4>
+                                        <p class="text-xs text-gray-500 mt-1 line-clamp-2" x-text="currentComboImages?.product2?.description || ''"></p>
                                     </div>
                                 </div>
                             </div>
@@ -4584,14 +4588,14 @@
                                                     Nếu mua lẻ:
                                                 </p>
                                                 <div class="text-sm text-gray-700">
-                                                    <span x-text="formatCurrency(currentComboImages.originalPrice)"></span>
+                                                    <span x-text="formatCurrency(currentComboImages?.originalPrice || 0)"></span>
                                                     <span class="text-gray-500"> + </span>
-                                                    <span x-text="formatCurrency(currentComboImages.shippingFee)"></span>
+                                                    <span x-text="formatCurrency(currentComboImages?.shippingFee || 0)"></span>
                                                     <span class="text-gray-500 text-xs"> ship</span>
                                                 </div>
                                             </div>
                                             <div class="text-right">
-                                                <div class="text-lg font-bold text-gray-600 line-through" x-text="formatCurrency(currentComboImages.totalWithoutCombo)"></div>
+                                                <div class="text-lg font-bold text-gray-600 line-through" x-text="formatCurrency(currentComboImages?.totalWithoutCombo || 0)"></div>
                                             </div>
                                         </div>
 
@@ -4605,14 +4609,14 @@
                                                     Mua combo:
                                                 </p>
                                                 <div class="text-sm text-emerald-700">
-                                                    <span x-text="formatCurrency(currentComboImages.comboPrice)"></span>
+                                                    <span x-text="formatCurrency(currentComboImages?.comboPrice || 0)"></span>
                                                     <span class="text-emerald-500"> + </span>
                                                     <span class="text-emerald-500 font-bold">0đ</span>
                                                     <span class="text-emerald-500 text-xs"> ship</span>
                                                 </div>
                                             </div>
                                             <div class="text-right">
-                                                <div class="text-xl font-bold text-emerald-600" x-text="formatCurrency(currentComboImages.comboPrice)"></div>
+                                                <div class="text-xl font-bold text-emerald-600" x-text="formatCurrency(currentComboImages?.comboPrice || 0)"></div>
                                             </div>
                                         </div>
 
@@ -4620,7 +4624,7 @@
                                         <div class="text-center py-2">
                                             <div class="inline-flex items-center space-x-2 bg-gradient-to-r from-red-500 to-pink-500 text-white px-4 py-2 rounded-full shadow-lg">
                                                 <span class="text-sm font-bold">💰 Tiết kiệm:</span>
-                                                <span class="text-lg font-black" x-text="formatCurrency(currentComboImages.savings)"></span>
+                                                <span class="text-lg font-black" x-text="formatCurrency(currentComboImages?.savings || 0)"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -4648,7 +4652,7 @@
                                 <div class="text-center bg-gradient-to-r from-pink-50 to-rose-50 rounded-lg p-3 border border-pink-100">
                                     <p class="text-xs text-gray-600 flex items-center justify-center space-x-1 font-medium">
                                         <span>💕</span>
-                                        <span x-text="`Đã có ${currentComboImages.customerCount}+ mẹ bỉm lựa chọn combo này`"></span>
+                                        <span x-text="`Đã có ${currentComboImages?.customerCount || 0}+ mẹ bỉm lựa chọn combo này`"></span>
                                         <span>💕</span>
                                     </p>
                                     <p class="text-xs text-pink-600 mt-1 font-semibold">⭐ Đánh giá 4.9/5 sao từ các mẹ</p>
@@ -4664,13 +4668,13 @@
                                     class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-600 font-medium rounded-lg text-sm transition-colors">
                                 Đóng
                             </button>
-                            <button @click="buyComboEnhanced(currentComboType, currentComboTitle, currentComboImages.comboPrice)"
+                            <button @click="buyComboEnhanced(currentComboType, currentComboTitle, currentComboImages?.comboPrice || 0)"
                                     class="flex-1 px-4 py-2 bg-gradient-to-r from-pink-500 to-rose-500 hover:from-pink-600 hover:to-rose-600 text-white font-bold rounded-lg text-sm shadow-lg transition-all combo-action-button">
                                 <div class="flex items-center justify-center space-x-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4">
                                         <path fill-rule="evenodd" d="M6 5v1H4.667a1.75 1.75 0 0 0-1.743 1.598l-.826 9.5A1.75 1.75 0 0 0 3.84 19H16.16a1.75 1.75 0 0 0 1.743-1.902l-.826-9.5A1.75 1.75 0 0 0 15.333 6H14V5a4 4 0 0 0-8 0Zm4-2.5A2.5 2.5 0 0 0 7.5 5v1h5V5A2.5 2.5 0 0 0 10 2.5ZM7.5 10a2.5 2.5 0 0 0 5 0V8.75a.75.75 0 0 1 1.5 0V10a4 4 0 0 1-8 0V8.75a.75.75 0 0 1 1.5 0V10Z" clip-rule="evenodd" />
                                     </svg>
-                                    <span x-text="`Mua ngay - Tiết kiệm ${Math.round(currentComboImages.savings / 1000)}K`"></span>
+                                    <span x-text="`Mua ngay - Tiết kiệm ${Math.round((currentComboImages?.savings || 0) / 1000)}K`"></span>
                                 </div>
                             </button>
                         </div>
