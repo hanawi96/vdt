@@ -353,6 +353,48 @@ document.addEventListener('alpine:init', () => {
       this.handSizeOptions.selectedSize = size;
     },
 
+    /* ========= Weight Preset Modal Logic ========= */
+    openWeightPresetModal(product) {
+      this.currentWeightPresetProduct = product;
+      this.weightPresetOptions = {
+        weight: 'Dưới 4kg' // Default value
+      };
+      this.isWeightPresetModalOpen = true;
+      document.body.style.overflow = 'hidden';
+    },
+
+    closeWeightPresetModal() {
+      this.isWeightPresetModalOpen = false;
+      this.currentWeightPresetProduct = null;
+      document.body.style.overflow = '';
+    },
+
+    selectWeightPreset(weight) {
+      this.weightPresetOptions.weight = weight;
+    },
+
+    addWeightPresetProductToCart() {
+      if (!this.currentWeightPresetProduct) return;
+
+      const itemToAdd = {
+        ...this.currentWeightPresetProduct,
+        cartId: `${this.currentWeightPresetProduct.id}-${Date.now()}`,
+        quantity: 1,
+        note: '',
+        weight: this.weightPresetOptions.weight,
+        selectedWeight: this.weightPresetOptions.weight,
+        basePrice: this.currentWeightPresetProduct.price,
+        finalPrice: this.currentWeightPresetProduct.price
+      };
+
+      this.addToCart(itemToAdd);
+      this.showAlert(`Đã thêm ${itemToAdd.name} vào giỏ hàng!`, 'success');
+      this.closeWeightPresetModal();
+       if (this.isProductDetailOpen) {
+        this.closeProductDetail();
+      }
+    },
+
     addItemWithHandSize() {
 
 
@@ -2060,7 +2102,10 @@ document.addEventListener('alpine:init', () => {
         return;
       }
 
-      if (this.isBeadProduct(product)) {
+      if (this.isWeightSelectProduct(product)) {
+        // Mở modal chọn cân nặng dạng preset cho vòng tay chỉ ngũ sắc
+        this.openWeightPresetModal(product);
+      } else if (this.isBeadProduct(product)) {
         // Mở modal chọn số lượng hạt dâu cho sản phẩm hạt dâu mài sẵn
         this.openBeadQuantityModal(product);
       } else if (this.isAddonProduct(product)) {
