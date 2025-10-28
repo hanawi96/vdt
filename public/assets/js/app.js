@@ -229,6 +229,15 @@ document.addEventListener('alpine:init', () => {
     },
 
 
+    // Weight Preset Modal state (for mix_day_ngu_sac)
+    isWeightPresetModalOpen: false,
+    currentWeightPresetProduct: null,
+    weightPresetOptions: {
+      quantity: 1,
+      weight: 'Dưới 4kg', // Default value
+      note: ''
+    },
+
     // Process Showcase Modal
     isProcessModalOpen: false,
     socialProofViewers: Math.floor(Math.random() * 5) + 1,
@@ -263,19 +272,41 @@ document.addEventListener('alpine:init', () => {
     isFaqModalOpen: false,
     faqOpenItems: [], // Stores indices of open items
 
+
+    isWeightSelectionModalOpen: false,
+    weightSelectionProduct: null,
+    selectedWeight: '',
+    weightSelectionOptions: [],
+
     showWeightInQuickBuy: true, // Biến để kiểm soát hiển thị ô cân nặng
     isAdultInQuickBuy: false, // Biến để kiểm soát hiển thị size tay cho người lớn
     // Weight options từ 3kg đến 15kg (tăng 0.5kg) + option "Chưa sinh"
     get weightOptions() {
+      console.log('Calculating weightOptions. Category:', this.quickBuyProduct?.category);
+      // Tùy chọn cho danh mục 'mix_day_ngu_sac'
+      if (this.quickBuyProduct?.category === 'mix_day_ngu_sac') {
+        return [
+          'Dưới 4kg',
+          'Từ 4kg đến 8kg',
+          'Từ 8kg đến 12kg',
+          'Từ 12kg đến 20kg',
+          'Từ 20kg đến 30kg',
+          'Từ 30kg đến 40kg',
+          'Từ 40kg đến 50kg',
+          'Từ 50kg đến 60kg',
+          'Từ 60kg đến 70kg',
+          'Từ 70kg đến 90kg'
+        ];
+      }
+
+      // Tùy chọn mặc định cho các sản phẩm khác
       const options = ['🤱 Chưa sinh'];
       for (let weight = 3; weight <= 15; weight += 0.5) {
         options.push(`${weight}kg`);
       }
-      // Thêm options cho size lớn (từ 16kg đến 19kg) với phí +20k
-      for (let weight = 16; weight <= 19; weight += 1) {
+      for (let weight = 16; weight <= 19; weight++) {
         options.push(`${weight}kg (+20k)`);
       }
-      // Thêm option cho cân nặng từ 20kg trở lên
       options.push('✏️ Nhập cân nặng > 20kg');
       return options;
     },
@@ -436,6 +467,13 @@ document.addEventListener('alpine:init', () => {
       if (!product) return false;
       return product.category === 'hat_dau_tam_mai_san' ||
              (product.categories && product.categories.includes('hat_dau_tam_mai_san'));
+    },
+
+    // Kiểm tra xem sản phẩm có cần chọn cân nặng (dây ngũ sắc) không
+    isWeightSelectProduct(product) {
+      if (!product) return false;
+      return product.category === 'mix_day_ngu_sac' ||
+             (product.categories && product.categories.includes('mix_day_ngu_sac'));
     },
 
     // Dynamic Pricing Configuration
