@@ -1661,18 +1661,6 @@
                     </template>
                 </div>
 
-                        <!-- Quick Close Hint -->
-                        <div class="text-center mt-3 pb-2">
-                            <p class="text-xs text-gray-400">Chạm vào mã để áp dụng ngay</p>
-                        </div>
-                    </div>
-                </div>
-            </template>
-        </div>
-    </div>
-
-                            <p class="text-xs text-gray-400">Chạm vào mã để áp dụng ngay</p>
-                        </div>
                     </div>
                 </div>
             </template>
@@ -2032,7 +2020,10 @@
                                     </template>
                                 </div>
                             </div>
+                        </div>
 
+                        <!-- Social Proof, Discount Code & Order Summary -->
+                        <div class="px-3 pt-2 space-y-3">
                             <!-- Social Proof - Compact -->
                             <div class="px-3 py-1">
                                 <div class="bg-green-50/50 rounded-md px-2 py-1 flex items-center space-x-1.5">
@@ -2049,76 +2040,76 @@
 
                             <!-- Discount Code - Compact -->
                             <div class="px-3 discount-code">
-                                <p x-show="isEligibleForAnyDiscount" class="text-green-700 text-xs text-center font-medium mb-1.5">🎉 Đủ điều kiện nhận ưu đãi!</p>
-                                <div class="border border-dashed border-pink-300 p-2 rounded-lg flex justify-between items-center">
-                                    <div class="flex items-center min-w-0">
-                                        <svg x-show="!discountCode" class="h-4 w-4 mr-1.5 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
-                                        </svg>
-                                        <svg x-show="discountCode && !appliedGift" class="h-4 w-4 mr-1.5 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                        </svg>
-                                        <svg x-show="appliedGift" class="h-4 w-4 mr-1.5 text-blue-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path>
-                                        </svg>
-                                        <p class="font-medium text-gray-700 text-xs truncate">
-                                            <span x-show="!discountCode">Mã giảm giá</span>
-                                            <span x-show="discountCode" x-text="discountCode"></span>
-                                        </p>
-                                    </div>
-                                    <button @click="openDiscountModal()" class="bg-pink-600 text-white font-semibold py-1.5 px-2.5 rounded-md hover:bg-pink-700 transition-colors text-xs flex-shrink-0">
-                                        <span x-show="!appliedDiscountCode && !appliedGift">Chọn</span>
-                                        <span x-show="appliedDiscountCode || appliedGift">Đổi</span>
-                                    </button>
+                            <p x-show="isEligibleForAnyDiscount" class="text-green-700 text-xs text-center font-medium mb-1.5">🎉 Đủ điều kiện nhận ưu đãi!</p>
+                            <div class="border border-dashed border-pink-300 p-2 rounded-lg flex justify-between items-center">
+                                <div class="flex items-center min-w-0">
+                                    <svg x-show="!discountCode" class="h-4 w-4 mr-1.5 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+                                    </svg>
+                                    <svg x-show="discountCode && !appliedGift" class="h-4 w-4 mr-1.5 text-green-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    <svg x-show="appliedGift" class="h-4 w-4 mr-1.5 text-blue-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"></path>
+                                    </svg>
+                                    <p class="font-medium text-gray-700 text-xs truncate">
+                                        <span x-show="!discountCode">Mã giảm giá</span>
+                                        <span x-show="discountCode" x-text="discountCode"></span>
+                                    </p>
                                 </div>
-                                <div x-show="appliedGift" class="text-xs text-gray-600 flex items-center mt-1">
-                                    <span class="mr-1">🎁</span>
-                                    <span class="truncate">Quà: <strong class="text-blue-600" x-text="appliedGift?.title"></strong></span>
-                                </div>
+                                <button @click="openDiscountModal()" class="bg-pink-600 text-white font-semibold py-1.5 px-2.5 rounded-md hover:bg-pink-700 transition-colors text-xs flex-shrink-0">
+                                    <span x-show="!appliedDiscountCode && !appliedGift">Chọn</span>
+                                    <span x-show="appliedDiscountCode || appliedGift">Đổi</span>
+                                </button>
                             </div>
+                            <div x-show="appliedGift" class="text-xs text-gray-600 flex items-center mt-1">
+                                <span class="mr-1">🎁</span>
+                                <span class="truncate">Quà: <strong class="text-blue-600" x-text="appliedGift?.title"></strong></span>
+                            </div>
+                        </div>
 
-                            <!-- Order Summary - Simplified -->
-                            <div class="px-3 pt-2 pb-4 border-t border-gray-200">
-                                <div class="space-y-1">
-                                    <div class="flex justify-between text-sm text-gray-600">
-                                        <span>Tạm tính</span>
-                                        <span x-text="formatCurrency(cartSubtotal())"></span>
+                        <!-- Order Summary - Simplified -->
+                        <div class="px-3 pt-2 pb-4 border-t border-gray-200">
+                            <div class="space-y-1">
+                                <div class="flex justify-between text-sm text-gray-600">
+                                    <span>Tạm tính</span>
+                                    <span x-text="formatCurrency(cartSubtotal())"></span>
+                                </div>
+                                <div class="flex justify-between text-sm text-gray-600">
+                                    <span>Phí ship</span>
+                                    <span x-text="formatCurrency(shippingFee())"></span>
+                                </div>
+                                <!-- Tách riêng từng loại giảm giá -->
+                                <template x-if="shippingDiscount > 0">
+                                    <div class="flex justify-between text-sm text-green-600 font-medium">
+                                        <span>Miễn phí ship</span>
+                                        <span x-text="'-' + formatCurrency(shippingDiscount)"></span>
                                     </div>
-                                    <div class="flex justify-between text-sm text-gray-600">
-                                        <span>Phí ship</span>
-                                        <span x-text="formatCurrency(shippingFee())"></span>
+                                </template>
+                                <template x-if="discountAmount > 0">
+                                    <div class="flex justify-between text-sm text-green-600 font-medium">
+                                        <span>Mã giảm giá</span>
+                                        <span x-text="'-' + formatCurrency(discountAmount)"></span>
                                     </div>
-                                    <!-- Tách riêng từng loại giảm giá -->
-                                    <template x-if="shippingDiscount > 0">
-                                        <div class="flex justify-between text-sm text-green-600 font-medium">
-                                            <span>Miễn phí ship</span>
-                                            <span x-text="'-' + formatCurrency(shippingDiscount)"></span>
-                                        </div>
-                                    </template>
-                                    <template x-if="discountAmount > 0">
-                                        <div class="flex justify-between text-sm text-green-600 font-medium">
-                                            <span>Mã giảm giá</span>
-                                            <span x-text="'-' + formatCurrency(discountAmount)"></span>
-                                        </div>
-                                    </template>
-                                    <template x-if="addonDiscount > 0">
-                                        <div class="flex justify-between text-sm text-green-600 font-medium">
-                                            <span>Ưu đãi combo</span>
-                                            <span x-text="'-' + formatCurrency(addonDiscount)"></span>
-                                        </div>
-                                    </template>
-                                    <template x-if="tuiDauTamBonusDiscount > 0">
-                                        <div class="flex justify-between text-sm text-green-600 font-medium">
-                                            <span>Ưu đãi đặc biệt</span>
-                                            <span x-text="'-' + formatCurrency(tuiDauTamBonusDiscount)"></span>
-                                        </div>
-                                    </template>
-                                    <div class="flex justify-between font-bold text-base pt-1 border-t border-gray-200 mt-1">
-                                        <span>Tổng cộng</span>
-                                        <span class="text-pink-600" x-text="formatCurrency(cartTotal())"></span>
+                                </template>
+                                <template x-if="addonDiscount > 0">
+                                    <div class="flex justify-between text-sm text-green-600 font-medium">
+                                        <span>Ưu đãi combo</span>
+                                        <span x-text="'-' + formatCurrency(addonDiscount)"></span>
                                     </div>
+                                </template>
+                                <template x-if="tuiDauTamBonusDiscount > 0">
+                                    <div class="flex justify-between text-sm text-green-600 font-medium">
+                                        <span>Ưu đãi đặc biệt</span>
+                                        <span x-text="'-' + formatCurrency(tuiDauTamBonusDiscount)"></span>
+                                    </div>
+                                </template>
+                                <div class="flex justify-between font-bold text-base pt-1 border-t border-gray-200 mt-1">
+                                    <span>Tổng cộng</span>
+                                    <span class="text-pink-600" x-text="formatCurrency(cartTotal())"></span>
                                 </div>
                             </div>
+                        </div>
                         </div>
                     </div>
                 </div>
