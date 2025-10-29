@@ -2358,7 +2358,7 @@ document.addEventListener('alpine:init', () => {
       } else if (addon.id === 'addon_bo_dau_tam_9_canh') {
         this.showAlert(`Đã thêm ${addon.name}! 🚚 Bạn được miễn phí ship!`, 'success');
       } else if (addon.id === 'addon_moc_chia_khoa') {
-        this.showAlert(`Đã thêm ${addon.name}! 💰 Giảm 5K đơn hàng!`, 'success');
+        this.showAlert(`Đã thêm ${addon.name}! 💰 Giảm 5K!`, 'success');
       } else {
         this.showAlert(`Đã thêm ${addon.name} vào giỏ hàng!`, 'success');
       }
@@ -2369,7 +2369,7 @@ document.addEventListener('alpine:init', () => {
       const existing = this.quickBuySelectedAddons.find(a => a.id === addon.id);
       if (!existing) {
         this.quickBuySelectedAddons.push({ ...addon, quantity: 1 });
-        this.showAlert(`Đã thêm ${addon.name}! 💰 Giảm 5K đơn hàng!`, 'success');
+        this.showAlert(`Đã thêm ${addon.name}! 💰 Giảm 5K!`, 'success');
       }
     },
 
@@ -2392,7 +2392,7 @@ document.addEventListener('alpine:init', () => {
         } else if (addon.id === 'addon_bo_dau_tam_9_canh') {
           this.showAlert(`Đã thêm ${addon.name}! 🚚 Bạn được miễn phí ship!`, 'success');
         } else if (addon.id === 'addon_moc_chia_khoa') {
-          this.showAlert(`Đã thêm ${addon.name}! 💰 Giảm 5K đơn hàng!`, 'success');
+          this.showAlert(`Đã thêm ${addon.name}! 💰 Giảm 5K!`, 'success');
         } else {
           this.showAlert(`Đã thêm ${addon.name}!`, 'success');
         }

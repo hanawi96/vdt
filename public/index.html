@@ -2939,10 +2939,16 @@
                                     <div class="text-right">
                                         <p class="font-medium text-gray-800" x-text="formatCurrency(addon.price * addon.quantity)"></p>
                                         <template x-if="addon.id === 'addon_tui_dau_tam'">
-                                            <p class="text-xs text-green-600 font-medium">Tặng freeship</p>
+                                            <p class="text-xs text-green-600 font-medium">Miễn ship</p>
+                                        </template>
+                                        <template x-if="addon.id === 'addon_bo_dau_tam_7_canh'">
+                                            <p class="text-xs text-green-600 font-medium">Miễn ship</p>
+                                        </template>
+                                        <template x-if="addon.id === 'addon_bo_dau_tam_9_canh'">
+                                            <p class="text-xs text-green-600 font-medium">Miễn ship</p>
                                         </template>
                                         <template x-if="addon.id === 'addon_moc_chia_khoa'">
-                                            <p class="text-xs text-green-600 font-medium">Giảm 5K đơn hàng</p>
+                                            <p class="text-xs text-green-600 font-medium">Giảm 5K</p>
                                         </template>
                                     </div>
                                     <!-- Delete icon button -->
