@@ -102,7 +102,7 @@ document.addEventListener('alpine:init', () => {
       },
       {
         id: 'addon_bo_dau_tam_7_canh',
-        name: 'Bó dâu tằm 7 CÀNH cho bé trai',
+        name: 'Bó dâu 7 CÀNH (bé trai)',
         description: 'Bó dâu tằm 7 cành tự nhiên dành riêng cho bé trai',
         price: 89000,
         original_price: 109000,
@@ -127,7 +127,7 @@ document.addEventListener('alpine:init', () => {
       },
       {
         id: 'addon_bo_dau_tam_9_canh',
-        name: 'Bó dâu tằm 9 CÀNH cho bé gái',
+        name: 'Bó dâu 9 CÀNH (bé gái)',
         description: 'Bó dâu tằm 9 cành tự nhiên dành riêng cho bé gái',
         price: 99000,
         original_price: 119000,
@@ -238,6 +238,21 @@ document.addEventListener('alpine:init', () => {
       note: ''
     },
 
+
+    // State for editing weight in cart
+    isEditingWeightInCart: false,
+    editingCartItemId: null,
+
+
+    // State for editing hand size in cart
+    isEditingHandSizeInCart: false,
+    editingCartItemIdForHandSize: null,
+
+
+    // State for editing default item options in cart
+    isEditingOptionsInCart: false,
+    editingCartItemIdForOptions: null,
+
     // Process Showcase Modal
     isProcessModalOpen: false,
     socialProofViewers: Math.floor(Math.random() * 5) + 1,
@@ -282,7 +297,6 @@ document.addEventListener('alpine:init', () => {
     isAdultInQuickBuy: false, // Biến để kiểm soát hiển thị size tay cho người lớn
     // Weight options từ 3kg đến 15kg (tăng 0.5kg) + option "Chưa sinh"
     get weightOptions() {
-      console.log('Calculating weightOptions. Category:', this.quickBuyProduct?.category);
       // Tùy chọn cho danh mục 'mix_day_ngu_sac'
       if (this.quickBuyProduct?.category === 'mix_day_ngu_sac') {
         return [
@@ -339,7 +353,7 @@ document.addEventListener('alpine:init', () => {
 
     closeHandSizeModal() {
       this.isHandSizeModalOpen = false;
-      this.showHandSizeGuide = false; // Reset size guide when closing modal
+      this.showHandSizeGuide = false;
       this.currentItemForHandSize = null;
       this.handSizeOptions = {
         quantity: 1,
@@ -347,6 +361,10 @@ document.addEventListener('alpine:init', () => {
         selectedSize: ''
       };
       document.body.style.overflow = '';
+
+      // Reset editing state
+      this.isEditingHandSizeInCart = false;
+      this.editingCartItemIdForHandSize = null;
     },
 
     selectHandSize(size) {
@@ -367,6 +385,10 @@ document.addEventListener('alpine:init', () => {
       this.isWeightPresetModalOpen = false;
       this.currentWeightPresetProduct = null;
       document.body.style.overflow = '';
+
+      // Reset editing state
+      this.isEditingWeightInCart = false;
+      this.editingCartItemId = null;
     },
 
     selectWeightPreset(weight) {
@@ -374,79 +396,132 @@ document.addEventListener('alpine:init', () => {
     },
 
     addWeightPresetProductToCart() {
-      if (!this.currentWeightPresetProduct) return;
+      if (this.isEditingWeightInCart) {
+        // Logic to update existing item in cart
+        const itemToUpdate = this.cart.find(item => item.cartId === this.editingCartItemId);
+        if (itemToUpdate) {
+          itemToUpdate.selectedWeight = this.weightPresetOptions.weight;
+          this.showAlert(`Đã cập nhật cân nặng cho ${itemToUpdate.name}.`, 'success');
+        } else {
+          this.showAlert('Không tìm thấy sản phẩm để cập nhật.', 'error');
+        }
+      } else {
+        // Logic to add new item to cart
+        if (!this.currentWeightPresetProduct) return;
 
-      const itemToAdd = {
-        ...this.currentWeightPresetProduct,
-        cartId: `${this.currentWeightPresetProduct.id}-${Date.now()}`,
-        quantity: 1,
-        note: '',
-        weight: this.weightPresetOptions.weight,
-        selectedWeight: this.weightPresetOptions.weight,
-        basePrice: this.currentWeightPresetProduct.price,
-        finalPrice: this.currentWeightPresetProduct.price
-      };
+        const itemToAdd = {
+          ...this.currentWeightPresetProduct,
+          cartId: `${this.currentWeightPresetProduct.id}-${Date.now()}`,
+          quantity: 1,
+          note: '',
+          weight: this.weightPresetOptions.weight,
+          selectedWeight: this.weightPresetOptions.weight,
+          basePrice: this.currentWeightPresetProduct.price,
+          finalPrice: this.currentWeightPresetProduct.price
+        };
 
-      this.addToCart(itemToAdd);
-      this.showAlert(`Đã thêm ${itemToAdd.name} vào giỏ hàng!`, 'success');
-      this.closeWeightPresetModal();
-       if (this.isProductDetailOpen) {
-        this.closeProductDetail();
+        this.addToCart(itemToAdd);
+        this.showAlert(`Đã thêm ${itemToAdd.name} vào giỏ hàng!`, 'success');
+        if (this.isProductDetailOpen) {
+          this.closeProductDetail();
+        }
       }
+
+      this.closeWeightPresetModal();
     },
 
-    addItemWithHandSize() {
+    openWeightModalForEdit(item) {
+      this.isEditingWeightInCart = true;
+      this.editingCartItemId = item.cartId;
 
-
-      if (!this.currentItemForHandSize) return;
-
-      // Validate size selection
-      if (!this.handSizeOptions.selectedSize) {
-        this.showAlert('Vui lòng chọn size tay', 'error');
+      const productInfo = this.products.find(p => p.id === item.id);
+      if (!productInfo) {
+        this.showAlert('Không tìm thấy thông tin sản phẩm để chỉnh sửa.', 'error');
         return;
       }
 
-      const { id } = this.currentItemForHandSize;
-
-      // Use selected size directly (no custom option)
-      const finalSize = this.handSizeOptions.selectedSize;
-
-      // Create unique cart ID
-      const cartId = `${id}-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
-
-      const itemToAdd = {
-        ...this.currentItemForHandSize,
-        cartId: cartId,
-        quantity: this.handSizeOptions.quantity,
-        note: this.handSizeOptions.note,
-        selectedSize: this.handSizeOptions.selectedSize,
-        handSize: finalSize,
-        weight: finalSize, // Use size as weight for compatibility
-        selectedWeight: this.handSizeOptions.selectedSize, // For compatibility
-        basePrice: this.currentItemForHandSize.price,
-        finalPrice: this.currentItemForHandSize.price,
-        customWeight: '', // Add for consistency
-        surcharge: 0, // Add for consistency
-        hasSurcharge: false // Add for consistency
+      this.currentWeightPresetProduct = productInfo;
+      this.weightPresetOptions = {
+        weight: item.selectedWeight || 'Dưới 4kg'
       };
 
-      // Save product name before closing modal
-      const productName = this.currentItemForHandSize.name;
+      this.isWeightPresetModalOpen = true;
+      document.body.style.overflow = 'hidden';
+    },
 
-      console.log('Adding adult product with hand size:', {
-        product: productName,
-        selectedSize: this.handSizeOptions.selectedSize,
-        finalSize: finalSize,
-        cartId: cartId,
-        itemToAdd: itemToAdd
-      });
-
-      this.addToCart(itemToAdd);
-      this.closeHandSizeModal();
-      if (this.isProductDetailOpen) {
-        this.closeProductDetail();
+    addItemWithHandSize() {
+      if (this.isEditingHandSizeInCart) {
+        // Logic to update existing item in cart
+        const itemToUpdate = this.cart.find(item => item.cartId === this.editingCartItemIdForHandSize);
+        if (itemToUpdate) {
+          if (!this.handSizeOptions.selectedSize) {
+            this.showAlert('Vui lòng chọn size tay', 'error');
+            return;
+          }
+          itemToUpdate.selectedSize = this.handSizeOptions.selectedSize;
+          itemToUpdate.handSize = this.handSizeOptions.selectedSize;
+          itemToUpdate.selectedWeight = this.handSizeOptions.selectedSize; // for compatibility
+          this.showAlert(`Đã cập nhật size tay cho ${itemToUpdate.name}.`, 'success');
+        } else {
+          this.showAlert('Không tìm thấy sản phẩm để cập nhật.', 'error');
+        }
+      } else {
+        // Logic to add new item to cart
+        if (!this.currentItemForHandSize) return;
+        if (!this.handSizeOptions.selectedSize) {
+          this.showAlert('Vui lòng chọn size tay', 'error');
+          return;
+        }
+        const { id } = this.currentItemForHandSize;
+        const finalSize = this.handSizeOptions.selectedSize;
+        const cartId = `${id}-${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
+        const itemToAdd = {
+          ...this.currentItemForHandSize,
+          cartId: cartId,
+          quantity: this.handSizeOptions.quantity,
+          note: this.handSizeOptions.note,
+          selectedSize: this.handSizeOptions.selectedSize,
+          handSize: finalSize,
+          weight: finalSize, // Use size as weight for compatibility
+          selectedWeight: this.handSizeOptions.selectedSize, // For compatibility
+          basePrice: this.currentItemForHandSize.price,
+          finalPrice: this.currentItemForHandSize.price,
+          customWeight: '',
+          surcharge: 0,
+          hasSurcharge: false
+        };
+        const productName = this.currentItemForHandSize.name;
+        this.addToCart(itemToAdd);
+        if (this.isProductDetailOpen) {
+          this.closeProductDetail();
+        }
+        this.showAlert(`Đã thêm ${productName} (${finalSize}) vào giỏ hàng!`, 'success');
       }
-      this.showAlert(`Đã thêm ${productName} (${finalSize}) vào giỏ hàng!`, 'success');
+
+      this.closeHandSizeModal();
+    },
+
+    openHandSizeModalForEdit(item) {
+      this.isEditingHandSizeInCart = true;
+      this.editingCartItemIdForHandSize = item.cartId;
+
+      const productInfo = this.products.find(p => p.id === item.id);
+      if (!productInfo) {
+        this.showAlert('Không tìm thấy thông tin sản phẩm để chỉnh sửa.', 'error');
+        return;
+      }
+
+      this.currentItemForHandSize = productInfo;
+      this.handSizeOptions = {
+        quantity: item.quantity,
+        note: item.note,
+        selectedSize: item.selectedSize || '',
+        customSize: ''
+      };
+
+      this.showHandSizeGuide = false;
+      this.isHandSizeModalOpen = true;
+      document.body.style.overflow = 'hidden';
     },
 
     // Kiểm tra xem sản phẩm có phải là sản phẩm bán kèm không
@@ -566,11 +641,6 @@ document.addEventListener('alpine:init', () => {
         filtered = filtered.filter(addon => addon.id === 'addon_moc_chia_khoa');
       }
 
-      // Debug: Log cart items và addon products để kiểm tra
-      console.log('=== DEBUG filteredAddonProducts ===');
-      console.log('Cart items:', this.cart.map(item => ({ id: item.id, cartId: item.cartId, name: item.name })));
-      console.log('Addon products:', this.addonProducts.map(addon => ({ id: addon.id, name: addon.name })));
-
       // Ẩn các addon đã có trong giỏ hàng (thông minh hơn)
       // Kiểm tra nhiều trường hợp khác nhau
       filtered = filtered.filter(addon => {
@@ -587,17 +657,13 @@ document.addEventListener('alpine:init', () => {
           return false;
         });
 
-        console.log(`Addon ${addon.name} (${addon.id}) - In cart: ${isInCart}`);
         return !isInCart;
       });
-
-      console.log('Filtered addons:', filtered.map(addon => ({ id: addon.id, name: addon.name })));
-      console.log('=== END DEBUG ===');
 
       return filtered;
     },
 
-    // Get filtered addon products for Quick Buy (exclude already selected)
+    // Get filtered addon products for Quick Buy (hide already selected)
     get filteredAddonProductsForQuickBuy() {
       let filtered = this.addonProducts;
 
@@ -806,10 +872,7 @@ document.addEventListener('alpine:init', () => {
         this.$nextTick(() => {
             const product = this.products.find(p => p.id === productId);
             if (product) {
-                console.log('🔍 Deep link found, opening product:', productId);
                 this.openProductDetail(product);
-            } else {
-                console.warn('🔍 Deep link product not found:', productId);
             }
         });
       } else if (hash.startsWith('#combo=')) {
@@ -819,16 +882,12 @@ document.addEventListener('alpine:init', () => {
         // Chờ một chút để UI render xong xuôi
         this.$nextTick(() => {
             if (validCombos.includes(comboType)) {
-                console.log('🔍 Deep link found, opening combo:', comboType);
                 this.openComboImageModal(comboType);
-            } else {
-                console.warn('🔍 Deep link combo not found:', comboType);
             }
         });
       } else if (hash.startsWith('#search=')) {
         const searchQuery = decodeURIComponent(hash.substring(8)); // '#search='.length
         this.$nextTick(() => {
-            console.log('🔍 Deep link found, performing search for:', searchQuery);
             this.searchQuery = searchQuery;
             this.performSearch();
         });
@@ -837,16 +896,12 @@ document.addEventListener('alpine:init', () => {
         this.$nextTick(() => {
             const category = this.categories.find(c => c.id === categoryId);
             if (category) {
-                console.log('🔍 Deep link found, selecting category:', categoryId);
                 this.selectCategory(category);
-            } else {
-                console.warn('🔍 Deep link category not found:', categoryId);
             }
         });
       }
 
       // Validate address consistency sau khi load
-      console.log('🔄 Calling validateAddressConsistency');
       this.validateAddressConsistency();
 
       // Watch địa chỉ
@@ -916,8 +971,6 @@ document.addEventListener('alpine:init', () => {
       });
 
       this.$watch('paymentMethod', (newValue) => {
-        console.log('🔍 paymentMethod watcher (form validation) triggered:', newValue);
-        console.log('🔍 isMiniCartOpen trong form validation watcher:', this.isMiniCartOpen);
         if (newValue) {
           this.formErrors.paymentMethod = '';
           // Reset trạng thái xác nhận chuyển khoản khi thay đổi phương thức thanh toán
@@ -954,72 +1007,23 @@ document.addEventListener('alpine:init', () => {
         }
       });
 
-      // Watch modal states để debug và restore overflow
+      // Watch modal states to restore overflow
       this.$watch('isMiniCartOpen', (newValue, oldValue) => {
-        console.log('🔍 isMiniCartOpen changed:', oldValue, '->', newValue);
-        console.log('🔍 Tại thời điểm này - isCheckoutModalOpen:', this.isCheckoutModalOpen, 'isConfirmModalOpen:', this.isConfirmModalOpen);
-        console.log('🔍 - isAddonDetailModalOpen:', this.isAddonDetailModalOpen);
-        console.log('🔍 - document.body.style.overflow:', document.body.style.overflow);
-
         // Khi mini cart đóng, kiểm tra có cần restore overflow không
         if (oldValue === true && newValue === false) {
-          console.log('🔍 Mini cart vừa đóng, kiểm tra restore overflow...');
           // Chỉ restore khi không có modal nào khác đang mở
           if (!this.isCheckoutModalOpen && !this.isConfirmModalOpen && !this.isAddonDetailModalOpen &&
               !this.isQuickBuyModalOpen && !this.isProductDetailOpen && !this.isDiscountModalOpen) {
-            console.log('🔍 Không có modal nào mở, restore overflow = auto');
             document.body.style.overflow = 'auto';
-          } else {
-            console.log('🔍 Vẫn có modal khác mở, giữ overflow = hidden');
           }
         }
-
-        console.trace('🔍 Stack trace cho isMiniCartOpen change');
       });
 
-      this.$watch('isCheckoutModalOpen', (newValue, oldValue) => {
-        console.log('🔍 isCheckoutModalOpen changed:', oldValue, '->', newValue);
-        console.trace('🔍 Stack trace cho isCheckoutModalOpen change');
-      });
-
-      this.$watch('isQuickBuyModalOpen', (newValue, oldValue) => {
-        console.log('🔍 isQuickBuyModalOpen changed:', oldValue, '->', newValue);
-        console.log('🔍 - isProductDetailOpen tại thời điểm này:', this.isProductDetailOpen);
-        console.trace('🔍 Stack trace cho isQuickBuyModalOpen change');
-      });
-
-      this.$watch('isProductDetailOpen', (newValue, oldValue) => {
-        console.log('🔍 isProductDetailOpen changed:', oldValue, '->', newValue);
-        console.log('🔍 - isQuickBuyModalOpen tại thời điểm này:', this.isQuickBuyModalOpen);
-        console.trace('🔍 Stack trace cho isProductDetailOpen change');
-      });
-
-      this.$watch('isComboImageModalOpen', (newValue, oldValue) => {
-        console.log('🔍 isComboImageModalOpen changed:', oldValue, '->', newValue);
-        console.log('🔍 - isQuickBuyModalOpen tại thời điểm này:', this.isQuickBuyModalOpen);
-        console.log('🔍 - isProductDetailOpen tại thời điểm này:', this.isProductDetailOpen);
-        console.trace('🔍 Stack trace cho isComboImageModalOpen change');
-      });
-
-      // Watch paymentMethod để debug
-      this.$watch('paymentMethod', (newValue, oldValue) => {
-        console.log('🔍 paymentMethod changed:', oldValue, '->', newValue);
-        console.log('🔍 Sau khi thay đổi paymentMethod - isMiniCartOpen:', this.isMiniCartOpen);
-        console.trace('🔍 Stack trace cho paymentMethod change');
-      });
-
-      // Watch isCheckoutTransferConfirmed để debug
-      this.$watch('isCheckoutTransferConfirmed', (newValue, oldValue) => {
-        console.log('🔍 isCheckoutTransferConfirmed changed:', oldValue, '->', newValue);
-        console.log('🔍 Sau khi thay đổi isCheckoutTransferConfirmed - isMiniCartOpen:', this.isMiniCartOpen);
-        console.trace('🔍 Stack trace cho isCheckoutTransferConfirmed change');
-      });
 
       // Dọn cart dữ liệu cũ trùng ID
       if (this.cart.length > 0) {
         const uniqueIds = new Set(this.cart.map(i => i.id));
         if (uniqueIds.size < this.cart.length) {
-          console.warn('Phát hiện dữ liệu giỏ hàng cũ không hợp lệ. Đang tự động xóa…');
           this.cart = [];
         }
       }
@@ -1068,6 +1072,12 @@ document.addEventListener('alpine:init', () => {
 
 
     formatCurrency(v) { return typeof v === 'number' ? this._CURRENCY.format(v) : v; },
+
+    // Get surcharge amount for a cart item
+    getSurcharge(item) {
+      if (!item) return 0;
+      return item.surcharge || 0;
+    },
 
     // Copy bank account number to clipboard
     async copyBankAccount() {
@@ -2009,10 +2019,38 @@ document.addEventListener('alpine:init', () => {
       document.body.style.overflow = 'hidden';
     },
 
+    openItemOptionsModalForEdit(item) {
+        this.isEditingOptionsInCart = true;
+        this.editingCartItemIdForOptions = item.cartId;
+
+        const productInfo = this.products.find(p => p.id === item.id);
+        if (!productInfo) {
+            this.showAlert('Không tìm thấy thông tin sản phẩm để chỉnh sửa.', 'error');
+            return;
+        }
+
+        this.currentItemForOptions = productInfo;
+        this.itemOptions = {
+            quantity: item.quantity,
+            note: item.note || '',
+            selectedWeight: item.selectedWeight || '',
+            customWeight: item.customWeight || '',
+            babyName: item.babyName || ''
+        };
+
+        this.isItemOptionsModalOpen = true;
+        document.body.style.overflow = 'hidden';
+    },
+
     closeItemOptionsModal() {
       this.isItemOptionsModalOpen = false;
       this.showSizeGuide = false; // Reset size guide when closing modal
       document.body.style.overflow = 'auto';
+
+      // Reset editing state
+      this.isEditingOptionsInCart = false;
+      this.editingCartItemIdForOptions = null;
+
       setTimeout(() => {
         this.currentItemForOptions = null;
         this.itemOptions = {
@@ -2030,68 +2068,77 @@ document.addEventListener('alpine:init', () => {
     },
 
     addItemWithOptions() {
-      if (!this.currentItemForOptions) return;
+        if (!this.currentItemForOptions) return;
 
-      // Validate weight/size selection
-      const isAdult = this.isAdultProduct(this.currentItemForOptions);
+        const isAdult = this.isAdultProduct(this.currentItemForOptions);
 
-      if (!this.itemOptions.selectedWeight) {
-        this.showAlert(isAdult ? 'Vui lòng chọn size tay' : 'Vui lòng chọn cân nặng của bé', 'error');
-        return;
-      }
+        if (!this.itemOptions.selectedWeight) {
+            this.showAlert(isAdult ? 'Vui lòng chọn size tay' : 'Vui lòng chọn cân nặng của bé', 'error');
+            return;
+        }
 
-      if (!isAdult && this.itemOptions.selectedWeight === 'custom' && !this.itemOptions.customWeight) {
-        this.showAlert('Vui lòng nhập cân nặng cụ thể', 'error');
-        return;
-      }
+        if (!isAdult && this.itemOptions.selectedWeight === 'custom' && !this.itemOptions.customWeight) {
+            this.showAlert('Vui lòng nhập cân nặng cụ thể', 'error');
+            return;
+        }
 
-      // Require baby name for Mix thẻ tên bé category
-      if (this.currentItemForOptions?.category === 'mix_the_ten_be' && !this.itemOptions.babyName?.trim()) {
-        this.showAlert('Vui lòng nhập tên của bé', 'error');
-        return;
-      }
+        if (this.currentItemForOptions?.category === 'mix_the_ten_be' && !this.itemOptions.babyName?.trim()) {
+            this.showAlert('Vui lòng nhập tên của bé', 'error');
+            return;
+        }
 
-      const { id } = this.currentItemForOptions;
-      const cartId = `${id}-${Date.now()}`;
+        let finalWeight = this.itemOptions.selectedWeight;
+        if (this.itemOptions.selectedWeight === 'custom') {
+            finalWeight = `${this.itemOptions.customWeight}kg`;
+        }
 
-      // Determine final weight value
-      let finalWeight = this.itemOptions.selectedWeight;
-      if (this.itemOptions.selectedWeight === 'custom') {
-        finalWeight = `${this.itemOptions.customWeight}kg`;
-      }
+        if (this.isEditingOptionsInCart) {
+            const itemToUpdate = this.cart.find(item => item.cartId === this.editingCartItemIdForOptions);
+            if (itemToUpdate) {
+                itemToUpdate.quantity = this.itemOptions.quantity;
+                itemToUpdate.notes = this.itemOptions.note.trim();
+                itemToUpdate.selectedWeight = this.itemOptions.selectedWeight;
+                itemToUpdate.customWeight = this.itemOptions.customWeight;
+                itemToUpdate.babyName = this.itemOptions.babyName ? this.itemOptions.babyName.trim() : '';
+                itemToUpdate.weight = finalWeight;
 
-      // Calculate dynamic pricing based on selected weight
-      const priceData = this.calculateDynamicPrice(this.currentItemForOptions, finalWeight);
+                const priceData = this.calculateDynamicPrice(itemToUpdate, finalWeight);
+                itemToUpdate.finalPrice = priceData.finalPrice;
+                itemToUpdate.surcharge = priceData.surcharge;
+                itemToUpdate.hasSurcharge = priceData.hasSurcharge;
 
-      const itemToAdd = {
-        ...this.currentItemForOptions,
-        cartId: cartId,
-        quantity: 1, // Always 1 for this modal
-        weight: finalWeight,
-        selectedWeight: this.itemOptions.selectedWeight,
-        customWeight: this.itemOptions.customWeight,
-        babyName: this.itemOptions.babyName ? this.itemOptions.babyName.trim() : '',
-        notes: this.itemOptions.note.trim(),
-        // Dynamic pricing fields
-        basePrice: this.currentItemForOptions.price,
-        finalPrice: priceData.finalPrice,
-        surcharge: priceData.surcharge,
-        hasSurcharge: priceData.hasSurcharge
-      };
+                this.showAlert(`Đã cập nhật ${itemToUpdate.name}.`, 'success');
+            } else {
+                this.showAlert('Không tìm thấy sản phẩm để cập nhật.', 'error');
+            }
+        } else {
+            const { id } = this.currentItemForOptions;
+            const cartId = `${id}-${Date.now()}`;
+            const priceData = this.calculateDynamicPrice(this.currentItemForOptions, finalWeight);
 
-      console.log('🔍 DEBUG: Adding item to cart with weight/size:');
-      console.log('- Product:', this.currentItemForOptions.name);
-      console.log('- selectedWeight:', this.itemOptions.selectedWeight);
-      console.log('- finalWeight:', finalWeight);
-      console.log('- babyName:', this.itemOptions.babyName);
-      console.log('- cartId:', cartId);
-      console.log('- itemToAdd:', itemToAdd);
+            const itemToAdd = {
+                ...this.currentItemForOptions,
+                cartId: cartId,
+                quantity: 1, // Always 1 for this modal
+                weight: finalWeight,
+                selectedWeight: this.itemOptions.selectedWeight,
+                customWeight: this.itemOptions.customWeight,
+                babyName: this.itemOptions.babyName ? this.itemOptions.babyName.trim() : '',
+                notes: this.itemOptions.note.trim(),
+                basePrice: this.currentItemForOptions.price,
+                finalPrice: priceData.finalPrice,
+                surcharge: priceData.surcharge,
+                hasSurcharge: priceData.hasSurcharge
+            };
 
-      this.addToCart(itemToAdd);
-      this.closeItemOptionsModal();
-      if (this.isProductDetailOpen) {
-        this.closeProductDetail();
-      }
+            this.addToCart(itemToAdd);
+            // this.showAlert(`Đã thêm ${itemToAdd.name} vào giỏ hàng!`, 'success');
+            if (this.isProductDetailOpen) {
+                this.closeProductDetail();
+            }
+        }
+
+        this.closeItemOptionsModal();
     },
 
 
@@ -3495,18 +3542,6 @@ document.addEventListener('alpine:init', () => {
       }
 
       // Mở checkout modal chồng lên mini cart (mini cart vẫn mở bên dưới)
-      console.log('🔍 DEBUG: Opening checkout modal, cart items:');
-      this.cart.forEach((item, index) => {
-        console.log(`- Item ${index}:`, {
-          name: item.name,
-          id: item.id,
-          cartId: item.cartId,
-          selectedWeight: item.selectedWeight,
-          weight: item.weight,
-          isAdult: this.isAdultProduct(item)
-        });
-      });
-
       this.socialProofViewers = Math.floor(Math.random() * 5) + 1;
       this.isCheckoutModalOpen = true;
       this.startSocialProofTimer();
@@ -3568,59 +3603,29 @@ document.addEventListener('alpine:init', () => {
     },
 
     closeCheckoutModal() {
-      console.log('🔍 closeCheckoutModal() được gọi');
-      console.log('🔍 Trước khi đóng - isMiniCartOpen:', this.isMiniCartOpen);
-      console.log('🔍 Trước khi đóng - isCheckoutModalOpen:', this.isCheckoutModalOpen);
-
       // Đóng checkout modal - mini cart đã mở sẵn bên dưới
       this.isCheckoutModalOpen = false;
       this.stopSocialProofTimer();
-
-      console.log('🔍 Sau khi đóng - isMiniCartOpen:', this.isMiniCartOpen);
-      console.log('🔍 Sau khi đóng - isCheckoutModalOpen:', this.isCheckoutModalOpen);
     },
 
     goBackToMiniCart() {
-      console.log('🔍 goBackToMiniCart() được gọi');
-      console.log('🔍 Trước khi đóng - isMiniCartOpen:', this.isMiniCartOpen);
-      console.log('🔍 Trước khi đóng - isCheckoutModalOpen:', this.isCheckoutModalOpen);
-
       // Đóng checkout modal - mini cart đã mở sẵn bên dưới
       this.isCheckoutModalOpen = false;
       this.stopSocialProofTimer();
-
-      console.log('🔍 Sau khi đóng - isMiniCartOpen:', this.isMiniCartOpen);
-      console.log('🔍 Sau khi đóng - isCheckoutModalOpen:', this.isCheckoutModalOpen);
     },
 
     /* ========= CHECKOUT ========= */
     validateAndShowConfirmModal() {
-      console.log('🔍 validateAndShowConfirmModal() called');
-      console.log('🔍 Current form state:');
-      console.log('  - selectedProvince:', this.selectedProvince);
-      console.log('  - selectedDistrict:', this.selectedDistrict);
-      console.log('  - selectedWard:', this.selectedWard);
-      console.log('  - streetAddress:', this.streetAddress);
-      console.log('  - customer.name:', this.customer.name);
-      console.log('  - customer.phone:', this.customer.phone);
-
       // Clear previous errors
       this.clearFormErrors();
-      console.log('🔍 Form errors cleared');
 
       // Validate form
-      console.log('🔍 About to call validateForm()');
       const isValid = this.validateForm();
-      console.log('🔍 validateForm() returned:', isValid);
-      console.log('🔍 Form errors after validation:', this.formErrors);
 
       if (!isValid) {
-        console.log('🔍 Validation failed - errors will show inline');
-        console.log('🔍 Stopping here - should NOT open confirm modal');
         return; // Errors will be shown inline
       }
 
-      console.log('🔍 Validation passed, opening confirm modal');
       // Mở Confirm Modal chồng lên Checkout Modal
       this.isConfirmModalOpen = true;
     },
@@ -3631,9 +3636,8 @@ document.addEventListener('alpine:init', () => {
       });
     },
 
-    // Debug function để reset form data
+    // Function để reset form data
     resetFormData() {
-      console.log('🔍 Resetting form data...');
       this.selectedProvince = '';
       this.selectedDistrict = '';
       this.selectedWard = '';
@@ -3644,16 +3648,13 @@ document.addEventListener('alpine:init', () => {
       this.customer.address = '';
       this.paymentMethod = 'cod';
       this.clearFormErrors();
-      console.log('🔍 Form data reset complete');
     },
 
     validateForm() {
-      console.log('🔍 validateForm() called');
       let isValid = true;
 
       // Validate cart
       if (!this.cart.length) {
-        console.log('🔍 Cart validation failed - empty cart');
         this.showAlert('Giỏ hàng của bạn đang trống.', 'error');
         return false;
       }
@@ -3661,32 +3662,19 @@ document.addEventListener('alpine:init', () => {
       // Validate bead quantity for specific products in cart
       for (const item of this.cart) {
         if (item.category === 'hat_dau_tam_mai_san' && (!item.beadQuantity || item.beadQuantity < 1)) {
-          console.log('🔍 Bead quantity validation failed for item:', item.name);
           this.showAlert(`Vui lòng chọn số lượng hạt cho sản phẩm "${item.name}" trong giỏ hàng.`, 'error');
           return false; // Stop validation
         }
       }
 
-      // Debug current form values
-      console.log('🔍 Form validation debug:');
-      console.log('  - customer.name:', this.customer.name);
-      console.log('  - customer.phone:', this.customer.phone);
-      console.log('  - selectedProvince:', this.selectedProvince);
-      console.log('  - selectedDistrict:', this.selectedDistrict);
-      console.log('  - selectedWard:', this.selectedWard);
-      console.log('  - streetAddress:', this.streetAddress);
-      console.log('  - paymentMethod:', this.paymentMethod);
-
       // Validate name
       if (!this.customer.name.trim()) {
-        console.log('🔍 Name validation failed');
         this.formErrors.name = 'Vui lòng nhập họ và tên';
         isValid = false;
       }
 
       // Validate phone
       if (!this.customer.phone.trim()) {
-        console.log('🔍 Phone validation failed - empty');
         this.formErrors.phone = 'Vui lòng nhập số điện thoại';
         isValid = false;
       } else {

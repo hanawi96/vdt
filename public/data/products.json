@@ -1653,7 +1653,7 @@
    
   {
     "id": "san_pham_ban_kem_004",
-    "name": "Bó dâu tằm 7 CÀNH cho bé trai",
+    "name": "Bó dâu 7 CÀNH (bé trai)",
     "category": "san_pham_ban_kem",
     "categories": ["san_pham_ban_kem"],
     "price": 89000,
@@ -1665,7 +1665,7 @@
   },
   {
     "id": "san_pham_ban_kem_005",
-    "name": "Bó dâu tằm 9 CÀNH cho bé gái",
+    "name": "Bó dâu 9 CÀNH (bé gái)",
     "category": "san_pham_ban_kem",
     "categories": ["san_pham_ban_kem"],
     "price": 99000,
