@@ -3380,10 +3380,10 @@
                 <div x-show="currentWeightPresetProduct">
                     <!-- Product Info -->
                     <div class="flex items-center space-x-3 sm:space-x-4 mb-4">
-                        <img :src="currentWeightPresetProduct.image" class="w-16 h-16 sm:w-20 sm:h-20 rounded-lg object-cover border-2 border-white shadow-md" loading="lazy">
+                        <img :src="currentWeightPresetProduct?.image" class="w-16 h-16 sm:w-20 sm:h-20 rounded-lg object-cover border-2 border-white shadow-md" loading="lazy">
                         <div class="min-w-0">
-                            <p class="font-bold text-gray-800 text-sm sm:text-base truncate" x-text="currentWeightPresetProduct.name"></p>
-                            <p class="text-pink-600 font-bold text-base sm:text-lg" x-text="formatCurrency(currentWeightPresetProduct.price)"></p>
+                            <p class="font-bold text-gray-800 text-sm sm:text-base truncate" x-text="currentWeightPresetProduct?.name"></p>
+                            <p class="text-pink-600 font-bold text-base sm:text-lg" x-text="formatCurrency(currentWeightPresetProduct?.price)"></p>
                         </div>
                     </div>
 
