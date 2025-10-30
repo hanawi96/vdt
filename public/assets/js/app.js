@@ -3693,7 +3693,11 @@ document.addEventListener('alpine:init', () => {
 
     // Mã khuyến mãi quà tặng
     get giftDiscounts() {
-      return this.sortedDiscounts.filter(d => d.type === 'gift');
+      const gifts = this.sortedDiscounts.filter(d => d.type === 'gift');
+      console.log('🔍 giftDiscounts:', gifts);
+      console.log('🔍 sortedDiscounts:', this.sortedDiscounts);
+      console.log('🔍 availableDiscounts:', this.availableDiscounts);
+      return gifts;
     },
 
     // Lấy giá trị quà tặng từ products.json
