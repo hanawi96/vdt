@@ -641,8 +641,12 @@ document.addEventListener('alpine:init', () => {
         filtered = filtered.filter(addon => addon.id === 'addon_moc_chia_khoa');
       }
 
-      // Ẩn các addon đã có trong giỏ hàng (thông minh hơn)
-      // Kiểm tra nhiều trường hợp khác nhau
+      // Nếu đang ở modal chi tiết sản phẩm, KHÔNG ẩn addon (chỉ đổi button)
+      if (this.isProductDetailOpen) {
+        return filtered; // Trả về tất cả addon, không filter
+      }
+
+      // Nếu ở modal giỏ hàng hoặc context khác, ẩn addon đã có trong giỏ hàng
       filtered = filtered.filter(addon => {
         const isInCart = this.cart.some(item => {
           // Kiểm tra ID trực tiếp
@@ -687,8 +691,8 @@ document.addEventListener('alpine:init', () => {
         filtered = filtered.filter(addon => addon.id === 'addon_moc_chia_khoa');
       }
 
-      // Ẩn các addon đã được chọn trong Product Detail
-      filtered = filtered.filter(addon => !this.productDetailSelectedAddons.some(selected => selected.id === addon.id));
+      // KHÔNG ẩn các addon đã được chọn - chỉ thay đổi button từ "Thêm" thành "Xóa"
+      // filtered = filtered.filter(addon => !this.productDetailSelectedAddons.some(selected => selected.id === addon.id));
 
       return filtered;
     },
@@ -819,6 +823,7 @@ document.addEventListener('alpine:init', () => {
     /* ========= DISCOUNTS ========= */
     availableDiscounts: [],
     discountCode: Alpine.$persist('').as('discountCode'),
+    giftCode: Alpine.$persist('').as('giftCode'), // Mã quà tặng riêng biệt
     appliedDiscountCode: Alpine.$persist('').as('appliedDiscountCode'),
     appliedGift: Alpine.$persist(null).as('appliedGift'),
     discountAmount: 0,
@@ -1072,6 +1077,20 @@ document.addEventListener('alpine:init', () => {
 
 
     formatCurrency(v) { return typeof v === 'number' ? this._CURRENCY.format(v) : v; },
+
+    // Format currency ngắn gọn (ví dụ: 180000 -> "180k")
+    formatCurrencyShort(v) {
+      if (typeof v !== 'number') return v;
+      if (v >= 1000000) {
+        const millions = v / 1000000;
+        return `${millions % 1 === 0 ? millions : millions.toFixed(1)}tr`;
+      }
+      if (v >= 1000) {
+        const thousands = v / 1000;
+        return `${thousands % 1 === 0 ? thousands : thousands.toFixed(0)}k`;
+      }
+      return `${v}đ`;
+    },
 
     // Get surcharge amount for a cart item
     getSurcharge(item) {
@@ -1491,24 +1510,34 @@ document.addEventListener('alpine:init', () => {
       const minOrder = discount.minOrder || 0;
 
       if (discount.type === 'shipping') {
-        if (minItems > 0) {
-          return `Mua ${minItems} vòng, tổng đơn ≥ ${this.formatCurrency(minOrder)}`;
+        if (minItems > 0 && minOrder > 0) {
+          return `Mua tối thiểu ${minItems} SP, tổng đơn trên ${this.formatCurrencyShort(minOrder)}`;
         }
-        return `Freeship cho đơn hàng ≥ ${this.formatCurrency(minOrder)}`;
+        if (minItems > 0) {
+          return `Mua tối thiểu ${minItems} SP`;
+        }
+        return `Freeship cho đơn hàng trên ${this.formatCurrencyShort(minOrder)}`;
       }
 
       if (discount.type === 'gift') {
-        if (minItems > 0) {
-          return `Mua ${minItems} vòng, tổng đơn ≥ ${this.formatCurrency(minOrder)}`;
+        // Chỉ hiển thị điều kiện (tên sản phẩm đã hiển thị ở trên)
+        if (minItems > 0 && minOrder > 0) {
+          return `Khi mua từ ${minItems} SP, đơn từ ${this.formatCurrencyShort(minOrder)}`;
         }
-        return `Nhận quà cho đơn hàng ≥ ${this.formatCurrency(minOrder)}`;
+        if (minItems > 0) {
+          return `Khi mua từ ${minItems} SP`;
+        }
+        return `Cho đơn hàng trên ${this.formatCurrencyShort(minOrder)}`;
       }
 
       if (discount.type === 'percentage' || discount.type === 'fixed') {
-        if (minItems > 0) {
-          return `Mua ${minItems} vòng, tổng đơn ≥ ${this.formatCurrency(minOrder)}`;
+        if (minItems > 0 && minOrder > 0) {
+          return `Mua tối thiểu ${minItems} SP, tổng đơn trên ${this.formatCurrencyShort(minOrder)}`;
         }
-        return `Giảm giá cho đơn hàng ≥ ${this.formatCurrency(minOrder)}`;
+        if (minItems > 0) {
+          return `Mua tối thiểu ${minItems} SP`;
+        }
+        return `Giảm giá cho đơn hàng trên ${this.formatCurrencyShort(minOrder)}`;
       }
 
       return discount.description || '';
@@ -2321,14 +2350,20 @@ document.addEventListener('alpine:init', () => {
     get selectedCartProducts() { return this.cart.filter(i => this.selectedCartItems.includes(i.cartId || i.id)); },
 
     addAddonToCart(addon) {
+      console.log('🔍 addAddonToCart called with:', addon);
+      console.log('🔍 isQuickBuyModalOpen:', this.isQuickBuyModalOpen);
+      console.log('🔍 isProductDetailOpen:', this.isProductDetailOpen);
+      
       // Khi modal Quick Buy đang mở, thêm vào Quick Buy thay vì giỏ hàng
       if (this.isQuickBuyModalOpen) {
+        console.log('🔍 Calling addAddonToQuickBuy');
         this.addAddonToQuickBuy(addon);
         return;
       }
 
       // Khi modal Product Detail đang mở, thêm vào Product Detail thay vì giỏ hàng
       if (this.isProductDetailOpen) {
+        console.log('🔍 Calling addAddonToProductDetail');
         this.addAddonToProductDetail(addon);
         return;
       }
@@ -2366,25 +2401,105 @@ document.addEventListener('alpine:init', () => {
 
     // Thêm addon vào Quick Buy (cho combo)
     addAddonToQuickBuy(addon) {
+      console.log('🔍 addAddonToQuickBuy called with:', addon);
+      console.log('🔍 Current cart before:', this.cart);
+      console.log('🔍 Current quickBuySelectedAddons before:', this.quickBuySelectedAddons);
+      
       const existing = this.quickBuySelectedAddons.find(a => a.id === addon.id);
+      console.log('🔍 Existing addon in quickbuy:', existing);
+      
       if (!existing) {
+        // Thêm vào quickbuy
         this.quickBuySelectedAddons.push({ ...addon, quantity: 1 });
+        console.log('🔍 Added to quickbuy, new quickBuySelectedAddons:', this.quickBuySelectedAddons);
+        
+        // Đồng thời thêm vào giỏ hàng
+        const ex = this.cart.find(i => i.id === addon.id);
+        console.log('🔍 Existing addon in cart:', ex);
+        
+        if (ex) {
+          ex.quantity++;
+          console.log('🔍 Increased quantity of existing cart item:', ex);
+          // Đảm bảo item được select nếu chưa có trong selectedCartItems
+          const itemId = ex.cartId || ex.id;
+          if (!this.selectedCartItems.includes(itemId)) {
+            this.selectedCartItems.push(itemId);
+            console.log('🔍 Added to selectedCartItems:', itemId);
+          }
+        } else {
+          const cartId = `${addon.id}-${Date.now()}`;
+          const newItem = { ...addon, cartId: cartId, quantity: 1, weight: '', isAddon: true };
+          console.log('🔍 Creating new cart item:', newItem);
+          this.cart.push(newItem);
+          this.selectedCartItems.push(cartId);
+          console.log('🔍 Added new item to cart, new cart:', this.cart);
+          console.log('🔍 Added to selectedCartItems:', cartId);
+        }
+        this.triggerCartAnimation();
+        console.log('🔍 Cart animation triggered');
+        
         this.showAlert(`Đã thêm ${addon.name}! 💰 Giảm 5K!`, 'success');
+      } else {
+        console.log('🔍 Addon already exists in quickbuy, skipping');
       }
     },
 
     // Xóa addon khỏi Quick Buy (cho combo)
     removeAddonFromQuickBuy(addonId) {
+      // Xóa khỏi quickbuy
       this.quickBuySelectedAddons = this.quickBuySelectedAddons.filter(a => a.id !== addonId);
+      
+      // Đồng thời xóa khỏi giỏ hàng
+      const cartItem = this.cart.find(i => i.id === addonId && i.isAddon);
+      if (cartItem) {
+        const itemId = cartItem.cartId || cartItem.id;
+        this.cart = this.cart.filter(i => i !== cartItem);
+        this.selectedCartItems = this.selectedCartItems.filter(id => id !== itemId);
+      }
+      
       const addon = this.addonProducts.find(a => a.id === addonId);
       this.showAlert(`Đã xóa ${addon?.name || 'addon'}!`, 'success');
     },
 
     // Thêm addon vào Product Detail (tách biệt với giỏ hàng)
     addAddonToProductDetail(addon) {
+      console.log('🔍 addAddonToProductDetail called with:', addon);
+      console.log('🔍 Current productDetailSelectedAddons before:', this.productDetailSelectedAddons);
+      console.log('🔍 Current cart before:', this.cart);
+      
       const existing = this.productDetailSelectedAddons.find(a => a.id === addon.id);
+      console.log('🔍 Existing addon in productDetail:', existing);
+      
       if (!existing) {
+        // Thêm vào product detail selected addons
         this.productDetailSelectedAddons.push({ ...addon, quantity: 1 });
+        console.log('🔍 Added to productDetailSelectedAddons:', this.productDetailSelectedAddons);
+        
+        // Đồng thời thêm vào giỏ hàng
+        const ex = this.cart.find(i => i.id === addon.id);
+        console.log('🔍 Existing addon in cart:', ex);
+        
+        if (ex) {
+          ex.quantity++;
+          console.log('🔍 Increased quantity of existing cart item:', ex);
+          // Đảm bảo item được select nếu chưa có trong selectedCartItems
+          const itemId = ex.cartId || ex.id;
+          if (!this.selectedCartItems.includes(itemId)) {
+            this.selectedCartItems.push(itemId);
+            console.log('🔍 Added to selectedCartItems:', itemId);
+          }
+        } else {
+          const cartId = `${addon.id}-${Date.now()}`;
+          const newItem = { ...addon, cartId: cartId, quantity: 1, weight: '', isAddon: true };
+          console.log('🔍 Creating new cart item:', newItem);
+          this.cart.push(newItem);
+          this.selectedCartItems.push(cartId);
+          console.log('🔍 Added new item to cart, new cart:', this.cart);
+          console.log('🔍 Added to selectedCartItems:', cartId);
+        }
+        this.triggerCartAnimation();
+        console.log('🔍 Cart animation triggered');
+        
         if (addon.id === 'addon_tui_dau_tam') {
           this.showAlert(`Đã thêm ${addon.name}! 🚚 Bạn được miễn phí ship!`, 'success');
         } else if (addon.id === 'addon_bo_dau_tam_7_canh') {
@@ -2396,12 +2511,33 @@ document.addEventListener('alpine:init', () => {
         } else {
           this.showAlert(`Đã thêm ${addon.name}!`, 'success');
         }
+      } else {
+        console.log('🔍 Addon already exists in productDetail, skipping');
       }
     },
 
     // Xóa addon khỏi Product Detail
     removeAddonFromProductDetail(addonId) {
+      console.log('🔍 removeAddonFromProductDetail called with:', addonId);
+      console.log('🔍 Current productDetailSelectedAddons before:', this.productDetailSelectedAddons);
+      console.log('🔍 Current cart before:', this.cart);
+      
+      // Xóa khỏi product detail selected addons
       this.productDetailSelectedAddons = this.productDetailSelectedAddons.filter(a => a.id !== addonId);
+      console.log('🔍 Removed from productDetailSelectedAddons:', this.productDetailSelectedAddons);
+      
+      // Đồng thời xóa khỏi giỏ hàng
+      const cartItem = this.cart.find(i => i.id === addonId && i.isAddon);
+      console.log('🔍 Found cart item to remove:', cartItem);
+      
+      if (cartItem) {
+        const itemId = cartItem.cartId || cartItem.id;
+        this.cart = this.cart.filter(i => i !== cartItem);
+        this.selectedCartItems = this.selectedCartItems.filter(id => id !== itemId);
+        console.log('🔍 Removed from cart, new cart:', this.cart);
+        console.log('🔍 Updated selectedCartItems:', this.selectedCartItems);
+      }
+      
       const addon = this.addonProducts.find(a => a.id === addonId);
       this.showAlert(`Đã xóa ${addon?.name || 'addon'}!`, 'success');
     },
@@ -3312,7 +3448,23 @@ document.addEventListener('alpine:init', () => {
       this.discountCode = '';
       this.appliedDiscountCode = '';
       this.appliedGift = null;
+      this.giftCode = '';
       this.discountAmount = 0;
+      this.discountError = '';
+    },
+    
+    // Reset chỉ mã giảm giá (giữ lại gift)
+    resetDiscountOnly() {
+      this.discountCode = '';
+      this.appliedDiscountCode = '';
+      this.discountAmount = 0;
+      this.discountError = '';
+    },
+    
+    // Reset chỉ mã quà tặng (giữ lại discount)
+    resetGiftOnly() {
+      this.giftCode = '';
+      this.appliedGift = null;
       this.discountError = '';
     },
     openDiscountModal() {
@@ -3329,72 +3481,108 @@ document.addEventListener('alpine:init', () => {
       this.isDiscountModalFromQuickBuy = false; // Reset flag
       // Đồng bộ lại code hiển thị với code đã áp dụng, xoá code lỗi
       this.discountCode = this.appliedDiscountCode;
+      this.giftCode = this.appliedGift?.code || '';
       setTimeout(() => {
         this.preventMiniCartCloseOnClickOutside = false;
         this.preventQuickBuyCloseOnEscape = false; // Reset flag cho Quick Buy
       }, 100);
     },
     selectDiscount(code) { this.discountCode = code; },
+    selectGift(code) { this.giftCode = code; },
 
     applySelectedDiscount(andClose = false) {
-      const code = this.discountCode.trim().toUpperCase();
-      if (!code) { this.discountError = 'Vui lòng nhập hoặc chọn một mã khuyến mãi.'; return; }
+      // Thu thập các mã đã chọn
+      let selectedDiscountCode = this.discountCode?.trim().toUpperCase();
+      let selectedGiftCode = this.giftCode?.trim().toUpperCase();
+      
+      // Nếu nhập mã thủ công vào discountCode, kiểm tra xem có phải gift không
+      if (selectedDiscountCode && !selectedGiftCode) {
+        const rawCheck = this.availableDiscounts.find(d => (d.code || '').toUpperCase() === selectedDiscountCode);
+        if (rawCheck && rawCheck.type === 'gift') {
+          // Chuyển sang giftCode
+          selectedGiftCode = selectedDiscountCode;
+          this.giftCode = selectedDiscountCode;
+          selectedDiscountCode = '';
+          this.discountCode = '';
+        }
+      }
+      
+      if (!selectedDiscountCode && !selectedGiftCode) {
+        this.discountError = 'Vui lòng chọn ít nhất một mã khuyến mãi.';
+        return;
+      }
 
-      // Tìm trong danh sách khả dụng
-      const raw = this.availableDiscounts.find(d => (d.code || '').toUpperCase() === code);
-      const promotion = this._normalizeDiscount(raw);
-      if (!promotion || !promotion.active) { this.discountError = 'Mã khuyến mãi không hợp lệ hoặc đã hết hạn.'; return; }
-
-      // Điều kiện - sử dụng logic khác nhau cho Quick Buy vs Cart
       const isFromQuickBuy = this.isDiscountModalFromQuickBuy;
       const subtotal = isFromQuickBuy ? this.quickBuySubtotal : this.cartSubtotal();
       const quantity = isFromQuickBuy ? this.quickBuyQuantity : this.totalCartQuantity;
+      
+      let appliedCodes = [];
+      let errorMessages = [];
 
-      if (subtotal < promotion.minOrder) {
-        this.discountError = `Ưu đãi này chỉ áp dụng cho đơn hàng từ ${this.formatCurrency(promotion.minOrder)}.`; return;
-      }
-      if (promotion.minItems && quantity < promotion.minItems) {
-        this.discountError = `Ưu đãi này chỉ áp dụng cho đơn hàng có từ ${promotion.minItems} sản phẩm trở lên.`; return;
-      }
+      // Áp dụng mã giảm giá (nếu có)
+      if (selectedDiscountCode) {
+        const raw = this.availableDiscounts.find(d => (d.code || '').toUpperCase() === selectedDiscountCode);
+        const promotion = this._normalizeDiscount(raw);
+        
+        if (!promotion || !promotion.active) {
+          errorMessages.push(`Mã ${selectedDiscountCode} không hợp lệ hoặc đã hết hạn.`);
+        } else if (subtotal < promotion.minOrder) {
+          errorMessages.push(`${selectedDiscountCode} chỉ áp dụng cho đơn từ ${this.formatCurrency(promotion.minOrder)}.`);
+        } else if (promotion.minItems && quantity < promotion.minItems) {
+          errorMessages.push(`${selectedDiscountCode} chỉ áp dụng khi có từ ${promotion.minItems} SP trở lên.`);
+        } else {
+          // Áp dụng thành công
+          this.resetDiscountOnly();
+          this.appliedDiscountCode = selectedDiscountCode;
 
-      // Kiểm tra và thông báo khi có mã bị ghi đè
-      let replacementMessage = '';
-      if (this.discountCode && this.discountCode !== code) {
-        const currentPromotion = this.availableDiscounts.find(d => d.code?.toUpperCase() === this.discountCode.toUpperCase());
-        const currentTitle = currentPromotion?.title || this.discountCode;
-        replacementMessage = `Mã ${code} đã được áp dụng. Ưu đãi "${currentTitle}" đã được thay thế.`;
-      }
-
-      // Reset trước khi áp dụng mới
-      this.resetDiscount();
-
-      if (promotion.type === 'gift') {
-        this.appliedGift = { title: promotion.title, value: promotion.value };
-      } else {
-        // Đặt appliedDiscountCode cho tất cả các loại mã (trừ gift)
-        this.appliedDiscountCode = code;
-
-        if (promotion.type === 'shipping') {
-          // freeship được phản ánh qua getter freeShipping bằng appliedDiscountCode
-          // appliedDiscountCode đã được đặt ở trên
-        } else if (promotion.type === 'fixed') {
-          this.discountAmount = promotion.value;
-        } else if (promotion.type === 'percentage') {
-          // Sử dụng subtotal phù hợp với context
-          const contextSubtotal = isFromQuickBuy ? this.quickBuySubtotal : this.cartSubtotal();
-          this.discountAmount = Math.floor(contextSubtotal * promotion.value / 100);
+          if (promotion.type === 'shipping') {
+            // freeship
+          } else if (promotion.type === 'fixed') {
+            this.discountAmount = promotion.value;
+          } else if (promotion.type === 'percentage') {
+            const contextSubtotal = isFromQuickBuy ? this.quickBuySubtotal : this.cartSubtotal();
+            this.discountAmount = Math.floor(contextSubtotal * promotion.value / 100);
+          }
+          
+          const maxDiscount = isFromQuickBuy ? this.quickBuySubtotal : this.cartSubtotal();
+          if (this.discountAmount > maxDiscount) this.discountAmount = maxDiscount;
+          
+          appliedCodes.push(selectedDiscountCode);
         }
       }
 
-      // Giới hạn discount không vượt quá subtotal
-      const maxDiscount = isFromQuickBuy ? this.quickBuySubtotal : this.cartSubtotal();
-      if (this.discountAmount > maxDiscount) this.discountAmount = maxDiscount;
-      this.discountCode = code; // giữ lại hiển thị
-      if (replacementMessage) {
-        this.showAlert(replacementMessage, 'success');
-      } else {
-        this.showAlert(`Đã áp dụng mã ${code}!`, 'success');
+      // Áp dụng mã quà tặng (nếu có)
+      if (selectedGiftCode) {
+        const raw = this.availableDiscounts.find(d => (d.code || '').toUpperCase() === selectedGiftCode);
+        const promotion = this._normalizeDiscount(raw);
+        
+        if (!promotion || !promotion.active) {
+          errorMessages.push(`Mã ${selectedGiftCode} không hợp lệ hoặc đã hết hạn.`);
+        } else if (subtotal < promotion.minOrder) {
+          errorMessages.push(`${selectedGiftCode} chỉ áp dụng cho đơn từ ${this.formatCurrency(promotion.minOrder)}.`);
+        } else if (promotion.minItems && quantity < promotion.minItems) {
+          errorMessages.push(`${selectedGiftCode} chỉ áp dụng khi có từ ${promotion.minItems} SP trở lên.`);
+        } else {
+          // Áp dụng thành công
+          this.resetGiftOnly();
+          this.appliedGift = { title: promotion.title, value: promotion.value, code: selectedGiftCode };
+          appliedCodes.push(selectedGiftCode);
+        }
       }
+
+      // Hiển thị kết quả
+      if (errorMessages.length > 0) {
+        this.discountError = errorMessages.join(' ');
+        return;
+      }
+
+      if (appliedCodes.length > 0) {
+        const message = appliedCodes.length === 1 
+          ? `Đã áp dụng mã ${appliedCodes[0]}!`
+          : `Đã áp dụng ${appliedCodes.length} mã: ${appliedCodes.join(', ')}!`;
+        this.showAlert(message, 'success');
+      }
+      
       if (andClose) this.closeDiscountModal();
     },
 
@@ -3496,6 +3684,29 @@ document.addEventListener('alpine:init', () => {
         // Nếu cả hai đều có sẵn hoặc không, sắp xếp theo giá trị giảm dần
         return b.effectiveValue - a.effectiveValue;
       });
+    },
+
+    // Mã giảm giá thông thường (không phải quà tặng)
+    get normalDiscounts() {
+      return this.sortedDiscounts.filter(d => d.type !== 'gift');
+    },
+
+    // Mã khuyến mãi quà tặng
+    get giftDiscounts() {
+      return this.sortedDiscounts.filter(d => d.type === 'gift');
+    },
+
+    // Lấy giá trị quà tặng từ products.json
+    getGiftValue(discount) {
+      if (discount.type !== 'gift' || !discount.value?.name) return 0;
+      
+      // Tìm sản phẩm trong products.json theo tên
+      const product = this.products.find(p => 
+        p.name.toLowerCase().includes(discount.value.name.toLowerCase()) ||
+        discount.value.name.toLowerCase().includes(p.name.toLowerCase())
+      );
+      
+      return product ? product.price : 0;
     },
 
     get isEligibleForAnyDiscount() {
