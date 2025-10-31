@@ -2818,12 +2818,8 @@ document.addEventListener('alpine:init', () => {
 
       // Mua ngay - bỏ qua giỏ hàng hoàn toàn
       this.quickBuyProduct = { ...product };
-      // Set default quantity based on product category
-      if (product.category === 'hat_dau_tam_mai_san') {
-        this.quickBuyQuantity = ''; // Default to the placeholder option
-      } else {
-        this.quickBuyQuantity = 1; // Default to 1 for other products
-      }
+      // Set default quantity to empty for all products to force user selection
+      this.quickBuyQuantity = ''; // Default to the placeholder option for all products
       this.quickBuyWeight = '';
       this.quickBuyCustomWeight = '';
       this.quickBuyBabyName = '';
@@ -2870,7 +2866,7 @@ document.addEventListener('alpine:init', () => {
       this.isQuickBuyModalOpen = false;
       this.isBuyingCombo = false; // Reset combo flag
       this.quickBuyProduct = null;
-      this.quickBuyQuantity = 1;
+      this.quickBuyQuantity = '';
       this.quickBuyWeight = '';
       this.quickBuyCustomWeight = '';
       this.quickBuyBabyName = '';
@@ -3046,82 +3042,40 @@ document.addEventListener('alpine:init', () => {
     // Scroll to first error in Quick Buy modal - optimized version
     scrollToFirstQuickBuyError() {
       this.$nextTick(() => {
-        setTimeout(() => {
-          // Priority order for error fields (top to bottom in form layout)
-          const errorPriority = ['name', 'phone', 'province', 'district', 'ward', 'streetAddress', 'quantity', 'weight', 'babyName', 'paymentMethod'];
+        // Priority order for error fields (top to bottom in form layout)
+        const errorSelectors = {
+          name: 'input[x-model="customer.name"]',
+          phone: 'input[x-model="customer.phone"]',
+          province: 'select[x-model="selectedProvince"]',
+          district: 'select[x-model="selectedDistrict"]',
+          ward: 'select[x-model="selectedWard"]',
+          streetAddress: 'input[x-model="streetAddress"]',
+          quantity: '#quick-buy-quantity-section',
+          weight: 'select[x-model="quickBuyWeight"]',
+          babyName: 'input[x-model="quickBuyBabyName"]',
+          paymentMethod: '[x-model="quickBuyPaymentMethod"]'
+        };
 
-          for (const fieldName of errorPriority) {
-            if (this.formErrors[fieldName]) {
-              let selector = '';
-
-              // Map field names to their selectors
-              switch (fieldName) {
-                case 'quantity':
-                  selector = '#quick-buy-quantity-section';
-                  break;
-                case 'name':
-                  selector = 'input[x-model="customer.name"]';
-                  break;
-                case 'phone':
-                  selector = 'input[x-model="customer.phone"]';
-                  break;
-                case 'province':
-                  selector = 'select[x-model="selectedProvince"]';
-                  break;
-                case 'district':
-                  selector = 'select[x-model="selectedDistrict"]';
-                  break;
-                case 'ward':
-                  selector = 'select[x-model="selectedWard"]';
-                  break;
-                case 'streetAddress':
-                  selector = 'input[x-model="streetAddress"]';
-                  break;
-                case 'weight':
-                  selector = 'select[x-model="quickBuyWeight"]';
-                  break;
-                case 'babyName':
-                  selector = 'input[x-model="quickBuyBabyName"]';
-                  break;
-                case 'paymentMethod':
-                  selector = '[x-model="quickBuyPaymentMethod"]';
-                  break;
+        // Find first error and scroll to it
+        for (const [field, selector] of Object.entries(errorSelectors)) {
+          if (this.formErrors[field]) {
+            const element = document.querySelector(selector);
+            if (element) {
+              const modalContent = element.closest('.modal-scroll') || element.closest('.overflow-y-auto');
+              if (modalContent) {
+                const elementTop = element.offsetTop - modalContent.offsetTop;
+                modalContent.scrollTo({ top: Math.max(0, elementTop - 80), behavior: 'smooth' });
+              } else {
+                element.scrollIntoView({ behavior: 'smooth', block: 'center' });
               }
-
-              const element = document.querySelector(selector);
-              console.log(`🔍 Scroll Debug - Field: ${fieldName}, Selector: ${selector}, Element found:`, !!element);
-
-              if (element) {
-                // Find the modal scroll container
-                const modalContent = element.closest('.modal-scroll');
-                console.log('🔍 Modal scroll container found:', !!modalContent);
-
-                if (modalContent) {
-                  // Calculate offset position within modal
-                  const elementTop = element.offsetTop - modalContent.offsetTop;
-                  console.log(`🔍 Scrolling to elementTop: ${elementTop}, adjusted: ${Math.max(0, elementTop - 100)}`);
-                  modalContent.scrollTo({
-                    top: Math.max(0, elementTop - 100), // 100px offset from top
-                    behavior: 'smooth'
-                  });
-                } else {
-                  // Fallback: scroll element into view
-                  console.log('🔍 Using fallback scrollIntoView');
-                  element.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'center'
-                  });
-                }
-
-                // Focus the element if it's an input
-                if (element.tagName === 'INPUT' || element.tagName === 'SELECT') {
-                  setTimeout(() => element.focus(), 300);
-                }
-                break; // Stop at first error found
+              // Focus input/select elements
+              if (['INPUT', 'SELECT'].includes(element.tagName)) {
+                setTimeout(() => element.focus(), 200);
               }
+              break;
             }
           }
-        }, 100);
+        }
       });
     },
 
@@ -3306,12 +3260,14 @@ document.addEventListener('alpine:init', () => {
         }
       }
 
-      // Validation cho sản phẩm hạt dâu tằm mài sẵn - kiểm tra số lượng hạt
-      if (this.quickBuyProduct && this.quickBuyProduct.category === 'hat_dau_tam_mai_san') {
-        if (!this.quickBuyQuantity || this.quickBuyQuantity < 1) {
+      // Validation số lượng cho tất cả sản phẩm
+      if (!this.quickBuyQuantity || this.quickBuyQuantity < 1) {
+        if (this.quickBuyProduct && this.quickBuyProduct.category === 'hat_dau_tam_mai_san') {
           this.formErrors.quantity = 'Vui lòng chọn số lượng hạt dâu';
-          isValid = false;
+        } else {
+          this.formErrors.quantity = 'Vui lòng chọn số lượng sản phẩm';
         }
+        isValid = false;
       }
 
       if (!this.quickBuyPaymentMethod) {

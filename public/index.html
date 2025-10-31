@@ -847,19 +847,22 @@
                 <div class="flex items-center justify-center flex-wrap gap-2 mb-8 border-b pb-8">
                     <button @click="activeFilter = 'best_selling'"
                         :class="{ 'bg-pink-200 text-pink-800': activeFilter === 'best_selling', 'bg-white text-gray-600': activeFilter !== 'best_selling' }"
-                        class="px-3 py-1.5 rounded-full text-xs font-medium transition-colors duration-200" style="font-size: 14px;">
+                        class="px-3 py-1.5 rounded-full text-xs font-medium transition-colors duration-200"
+                        style="font-size: 14px;">
                         🔥 Bán chạy
                     </button>
                     <button @click="activeFilter = 'top_rated'"
                         :class="{ 'bg-pink-200 text-pink-800': activeFilter === 'top_rated', 'bg-white text-gray-600': activeFilter !== 'top_rated' }"
-                        class="px-3 py-1.5 rounded-full text-xs font-medium transition-colors duration-200" style="font-size: 14px;">
+                        class="px-3 py-1.5 rounded-full text-xs font-medium transition-colors duration-200"
+                        style="font-size: 14px;">
                         ⭐ Đánh giá cao
                     </button>
 
                     <!-- Price Sort Dropdown -->
                     <div class="relative" x-data="{ isOpen: false }">
                         <button @click="isOpen = !isOpen"
-                            class="px-3 py-1.5 rounded-full text-xs font-medium transition-colors duration-200 bg-white text-gray-600 border border-gray-300 hover:border-pink-300 flex items-center gap-1" style="font-size: 14px;">
+                            class="px-3 py-1.5 rounded-full text-xs font-medium transition-colors duration-200 bg-white text-gray-600 border border-gray-300 hover:border-pink-300 flex items-center gap-1"
+                            style="font-size: 14px;">
                             <span>📊</span>
                             <span
                                 x-text="sortBy === 'price_asc' ? 'Giá: Thấp → Cao' : sortBy === 'price_desc' ? 'Giá: Cao → Thấp' : 'Sắp xếp'"></span>
@@ -3039,16 +3042,21 @@
 
                                 <!-- Default Selector for Other Products -->
                                 <template x-if="quickBuyProduct?.category !== 'hat_dau_tam_mai_san'">
-                                    <div>
+                                    <div id="quick-buy-quantity-section">
                                         <label class="block text-sm font-medium text-gray-700 mb-1">Số lượng *</label>
-                                        <select x-model="quickBuyQuantity" @change="revalidateQuickBuyDiscount()"
-                                            class="w-full px-3 py-2.5 text-base rounded-lg transition-all border border-gray-300 focus:ring-pink-500 focus:border-pink-500 bg-white">
+                                        <select x-model="quickBuyQuantity"
+                                            @change="revalidateQuickBuyDiscount(); if (quickBuyQuantity) formErrors.quantity = ''"
+                                            :class="formErrors.quantity ? 'border-red-500 focus:ring-red-500 focus:border-red-500' : 'border-gray-300 focus:ring-pink-500 focus:border-pink-500'"
+                                            class="w-full px-3 py-2.5 text-base rounded-lg transition-all border bg-white">
+                                            <option value="">- Chọn số lượng -</option>
                                             <option value="1">1 sản phẩm</option>
                                             <option value="2">2 sản phẩm</option>
                                             <option value="3">3 sản phẩm</option>
                                             <option value="4">4 sản phẩm</option>
                                             <option value="5">5 sản phẩm</option>
                                         </select>
+                                        <p x-show="formErrors.quantity" class="text-red-500 text-xs mt-1"
+                                            x-text="formErrors.quantity"></p>
                                     </div>
                                 </template>
                             </div>
@@ -3237,19 +3245,24 @@
                                 <p class="text-xs text-gray-500 mb-2">💡 Gợi ý nhanh:</p>
                                 <div class="flex flex-wrap gap-1.5">
                                     <button @click="quickBuyNotes = 'Giao giờ hành chính (8h-17h)'"
-                                        class="preset-note-btn px-2 py-1 bg-blue-50 text-blue-700 border border-blue-200 rounded-md hover:bg-blue-100">🕘
+                                        class="preset-note-btn px-2 py-1 bg-blue-50 text-blue-700 border border-blue-200 rounded-md hover:bg-blue-100"
+                                        style="font-size: 12px;">🕘
                                         Giờ hành chính</button>
                                     <button @click="quickBuyNotes = 'Giao buổi chiều (14h-18h)'"
-                                        class="preset-note-btn px-2 py-1 bg-orange-50 text-orange-700 border border-orange-200 rounded-md hover:bg-orange-100">🌅
+                                        class="preset-note-btn px-2 py-1 bg-orange-50 text-orange-700 border border-orange-200 rounded-md hover:bg-orange-100"
+                                        style="font-size: 12px;">🌅
                                         Buổi chiều</button>
                                     <button @click="quickBuyNotes = 'Gọi trước khi giao 15 phút'"
-                                        class="preset-note-btn px-2 py-1 bg-green-50 text-green-700 border border-green-200 rounded-md hover:bg-green-100">📞
+                                        class="preset-note-btn px-2 py-1 bg-green-50 text-green-700 border border-green-200 rounded-md hover:bg-green-100"
+                                        style="font-size: 12px;">📞
                                         Gọi trước</button>
                                     <button @click="quickBuyNotes = 'Giao tận tay, không gửi bảo vệ'"
-                                        class="preset-note-btn px-2 py-1 bg-purple-50 text-purple-700 border border-purple-200 rounded-md hover:bg-purple-100">👤
+                                        class="preset-note-btn px-2 py-1 bg-purple-50 text-purple-700 border border-purple-200 rounded-md hover:bg-purple-100"
+                                        style="font-size: 12px;">👤
                                         Tận tay</button>
                                     <button @click="quickBuyNotes = 'Để cửa nếu không có người'"
-                                        class="preset-note-btn px-2 py-1 bg-gray-50 text-gray-700 border border-gray-200 rounded-md hover:bg-gray-100">🚪
+                                        class="preset-note-btn px-2 py-1 bg-gray-50 text-gray-700 border border-gray-200 rounded-md hover:bg-gray-100"
+                                        style="font-size: 12px;">🚪
                                         Để cửa</button>
                                 </div>
                             </div>
@@ -4510,10 +4523,10 @@
                         <div class="flex items-center space-x-1 sm:space-x-2">
                             <div
                                 class="w-6 h-6 sm:w-8 sm:h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-                                <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M8 7h8M8 11h8m-8 4h5" />
+                                <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                    stroke-width="1.5">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M3.75 5.25h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5" />
                                 </svg>
                             </div>
                             <div>
@@ -5093,23 +5106,28 @@
                                 <p class="text-xs text-gray-500 mb-2">💡 Gợi ý nhanh:</p>
                                 <div class="flex flex-wrap gap-1.5">
                                     <button @click="customer.notes = 'Giao giờ hành chính (8h-17h)'"
-                                        class="preset-note-btn px-2 py-1 bg-blue-50 text-blue-700 border border-blue-200 rounded-md hover:bg-blue-100">
+                                        class="preset-note-btn px-2 py-1 bg-blue-50 text-blue-700 border border-blue-200 rounded-md hover:bg-blue-100"
+                                        style="font-size: 12px;">
                                         🕘 Giờ hành chính
                                     </button>
                                     <button @click="customer.notes = 'Giao buổi chiều (14h-18h)'"
-                                        class="preset-note-btn px-2 py-1 bg-orange-50 text-orange-700 border border-orange-200 rounded-md hover:bg-orange-100">
+                                        class="preset-note-btn px-2 py-1 bg-orange-50 text-orange-700 border border-orange-200 rounded-md hover:bg-orange-100"
+                                        style="font-size: 12px;">
                                         🌅 Buổi chiều
                                     </button>
                                     <button @click="customer.notes = 'Gọi trước khi giao 15 phút'"
-                                        class="preset-note-btn px-2 py-1 bg-green-50 text-green-700 border border-green-200 rounded-md hover:bg-green-100">
+                                        class="preset-note-btn px-2 py-1 bg-green-50 text-green-700 border border-green-200 rounded-md hover:bg-green-100"
+                                        style="font-size: 12px;">
                                         📞 Gọi trước
                                     </button>
                                     <button @click="customer.notes = 'Giao tận tay, không gửi bảo vệ'"
-                                        class="preset-note-btn px-2 py-1 bg-purple-50 text-purple-700 border border-purple-200 rounded-md hover:bg-purple-100">
+                                        class="preset-note-btn px-2 py-1 bg-purple-50 text-purple-700 border border-purple-200 rounded-md hover:bg-purple-100"
+                                        style="font-size: 12px;">
                                         👤 Tận tay
                                     </button>
                                     <button @click="customer.notes = 'Để cửa nếu không có người'"
-                                        class="preset-note-btn px-2 py-1 bg-gray-50 text-gray-700 border border-gray-200 rounded-md hover:bg-gray-100">
+                                        class="preset-note-btn px-2 py-1 bg-gray-50 text-gray-700 border border-gray-200 rounded-md hover:bg-gray-100"
+                                        style="font-size: 12px;">
                                         🚪 Để cửa
                                     </button>
 
@@ -5135,7 +5153,8 @@
                                         <img :src="item.image" :alt="item.name" class="w-8 h-8 object-cover rounded"
                                             loading="lazy">
                                         <div class="flex-1 min-w-0">
-                                            <p class="text-xs font-medium text-gray-800 truncate" style="font-size: 14px; line-height: 1.4;"
+                                            <p class="text-xs font-medium text-gray-800 truncate"
+                                                style="font-size: 14px; line-height: 1.4;"
                                                 x-text="item.displayName || item.name"></p>
                                             <p class="text-xs text-gray-500">
                                                 <span x-text="`SL: ${item.beadQuantity || item.quantity}`"></span>
@@ -6268,7 +6287,7 @@
         </div>
 
         <!-- Content -->
-        <div class="flex-1 overflow-y-auto p-6 space-y-6">
+        <div class="flex-1 overflow-y-auto px-2 pt-4 pb-4 space-y-6">
             <!-- Step 1 -->
             <div class="flex items-start space-x-4">
                 <div class="flex-1">
