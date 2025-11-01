@@ -1359,7 +1359,7 @@
                     </div>
 
                     <!-- Footer - Fixed at bottom -->
-                    <div class="flex-shrink-0 bg-white border-t border-gray-200 p-3 rounded-b-2xl">
+                    <div class="flex-shrink-0 bg-white border-t border-gray-200 p-2 sm:p-4 rounded-b-2xl">
                         <div class="flex flex-row gap-3">
                             <!-- Nút sửa thông tin -->
                             <button @click="isConfirmModalOpen = false; isCheckoutModalOpen = true"
@@ -1596,7 +1596,7 @@
             <template x-if="currentAddonDetail">
                 <div class="flex flex-col h-full max-h-[85vh] sm:max-h-[90vh]">
                     <!-- Header - Compact -->
-                    <div class="flex-shrink-0 flex items-center justify-between p-3 sm:p-4 border-b bg-white">
+                    <div class="flex-shrink-0 flex items-center justify-between p-2 sm:p-4 border-b bg-white">
                         <h2 class="text-xl font-bold text-gray-800" x-text="currentAddonDetail.name"></h2>
                         <button @click="closeAddonDetail()"
                             class="text-pink-600 hover:text-white w-8 h-8 bg-pink-100 hover:bg-pink-500 rounded-full flex items-center justify-center transition-all shadow-sm hover:shadow-md">
@@ -1779,7 +1779,7 @@
                     </div>
 
                     <!-- Action Buttons - Footer -->
-                    <div class="flex-shrink-0 p-3 sm:p-4 bg-white border-t rounded-b-3xl sm:rounded-b-2xl">
+                    <div class="flex-shrink-0 p-2 sm:p-4 bg-white border-t rounded-b-3xl sm:rounded-b-2xl">
                         <div class="flex space-x-3">
                             <button @click="closeAddonDetail()"
                                 class="w-2/5 bg-gray-200 text-gray-700 font-semibold py-3 px-4 rounded-lg hover:bg-gray-300 transition-colors">
@@ -1830,25 +1830,25 @@
         <div
             class="bg-white rounded-2xl shadow-xl w-full max-w-sm sm:max-w-lg lg:max-w-2xl max-h-[85vh] sm:max-h-[90vh] flex flex-col transform my-4 modal-with-fixed-footer">
 
-            <template x-if="isDiscountModalOpen">
-                <div class="flex flex-col h-full max-h-[90vh]">
-                    <!-- Header - Compact & Beautiful -->
+            <!-- Header - Compact & Beautiful -->
                     <div
-                        class="flex-shrink-0 bg-gradient-to-r from-pink-500 to-purple-600 text-white p-3 rounded-t-2xl">
+                        class="flex-shrink-0 bg-gradient-to-r from-pink-500 to-purple-600 text-white p-2 sm:p-4 rounded-t-2xl">
                         <div class="flex items-center justify-between">
-                            <div class="flex items-center space-x-2">
+                            <div class="flex items-center space-x-1 sm:space-x-2">
                                 <div
-                                    class="w-7 h-7 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    class="w-6 h-6 sm:w-8 sm:h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                                    <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
                                     </svg>
                                 </div>
-                                <h3 class="text-base font-bold">Mã giảm giá</h3>
+                                <div>
+                                    <h3 class="text-sm sm:text-base font-bold">Mã giảm giá</h3>
+                                </div>
                             </div>
                             <button @click="closeDiscountModal()"
-                                class="w-7 h-7 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full flex items-center justify-center transition-all">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                class="w-6 h-6 sm:w-8 sm:h-8 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full flex items-center justify-center transition-all">
+                                <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M6 18L18 6M6 6l12 12"></path>
                                 </svg>
@@ -2051,23 +2051,19 @@
                     </div>
 
                     <!-- Footer với Button Áp dụng -->
-                    <div class="flex-shrink-0 border-t border-gray-200 p-3 bg-gray-50 pb-safe-bottom modal-fixed-footer">
+                    <div class="flex-shrink-0 p-2 sm:p-4 border-t bg-white rounded-b-2xl">
                         <div class="flex gap-2">
                             <button @click="closeDiscountModal()"
-                                class="w-20 px-4 py-2.5 bg-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-300 transition-all text-sm min-h-[44px]">
+                                class="w-20 px-4 py-2.5 bg-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-300 transition-all text-sm">
                                 Hủy
                             </button>
                             <button @click="applySelectedDiscount(true)"
-                                class="flex-1 px-4 py-2.5 bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold rounded-lg hover:from-pink-600 hover:to-purple-700 transition-all text-sm shadow-md min-h-[44px]">
+                                class="flex-1 px-4 py-2.5 bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold rounded-lg hover:from-pink-600 hover:to-purple-700 transition-all text-sm shadow-md">
                                 ✓ Áp dụng
                             </button>
                         </div>
                     </div>
-                </div>
-            </template>
         </div>
-    </div>
-
     </div>
 
     <!-- Modal Nhập Tên Bé -->
@@ -2078,7 +2074,7 @@
             x-show="isBabyNameModalOpen">
 
             <!-- Header - Đồng bộ với modal giỏ hàng -->
-            <div class="bg-gradient-to-r from-pink-500 to-purple-600 text-white p-3 sm:p-4 rounded-t-2xl flex-shrink-0">
+            <div class="bg-gradient-to-r from-pink-500 to-purple-600 text-white p-2 sm:p-4 rounded-t-2xl flex-shrink-0">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center space-x-2">
                         <div
@@ -2208,7 +2204,7 @@
             </div>
 
             <!-- Footer -->
-            <div class="flex-shrink-0 p-4 sm:p-6 border-t bg-gray-50 rounded-b-2xl">
+            <div class="flex-shrink-0 p-2 sm:p-4 border-t bg-gray-50 rounded-b-2xl">
                 <div class="flex gap-3">
                     <button @click="closeBabyNameModal()"
                         class="flex-1 px-4 py-3 bg-gray-200 text-gray-700 font-semibold rounded-xl hover:bg-gray-300 transition-colors text-sm sm:text-base">
@@ -2645,7 +2641,7 @@
             </div>
 
             <!-- Footer - Compact -->
-            <div class="flex-shrink-0 p-3 border-t bg-white rounded-b-2xl">
+            <div class="flex-shrink-0 p-2 sm:p-4 border-t bg-white rounded-b-2xl">
                 <div x-show="cart.length > 0">
                     <!-- Error Message -->
                     <div x-show="miniCartError"
@@ -2756,7 +2752,7 @@
                 </div>
 
                 <!-- Footer - Fixed at bottom -->
-                <div class="flex-shrink-0 bg-white border-t border-gray-200 p-3 rounded-b-2xl">
+                <div class="flex-shrink-0 bg-white border-t border-gray-200 p-2 sm:p-4 rounded-b-2xl">
                     <div class="flex flex-row gap-3">
                         <!-- Nút đóng -->
                         <button @click="closeSuccessModal()"
@@ -3717,7 +3713,7 @@
                 </div>
 
                 <!-- Footer -->
-                <div class="flex-shrink-0 bg-white border-t border-gray-200 p-3 rounded-b-3xl sm:rounded-b-2xl">
+                <div class="flex-shrink-0 bg-white border-t border-gray-200 p-2 sm:p-4 rounded-b-3xl sm:rounded-b-2xl">
                     <div class="flex gap-2">
                         <button @click="console.log('🔍 Cancel button clicked on QuickBuy'); closeQuickBuyModal()"
                             class="px-4 py-2.5 sm:py-3 bg-gray-200 text-gray-700 font-medium rounded-lg text-xs sm:text-sm">
@@ -4114,7 +4110,7 @@
                         </div>
 
                         <!-- Fixed Footer -->
-                        <div class="flex-shrink-0 bg-white border-t border-gray-200 p-3 rounded-b-3xl sm:rounded-b-2xl">
+                        <div class="flex-shrink-0 bg-white border-t border-gray-200 p-2 sm:p-4 rounded-b-3xl sm:rounded-b-2xl">
                             <div class="flex space-x-2">
                                 <button @click="addProductDetailToCart()"
                                     class="flex-1 bg-pink-100 text-pink-700 font-semibold py-3 px-3 rounded-lg hover:bg-pink-200 transition-colors flex items-center justify-center space-x-1">
@@ -4299,7 +4295,7 @@
                 </div>
 
                 <!-- Footer -->
-                <div class="flex-shrink-0 bg-gray-50 border-t border-gray-200 p-3 sm:p-4">
+                <div class="flex-shrink-0 bg-gray-50 border-t border-gray-200 p-2 sm:p-4">
                     <div class="flex space-x-3">
                         <button @click="closeWeightPresetModal()"
                             class="w-2/5 bg-gray-200 text-gray-700 font-semibold py-3 px-4 rounded-lg hover:bg-gray-300 transition-colors">Hủy</button>
@@ -4485,7 +4481,7 @@
                 </div>
 
                 <!-- Footer - Compact -->
-                <div class="flex-shrink-0 p-3 border-t bg-white rounded-b-2xl">
+                <div class="flex-shrink-0 p-2 sm:p-4 border-t bg-white rounded-b-2xl">
                     <button @click="addItemWithHandSize()" :disabled="!handSizeOptions.selectedSize"
                         :class="!handSizeOptions.selectedSize ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold'"
                         class="w-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold py-2.5 sm:py-3 px-4 rounded-lg text-xs sm:text-sm shadow-md">
@@ -4828,7 +4824,7 @@
                 </div>
 
                 <!-- Footer - Fixed Bottom -->
-                <div class="flex-shrink-0 p-4 sm:p-6 bg-white rounded-b-2xl">
+                <div class="flex-shrink-0 p-2 sm:p-4 bg-white rounded-b-2xl">
                     <button @click="addItemWithOptions()"
                         :disabled="!itemOptions.selectedWeight || (itemOptions.selectedWeight === 'custom' && (!itemOptions.customWeight || itemOptions.customWeight < 16))"
                         :class="(!itemOptions.selectedWeight || (itemOptions.selectedWeight === 'custom' && (!itemOptions.customWeight || itemOptions.customWeight < 16))) ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-gradient-to-r from-pink-500 to-purple-500 text-white hover:from-pink-600 hover:to-purple-600 active:from-pink-600 active:to-purple-600'"
@@ -5442,7 +5438,7 @@
                 </div>
 
                 <!-- Footer - Mobile optimized -->
-                <div class="flex-shrink-0 bg-white border-t border-gray-200 p-3 rounded-b-2xl">
+                <div class="flex-shrink-0 bg-white border-t border-gray-200 p-2 sm:p-4 rounded-b-2xl">
                     <div class="flex flex-row gap-2 sm:gap-3">
                         <button
                             @click.stop="console.log('🔍 Nút Quay lại footer checkout được click'); goBackToMiniCart()"
@@ -5650,7 +5646,7 @@
                 </div>
 
                 <!-- Footer - Full Width Buttons -->
-                <div class="flex-shrink-0 p-4 border-t bg-gray-50 rounded-b-2xl">
+                <div class="flex-shrink-0 p-2 sm:p-4 border-t bg-gray-50 rounded-b-2xl">
                     <div class="flex gap-2">
                         <!-- Cancel Button - Kích thước cố định nhỏ -->
                         <button @click="closeBeadQuantityModal()"
@@ -5683,7 +5679,7 @@
 
                 <!-- Header -->
                 <div
-                    class="flex-shrink-0 bg-gradient-to-r from-purple-500 to-indigo-600 text-white p-3 sm:p-4 rounded-t-2xl flex items-center justify-between">
+                    class="flex-shrink-0 bg-gradient-to-r from-purple-500 to-indigo-600 text-white p-2 sm:p-4 rounded-t-2xl flex items-center justify-between">
                     <div class="flex items-center space-x-2">
                         <div
                             class="w-6 h-6 sm:w-8 sm:h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
@@ -5737,7 +5733,7 @@
                 </div>
 
                 <!-- Footer -->
-                <div class="flex-shrink-0 bg-gray-50 p-3 sm:p-4 border-t border-gray-200 rounded-b-2xl">
+                <div class="flex-shrink-0 bg-gray-50 p-2 sm:p-4 border-t border-gray-200 rounded-b-2xl">
                     <button @click="confirmWeightSelection()" :disabled="!selectedWeight"
                         :class="{'opacity-50 cursor-not-allowed': !selectedWeight}"
                         class="w-full bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-bold py-3 px-4 rounded-lg shadow-md hover:shadow-lg transition-all flex items-center justify-center space-x-2 text-sm">
@@ -6036,7 +6032,7 @@
                     </div>
 
                     <!-- Footer - Simple Action Buttons -->
-                    <div class="flex-shrink-0 bg-white border-t border-gray-100 p-3 rounded-b-3xl sm:rounded-b-2xl">
+                    <div class="flex-shrink-0 bg-white border-t border-gray-100 p-2 sm:p-4 rounded-b-3xl sm:rounded-b-2xl">
                         <div class="flex gap-2">
                             <button @click="closeComboImageModal()"
                                 class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-600 font-medium rounded-lg text-sm transition-colors">
@@ -6323,7 +6319,7 @@
         </div>
 
         <!-- Footer - Synced with Mini Cart -->
-        <div class="flex-shrink-0 bg-gray-50 p-3 border-t border-gray-200 rounded-b-2xl">
+        <div class="flex-shrink-0 bg-gray-50 p-2 sm:p-4 border-t border-gray-200 rounded-b-2xl">
             <button @click="closeProcessModal()"
                 class="w-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold py-2.5 sm:py-3 px-4 rounded-lg shadow-md hover:shadow-lg transition-all flex items-center justify-center space-x-2 text-sm">
                 <span>Xem Danh Sách Sản Phẩm</span>
@@ -6404,7 +6400,7 @@
 
         <!-- Footer (Synced with Mini Cart) -->
         <div
-            class="flex-shrink-0 bg-gradient-to-r from-pink-50 to-purple-50 p-5 border-t border-pink-100 rounded-b-2xl">
+            class="flex-shrink-0 bg-gradient-to-r from-pink-50 to-purple-50 p-2 sm:p-4 border-t border-pink-100 rounded-b-2xl">
             <button @click="closeSizingGuideModal()"
                 class="w-full bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold py-3 px-4 rounded-xl shadow-md hover:shadow-lg transition-all flex items-center justify-center space-x-2 text-base">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
