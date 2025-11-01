@@ -48,6 +48,18 @@
     "visible": true
   },
   {
+    "code": "QUATANGMCK",
+    "title": "Tặng 1 Móc chìa khóa dâu tằm",
+    "description": "Nhận ngay 1 Móc chìa khóa dâu tằm trị giá 49.000đ khi mua từ 2 sản phẩm",
+    "type": "gift",
+    "value": { "id": "san_pham_ban_kem_002", "name": "Móc chìa khóa dâu tằm" },
+    "minOrder": 300000,
+    "minItems": 2,
+    "expiry": "31/12/2025",
+    "active": true,
+    "visible": true
+  },
+  {
     "code": "GG5K",
     "title": "Giảm 5.000đ",
     "description": "Giảm trực tiếp 5.000đ vào tổng giá trị đơn hàng.",
@@ -134,11 +146,11 @@
   }
 ,
   {
-    "code": "VDT5K",
-    "title": "Giảm 5.000đ",
-    "description": "Giảm 5.000đ cho đơn hàng từ 150.000đ.",
+    "code": "VDT6K",
+    "title": "Giảm 6.000đ",
+    "description": "Giảm 6.000đ cho đơn hàng từ 150.000đ.",
     "type": "fixed",
-    "value": 5000,
+    "value": 6000,
     "minOrder": 150000,
     "minItems": 1,
     "expiry": "31/12/2025",
@@ -147,24 +159,12 @@
   }
 ,
   {
-    "code": "VDT6K",
-    "title": "Giảm 6.000đ",
-    "description": "Giảm 6.000đ cho đơn hàng từ 180.000đ.",
-    "type": "fixed",
-    "value": 6000,
-    "minOrder": 180000,
-    "minItems": 1,
-    "expiry": "31/12/2025",
-    "active": true,
-    "visible": true
-  },
-  {
     "code": "VDT8K",
     "title": "Giảm 8.000đ",
-    "description": "Giảm 8.000đ cho đơn hàng từ 230.000đ.",
+    "description": "Giảm 6.000đ cho đơn hàng từ 180.000đ.",
     "type": "fixed",
     "value": 8000,
-    "minOrder": 230000,
+    "minOrder": 180000,
     "minItems": 1,
     "expiry": "31/12/2025",
     "active": true,
@@ -173,9 +173,33 @@
   {
     "code": "VDT10K",
     "title": "Giảm 10.000đ",
-    "description": "Giảm 20.000đ cho đơn hàng từ 300.000đ.",
+    "description": "Giảm 8.000đ cho đơn hàng từ 220.000đ.",
     "type": "fixed",
     "value": 10000,
+    "minOrder": 220000,
+    "minItems": 1,
+    "expiry": "31/12/2025",
+    "active": true,
+    "visible": true
+  },
+  {
+    "code": "VDT12K",
+    "title": "Giảm 12.000đ",
+    "description": "Giảm 12.000đ cho đơn hàng từ 250.000đ.",
+    "type": "fixed",
+    "value": 12000,
+    "minOrder": 250000,
+    "minItems": 1,
+    "expiry": "31/12/2025",
+    "active": true,
+    "visible": true
+  },
+  {
+    "code": "VDT15K",
+    "title": "Giảm 15.000đ",
+    "description": "Giảm 15.000đ cho đơn hàng từ 250.000đ.",
+    "type": "fixed",
+    "value": 15000,
     "minOrder": 300000,
     "minItems": 1,
     "expiry": "31/12/2025",
