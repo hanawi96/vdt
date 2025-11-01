@@ -1511,10 +1511,10 @@ document.addEventListener('alpine:init', () => {
 
       if (discount.type === 'shipping') {
         if (minItems > 0 && minOrder > 0) {
-          return `Mua tối thiểu ${minItems} SP, tổng đơn trên ${this.formatCurrencyShort(minOrder)}`;
+          return `Mua từ ${minItems} SP, tổng đơn trên ${this.formatCurrencyShort(minOrder)}`;
         }
         if (minItems > 0) {
-          return `Mua tối thiểu ${minItems} SP`;
+          return `Mua từ ${minItems} SP`;
         }
         return `Freeship cho đơn hàng trên ${this.formatCurrencyShort(minOrder)}`;
       }
@@ -1532,10 +1532,10 @@ document.addEventListener('alpine:init', () => {
 
       if (discount.type === 'percentage' || discount.type === 'fixed') {
         if (minItems > 0 && minOrder > 0) {
-          return `Mua tối thiểu ${minItems} SP, tổng đơn trên ${this.formatCurrencyShort(minOrder)}`;
+          return `Mua từ ${minItems} SP, tổng đơn trên ${this.formatCurrencyShort(minOrder)}`;
         }
         if (minItems > 0) {
-          return `Mua tối thiểu ${minItems} SP`;
+          return `Mua từ ${minItems} SP`;
         }
         return `Giảm giá cho đơn hàng trên ${this.formatCurrencyShort(minOrder)}`;
       }

@@ -7,7 +7,7 @@
     "value": 2000,
     "minOrder": 0,
     "minItems": 0,
-    "expiry": "31/12/2025",
+    "expiry": "31/12/2029",
     "active": true,
     "visible": true
   },
@@ -19,7 +19,7 @@
     "value": { "id": "addon_bo_dau_tam_7_canh", "name": "Bó dâu 7 cành (bé trai)" },
     "minOrder": 300000,
     "minItems": 2,
-    "expiry": "31/12/2025",
+    "expiry": "31/12/2029",
     "active": true,
     "visible": true
   },
@@ -31,7 +31,7 @@
     "value": { "id": "addon_bo_dau_tam_9_canh", "name": "Bó dâu 9 cành (bé gái)" },
     "minOrder": 300000,
     "minItems": 2,
-    "expiry": "31/12/2025",
+    "expiry": "31/12/2029",
     "active": true,
     "visible": true
   },
@@ -43,7 +43,7 @@
     "value": { "id": "addon_tui_dau_tam", "name": "Túi Dâu Tằm Để Giường" },
     "minOrder": 300000,
     "minItems": 2,
-    "expiry": "31/12/2025",
+    "expiry": "31/12/2029",
     "active": true,
     "visible": true
   },
@@ -55,7 +55,7 @@
     "value": { "id": "addon_moc_chia_khoa", "name": "Móc chìa khóa dâu tằm" },
     "minOrder": 300000,
     "minItems": 2,
-    "expiry": "31/12/2025",
+    "expiry": "31/12/2029",
     "active": true,
     "visible": true
   },
@@ -127,7 +127,7 @@
     "value": 30000,
     "minOrder": 0,
     "minItems": 1,
-    "expiry": "31/12/2025",
+    "expiry": "31/12/2029",
     "active": true,
     "visible": false
   }
@@ -140,20 +140,7 @@
     "value": 4000,
     "minOrder": 120000,
     "minItems": 1,
-    "expiry": "31/12/2025",
-    "active": true,
-    "visible": true
-  }
-,
-  {
-    "code": "VDT5K",
-    "title": "Giảm 5.000đ",
-    "description": "Giảm 5.000đ cho đơn hàng từ 150.000đ.",
-    "type": "fixed",
-    "value": 5000,
-    "minOrder": 150000,
-    "minItems": 1,
-    "expiry": "31/12/2025",
+    "expiry": "31/12/2029",
     "active": true,
     "visible": true
   }
@@ -161,36 +148,61 @@
   {
     "code": "VDT6K",
     "title": "Giảm 6.000đ",
-    "description": "Giảm 6.000đ cho đơn hàng từ 180.000đ.",
+    "description": "Giảm 6.000đ cho đơn hàng từ 150.000đ.",
     "type": "fixed",
     "value": 6000,
-    "minOrder": 180000,
+    "minOrder": 150000,
     "minItems": 1,
-    "expiry": "31/12/2025",
+    "expiry": "31/12/2029",
     "active": true,
     "visible": true
-  },
+  }
+,
   {
     "code": "VDT8K",
     "title": "Giảm 8.000đ",
-    "description": "Giảm 8.000đ cho đơn hàng từ 230.000đ.",
+    "description": "Giảm 8.000đ cho đơn hàng từ 180.000đ.",
     "type": "fixed",
     "value": 8000,
-    "minOrder": 230000,
+    "minOrder": 180000,
     "minItems": 1,
-    "expiry": "31/12/2025",
+    "expiry": "31/12/2029",
     "active": true,
     "visible": true
   },
   {
     "code": "VDT10K",
     "title": "Giảm 10.000đ",
-    "description": "Giảm 20.000đ cho đơn hàng từ 300.000đ.",
+    "description": "Giảm 8.000đ cho đơn hàng từ 230.000đ.",
     "type": "fixed",
     "value": 10000,
+    "minOrder": 220000,
+    "minItems": 1,
+    "expiry": "31/12/2029",
+    "active": true,
+    "visible": true
+  },
+  {
+    "code": "VDT12K",
+    "title": "Giảm 12.000đ",
+    "description": "Giảm 8.000đ cho đơn hàng từ 230.000đ.",
+    "type": "fixed",
+    "value": 12000,
+    "minOrder": 250000,
+    "minItems": 1,
+    "expiry": "31/12/2029",
+    "active": true,
+    "visible": true
+  },
+  {
+    "code": "VDT15K",
+    "title": "Giảm 15.000đ",
+    "description": "Giảm 20.000đ cho đơn hàng từ 300.000đ.",
+    "type": "fixed",
+    "value": 15000,
     "minOrder": 300000,
     "minItems": 1,
-    "expiry": "31/12/2025",
+    "expiry": "31/12/2029",
     "active": true,
     "visible": true
   }
