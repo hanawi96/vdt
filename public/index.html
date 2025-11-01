@@ -1261,78 +1261,6 @@
                                 </div>
                             </div>
 
-                            <!-- Tổng kết đơn hàng với icon -->
-                            <div
-                                class="bg-gradient-to-r from-green-50 to-emerald-50 p-4 rounded-2xl border border-green-100">
-                                <div class="flex items-center space-x-2 mb-3">
-                                    <div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
-                                        <svg class="w-3 h-3 text-green-600" fill="none" stroke="currentColor"
-                                            viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z">
-                                            </path>
-                                        </svg>
-                                    </div>
-                                    <h3 class="font-semibold text-gray-800">Tổng kết đơn hàng</h3>
-                                </div>
-                                <div class="bg-white p-3 rounded-xl border border-green-100">
-                                    <div class="space-y-2 text-sm">
-                                        <div class="flex justify-between items-center">
-                                            <span class="text-gray-600">Tạm tính:</span>
-                                            <span class="font-medium text-gray-800"
-                                                x-text="formatCurrency(cartSubtotal())"></span>
-                                        </div>
-                                        <div class="flex justify-between items-center" x-show="cart.length > 0">
-                                            <span class="text-gray-600">Phí vận chuyển:</span>
-                                            <span class="font-medium text-gray-800"
-                                                x-text="formatCurrency(shippingFee())"></span>
-                                        </div>
-
-                                        <!-- Các ưu đãi -->
-                                        <template x-if="shippingDiscount > 0">
-                                            <div
-                                                class="flex justify-between items-center text-green-600 bg-green-50 px-2 py-1 rounded-lg">
-                                                <span class="text-sm">💥 Ưu đãi Freeship:</span>
-                                                <span class="font-medium"
-                                                    x-text="'-' + formatCurrency(shippingDiscount)"></span>
-                                            </div>
-                                        </template>
-                                        <template x-if="addonDiscount > 0">
-                                            <div
-                                                class="flex justify-between items-center text-green-600 bg-green-50 px-2 py-1 rounded-lg">
-                                                <span class="text-sm">🎁 Giảm giá (Móc chìa khóa):</span>
-                                                <span class="font-medium"
-                                                    x-text="'-' + formatCurrency(addonDiscount)"></span>
-                                            </div>
-                                        </template>
-                                        <template x-if="tuiDauTamBonusDiscount > 0">
-                                            <div
-                                                class="flex justify-between items-center text-green-600 bg-green-50 px-2 py-1 rounded-lg">
-                                                <span class="text-sm">💝 Ưu đãi thêm (Túi dâu tằm):</span>
-                                                <span class="font-medium"
-                                                    x-text="'-' + formatCurrency(tuiDauTamBonusDiscount)"></span>
-                                            </div>
-                                        </template>
-                                        <template x-if="discountAmount > 0">
-                                            <div
-                                                class="flex justify-between items-center text-green-600 bg-green-50 px-2 py-1 rounded-lg">
-                                                <span class="text-sm">✨ Giảm giá của shop:</span>
-                                                <span class="font-medium"
-                                                    x-text="'-' + formatCurrency(discountAmount)"></span>
-                                            </div>
-                                        </template>
-
-                                        <!-- Tổng cộng -->
-                                        <div
-                                            class="flex justify-between items-center font-bold text-base pt-2 mt-2 border-t border-green-200 bg-gradient-to-r from-pink-50 to-purple-50 px-2 py-2 rounded-lg heartbeat">
-                                            <span class="text-gray-800">Tổng cộng:</span>
-                                            <span class="text-pink-600 text-lg"
-                                                x-text="formatCurrency(cartTotal())"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
                             <!-- Phương thức thanh toán với icon -->
                             <div
                                 class="bg-gradient-to-r from-amber-50 to-orange-50 p-4 rounded-2xl border border-amber-100">
@@ -1352,6 +1280,103 @@
                                         <span class="text-2xl" x-text="paymentMethod === 'cod' ? '💰' : '🏦'"></span>
                                         <span class="text-sm font-medium text-gray-800"
                                             x-text="paymentMethod === 'cod' ? 'Thanh toán khi nhận hàng (COD)' : 'Chuyển khoản ngân hàng'"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Tổng kết đơn hàng - Thiết kế nhỏ gọn -->
+                            <div class="pt-4 border-t border-gray-200">
+                                <div class="flex items-center space-x-2 mb-3">
+                                    <div class="w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center">
+                                        <svg class="w-3 h-3 text-gray-600" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z">
+                                            </path>
+                                        </svg>
+                                    </div>
+                                    <h3 class="font-semibold text-gray-800">Tổng kết đơn hàng</h3>
+                                </div>
+
+                                <div class="bg-white p-3 rounded-xl">
+                                    <div class="space-y-2 text-sm">
+                                        <!-- Các mục cơ bản -->
+                                        <div class="flex justify-between items-center py-1">
+                                            <span class="text-gray-600">Tạm tính:</span>
+                                            <span class="font-semibold text-gray-800"
+                                                x-text="formatCurrency(cartSubtotal())"></span>
+                                        </div>
+
+                                        <div class="flex justify-between items-center py-1" x-show="cart.length > 0">
+                                            <span class="text-gray-600">Phí vận chuyển:</span>
+                                            <span class="font-semibold text-gray-800"
+                                                x-text="formatCurrency(shippingFee())"></span>
+                                        </div>
+
+                                        <!-- Các ưu đãi -->
+                                        <template x-if="shippingDiscount > 0">
+                                            <div class="flex justify-between items-center py-1">
+                                                <span class="text-green-600 font-medium">- Ưu đãi Freeship:</span>
+                                                <span class="font-semibold text-green-600"
+                                                    x-text="'-' + formatCurrency(shippingDiscount)"></span>
+                                            </div>
+                                        </template>
+
+                                        <template x-if="addonDiscount > 0">
+                                            <div class="flex justify-between items-center py-1">
+                                                <span class="text-green-600 font-medium">- Giảm giá (Móc chìa
+                                                    khóa):</span>
+                                                <span class="font-semibold text-green-600"
+                                                    x-text="'-' + formatCurrency(addonDiscount)"></span>
+                                            </div>
+                                        </template>
+
+                                        <template x-if="tuiDauTamBonusDiscount > 0">
+                                            <div class="flex justify-between items-center py-1">
+                                                <span class="text-green-600 font-medium">- Ưu đãi thêm (Túi dâu
+                                                    tằm):</span>
+                                                <span class="font-semibold text-green-600"
+                                                    x-text="'-' + formatCurrency(tuiDauTamBonusDiscount)"></span>
+                                            </div>
+                                        </template>
+
+                                        <template x-if="discountAmount > 0">
+                                            <div class="flex justify-between items-center py-1">
+                                                <span class="text-green-600 font-medium">- Giảm giá của shop:</span>
+                                                <span class="font-semibold text-green-600"
+                                                    x-text="'-' + formatCurrency(discountAmount)"></span>
+                                            </div>
+                                        </template>
+
+                                        <!-- Quà tặng -->
+                                        <template x-if="appliedGift">
+                                            <div class="flex justify-between items-center py-1">
+                                                <span class="text-purple-600 font-medium">🎁 Quà tặng:</span>
+                                                <span class="font-semibold text-purple-600"
+                                                    x-text="getGiftName(appliedGift)"></span>
+                                            </div>
+                                        </template>
+
+                                        <!-- Đường phân cách -->
+                                        <div class="border-t border-gray-200 my-2"></div>
+
+                                        <!-- Tổng cộng -->
+                                        <div
+                                            class="flex justify-between items-center py-2 bg-gradient-to-r from-pink-50 to-rose-50 px-3 rounded-lg">
+                                            <span class="text-gray-800 font-bold flex items-center">
+                                                <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 24 24" fill="currentColor">
+                                                    <path
+                                                        d="M10.464 8.746c.227-.18.497-.311.786-.394v2.795a2.252 2.252 0 0 1-.786-.393c-.394-.313-.546-.681-.546-1.004 0-.323.152-.691.546-1.004ZM12.75 15.662v-2.824c.347.085.664.228.921.421.427.32.579.686.579.991 0 .305-.152.671-.579.991a2.534 2.534 0 0 1-.921.42Z" />
+                                                    <path fill-rule="evenodd"
+                                                        d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 6a.75.75 0 0 0-1.5 0v.816a3.836 3.836 0 0 0-1.72.756c-.712.566-1.112 1.35-1.112 2.178 0 .829.4 1.612 1.113 2.178.502.4 1.102.647 1.719.756v2.978a2.536 2.536 0 0 1-.921-.421l-.879-.66a.75.75 0 0 0-.9 1.2l.879.66c.533.4 1.169.645 1.821.75V18a.75.75 0 0 0 1.5 0v-.81a4.124 4.124 0 0 0 1.821-.749c.745-.559 1.179-1.344 1.179-2.191 0-.847-.434-1.632-1.179-2.191a4.122 4.122 0 0 0-1.821-.75V8.354c.29.082.559.213.786.393l.415.33a.75.75 0 0 0 .933-1.175l-.415-.33a3.836 3.836 0 0 0-1.719-.755V6Z"
+                                                        clip-rule="evenodd" />
+                                                </svg>
+                                                Tổng cộng:
+                                            </span>
+                                            <span class="text-pink-600 font-bold text-lg"
+                                                x-text="formatCurrency(cartTotal())"></span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1831,77 +1856,76 @@
             class="bg-white rounded-2xl shadow-xl w-full max-w-sm sm:max-w-lg lg:max-w-2xl max-h-[85vh] sm:max-h-[90vh] flex flex-col transform my-4 modal-with-fixed-footer">
 
             <!-- Header - Compact & Beautiful -->
-                    <div
-                        class="flex-shrink-0 bg-gradient-to-r from-pink-500 to-purple-600 text-white p-2 sm:p-4 rounded-t-2xl">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center space-x-1 sm:space-x-2">
-                                <div
-                                    class="w-6 h-6 sm:w-8 sm:h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-                                    <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
-                                    </svg>
-                                </div>
-                                <div>
-                                    <h3 class="text-sm sm:text-base font-bold">Mã giảm giá</h3>
-                                </div>
-                            </div>
-                            <button @click="closeDiscountModal()"
-                                class="w-6 h-6 sm:w-8 sm:h-8 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full flex items-center justify-center transition-all">
-                                <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M6 18L18 6M6 6l12 12"></path>
-                                </svg>
-                            </button>
+            <div class="flex-shrink-0 bg-gradient-to-r from-pink-500 to-purple-600 text-white p-2 sm:p-4 rounded-t-2xl">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-1 sm:space-x-2">
+                        <div
+                            class="w-6 h-6 sm:w-8 sm:h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                            <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-sm sm:text-base font-bold">Mã giảm giá</h3>
                         </div>
                     </div>
+                    <button @click="closeDiscountModal()"
+                        class="w-6 h-6 sm:w-8 sm:h-8 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full flex items-center justify-center transition-all">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
 
-                    <!-- Body - Compact Design -->
-                    <div class="flex-1 overflow-y-auto modal-scroll p-3">
-                        <!-- Manual Input - Simplified -->
-                        <div class="mb-3">
-                            <p class="text-xs text-gray-600 mb-2">💡 Nhập mã thủ công hoặc chọn từ danh sách bên dưới
-                            </p>
-                            <input type="text" x-model="discountCode" placeholder="Nhập mã giảm giá..."
-                                @input="discountError = ''" @keyup.enter="applySelectedDiscount(true)"
-                                class="w-full px-3 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-all">
-                            <p x-show="discountError" x-text="discountError"
-                                class="text-red-500 text-xs mt-1.5 flex items-center">
-                                <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd"
-                                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
-                                        clip-rule="evenodd"></path>
-                                </svg>
-                            </p>
+            <!-- Body - Compact Design -->
+            <div class="flex-1 overflow-y-auto modal-scroll p-3">
+                <!-- Manual Input - Simplified -->
+                <div class="mb-3">
+                    <p class="text-xs text-gray-600 mb-2">💡 Nhập mã thủ công hoặc chọn từ danh sách bên dưới
+                    </p>
+                    <input type="text" x-model="discountCode" placeholder="Nhập mã giảm giá..."
+                        @input="discountError = ''" @keyup.enter="applySelectedDiscount(true)"
+                        class="w-full px-3 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-all">
+                    <p x-show="discountError" x-text="discountError"
+                        class="text-red-500 text-xs mt-1.5 flex items-center">
+                        <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                    </p>
+                </div>
+
+                <!-- Divider -->
+                <div class="flex items-center my-3">
+                    <div class="flex-1 border-t border-gray-200"></div>
+                    <span class="px-2 text-xs text-gray-500 font-medium">Hoặc chọn mã có sẵn</span>
+                    <div class="flex-1 border-t border-gray-200"></div>
+                </div>
+
+                <!-- BOX 1: Mã Giảm Giá Thông Thường -->
+                <div x-show="normalDiscounts.length > 0" class="mb-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center">
+                            <svg class="w-4 h-4 text-pink-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M5 5a3 3 0 015-2.236A3 3 0 0114.83 6H16a2 2 0 110 4h-5V9a1 1 0 10-2 0v1H4a2 2 0 110-4h1.17C5.06 5.687 5 5.35 5 5zm4 1V5a1 1 0 10-1 1h1zm3 0a1 1 0 10-1-1v1h1z"
+                                    clip-rule="evenodd"></path>
+                                <path d="M9 11H3v5a2 2 0 002 2h4v-7zM11 18h4a2 2 0 002-2v-5h-6v7z"></path>
+                            </svg>
+                            <h4 class="text-sm font-bold text-gray-800">Mã Giảm Giá</h4>
                         </div>
-
-                        <!-- Divider -->
-                        <div class="flex items-center my-3">
-                            <div class="flex-1 border-t border-gray-200"></div>
-                            <span class="px-2 text-xs text-gray-500 font-medium">Hoặc chọn mã có sẵn</span>
-                            <div class="flex-1 border-t border-gray-200"></div>
-                        </div>
-
-                        <!-- BOX 1: Mã Giảm Giá Thông Thường -->
-                        <div x-show="normalDiscounts.length > 0" class="mb-4">
-                            <div class="flex items-center justify-between mb-2">
-                                <div class="flex items-center">
-                                    <svg class="w-4 h-4 text-pink-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd"
-                                            d="M5 5a3 3 0 015-2.236A3 3 0 0114.83 6H16a2 2 0 110 4h-5V9a1 1 0 10-2 0v1H4a2 2 0 110-4h1.17C5.06 5.687 5 5.35 5 5zm4 1V5a1 1 0 10-1 1h1zm3 0a1 1 0 10-1-1v1h1z"
-                                            clip-rule="evenodd"></path>
-                                        <path d="M9 11H3v5a2 2 0 002 2h4v-7zM11 18h4a2 2 0 002-2v-5h-6v7z"></path>
-                                    </svg>
-                                    <h4 class="text-sm font-bold text-gray-800">Mã Giảm Giá</h4>
-                                </div>
-                                <span x-show="appliedDiscountCode" class="text-xs text-green-600 font-medium">✓ Đã
-                                    chọn</span>
-                            </div>
-                            <div class="space-y-2">
-                                <template x-for="(discount, index) in normalDiscounts" :key="discount.code">
-                                    <div @click="discount.availability.available ? selectDiscount(discount.code) : null"
-                                        class="border rounded-xl p-3 transition-all duration-200 touch-manipulation relative"
-                                        :class="{
+                        <span x-show="appliedDiscountCode" class="text-xs text-green-600 font-medium">✓ Đã
+                            chọn</span>
+                    </div>
+                    <div class="space-y-2">
+                        <template x-for="(discount, index) in normalDiscounts" :key="discount.code">
+                            <div @click="discount.availability.available ? selectDiscount(discount.code) : null"
+                                class="border rounded-xl p-3 transition-all duration-200 touch-manipulation relative"
+                                :class="{
                                      'border-pink-400 bg-pink-50 shadow-sm': discountCode === discount.code,
                                      'border-gray-200 bg-white': discountCode !== discount.code && (index !== 0 || !discount.availability.available),
                                      'border-2 border-amber-200 bg-amber-50 shadow-md': index === 0 && discount.availability.available && discountCode !== discount.code,
@@ -1910,83 +1934,81 @@
                                      'cursor-not-allowed': !discount.availability.available
                                  }">
 
-                                        <!-- Main Content Row -->
-                                        <div class="flex items-center justify-between">
-                                            <!-- Left: Code & Type -->
-                                            <div class="flex items-center space-x-2 flex-1 min-w-0">
-                                                <!-- Radio Indicator -->
-                                                <div class="w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0"
-                                                    :class="discountCode === discount.code ? 'border-pink-500 bg-pink-500' : 'border-gray-300'">
-                                                    <div x-show="discountCode === discount.code"
-                                                        class="w-2 h-2 bg-white rounded-full"></div>
-                                                </div>
-
-                                                <!-- Code & Description -->
-                                                <div class="flex-1 min-w-0">
-                                                    <div class="flex items-center space-x-2 mb-1">
-                                                        <span
-                                                            class="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-2 py-0.5 rounded-md text-xs font-bold"
-                                                            x-text="discount.code"></span>
-                                                        <template x-if="discount.type === 'shipping'"><span
-                                                                class="text-green-600 text-xs">💥</span></template>
-                                                        <template x-if="discount.type === 'percentage'"><span
-                                                                class="text-red-600 text-xs font-bold"
-                                                                x-text="discount.value + '%'"></span></template>
-                                                        <template x-if="discount.type === 'fixed'"><span
-                                                                class="text-indigo-600 text-xs font-bold"
-                                                                x-text="formatCurrency(discount.value)"></span></template>
-                                                    </div>
-                                                    <!-- Điều kiện rõ ràng -->
-                                                    <p class="text-gray-700 text-xs font-medium mb-1"
-                                                        x-text="getDiscountCondition(discount)"></p>
-                                                    <!-- Hướng dẫn cụ thể -->
-                                                    <p x-show="!discount.availability.available"
-                                                        class="text-orange-600 text-xs"
-                                                        x-text="getDiscountGuidance(discount)"></p>
-                                                </div>
-                                            </div>
-
-                                            <!-- Right: Savings -->
-                                            <div class="text-right flex-shrink-0">
-                                                <p x-show="discount.availability.available && discount.effectiveValue > 0"
-                                                    class="text-green-600 font-bold text-sm"
-                                                    x-text="'-' + formatCurrency(discount.effectiveValue)"></p>
-                                                <p class="text-xs text-gray-500"
-                                                    x-text="'Từ ' + formatCurrencyShort(discount.minOrder)"></p>
-                                            </div>
+                                <!-- Main Content Row -->
+                                <div class="flex items-center justify-between">
+                                    <!-- Left: Code & Type -->
+                                    <div class="flex items-center space-x-2 flex-1 min-w-0">
+                                        <!-- Radio Indicator -->
+                                        <div class="w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0"
+                                            :class="discountCode === discount.code ? 'border-pink-500 bg-pink-500' : 'border-gray-300'">
+                                            <div x-show="discountCode === discount.code"
+                                                class="w-2 h-2 bg-white rounded-full"></div>
                                         </div>
 
-                                        <!-- Status Indicator -->
-                                        <div class="mt-2">
-                                            <span x-show="discount.availability.available"
-                                                class="inline-flex items-center text-green-600 text-xs font-medium">
-                                                <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                                    <path fill-rule="evenodd"
-                                                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                                        clip-rule="evenodd"></path>
-                                                </svg>
-                                                Đủ điều kiện
-                                            </span>
+                                        <!-- Code & Description -->
+                                        <div class="flex-1 min-w-0">
+                                            <div class="flex items-center space-x-2 mb-1">
+                                                <span
+                                                    class="bg-gradient-to-r from-pink-500 to-purple-600 text-white px-2 py-0.5 rounded-md text-xs font-bold"
+                                                    x-text="discount.code"></span>
+                                                <template x-if="discount.type === 'shipping'"><span
+                                                        class="text-green-600 text-xs">💥</span></template>
+                                                <template x-if="discount.type === 'percentage'"><span
+                                                        class="text-red-600 text-xs font-bold"
+                                                        x-text="discount.value + '%'"></span></template>
+                                                <template x-if="discount.type === 'fixed'"><span
+                                                        class="text-indigo-600 text-xs font-bold"
+                                                        x-text="formatCurrency(discount.value)"></span></template>
+                                            </div>
+                                            <!-- Điều kiện rõ ràng -->
+                                            <p class="text-gray-700 text-xs font-medium mb-1"
+                                                x-text="getDiscountCondition(discount)"></p>
+                                            <!-- Hướng dẫn cụ thể -->
+                                            <p x-show="!discount.availability.available" class="text-orange-600 text-xs"
+                                                x-text="getDiscountGuidance(discount)"></p>
                                         </div>
                                     </div>
-                                </template>
-                            </div>
-                        </div>
 
-                        <!-- BOX 2: Khuyến Mãi Quà Tặng -->
-                        <div x-show="giftDiscounts.length > 0">
-                            <div class="flex items-center justify-between mb-2">
-                                <div class="flex items-center">
-                                    <span class="text-lg mr-2">🎁</span>
-                                    <h4 class="text-sm font-bold text-gray-800">Khuyến Mãi Quà Tặng</h4>
+                                    <!-- Right: Savings -->
+                                    <div class="text-right flex-shrink-0">
+                                        <p x-show="discount.availability.available && discount.effectiveValue > 0"
+                                            class="text-green-600 font-bold text-sm"
+                                            x-text="'-' + formatCurrency(discount.effectiveValue)"></p>
+                                        <p class="text-xs text-gray-500"
+                                            x-text="'Từ ' + formatCurrencyShort(discount.minOrder)"></p>
+                                    </div>
                                 </div>
-                                <span x-show="appliedGift" class="text-xs text-green-600 font-medium">✓ Đã chọn</span>
+
+                                <!-- Status Indicator -->
+                                <div class="mt-2">
+                                    <span x-show="discount.availability.available"
+                                        class="inline-flex items-center text-green-600 text-xs font-medium">
+                                        <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd"
+                                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                                clip-rule="evenodd"></path>
+                                        </svg>
+                                        Đủ điều kiện
+                                    </span>
+                                </div>
                             </div>
-                            <div class="space-y-2">
-                                <template x-for="discount in giftDiscounts" :key="discount.code">
-                                    <div @click="discount.availability.available ? selectGift(discount.code) : null"
-                                        class="border rounded-xl p-3 transition-all duration-200 touch-manipulation"
-                                        :class="{
+                        </template>
+                    </div>
+                </div>
+
+                <!-- BOX 2: Khuyến Mãi Quà Tặng -->
+                <div x-show="giftDiscounts.length > 0">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center">
+                            <span class="text-lg mr-2">🎁</span>
+                            <h4 class="text-sm font-bold text-gray-800">Khuyến Mãi Quà Tặng</h4>
+                        </div>
+                        <span x-show="appliedGift" class="text-xs text-green-600 font-medium">✓ Đã chọn</span>
+                    </div>
+                    <div class="space-y-2">
+                        <template x-for="discount in giftDiscounts" :key="discount.code">
+                            <div @click="discount.availability.available ? selectGift(discount.code) : null"
+                                class="border rounded-xl p-3 transition-all duration-200 touch-manipulation" :class="{
                                      'border-pink-400 bg-pink-50 shadow-sm': giftCode === discount.code,
                                      'border-gray-200 bg-white': giftCode !== discount.code,
                                      'opacity-50': !discount.availability.available,
@@ -1994,75 +2016,74 @@
                                      'cursor-not-allowed': !discount.availability.available
                                  }">
 
-                                        <!-- Main Content Row -->
-                                        <div class="flex items-center justify-between">
-                                            <!-- Left: Code & Type -->
-                                            <div class="flex items-center space-x-2 flex-1 min-w-0">
-                                                <!-- Radio Indicator -->
-                                                <div class="w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0"
-                                                    :class="giftCode === discount.code ? 'border-pink-500 bg-pink-500' : 'border-gray-300'">
-                                                    <div x-show="giftCode === discount.code"
-                                                        class="w-2 h-2 bg-white rounded-full"></div>
-                                                </div>
-
-                                                <!-- Gift Name & Description -->
-                                                <div class="flex-1 min-w-0">
-                                                    <div class="flex items-center space-x-1 mb-1">
-                                                        <span class="text-blue-600 text-sm">🎁</span>
-                                                        <span class="text-gray-800 text-sm font-bold"
-                                                            x-text="discount.value.name"></span>
-                                                    </div>
-                                                    <!-- Điều kiện rõ ràng -->
-                                                    <p class="text-gray-600 text-xs mb-1"
-                                                        x-text="getDiscountCondition(discount)"></p>
-                                                    <!-- Hướng dẫn cụ thể -->
-                                                    <p x-show="!discount.availability.available"
-                                                        class="text-orange-600 text-xs"
-                                                        x-text="getDiscountGuidance(discount)"></p>
-                                                </div>
-                                            </div>
-
-                                            <!-- Right: Gift Value & Min Order Info -->
-                                            <div class="text-right flex-shrink-0">
-                                                <p class="text-blue-600 font-bold text-sm mb-0.5"
-                                                    x-text="formatCurrency(getGiftValue(discount))"></p>
-                                                <p class="text-xs text-gray-500"
-                                                    x-text="'Từ ' + formatCurrencyShort(discount.minOrder)"></p>
-                                            </div>
+                                <!-- Main Content Row -->
+                                <div class="flex items-center justify-between">
+                                    <!-- Left: Code & Type -->
+                                    <div class="flex items-center space-x-2 flex-1 min-w-0">
+                                        <!-- Radio Indicator -->
+                                        <div class="w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0"
+                                            :class="giftCode === discount.code ? 'border-pink-500 bg-pink-500' : 'border-gray-300'">
+                                            <div x-show="giftCode === discount.code"
+                                                class="w-2 h-2 bg-white rounded-full"></div>
                                         </div>
 
-                                        <!-- Status Indicator -->
-                                        <div class="mt-2">
-                                            <span x-show="discount.availability.available"
-                                                class="inline-flex items-center text-green-600 text-xs font-medium">
-                                                <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
-                                                    <path fill-rule="evenodd"
-                                                        d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                                                        clip-rule="evenodd"></path>
-                                                </svg>
-                                                Đủ điều kiện
-                                            </span>
+                                        <!-- Gift Name & Description -->
+                                        <div class="flex-1 min-w-0">
+                                            <div class="flex items-center space-x-1 mb-1">
+                                                <span class="text-blue-600 text-sm">🎁</span>
+                                                <span class="text-gray-800 text-sm font-bold"
+                                                    x-text="discount.value.name"></span>
+                                            </div>
+                                            <!-- Điều kiện rõ ràng -->
+                                            <p class="text-gray-600 text-xs mb-1"
+                                                x-text="getDiscountCondition(discount)"></p>
+                                            <!-- Hướng dẫn cụ thể -->
+                                            <p x-show="!discount.availability.available" class="text-orange-600 text-xs"
+                                                x-text="getDiscountGuidance(discount)"></p>
                                         </div>
                                     </div>
-                                </template>
+
+                                    <!-- Right: Gift Value & Min Order Info -->
+                                    <div class="text-right flex-shrink-0">
+                                        <p class="text-blue-600 font-bold text-sm mb-0.5"
+                                            x-text="formatCurrency(getGiftValue(discount))"></p>
+                                        <p class="text-xs text-gray-500"
+                                            x-text="'Từ ' + formatCurrencyShort(discount.minOrder)"></p>
+                                    </div>
+                                </div>
+
+                                <!-- Status Indicator -->
+                                <div class="mt-2">
+                                    <span x-show="discount.availability.available"
+                                        class="inline-flex items-center text-green-600 text-xs font-medium">
+                                        <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd"
+                                                d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                                clip-rule="evenodd"></path>
+                                        </svg>
+                                        Đủ điều kiện
+                                    </span>
+                                </div>
                             </div>
-                        </div>
-
+                        </template>
                     </div>
+                </div>
 
-                    <!-- Footer với Button Áp dụng -->
-                    <div class="flex-shrink-0 p-2 sm:p-4 border-t bg-white rounded-b-2xl">
-                        <div class="flex gap-2">
-                            <button @click="closeDiscountModal()"
-                                class="w-20 px-4 py-2.5 bg-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-300 transition-all text-sm">
-                                Hủy
-                            </button>
-                            <button @click="applySelectedDiscount(true)"
-                                class="flex-1 px-4 py-2.5 bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold rounded-lg hover:from-pink-600 hover:to-purple-700 transition-all text-sm shadow-md">
-                                ✓ Áp dụng
-                            </button>
-                        </div>
-                    </div>
+            </div>
+
+            <!-- Footer với Button Áp dụng -->
+            <div class="flex-shrink-0 p-2 sm:p-4 border-t bg-white rounded-b-2xl">
+                <div class="flex gap-2">
+                    <button @click="closeDiscountModal()"
+                        class="w-20 px-4 py-2.5 bg-gray-200 text-gray-700 font-medium rounded-lg hover:bg-gray-300 transition-all text-sm">
+                        Hủy
+                    </button>
+                    <button @click="applySelectedDiscount(true)"
+                        class="flex-1 px-4 py-2.5 bg-gradient-to-r from-pink-500 to-purple-600 text-white font-semibold rounded-lg hover:from-pink-600 hover:to-purple-700 transition-all text-sm shadow-md">
+                        ✓ Áp dụng
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -2543,7 +2564,7 @@
                         </div>
 
                         <!-- Discount Code - Compact -->
-                        <div class="px-3 discount-code">
+                        <div class="discount-code">
                             <p x-show="isEligibleForAnyDiscount"
                                 class="text-green-700 text-xs text-center font-medium mb-1.5">🎉 Đủ điều kiện nhận ưu
                                 đãi!</p>
@@ -2580,59 +2601,100 @@
                                     <span x-show="appliedDiscountCode || appliedGift">Đổi</span>
                                 </button>
                             </div>
-                            <!-- Hiển thị chi tiết khi có cả 2 -->
-                            <div x-show="appliedDiscountCode" class="text-xs text-gray-600 flex items-center mt-1">
-                                <span class="mr-1">✓</span>
-                                <span class="truncate">Giảm: <strong class="text-green-600"
-                                        x-text="appliedDiscountCode"></strong></span>
-                            </div>
-                            <div x-show="appliedGift" class="text-xs text-gray-600 flex items-center mt-1">
-                                <span class="mr-1">🎁</span>
-                                <span class="truncate">Quà: <strong class="text-blue-600"
-                                        x-text="appliedGift?.title"></strong></span>
-                            </div>
+
                         </div>
 
-                        <!-- Order Summary - Simplified -->
-                        <div class="px-3 pt-2 pb-4 border-t border-gray-200">
-                            <div class="space-y-1">
-                                <div class="flex justify-between text-sm text-gray-600">
-                                    <span>Tạm tính</span>
-                                    <span x-text="formatCurrency(cartSubtotal())"></span>
+                        <!-- Tổng kết - Thiết kế nhỏ gọn -->
+                        <div class="pt-2 border-t border-gray-200">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center">
+                                    <svg class="w-3 h-3 text-gray-600" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z">
+                                        </path>
+                                    </svg>
                                 </div>
-                                <div class="flex justify-between text-sm text-gray-600">
-                                    <span>Phí ship</span>
-                                    <span x-text="formatCurrency(shippingFee())"></span>
-                                </div>
-                                <!-- Tách riêng từng loại giảm giá -->
-                                <template x-if="shippingDiscount > 0">
-                                    <div class="flex justify-between text-sm text-green-600 font-medium">
-                                        <span>Miễn phí ship</span>
-                                        <span x-text="'-' + formatCurrency(shippingDiscount)"></span>
+                                <h3 class="font-semibold text-gray-800">Tổng kết đơn hàng</h3>
+                            </div>
+
+                            <div class="bg-white rounded-xl">
+                                <div class="space-y-2 text-sm py-3 px-3">
+                                    <!-- Các mục cơ bản -->
+                                    <div class="flex justify-between items-center py-1">
+                                        <span class="text-gray-600">Tạm tính:</span>
+                                        <span class="font-semibold text-gray-800"
+                                            x-text="formatCurrency(cartSubtotal())"></span>
                                     </div>
-                                </template>
-                                <template x-if="discountAmount > 0">
-                                    <div class="flex justify-between text-sm text-green-600 font-medium">
-                                        <span>Mã giảm giá</span>
-                                        <span x-text="'-' + formatCurrency(discountAmount)"></span>
+
+                                    <div class="flex justify-between items-center py-1">
+                                        <span class="text-gray-600">Phí vận chuyển:</span>
+                                        <span class="font-semibold text-gray-800"
+                                            x-text="formatCurrency(shippingFee())"></span>
                                     </div>
-                                </template>
-                                <template x-if="addonDiscount > 0">
-                                    <div class="flex justify-between text-sm text-green-600 font-medium">
-                                        <span>Ưu đãi combo</span>
-                                        <span x-text="'-' + formatCurrency(addonDiscount)"></span>
+
+                                    <!-- Các ưu đãi -->
+                                    <template x-if="shippingDiscount > 0">
+                                        <div class="flex justify-between items-center py-1">
+                                            <span class="text-green-600 font-medium">- Ưu đãi Freeship:</span>
+                                            <span class="font-semibold text-green-600"
+                                                x-text="'-' + formatCurrency(shippingDiscount)"></span>
+                                        </div>
+                                    </template>
+
+                                    <template x-if="addonDiscount > 0">
+                                        <div class="flex justify-between items-center py-1">
+                                            <span class="text-green-600 font-medium">- Giảm giá (Móc chìa khóa):</span>
+                                            <span class="font-semibold text-green-600"
+                                                x-text="'-' + formatCurrency(addonDiscount)"></span>
+                                        </div>
+                                    </template>
+
+                                    <template x-if="tuiDauTamBonusDiscount > 0">
+                                        <div class="flex justify-between items-center py-1">
+                                            <span class="text-green-600 font-medium">- Ưu đãi thêm (Túi dâu tằm):</span>
+                                            <span class="font-semibold text-green-600"
+                                                x-text="'-' + formatCurrency(tuiDauTamBonusDiscount)"></span>
+                                        </div>
+                                    </template>
+
+                                    <template x-if="discountAmount > 0">
+                                        <div class="flex justify-between items-center py-1">
+                                            <span class="text-green-600 font-medium">- Giảm giá của shop:</span>
+                                            <span class="font-semibold text-green-600"
+                                                x-text="'-' + formatCurrency(discountAmount)"></span>
+                                        </div>
+                                    </template>
+
+                                    <!-- Quà tặng -->
+                                    <template x-if="appliedGift">
+                                        <div class="flex justify-between items-center py-1">
+                                            <span class="text-purple-600 font-medium">🎁 Quà tặng:</span>
+                                            <span class="font-semibold text-purple-600"
+                                                x-text="getGiftName(appliedGift)"></span>
+                                        </div>
+                                    </template>
+
+                                    <!-- Đường phân cách -->
+                                    <div class="border-t border-gray-200 my-2"></div>
+
+                                    <!-- Tổng cộng -->
+                                    <div
+                                        class="flex justify-between items-center py-2 bg-gradient-to-r from-pink-50 to-rose-50 px-3 rounded-lg">
+                                        <span class="text-gray-800 font-bold flex items-center">
+                                            <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 24 24" fill="currentColor">
+                                                <path
+                                                    d="M10.464 8.746c.227-.18.497-.311.786-.394v2.795a2.252 2.252 0 0 1-.786-.393c-.394-.313-.546-.681-.546-1.004 0-.323.152-.691.546-1.004ZM12.75 15.662v-2.824c.347.085.664.228.921.421.427.32.579.686.579.991 0 .305-.152.671-.579.991a2.534 2.534 0 0 1-.921.42Z" />
+                                                <path fill-rule="evenodd"
+                                                    d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 6a.75.75 0 0 0-1.5 0v.816a3.836 3.836 0 0 0-1.72.756c-.712.566-1.112 1.35-1.112 2.178 0 .829.4 1.612 1.113 2.178.502.4 1.102.647 1.719.756v2.978a2.536 2.536 0 0 1-.921-.421l-.879-.66a.75.75 0 0 0-.9 1.2l.879.66c.533.4 1.169.645 1.821.75V18a.75.75 0 0 0 1.5 0v-.81a4.124 4.124 0 0 0 1.821-.749c.745-.559 1.179-1.344 1.179-2.191 0-.847-.434-1.632-1.179-2.191a4.122 4.122 0 0 0-1.821-.75V8.354c.29.082.559.213.786.393l.415.33a.75.75 0 0 0 .933-1.175l-.415-.33a3.836 3.836 0 0 0-1.719-.755V6Z"
+                                                    clip-rule="evenodd" />
+                                            </svg>
+                                            Tổng cộng:
+                                        </span>
+                                        <span class="text-pink-600 font-bold text-lg"
+                                            x-text="formatCurrency(cartTotal())"></span>
                                     </div>
-                                </template>
-                                <template x-if="tuiDauTamBonusDiscount > 0">
-                                    <div class="flex justify-between text-sm text-green-600 font-medium">
-                                        <span>Ưu đãi đặc biệt</span>
-                                        <span x-text="'-' + formatCurrency(tuiDauTamBonusDiscount)"></span>
-                                    </div>
-                                </template>
-                                <div
-                                    class="flex justify-between font-bold text-base pt-1 border-t border-gray-200 mt-1">
-                                    <span>Tổng cộng</span>
-                                    <span class="text-pink-600" x-text="formatCurrency(cartTotal())"></span>
                                 </div>
                             </div>
                         </div>
@@ -3702,6 +3764,14 @@
                                     <span x-text="'-' + formatCurrency(quickBuyAddonDiscount)"></span>
                                 </div>
                             </template>
+
+                            <!-- Quà tặng -->
+                            <template x-if="appliedGift">
+                                <div class="flex justify-between text-sm text-purple-600 font-medium">
+                                    <span>🎁 Quà tặng</span>
+                                    <span x-text="getGiftName(appliedGift)"></span>
+                                </div>
+                            </template>
                         </div>
 
                         <!-- Tổng cộng -->
@@ -4110,7 +4180,8 @@
                         </div>
 
                         <!-- Fixed Footer -->
-                        <div class="flex-shrink-0 bg-white border-t border-gray-200 p-2 sm:p-4 rounded-b-3xl sm:rounded-b-2xl">
+                        <div
+                            class="flex-shrink-0 bg-white border-t border-gray-200 p-2 sm:p-4 rounded-b-3xl sm:rounded-b-2xl">
                             <div class="flex space-x-2">
                                 <button @click="addProductDetailToCart()"
                                     class="flex-1 bg-pink-100 text-pink-700 font-semibold py-3 px-3 rounded-lg hover:bg-pink-200 transition-colors flex items-center justify-center space-x-1">
@@ -4862,10 +4933,12 @@
                         <div class="flex items-center space-x-1 sm:space-x-2">
                             <div
                                 class="w-6 h-6 sm:w-8 sm:h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-                                <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                                <svg class="w-4 h-4 sm:w-5 sm:h-5" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 24 24" fill="currentColor">
+                                    <path
+                                        d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32l8.4-8.4Z" />
+                                    <path
+                                        d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z" />
                                 </svg>
                             </div>
                             <div>
@@ -5140,39 +5213,50 @@
                                         d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2">
                                     </path>
                                 </svg>
-                                Sản phẩm (<span x-text="cart.length"></span>)
+                                Sản phẩm (<span x-text="selectedCartProducts.length"></span>)
                             </h3>
 
                             <div class="space-y-2 max-h-32 overflow-y-auto modal-scroll bg-gray-50 rounded-lg p-3">
-                                <template x-for="item in cart" :key="item.cartId">
-                                    <div class="flex items-center space-x-2 p-2 bg-white rounded">
+                                <template x-for="item in selectedCartProducts" :key="item.cartId">
+                                    <div class="flex items-center space-x-2 p-2 rounded"
+                                        :class="item.isGift ? 'bg-gradient-to-r from-emerald-50 to-green-50 border border-emerald-200' : 'bg-white'">
                                         <img :src="item.image" :alt="item.name" class="w-8 h-8 object-cover rounded"
                                             loading="lazy">
                                         <div class="flex-1 min-w-0">
-                                            <p class="text-xs font-medium text-gray-800 truncate"
+                                            <p class="text-xs font-medium truncate"
                                                 style="font-size: 14px; line-height: 1.4;"
+                                                :class="item.isGift ? 'text-emerald-800' : 'text-gray-800'"
                                                 x-text="item.displayName || item.name"></p>
-                                            <p class="text-xs text-gray-500">
+                                            <p class="text-xs"
+                                                :class="item.isGift ? 'text-emerald-600' : 'text-gray-500'">
                                                 <span x-text="`SL: ${item.beadQuantity || item.quantity}`"></span>
-                                                <template
-                                                    x-if="!isAdultProduct(item) && item.selectedWeight && item.selectedWeight !== 'custom'">
-                                                    <span x-text="` • ${item.selectedWeight}`"></span>
+                                                <template x-if="item.isGift">
+                                                    <span
+                                                        class="ml-1 px-1.5 py-0.5 bg-emerald-100 text-emerald-700 rounded-full text-xs font-medium">Miễn
+                                                        phí</span>
                                                 </template>
-                                                <template
-                                                    x-if="!isAdultProduct(item) && item.selectedWeight === 'custom' && item.customWeight">
-                                                    <span x-text="` • ${item.customWeight}kg`"></span>
-                                                </template>
-                                                <template x-if="item.selectedSize">
-                                                    <span x-text="` • Size: ${item.selectedSize}`"></span>
-                                                </template>
-                                                <template x-if="item.babyName">
-                                                    <span class="text-pink-600 font-medium"
-                                                        x-text="` • Khắc: ${item.babyName}`"></span>
+                                                <template x-if="!item.isGift">
+                                                    <template
+                                                        x-if="!isAdultProduct(item) && item.selectedWeight && item.selectedWeight !== 'custom'">
+                                                        <span x-text="` • ${item.selectedWeight}`"></span>
+                                                    </template>
+                                                    <template
+                                                        x-if="!isAdultProduct(item) && item.selectedWeight === 'custom' && item.customWeight">
+                                                        <span x-text="` • ${item.customWeight}kg`"></span>
+                                                    </template>
+                                                    <template x-if="item.selectedSize">
+                                                        <span x-text="` • Size: ${item.selectedSize}`"></span>
+                                                    </template>
+                                                    <template x-if="item.babyName">
+                                                        <span class="text-pink-600 font-medium"
+                                                            x-text="` • Khắc: ${item.babyName}`"></span>
+                                                    </template>
                                                 </template>
                                             </p>
                                         </div>
-                                        <p class="text-xs font-bold text-pink-600"
-                                            x-text="formatCurrency(item.price * (item.beadQuantity || item.quantity))">
+                                        <p class="text-xs font-bold"
+                                            :class="item.isGift ? 'text-emerald-600' : 'text-pink-600'"
+                                            x-text="item.isGift ? 'Miễn phí' : formatCurrency(item.price * (item.beadQuantity || item.quantity))">
                                         </p>
                                     </div>
                                 </template>
@@ -5386,50 +5470,96 @@
                             </div>
                         </div>
 
-                        <!-- Tổng kết - Compact -->
-                        <div class="bg-gradient-to-r from-pink-50 to-purple-50 rounded-lg p-3 border border-pink-200">
-                            <div class="space-y-2">
-                                <div class="flex justify-between text-sm">
-                                    <span class="text-gray-600">Tạm tính:</span>
-                                    <span class="font-medium" x-text="formatCurrency(cartSubtotal())"></span>
+                        <!-- Tổng kết - Thiết kế nhỏ gọn -->
+                        <div class="pt-4 border-t border-gray-200">
+                            <div class="flex items-center space-x-2 mb-3">
+                                <div class="w-6 h-6 bg-gray-100 rounded-full flex items-center justify-center">
+                                    <svg class="w-3 h-3 text-gray-600" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z">
+                                        </path>
+                                    </svg>
                                 </div>
-                                <div class="flex justify-between text-sm">
-                                    <span class="text-gray-600">Phí ship:</span>
-                                    <span class="font-medium" x-text="formatCurrency(shippingFee())"></span>
-                                </div>
+                                <h3 class="font-semibold text-gray-800">Tổng kết đơn hàng</h3>
+                            </div>
 
-                                <template x-if="shippingDiscount > 0">
-                                    <div class="flex justify-between text-sm text-green-600 font-medium">
-                                        <span>Miễn phí ship</span>
-                                        <span x-text="'-' + formatCurrency(shippingDiscount)"></span>
+                            <div class="bg-white p-3 rounded-xl">
+                                <div class="space-y-2 text-sm">
+                                    <!-- Các mục cơ bản -->
+                                    <div class="flex justify-between items-center py-1">
+                                        <span class="text-gray-600">Tạm tính:</span>
+                                        <span class="font-semibold text-gray-800"
+                                            x-text="formatCurrency(cartSubtotal())"></span>
                                     </div>
-                                </template>
 
-                                <template x-if="discountAmount > 0">
-                                    <div class="flex justify-between text-sm text-green-600 font-medium">
-                                        <span>Mã giảm giá</span>
-                                        <span x-text="'-' + formatCurrency(discountAmount)"></span>
+                                    <div class="flex justify-between items-center py-1">
+                                        <span class="text-gray-600">Phí vận chuyển:</span>
+                                        <span class="font-semibold text-gray-800"
+                                            x-text="formatCurrency(shippingFee())"></span>
                                     </div>
-                                </template>
 
-                                <template x-if="addonDiscount > 0">
-                                    <div class="flex justify-between text-sm text-green-600 font-medium">
-                                        <span>Ưu đãi combo</span>
-                                        <span x-text="'-' + formatCurrency(addonDiscount)"></span>
-                                    </div>
-                                </template>
+                                    <!-- Các ưu đãi -->
+                                    <template x-if="shippingDiscount > 0">
+                                        <div class="flex justify-between items-center py-1">
+                                            <span class="text-green-600 font-medium">- Ưu đãi Freeship:</span>
+                                            <span class="font-semibold text-green-600"
+                                                x-text="'-' + formatCurrency(shippingDiscount)"></span>
+                                        </div>
+                                    </template>
 
-                                <template x-if="tuiDauTamBonusDiscount > 0">
-                                    <div class="flex justify-between text-sm text-green-600 font-medium">
-                                        <span>Ưu đãi đặc biệt</span>
-                                        <span x-text="'-' + formatCurrency(tuiDauTamBonusDiscount)"></span>
-                                    </div>
-                                </template>
+                                    <template x-if="addonDiscount > 0">
+                                        <div class="flex justify-between items-center py-1">
+                                            <span class="text-green-600 font-medium">- Giảm giá (Móc chìa khóa):</span>
+                                            <span class="font-semibold text-green-600"
+                                                x-text="'-' + formatCurrency(addonDiscount)"></span>
+                                        </div>
+                                    </template>
 
-                                <div class="border-t border-pink-200 pt-2">
-                                    <div class="flex justify-between text-base font-bold">
-                                        <span>Tổng cộng:</span>
-                                        <span class="text-pink-600" x-text="formatCurrency(cartTotal())"></span>
+                                    <template x-if="tuiDauTamBonusDiscount > 0">
+                                        <div class="flex justify-between items-center py-1">
+                                            <span class="text-green-600 font-medium">- Ưu đãi thêm (Túi dâu tằm):</span>
+                                            <span class="font-semibold text-green-600"
+                                                x-text="'-' + formatCurrency(tuiDauTamBonusDiscount)"></span>
+                                        </div>
+                                    </template>
+
+                                    <template x-if="discountAmount > 0">
+                                        <div class="flex justify-between items-center py-1">
+                                            <span class="text-green-600 font-medium">- Giảm giá của shop:</span>
+                                            <span class="font-semibold text-green-600"
+                                                x-text="'-' + formatCurrency(discountAmount)"></span>
+                                        </div>
+                                    </template>
+
+                                    <!-- Quà tặng -->
+                                    <template x-if="appliedGift">
+                                        <div class="flex justify-between items-center py-1">
+                                            <span class="text-purple-600 font-medium">🎁 Quà tặng:</span>
+                                            <span class="font-semibold text-purple-600"
+                                                x-text="getGiftName(appliedGift)"></span>
+                                        </div>
+                                    </template>
+
+                                    <!-- Đường phân cách -->
+                                    <div class="border-t border-gray-200 my-2"></div>
+
+                                    <!-- Tổng cộng -->
+                                    <div
+                                        class="flex justify-between items-center py-2 bg-gradient-to-r from-pink-50 to-rose-50 px-3 rounded-lg">
+                                        <span class="text-gray-800 font-bold flex items-center">
+                                            <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 24 24" fill="currentColor">
+                                                <path
+                                                    d="M10.464 8.746c.227-.18.497-.311.786-.394v2.795a2.252 2.252 0 0 1-.786-.393c-.394-.313-.546-.681-.546-1.004 0-.323.152-.691.546-1.004ZM12.75 15.662v-2.824c.347.085.664.228.921.421.427.32.579.686.579.991 0 .305-.152.671-.579.991a2.534 2.534 0 0 1-.921.42Z" />
+                                                <path fill-rule="evenodd"
+                                                    d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM12.75 6a.75.75 0 0 0-1.5 0v.816a3.836 3.836 0 0 0-1.72.756c-.712.566-1.112 1.35-1.112 2.178 0 .829.4 1.612 1.113 2.178.502.4 1.102.647 1.719.756v2.978a2.536 2.536 0 0 1-.921-.421l-.879-.66a.75.75 0 0 0-.9 1.2l.879.66c.533.4 1.169.645 1.821.75V18a.75.75 0 0 0 1.5 0v-.81a4.124 4.124 0 0 0 1.821-.749c.745-.559 1.179-1.344 1.179-2.191 0-.847-.434-1.632-1.179-2.191a4.122 4.122 0 0 0-1.821-.75V8.354c.29.082.559.213.786.393l.415.33a.75.75 0 0 0 .933-1.175l-.415-.33a3.836 3.836 0 0 0-1.719-.755V6Z"
+                                                    clip-rule="evenodd" />
+                                            </svg>
+                                            Tổng cộng:
+                                        </span>
+                                        <span class="text-pink-600 font-bold text-lg"
+                                            x-text="formatCurrency(cartTotal())"></span>
                                     </div>
                                 </div>
                             </div>
@@ -6032,7 +6162,8 @@
                     </div>
 
                     <!-- Footer - Simple Action Buttons -->
-                    <div class="flex-shrink-0 bg-white border-t border-gray-100 p-2 sm:p-4 rounded-b-3xl sm:rounded-b-2xl">
+                    <div
+                        class="flex-shrink-0 bg-white border-t border-gray-100 p-2 sm:p-4 rounded-b-3xl sm:rounded-b-2xl">
                         <div class="flex gap-2">
                             <button @click="closeComboImageModal()"
                                 class="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-600 font-medium rounded-lg text-sm transition-colors">

@@ -23,7 +23,7 @@ document.addEventListener('alpine:init', () => {
     categories: [
       { id: 'all', name: 'Tất cả sản phẩm', isPopular: true, image: './assets/images/product_img/tat-ca-mau.webp' },
       { id: 'vong_tron', name: 'Vòng trơn', isPopular: true, image: './assets/images/product_img/vong_tron_co_dien_day_do.webp' },
-      { id: 'mix_bi_bac', name: 'Mix bi bạc', isPopular: true, image: './assets/images/product_img/Sole bac/vong_dau_tam_sole_bac_4ly.webp' },
+      { id: 'mix_bi_bac', name: 'Mix bi bạc', isPopular: true, image: './assets/images/product_img/Sole bac/vong_dau_tam_sole_bac_3ly_co_gian.webp' },
       { id: 'mix_charm_ran', name: 'Mix charm rắn', isPopular: true, image: './assets/images/product_img/charm ran/vong-dau-tam-tron-charm-ran.webp' },
       { id: 'vong_co_gian', name: 'Vòng co giãn', image: './assets/images/product_img/co gian/vong_tron_co_gian.webp' },
       { id: 'mix_day_ngu_sac', name: 'Mix dây ngũ sắc', image: './assets/images/product_img/vong-ngu-sac/ngu-sac-mix-1-hat-dau.webp' },
@@ -32,7 +32,7 @@ document.addEventListener('alpine:init', () => {
       { id: 'mix_charm_chuong', name: 'Mix charm chuông', image: './assets/images/product_img/chuong/vong-tron-charm-chuong.webp' },
       { id: 'mix_ho_phach', name: 'Mix hổ phách', image: './assets/images/product_img/Sole ho phach/vong-mix-ho-phach.webp' },
       { id: 'mix_thanh_gia', name: 'Mix thánh giá', image: './assets/images/product_img/thanh-gia/sole-3ly-thanh-gia-co-gian.webp' },
-      { id: 'mix_hoa_sen', name: 'Mix hoa sen', image: './assets/images/product_img/hoa-sen/vong-sole-3ly-hoa-sen.webp' },
+      { id: 'mix_hoa_sen', name: 'Mix hoa sen', image: './assets/images/product_img/hoa-sen/sole-bac-3ly-hoa-sen-co-gian.webp' },
       { id: 'mix_da_do_tu_nhien', name: 'Mix đá đỏ tự nhiên', image: './assets/images/product_img/da do/vong_dau_tam_tron_da_do.webp' },
       { id: 'mix_chi_mau_cac_loai', name: 'Mix chỉ màu các loại', image: './assets/images/product_img/tat-ca-mau.webp' },
       { id: 'mix_the_ten_be', name: 'Mix thẻ tên bé', image: './assets/images/product_img/the-ten/vong-tron-mix-the-ten-tron.webp' },
@@ -49,108 +49,6 @@ document.addEventListener('alpine:init', () => {
     selectedCartItems: Alpine.$persist([]).as('selectedCartItems'),
     miniCartError: '',
     activeTab: 'combo', // Default active tab
-    addonProducts: [
-      {
-        id: 'addon_tui_dau_tam',
-        name: 'Túi Dâu Tằm Để Giường',
-        description: 'Khúc dâu tằm để phòng, trong túi nhung',
-        price: 39000,
-        original_price: 45000,
-        image: './assets/images/product_img/tui_dau_tam.webp',
-        rating: 4.9,
-        purchases: 456,
-        detailedInfo: {
-          fullDescription:
-            'Túi Dâu Tằm Để Giường cao cấp được làm từ khúc cành dâu tằm tự nhiên, cắt nhỏ và đóng gói trong túi nhung sang trọng. Sản phẩm giúp bé ngủ ngon, giảm stress và tăng cường sức khỏe tự nhiên.',
-          benefits: [
-            '🌿 Giúp bé ngủ ngon và sâu giấc',
-            '😌 Giảm căng thẳng, lo âu cho bé',
-            '🛡️ Tăng cường hệ miễn dịch tự nhiên',
-            '🌱 100% từ thiên nhiên, an toàn cho bé',
-            '💝 Đóng gói trong túi nhung cao cấp'
-          ],
-          usage:
-            'Đặt Túi Dâu Tằm Để Giường gần gối hoặc trong cũi của bé. Có thể bóp nhẹ để tỏa hương thơm tự nhiên. Thay thế sau 3-6 tháng sử dụng.',
-          materials: 'Cành dâu tằm tự nhiên, túi nhung cotton cao cấp',
-          origin: 'Thôn Đông Cao, Tráng Việt, Hà Nội'
-        }
-      },
-      {
-        id: 'addon_moc_chia_khoa',
-        name: 'Móc chìa khóa dâu tằm',
-        description: 'Móc chìa khóa từ khúc dâu tằm tự nhiên',
-        price: 39000,
-        original_price: 49000,
-        image: './assets/images/product_img/moc_chia_khoa_dau_tam_ko_hop_kim.webp',
-        rating: 4.8,
-        purchases: 912,
-        detailedInfo: {
-          fullDescription:
-            'Móc chìa khóa độc đáo được chế tác từ khúc dâu tằm tự nhiên, mang lại may mắn và bình an. Thiết kế nhỏ gọn, tiện lợi, phù hợp làm quà tặng hoặc vật phẩm phong thủy.',
-          benefits: [
-            '🍀 Mang lại may mắn và bình an',
-            '🎨 Thiết kế độc đáo, không trùng lặp',
-            '🌿 Chất liệu tự nhiên, thân thiện môi trường',
-            '💼 Nhỏ gọn, tiện lợi mang theo',
-            '🎁 Ý nghĩa làm quà tặng đặc biệt'
-          ],
-          usage:
-            'Gắn vào chùm chìa khóa, túi xách hoặc balo. Có thể sử dụng làm vật phẩm trang trí hoặc quà lưu niệm.',
-          materials: 'Khúc dâu tằm tự nhiên, dây móc inox không gỉ',
-          origin: 'Thôn Đông Cao, Tráng Việt, Hà Nội'
-        }
-      },
-      {
-        id: 'addon_bo_dau_tam_7_canh',
-        name: 'Bó dâu 7 CÀNH (bé trai)',
-        description: 'Bó dâu tằm 7 cành tự nhiên dành riêng cho bé trai',
-        price: 89000,
-        original_price: 109000,
-        image: './assets/images/product_img/bo-dau-tam-de-phong.webp',
-        rating: 4.7,
-        purchases: 0,
-        detailedInfo: {
-          fullDescription:
-            'Bó dâu tằm 7 cành tự nhiên dành riêng cho bé trai, giúp bé ngủ ngon, giảm stress và tăng cường sức khỏe tự nhiên. Số lượng 7 cành mang ý nghĩa may mắn và bình an.',
-          benefits: [
-            '🌿 Giúp bé trai ngủ ngon và sâu giấc',
-            '😌 Giảm căng thẳng, lo âu cho bé',
-            '🛡️ Tăng cường hệ miễn dịch tự nhiên',
-            '🌱 100% từ thiên nhiên, an toàn cho bé',
-            '🎯 Dành riêng cho bé trai với 7 cành may mắn'
-          ],
-          usage:
-            'Đặt bó dâu tằm trong phòng bé hoặc gần giường ngủ. Có thể treo lên tường hoặc đặt trên kệ. Thay thế sau 6-12 tháng sử dụng.',
-          materials: 'Cành dâu tằm tự nhiên, dây buộc cotton',
-          origin: 'Thôn Đông Cao, Tráng Việt, Hà Nội'
-        }
-      },
-      {
-        id: 'addon_bo_dau_tam_9_canh',
-        name: 'Bó dâu 9 CÀNH (bé gái)',
-        description: 'Bó dâu tằm 9 cành tự nhiên dành riêng cho bé gái',
-        price: 99000,
-        original_price: 119000,
-        image: './assets/images/product_img/bo-dau-tam-de-phong.webp',
-        rating: 4.8,
-        purchases: 0,
-        detailedInfo: {
-          fullDescription:
-            'Bó dâu tằm 9 cành tự nhiên dành riêng cho bé gái, giúp bé ngủ ngon, giảm căng thẳng và mang lại may mắn cho bé yêu. Số lượng 9 cành mang ý nghĩa trọn vẹn và thịnh vượng.',
-          benefits: [
-            '🌸 Giúp bé gái ngủ ngon và sâu giấc',
-            '😌 Giảm căng thẳng, lo âu cho bé',
-            '🛡️ Tăng cường hệ miễn dịch tự nhiên',
-            '🌱 100% từ thiên nhiên, an toàn cho bé',
-            '💖 Dành riêng cho bé gái với 9 cành may mắn'
-          ],
-          usage:
-            'Đặt bó dâu tằm trong phòng bé hoặc gần giường ngủ. Có thể treo lên tường hoặc đặt trên kệ. Thay thế sau 6-12 tháng sử dụng.',
-          materials: 'Cành dâu tằm tự nhiên, dây buộc cotton',
-          origin: 'Thôn Đông Cao, Tráng Việt, Hà Nội'
-        }
-      }
-    ],
     currentCategory: {
       id: 'all',
       name: 'Tất cả sản phẩm',
@@ -786,6 +684,30 @@ document.addEventListener('alpine:init', () => {
       return total > 0 ? total : 0;
     },
 
+    // Get addon products from products.json - tối ưu hóa để tránh trùng lặp dữ liệu
+    get addonProducts() {
+      if (!this.products || this.products.length === 0) return [];
+
+      // Mapping ID để đảm bảo tính nhất quán với hệ thống hiện tại
+      const idMapping = {
+        'san_pham_ban_kem_001': 'addon_tui_dau_tam',
+        'san_pham_ban_kem_002': 'addon_moc_chia_khoa'
+      };
+
+      // Lấy các sản phẩm addon từ products.json
+      return this.products.filter(product =>
+        product.category === 'san_pham_ban_kem' ||
+        (product.categories && product.categories.includes('san_pham_ban_kem'))
+      ).map(product => ({
+        ...product,
+        // Sử dụng ID mapping để tương thích với hệ thống hiện tại
+        id: idMapping[product.id] || product.id,
+        originalId: product.id, // Giữ lại ID gốc để tham chiếu
+        // Thêm thông tin chi tiết cho addon nếu cần
+        detailedInfo: this.getAddonDetailedInfo(product.id)
+      }));
+    },
+
 
 
     /* ========= QUICK VIEW ========= */
@@ -859,6 +781,68 @@ document.addEventListener('alpine:init', () => {
 
     /* ========= PRIVATE/HELPERS ========= */
     _CURRENCY: new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }),
+
+    // Helper function để lấy tên quà tặng từ appliedGift
+    getGiftName(gift) {
+      if (!gift) return 'Quà tặng';
+
+      // Debug log để kiểm tra cấu trúc
+      console.log('🎁 Debug appliedGift structure:', gift);
+      console.log('🎁 gift.name:', gift.name);
+      console.log('🎁 gift.value?.name:', gift.value?.name);
+      console.log('🎁 gift.title:', gift.title);
+
+      const name = gift.name || gift.value?.name || gift.title || 'Quà tặng';
+      console.log('🎁 Final gift name:', name);
+
+      return name;
+    },
+
+    // Helper function để lấy ID quà tặng từ appliedGift
+    getGiftId(gift) {
+      if (!gift) return null;
+      return gift.id || gift.value?.id;
+    },
+
+    // Helper function để cung cấp thông tin chi tiết cho addon products
+    getAddonDetailedInfo(productId) {
+      const detailedInfoMap = {
+        'san_pham_ban_kem_001': {
+          fullDescription: 'Túi Dâu Tằm Để Giường cao cấp được làm từ khúc cành dâu tằm tự nhiên, cắt nhỏ và đóng gói trong túi nhung sang trọng. Sản phẩm giúp bé ngủ ngon, giảm stress và tăng cường sức khỏe tự nhiên.',
+          benefits: [
+            '🌿 Giúp bé ngủ ngon và sâu giấc',
+            '😌 Giảm căng thẳng, lo âu cho bé',
+            '🛡️ Tăng cường hệ miễn dịch tự nhiên',
+            '🌱 100% từ thiên nhiên, an toàn cho bé',
+            '💝 Đóng gói trong túi nhung cao cấp'
+          ],
+          usage: 'Đặt Túi Dâu Tằm Để Giường gần gối hoặc trong cũi của bé. Có thể bóp nhẹ để tỏa hương thơm tự nhiên. Thay thế sau 3-6 tháng sử dụng.',
+          materials: 'Cành dâu tằm tự nhiên, túi nhung cotton cao cấp',
+          origin: 'Thôn Đông Cao, Tráng Việt, Hà Nội'
+        },
+        'san_pham_ban_kem_002': {
+          fullDescription: 'Móc chìa khóa độc đáo được chế tác từ khúc dâu tằm tự nhiên, mang lại may mắn và bình an. Thiết kế nhỏ gọn, tiện lợi, phù hợp làm quà tặng hoặc vật phẩm phong thủy.',
+          benefits: [
+            '🍀 Mang lại may mắn và bình an',
+            '🎨 Thiết kế độc đáo, không trùng lặp',
+            '🌿 Chất liệu tự nhiên, thân thiện môi trường',
+            '💼 Nhỏ gọn, tiện lợi mang theo',
+            '🎁 Ý nghĩa làm quà tặng đặc biệt'
+          ],
+          usage: 'Gắn vào chùm chìa khóa, túi xách hoặc balo. Có thể sử dụng làm vật phẩm trang trí hoặc quà lưu niệm.',
+          materials: 'Khúc dâu tằm tự nhiên, dây móc inox không gỉ',
+          origin: 'Thôn Đông Cao, Tráng Việt, Hà Nội'
+        }
+      };
+
+      return detailedInfoMap[productId] || {
+        fullDescription: 'Sản phẩm chất lượng cao từ dâu tằm tự nhiên.',
+        benefits: ['🌿 An toàn tự nhiên', '💝 Chất lượng cao'],
+        usage: 'Sử dụng theo hướng dẫn.',
+        materials: 'Dâu tằm tự nhiên',
+        origin: 'Thôn Đông Cao, Tráng Việt, Hà Nội'
+      };
+    },
 
     /* ========= LIFECYCLE ========= */
     async init() {
@@ -1592,6 +1576,41 @@ document.addEventListener('alpine:init', () => {
         return k.includes('.0') ? `${Math.round(total / 1000)}k` : k.replace('.', ',') + 'k';
       }
       return total;
+    },
+
+    // Get selected cart products including gifts
+    get selectedCartProducts() {
+      // Lấy các sản phẩm đã chọn từ cart
+      const selectedProducts = this.cart.filter(item =>
+        this.selectedCartItems.includes(item.cartId || item.id)
+      );
+
+      // Thêm quà tặng nếu có
+      if (this.appliedGift) {
+        // Lấy thông tin quà tặng sử dụng helper functions
+        const giftId = this.getGiftId(this.appliedGift);
+        const giftName = this.getGiftName(this.appliedGift);
+
+        // Tìm thông tin chi tiết của quà tặng từ products hoặc addonProducts
+        let giftDetails = this.products.find(p => p.id === giftId);
+        if (!giftDetails) {
+          giftDetails = this.addonProducts.find(p => p.id === giftId);
+        }
+
+        const giftProduct = {
+          id: giftId,
+          name: giftName,
+          image: giftDetails?.image || './assets/images/product_img/default.webp',
+          isGift: true,
+          quantity: 1,
+          price: 0, // Quà tặng có giá 0
+          cartId: `gift-${giftId}`,
+          displayName: `🎁 ${giftName} (Quà tặng)`
+        };
+        selectedProducts.push(giftProduct);
+      }
+
+      return selectedProducts;
     },
 
     // Chỉ tính theo item đã chọn và bỏ qua quà tặng - sử dụng finalPrice cho dynamic pricing

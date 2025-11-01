@@ -52,7 +52,7 @@
     "title": "Tặng 1 Móc chìa khóa dâu tằm",
     "description": "Nhận ngay 1 Móc chìa khóa dâu tằm trị giá 49.000đ khi mua từ 2 sản phẩm",
     "type": "gift",
-    "value": { "id": "san_pham_ban_kem_002", "name": "Móc chìa khóa dâu tằm" },
+    "value": { "id": "addon_moc_chia_khoa", "name": "Móc chìa khóa dâu tằm" },
     "minOrder": 300000,
     "minItems": 2,
     "expiry": "31/12/2025",
