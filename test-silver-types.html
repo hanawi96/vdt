@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Silver Types</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-8">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-3xl font-bold text-center mb-8">Kiểm tra loại bạc trong danh mục bi_charm_bac</h1>
+        
+        <div id="products-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Products will be loaded here -->
+        </div>
+    </div>
+
+    <script>
+        // Load and display products from bi_charm_bac category
+        fetch('./public/data/products.json')
+            .then(response => response.json())
+            .then(products => {
+                const biCharmBacProducts = products.filter(p => p.category === 'bi_charm_bac');
+                const container = document.getElementById('products-container');
+                
+                biCharmBacProducts.forEach(product => {
+                    const silverType = product.silverType ? product.silverType.toUpperCase() : 'Không xác định';
+                    const silverBadgeColor = product.silverType === 's925' ? 'bg-blue-500' : 'bg-green-500';
+                    
+                    const productCard = `
+                        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                            <img src="${product.image}" alt="${product.name}" class="w-full h-48 object-cover">
+                            <div class="p-4">
+                                <h3 class="font-semibold text-lg mb-2">${product.name}</h3>
+                                <div class="flex items-center justify-between mb-2">
+                                    <span class="text-pink-600 font-bold">${product.price.toLocaleString()}đ</span>
+                                    <span class="${silverBadgeColor} text-white px-2 py-1 rounded text-sm font-bold">
+                                        BẠC ${silverType}
+                                    </span>
+                                </div>
+                                <p class="text-gray-600 text-sm">${product.description}</p>
+                                <div class="mt-2 text-xs text-gray-500">
+                                    <strong>ID:</strong> ${product.id}<br>
+                                    <strong>Silver Type:</strong> ${product.silverType || 'undefined'}<br>
+                                    <strong>Has Silver:</strong> ${product.hasSilver ? 'Yes' : 'No'}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    container.innerHTML += productCard;
+                });
+            })
+            .catch(error => {
+                console.error('Error loading products:', error);
+                document.getElementById('products-container').innerHTML = 
+                    '<div class="col-span-full text-center text-red-500">Lỗi khi tải dữ liệu sản phẩm</div>';
+            });
+    </script>
+</body>
+</html>

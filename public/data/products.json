@@ -1043,7 +1043,7 @@
     "rating": 4.8,
     "purchases": 567,
     "hasSilver": true,
-    "hasSilver": true
+    "silverType": "s999"
   },
   {
     "id": "bi_charm_bac_002",
@@ -1056,7 +1056,8 @@
     "description": "Bi bạc ta 4 lớp với họa tiết khía tinh tế, tạo hiệu ứng ánh sáng đẹp mắt.",
     "rating": 4.9,
     "purchases": 456,
-    "hasSilver": true
+    "hasSilver": true,
+    "silverType": "s999"
   },
   {
     "id": "bi_charm_bac_003",
@@ -1069,7 +1070,8 @@
     "description": "Bi bạc ta 5 lớp với họa tiết khía cao cấp, đỉnh cao của sự tinh tế và sang trọng.",
     "rating": 5.0,
     "purchases": 389,
-    "hasSilver": true
+    "hasSilver": true,
+    "silverType": "s999"
   },
   {
     "id": "bi_charm_bac_004",
@@ -1082,7 +1084,8 @@
     "description": "Charm rồng bạc ta tinh xảo, biểu tượng của quyền lực và may mắn.",
     "rating": 4.8,
     "purchases": 345,
-    "hasSilver": true
+    "hasSilver": true,
+    "silverType": "s999"
   },
   {
     "id": "bi_charm_bac_005",
@@ -1095,7 +1098,8 @@
     "description": "Charm rắn bạc ta độc đáo, mang ý nghĩa thông minh và bảo vệ.",
     "rating": 4.7,
     "purchases": 298,
-    "hasSilver": true
+    "hasSilver": true,
+    "silverType": "s999"
   },
   {
     "id": "bi_charm_bac_006",
@@ -1108,7 +1112,8 @@
     "description": "Thẻ bạc hình 4 lá may mắn có thể khắc tên bé 2 mặt, món quà ý nghĩa và độc đáo.",
     "rating": 4.9,
     "purchases": 267,
-    "hasSilver": true
+    "hasSilver": true,
+    "silverType": "s999"
   },
   {
     "id": "bi_charm_bac_007",
@@ -1121,7 +1126,8 @@
     "description": "Thẻ bạc tròn có thể khắc tên bé 2 mặt, thiết kế cổ điển và thanh lịch.",
     "rating": 4.8,
     "purchases": 234,
-    "hasSilver": true
+    "hasSilver": true,
+    "silverType": "s999"
   },
   {
     "id": "bi_charm_bac_013",
@@ -1134,7 +1140,8 @@
     "description": "Thẻ bạc tròn có thể khắc tên bé 2 mặt, thiết kế cổ điển và thanh lịch.",
     "rating": 4.8,
     "purchases": 234,
-    "hasSilver": true
+    "hasSilver": true,
+    "silverType": "s999"
   },
   {
     "id": "bi_charm_bac_008",
@@ -1147,7 +1154,8 @@
     "description": "Charm cỏ 4 lá bạc S925 cao cấp, kích thước 13.3x11.6x2mm, biểu tượng may mắn và thịnh vượng.",
     "rating": 4.8,
     "purchases": 156,
-    "hasSilver": true
+    "hasSilver": true,
+    "silverType": "s925"
   },
   {
     "id": "bi_charm_bac_009",
@@ -1160,7 +1168,8 @@
     "description": "Charm cỏ 4 lá 2 bạc S925 cao cấp, kích thước 8*10,9mm, biểu tượng may mắn và thịnh vượng.",
     "rating": 4.7,
     "purchases": 0,
-    "hasSilver": true
+    "hasSilver": true,
+    "silverType": "s925"
   },
   {
     "id": "bi_charm_bac_010",
@@ -1173,7 +1182,8 @@
     "description": "Charm thánh giá bạc cao cấp với thiết kế xỏ ngang tinh tế, kích thước 9.3x7.3x4mm, biểu tượng của đức tin và bảo vệ.",
     "rating": 4.8,
     "purchases": 0,
-    "hasSilver": true
+    "hasSilver": true,
+    "silverType": "s925"
   },
     {
     "id": "mix_bi_bac_011",
@@ -1609,7 +1619,8 @@
     "description": "Charm cúc họa mi bạc S925 cao cấp, kích thước 2x10mm, thiết kế tinh tế và thanh lịch, biểu tượng của sự thuần khiết và may mắn.",
     "rating": 4.8,
     "purchases": 0,
-    "hasSilver": true
+    "hasSilver": true,
+    "silverType": "s925"
   },
    {
     "id": "bi_charm_bac_0112",
@@ -1622,7 +1633,8 @@
     "description": "Charm cúc họa mi bạc S925 cao cấp, kích thước 2x10mm, thiết kế tinh tế và thanh lịch, biểu tượng của sự thuần khiết và may mắn.",
     "rating": 4.8,
     "purchases": 0,
-    "hasSilver": true
+    "hasSilver": true,
+    "silverType": "s925"
   },
      {
     "id": "bi_charm_bac_0113",
@@ -1635,7 +1647,8 @@
     "description": "Charm cúc họa mi bạc S925 cao cấp, kích thước 2x10mm, thiết kế tinh tế và thanh lịch, biểu tượng của sự thuần khiết và may mắn.",
     "rating": 4.8,
     "purchases": 0,
-    "hasSilver": true
+    "hasSilver": true,
+    "silverType": "s925"
   },
     {
     "id": "bi_charm_bac_011",
@@ -1648,7 +1661,8 @@
     "description": "Charm cúc họa mi bạc S925 cao cấp, kích thước 2x10mm, thiết kế tinh tế và thanh lịch, biểu tượng của sự thuần khiết và may mắn.",
     "rating": 4.8,
     "purchases": 0,
-    "hasSilver": true
+    "hasSilver": true,
+    "silverType": "s925"
   },
    
   {

@@ -437,6 +437,14 @@ document.addEventListener('alpine:init', () => {
       return product && product.hasSilver === true;
     },
 
+    // Lấy loại bạc của sản phẩm
+    getSilverType(product) {
+      if (!product || !product.hasSilver) return null;
+      
+      // Sử dụng trường silverType nếu có, mặc định là S999
+      return product.silverType ? product.silverType.toUpperCase() : 'S999';
+    },
+
     // Tạo HTML cho badge "Bạc thật"
     createSilverBadge() {
       return `
@@ -515,12 +523,16 @@ document.addEventListener('alpine:init', () => {
         actualWeight = this.quickBuyCustomWeight + 'kg';
       }
 
-      // Calculate dynamic price based on selected weight
+      // Calculate dynamic price based on selected weight (giống như cart)
       const priceData = this.calculateDynamicPrice(this.quickBuyProduct, actualWeight);
-      const mainProductTotal = priceData.finalPrice * this.quickBuyQuantity;
+      const finalPrice = priceData.finalPrice || this.quickBuyProduct.price || 0;
+      
+      // Tính sản phẩm chính với finalPrice (giống cartSubtotal)
+      const mainProductTotal = finalPrice * (this.quickBuyQuantity || 1);
 
-      // Tính sản phẩm chính + addon được chọn trong Quick Buy
-      const quickBuyAddonTotal = this.quickBuySelectedAddons.reduce((total, addon) => total + addon.price, 0);
+      // Tính addon được chọn trong Quick Buy
+      const quickBuyAddonTotal = this.quickBuySelectedAddons.reduce((total, addon) => total + (addon.price || 0), 0);
+      
       return mainProductTotal + quickBuyAddonTotal;
     },
 
@@ -691,7 +703,9 @@ document.addEventListener('alpine:init', () => {
       // Mapping ID để đảm bảo tính nhất quán với hệ thống hiện tại
       const idMapping = {
         'san_pham_ban_kem_001': 'addon_tui_dau_tam',
-        'san_pham_ban_kem_002': 'addon_moc_chia_khoa'
+        'san_pham_ban_kem_002': 'addon_moc_chia_khoa',
+        'san_pham_ban_kem_004': 'addon_bo_dau_tam_7_canh',
+        'san_pham_ban_kem_005': 'addon_bo_dau_tam_9_canh'
       };
 
       // Lấy các sản phẩm addon từ products.json
@@ -991,7 +1005,7 @@ document.addEventListener('alpine:init', () => {
 
       // Watch quickBuyWeight để clear weight error
       this.$watch('quickBuyWeight', (newValue) => {
-        if (newValue && newValue !== '-- Chọn cân nặng --' && newValue !== '-- Chọn size tay --') {
+        if (newValue && newValue !== '- Chọn cân nặng -' && newValue !== '-- Chọn size tay --') {
           this.formErrors.weight = '';
         }
       });
@@ -3262,7 +3276,7 @@ document.addEventListener('alpine:init', () => {
         const isAdult = this.isAdultProduct(this.quickBuyProduct);
 
         if (!this.quickBuyWeight || this.quickBuyWeight.trim() === '' ||
-          this.quickBuyWeight === '-- Chọn cân nặng --' ||
+          this.quickBuyWeight === '- Chọn cân nặng -' ||
           this.quickBuyWeight === '-- Chọn size tay --') {
           this.formErrors.weight = isAdult ? 'Vui lòng chọn size tay' : 'Vui lòng chọn cân nặng của bé';
           isValid = false;

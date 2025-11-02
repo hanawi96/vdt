@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test QuickBuy Calculation</title>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body>
+    <div x-data="{
+        SHIPPING_FEE: 21000,
+        quickBuyProduct: {
+            id: 'test-product',
+            name: 'Sole bạc 3ly + Thành giá + Chuông',
+            price: 209000
+        },
+        quickBuyQuantity: 1,
+        quickBuyWeight: '',
+        quickBuySelectedAddons: [],
+        isBuyingCombo: false,
+        discountAmount: 0,
+        
+        formatCurrency(amount) {
+            if (typeof amount !== 'number') return '0đ';
+            return new Intl.NumberFormat('vi-VN').format(amount) + 'đ';
+        },
+        
+        calculateDynamicPrice(product, weight) {
+            if (!product) return { finalPrice: 0, hasSurcharge: false };
+            
+            let basePrice = product.price || 0;
+            let hasSurcharge = false;
+            
+            if (weight) {
+                const weightStr = weight.toString().toLowerCase();
+                
+                if (weightStr.includes('kg')) {
+                    const weightNum = parseFloat(weightStr.replace('kg', ''));
+                    if (weightNum >= 16) {
+                        hasSurcharge = true;
+                    }
+                }
+                
+                if (weightStr.includes('cm')) {
+                    const sizeNum = parseFloat(weightStr.replace('cm', ''));
+                    if (sizeNum >= 17) {
+                        hasSurcharge = true;
+                    }
+                }
+                
+                if (weightStr.includes('+20k')) {
+                    hasSurcharge = true;
+                }
+            }
+            
+            const finalPrice = basePrice + (hasSurcharge ? 20000 : 0);
+            
+            return {
+                finalPrice,
+                hasSurcharge,
+                basePrice,
+                surcharge: hasSurcharge ? 20000 : 0
+            };
+        },
+        
+        quickBuySubtotal() {
+            console.log('🔍 quickBuySubtotal() called');
+            console.log('🔍 - quickBuyProduct:', this.quickBuyProduct);
+            
+            if (!this.quickBuyProduct) {
+                console.log('🔍 - No quickBuyProduct, returning 0');
+                return 0;
+            }
+            
+            let subtotal = 0;
+            
+            if (this.isBuyingCombo) {
+                subtotal += this.quickBuyProduct.price || 0;
+            } else {
+                let actualWeight = this.quickBuyWeight;
+                const priceData = this.calculateDynamicPrice(this.quickBuyProduct, actualWeight);
+                const productPrice = (priceData.finalPrice || this.quickBuyProduct.price || 0) * (this.quickBuyQuantity || 1);
+                subtotal += productPrice;
+                console.log('🔍 - Product price calculation:', productPrice);
+            }
+            
+            if (this.quickBuySelectedAddons && this.quickBuySelectedAddons.length > 0) {
+                this.quickBuySelectedAddons.forEach(addon => {
+                    const addonPrice = (addon.price || 0) * (addon.quantity || 1);
+                    subtotal += addonPrice;
+                });
+            }
+            
+            console.log('🔍 - Final subtotal:', subtotal);
+            return subtotal;
+        },
+        
+        quickBuyShippingDiscount() {
+            return 0; // No shipping discount for test
+        },
+        
+        quickBuyAddonDiscount() {
+            return 0; // No addon discount for test
+        },
+        
+        quickBuyTotal() {
+            let total = this.quickBuySubtotal();
+            total += this.SHIPPING_FEE;
+            total -= this.quickBuyShippingDiscount();
+            total -= this.quickBuyAddonDiscount();
+            if (this.discountAmount > 0) {
+                total -= this.discountAmount;
+            }
+            return Math.max(0, total);
+        }
+    }">
+        <h1>Test QuickBuy Calculation</h1>
+        
+        <div style="border: 1px solid #ccc; padding: 20px; margin: 20px 0;">
+            <h2>Product Info</h2>
+            <p><strong>Name:</strong> <span x-text="quickBuyProduct.name"></span></p>
+            <p><strong>Price:</strong> <span x-text="formatCurrency(quickBuyProduct.price)"></span></p>
+            <p><strong>Quantity:</strong> <span x-text="quickBuyQuantity"></span></p>
+        </div>
+        
+        <div style="border: 1px solid #ccc; padding: 20px; margin: 20px 0;">
+            <h2>Calculation Results</h2>
+            <p><strong>Tạm tính:</strong> <span x-text="formatCurrency(quickBuySubtotal())"></span></p>
+            <p><strong>Phí vận chuyển:</strong> <span x-text="formatCurrency(SHIPPING_FEE)"></span></p>
+            <p><strong>Tổng cộng:</strong> <span x-text="formatCurrency(quickBuyTotal())"></span></p>
+        </div>
+        
+        <button @click="console.log('Current state:', {
+            quickBuyProduct: quickBuyProduct,
+            quickBuyQuantity: quickBuyQuantity,
+            subtotal: quickBuySubtotal(),
+            total: quickBuyTotal()
+        })">Log Current State</button>
+    </div>
+</body>
+</html>
