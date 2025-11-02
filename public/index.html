@@ -2063,10 +2063,9 @@
 
                                     <!-- Right: Gift Value & Min Order Info -->
                                     <div class="text-right flex-shrink-0">
-                                        <p class="text-blue-600 font-bold text-sm mb-0.5"
+                                        <p class="text-green-600 font-bold text-sm mb-0.5">Miễn phí</p>
+                                        <p class="text-xs text-gray-500 line-through"
                                             x-text="formatCurrency(getGiftValue(discount))"></p>
-                                        <p class="text-xs text-gray-500"
-                                            x-text="'Từ ' + formatCurrencyShort(discount.minOrder)"></p>
                                     </div>
                                 </div>
 
@@ -2609,8 +2608,7 @@
                                         <!-- Text content -->
                                         <div class="flex-1 min-w-0">
                                             <div class="text-sm text-gray-700">
-                                                <span x-show="!discountCode && !appliedGift">Chọn mã giảm giá hoặc quà
-                                                    tặng</span>
+                                                <span x-show="!discountCode && !appliedGift">Chọn mã giảm giá</span>
                                                 <span x-show="discountCode && !appliedGift"
                                                     class="font-mono bg-green-100 text-green-700 px-2 py-0.5 rounded"
                                                     x-text="discountCode"></span>
@@ -3484,7 +3482,7 @@
                                             <!-- Text content -->
                                             <div class="flex-1 min-w-0">
                                                 <div class="text-sm text-gray-700">
-                                                    <span x-show="!discountCode && !appliedGift">Chọn mã giảm giá hoặc quà tặng</span>
+                                                    <span x-show="!discountCode && !appliedGift">Chọn mã giảm giá</span>
                                                     <span x-show="discountCode && !appliedGift"
                                                         class="font-mono bg-green-100 text-green-700 px-2 py-0.5 rounded"
                                                         x-text="discountCode"></span>
