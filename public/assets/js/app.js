@@ -1056,7 +1056,7 @@ document.addEventListener('alpine:init', () => {
       const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
       let r = '';
       for (let i = 0; i < 3; i++) r += chars[Math.floor(Math.random() * chars.length)];
-      return `AN${y}${m}${day}${r}`;
+      return `DH${y}${m}${day}${r}`;
     },
 
 
