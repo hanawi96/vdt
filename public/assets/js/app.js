@@ -180,6 +180,13 @@ document.addEventListener('alpine:init', () => {
     preventQuickBuyCloseOnEscape: false, // Flag để ngăn đóng Quick Buy khi có modal con
     quickBuySelectedAddons: [], // Addon được chọn trong Quick Buy
 
+    // Addon Quantity Modal state
+    isAddonQuantityModalOpen: false,
+    currentAddonForQuantity: null,
+    addonQuantityOptions: {
+      quantity: 1
+    },
+
 
     // FAQ Modal
     isFaqModalOpen: false,
@@ -291,6 +298,68 @@ document.addEventListener('alpine:init', () => {
 
     selectWeightPreset(weight) {
       this.weightPresetOptions.weight = weight;
+    },
+
+    /* ========= Addon Quantity Modal Logic ========= */
+    openAddonQuantityModal(addon) {
+      this.currentAddonForQuantity = addon;
+      this.addonQuantityOptions = {
+        quantity: addon.quantity || 1
+      };
+      this.isAddonQuantityModalOpen = true;
+      this.preventQuickBuyCloseOnEscape = true; // Ngăn đóng Quick Buy modal
+      document.body.style.overflow = 'hidden';
+    },
+
+    closeAddonQuantityModal() {
+      this.isAddonQuantityModalOpen = false;
+      this.currentAddonForQuantity = null;
+      this.addonQuantityOptions = {
+        quantity: 1
+      };
+      this.preventQuickBuyCloseOnEscape = false; // Cho phép đóng Quick Buy modal trở lại
+      document.body.style.overflow = 'hidden'; // Giữ overflow hidden vì Quick Buy modal vẫn mở
+    },
+
+    selectAddonQuantity(quantity) {
+      this.addonQuantityOptions.quantity = quantity;
+    },
+
+    updateAddonQuantity() {
+      if (!this.currentAddonForQuantity) return;
+      
+      // Tìm addon trong quickBuySelectedAddons và cập nhật số lượng
+      const addonIndex = this.quickBuySelectedAddons.findIndex(addon => addon.id === this.currentAddonForQuantity.id);
+      if (addonIndex !== -1) {
+        this.quickBuySelectedAddons[addonIndex].quantity = this.addonQuantityOptions.quantity;
+        this.showAlert(`Đã cập nhật số lượng ${this.currentAddonForQuantity.name} thành ${this.addonQuantityOptions.quantity}`, 'success');
+        
+        // Revalidate discount khi thay đổi số lượng addon
+        this.revalidateQuickBuyDiscount();
+      }
+      
+      this.closeAddonQuantityModal();
+    },
+
+    // Scroll to quantity dropdown in Quick Buy modal
+    scrollToQuantityDropdown() {
+      this.$nextTick(() => {
+        const quantitySection = document.getElementById('quick-buy-quantity-section');
+        if (quantitySection) {
+          quantitySection.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'center' 
+          });
+          
+          // Focus vào dropdown sau khi scroll
+          setTimeout(() => {
+            const selectElement = quantitySection.querySelector('select');
+            if (selectElement) {
+              selectElement.focus();
+            }
+          }, 500);
+        }
+      });
     },
 
     addWeightPresetProductToCart() {
@@ -530,8 +599,8 @@ document.addEventListener('alpine:init', () => {
       // Tính sản phẩm chính với finalPrice (giống cartSubtotal)
       const mainProductTotal = finalPrice * (this.quickBuyQuantity || 1);
 
-      // Tính addon được chọn trong Quick Buy
-      const quickBuyAddonTotal = this.quickBuySelectedAddons.reduce((total, addon) => total + (addon.price || 0), 0);
+      // Tính addon được chọn trong Quick Buy (nhân với số lượng)
+      const quickBuyAddonTotal = this.quickBuySelectedAddons.reduce((total, addon) => total + ((addon.price || 0) * (addon.quantity || 1)), 0);
       
       return mainProductTotal + quickBuyAddonTotal;
     },

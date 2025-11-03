@@ -3579,28 +3579,26 @@
 
                             <div class="space-y-2">
                                 <!-- COD Option - Compact Card -->
-                                <div @click="quickBuyPaymentMethod = 'cod'" class="relative cursor-pointer group">
-                                    <div class="border-2 rounded-lg p-2.5 transition-all duration-300 transform" :class="quickBuyPaymentMethod === 'cod' ?
-                                        'border-pink-500 bg-gradient-to-r from-pink-50 to-purple-50 shadow-md scale-[1.01]' :
-                                        'border-gray-200 bg-white hover:border-pink-300 hover:shadow-sm'">
+                                <div @click="quickBuyPaymentMethod = 'cod'" class="relative cursor-pointer">
+                                    <div class="border rounded-lg p-2.5" :class="quickBuyPaymentMethod === 'cod' ?
+                                        'border-pink-400 bg-pink-100' :
+                                        'border-gray-200 bg-white'">
 
                                         <!-- Selection Indicator -->
-                                        <div class="absolute top-1.5 right-1.5 w-4 h-4 rounded-full border-2 transition-all duration-300"
+                                        <div class="absolute top-1/2 right-1.5 w-4 h-4 rounded-full border-2 transform -translate-y-1/2"
                                             :class="quickBuyPaymentMethod === 'cod' ? 'border-pink-500 bg-pink-500' : 'border-gray-300'">
                                             <div x-show="quickBuyPaymentMethod === 'cod'"
-                                                class="w-1.5 h-1.5 bg-white rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-                                                x-transition:enter="transition ease-out duration-200"
-                                                x-transition:enter-start="opacity-0 scale-0"
-                                                x-transition:enter-end="opacity-100 scale-100"></div>
+                                                class="w-1.5 h-1.5 bg-white rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                                            </div>
                                         </div>
 
                                         <div class="flex items-center space-x-2.5">
-                                            <div class="w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300"
-                                                :class="quickBuyPaymentMethod === 'cod' ? 'bg-pink-100' : 'bg-gray-100 group-hover:bg-pink-50'">
+                                            <div class="w-8 h-8 rounded-full flex items-center justify-center"
+                                                :class="quickBuyPaymentMethod === 'cod' ? 'bg-pink-200' : 'bg-gray-100'">
                                                 <span class="text-base">💰</span>
                                             </div>
                                             <div class="flex-1 pr-6">
-                                                <h4 class="font-semibold text-sm transition-colors duration-300"
+                                                <h4 class="font-semibold text-sm"
                                                     :class="quickBuyPaymentMethod === 'cod' ? 'text-pink-700' : 'text-gray-800'">
                                                     COD - Thanh toán khi nhận
                                                 </h4>
@@ -3610,29 +3608,26 @@
                                 </div>
 
                                 <!-- Bank Transfer Option - Compact Card -->
-                                <div @click="quickBuyPaymentMethod = 'bank_transfer'"
-                                    class="relative cursor-pointer group">
-                                    <div class="border-2 rounded-lg p-2.5 transition-all duration-300 transform" :class="quickBuyPaymentMethod === 'bank_transfer' ?
-                                        'border-green-500 bg-gradient-to-r from-green-50 to-emerald-50 shadow-md scale-[1.01]' :
-                                        'border-gray-200 bg-white hover:border-green-300 hover:shadow-sm'">
+                                <div @click="quickBuyPaymentMethod = 'bank_transfer'" class="relative cursor-pointer">
+                                    <div class="border rounded-lg p-2.5" :class="quickBuyPaymentMethod === 'bank_transfer' ?
+                                        'border-green-400 bg-green-100' :
+                                        'border-gray-200 bg-white'">
 
                                         <!-- Selection Indicator -->
-                                        <div class="absolute top-1.5 right-1.5 w-4 h-4 rounded-full border-2 transition-all duration-300"
+                                        <div class="absolute top-1/2 right-1.5 w-4 h-4 rounded-full border-2 transform -translate-y-1/2"
                                             :class="quickBuyPaymentMethod === 'bank_transfer' ? 'border-green-500 bg-green-500' : 'border-gray-300'">
                                             <div x-show="quickBuyPaymentMethod === 'bank_transfer'"
-                                                class="w-1.5 h-1.5 bg-white rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-                                                x-transition:enter="transition ease-out duration-200"
-                                                x-transition:enter-start="opacity-0 scale-0"
-                                                x-transition:enter-end="opacity-100 scale-100"></div>
+                                                class="w-1.5 h-1.5 bg-white rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                                            </div>
                                         </div>
 
                                         <div class="flex items-center space-x-2.5">
-                                            <div class="w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300"
-                                                :class="quickBuyPaymentMethod === 'bank_transfer' ? 'bg-green-100' : 'bg-gray-100 group-hover:bg-green-50'">
+                                            <div class="w-8 h-8 rounded-full flex items-center justify-center"
+                                                :class="quickBuyPaymentMethod === 'bank_transfer' ? 'bg-green-200' : 'bg-gray-100'">
                                                 <span class="text-base">🏦</span>
                                             </div>
                                             <div class="flex-1 pr-6">
-                                                <h4 class="font-semibold text-sm transition-colors duration-300"
+                                                <h4 class="font-semibold text-sm"
                                                     :class="quickBuyPaymentMethod === 'bank_transfer' ? 'text-green-700' : 'text-gray-800'">
                                                     Chuyển khoản ngân hàng
                                                 </h4>
@@ -3787,10 +3782,21 @@
                                     <div class="flex-1 min-w-0">
                                         <p class="font-bold text-pink-600 leading-tight" x-text="quickBuyProduct?.name">
                                         </p>
-                                        <p class="text-xs text-gray-500">
-                                            <span x-text="'SL: ' + quickBuyQuantity"></span>
+                                        <p class="text-xs text-gray-500 font-medium flex items-center">
+                                            <span x-text="'SL: ' + (quickBuyQuantity || 'N/A')"></span>
+                                            <button @click.stop="scrollToQuantityDropdown()"
+                                                class="ml-1 p-0.5 hover:bg-gray-200 rounded transition-colors"
+                                                title="Chỉnh sửa số lượng">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                    fill="currentColor" class="w-3 h-3 text-gray-500">
+                                                    <path
+                                                        d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32l8.4-8.4Z" />
+                                                    <path
+                                                        d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z" />
+                                                </svg>
+                                            </button>
                                             <template x-if="quickBuyWeight">
-                                                <span x-text="' • Cân nặng: ' + (() => {
+                                                <span x-text="' • ' + (isAdultProduct(quickBuyProduct) ? 'Size tay: ' : 'Cân nặng: ') + (() => {
                                                     // Nếu là custom weight thì hiển thị custom weight + 'kg'
                                                     if (quickBuyWeight === '✏️ Nhập cân nặng > 20kg' && quickBuyCustomWeight) {
                                                         return quickBuyCustomWeight + 'kg';
@@ -3834,8 +3840,19 @@
                                             :alt="addon.name" loading="lazy">
                                         <div class="flex-1 min-w-0">
                                             <p class="font-medium text-gray-800 leading-tight" x-text="addon.name"></p>
-                                            <p class="text-xs text-green-600 font-medium">
-                                                <span x-text="'SL: ' + addon.quantity + ' • SP bán kèm'"></span>
+                                            <p class="text-xs text-green-600 font-medium flex items-center">
+                                                <span x-text="'SL: ' + addon.quantity + ' (bán kèm)'"></span>
+                                                <button @click.stop="openAddonQuantityModal(addon)"
+                                                    class="ml-1 p-0.5 hover:bg-green-200 rounded transition-colors"
+                                                    title="Chỉnh sửa số lượng">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                        fill="currentColor" class="w-3 h-3 text-green-600">
+                                                        <path
+                                                            d="M21.731 2.269a2.625 2.625 0 0 0-3.712 0l-1.157 1.157 3.712 3.712 1.157-1.157a2.625 2.625 0 0 0 0-3.712ZM19.513 8.199l-3.712-3.712-8.4 8.4a5.25 5.25 0 0 0-1.32 2.214l-.8 2.685a.75.75 0 0 0 .933.933l2.685-.8a5.25 5.25 0 0 0 2.214-1.32l8.4-8.4Z" />
+                                                        <path
+                                                            d="M5.25 5.25a3 3 0 0 0-3 3v10.5a3 3 0 0 0 3 3h10.5a3 3 0 0 0 3-3V13.5a.75.75 0 0 0-1.5 0v5.25a1.5 1.5 0 0 1-1.5 1.5H5.25a1.5 1.5 0 0 1-1.5-1.5V8.25a1.5 1.5 0 0 1 1.5-1.5h5.25a.75.75 0 0 0 0-1.5H5.25Z" />
+                                                    </svg>
+                                                </button>
                                             </p>
                                         </div>
                                     </div>
@@ -5481,28 +5498,26 @@
                             <div class="space-y-2">
                                 <!-- COD Option - Compact Card -->
                                 <div @click.stop="console.log('🔍 Click COD payment method'); console.log('🔍 Trước khi chọn COD - isMiniCartOpen:', isMiniCartOpen); paymentMethod = 'cod'"
-                                    class="relative cursor-pointer group">
-                                    <div class="border-2 rounded-lg p-2.5 transition-all duration-300 transform" :class="paymentMethod === 'cod' ?
-                                        'border-pink-500 bg-gradient-to-r from-pink-50 to-purple-50 shadow-md scale-[1.01]' :
-                                        'border-gray-200 bg-white hover:border-pink-300 hover:shadow-sm'">
+                                    class="relative cursor-pointer">
+                                    <div class="border rounded-lg p-2.5" :class="paymentMethod === 'cod' ?
+                                        'border-pink-400 bg-pink-100' :
+                                        'border-gray-200 bg-white'">
 
                                         <!-- Selection Indicator -->
-                                        <div class="absolute top-1.5 right-1.5 w-4 h-4 rounded-full border-2 transition-all duration-300"
+                                        <div class="absolute top-1/2 right-1.5 w-4 h-4 rounded-full border-2 transform -translate-y-1/2"
                                             :class="paymentMethod === 'cod' ? 'border-pink-500 bg-pink-500' : 'border-gray-300'">
                                             <div x-show="paymentMethod === 'cod'"
-                                                class="w-1.5 h-1.5 bg-white rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-                                                x-transition:enter="transition ease-out duration-200"
-                                                x-transition:enter-start="opacity-0 scale-0"
-                                                x-transition:enter-end="opacity-100 scale-100"></div>
+                                                class="w-1.5 h-1.5 bg-white rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                                            </div>
                                         </div>
 
                                         <div class="flex items-center space-x-2.5">
-                                            <div class="w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300"
-                                                :class="paymentMethod === 'cod' ? 'bg-pink-100' : 'bg-gray-100 group-hover:bg-pink-50'">
+                                            <div class="w-8 h-8 rounded-full flex items-center justify-center"
+                                                :class="paymentMethod === 'cod' ? 'bg-pink-200' : 'bg-gray-100'">
                                                 <span class="text-base">💰</span>
                                             </div>
                                             <div class="flex-1 pr-6">
-                                                <h4 class="font-semibold text-sm transition-colors duration-300"
+                                                <h4 class="font-semibold text-sm"
                                                     :class="paymentMethod === 'cod' ? 'text-pink-700' : 'text-gray-800'">
                                                     COD - Thanh toán khi nhận
                                                 </h4>
@@ -5513,28 +5528,26 @@
 
                                 <!-- Bank Transfer Option - Compact Card -->
                                 <div @click.stop="console.log('🔍 Click Bank Transfer payment method'); console.log('🔍 Trước khi chọn Bank Transfer - isMiniCartOpen:', isMiniCartOpen); paymentMethod = 'bank_transfer'"
-                                    class="relative cursor-pointer group">
-                                    <div class="border-2 rounded-lg p-2.5 transition-all duration-300 transform" :class="paymentMethod === 'bank_transfer' ?
-                                        'border-green-500 bg-gradient-to-r from-green-50 to-emerald-50 shadow-md scale-[1.01]' :
-                                        'border-gray-200 bg-white hover:border-green-300 hover:shadow-sm'">
+                                    class="relative cursor-pointer">
+                                    <div class="border rounded-lg p-2.5" :class="paymentMethod === 'bank_transfer' ?
+                                        'border-green-400 bg-green-100' :
+                                        'border-gray-200 bg-white'">
 
                                         <!-- Selection Indicator -->
-                                        <div class="absolute top-1.5 right-1.5 w-4 h-4 rounded-full border-2 transition-all duration-300"
+                                        <div class="absolute top-1/2 right-1.5 w-4 h-4 rounded-full border-2 transform -translate-y-1/2"
                                             :class="paymentMethod === 'bank_transfer' ? 'border-green-500 bg-green-500' : 'border-gray-300'">
                                             <div x-show="paymentMethod === 'bank_transfer'"
-                                                class="w-1.5 h-1.5 bg-white rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-                                                x-transition:enter="transition ease-out duration-200"
-                                                x-transition:enter-start="opacity-0 scale-0"
-                                                x-transition:enter-end="opacity-100 scale-100"></div>
+                                                class="w-1.5 h-1.5 bg-white rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                                            </div>
                                         </div>
 
                                         <div class="flex items-center space-x-2.5">
-                                            <div class="w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300"
-                                                :class="paymentMethod === 'bank_transfer' ? 'bg-green-100' : 'bg-gray-100 group-hover:bg-green-50'">
+                                            <div class="w-8 h-8 rounded-full flex items-center justify-center"
+                                                :class="paymentMethod === 'bank_transfer' ? 'bg-green-200' : 'bg-gray-100'">
                                                 <span class="text-base">🏦</span>
                                             </div>
                                             <div class="flex-1 pr-6">
-                                                <h4 class="font-semibold text-sm transition-colors duration-300"
+                                                <h4 class="font-semibold text-sm"
                                                     :class="paymentMethod === 'bank_transfer' ? 'text-green-700' : 'text-gray-800'">
                                                     Chuyển khoản ngân hàng
                                                 </h4>
@@ -6879,6 +6892,104 @@
                 <button @click="openProductDetail(quickViewProduct); closeQuickView();"
                     class="w-full bg-gray-100 text-gray-800 font-bold py-3 px-4 rounded-lg hover:bg-gray-200 transition-all">
                     Xem chi tiết sản phẩm
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Addon Quantity Modal -->
+<div x-show="isAddonQuantityModalOpen" @keydown.escape.window="closeAddonQuantityModal()"
+    class="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm flex items-center justify-center p-4 pt-safe-top pb-safe-bottom z-[9950]">
+    <div class="bg-white rounded-2xl shadow-xl w-full max-w-sm sm:max-w-lg lg:max-w-2xl max-h-[85vh] sm:max-h-[90vh] flex flex-col my-4"
+        x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 scale-95"
+        x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-200"
+        x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95">
+
+        <!-- Header - Compact (Synced with Mini Cart) -->
+        <div class="bg-gradient-to-r from-pink-500 to-purple-600 text-white p-2 sm:p-4 rounded-t-2xl flex-shrink-0">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-1 sm:space-x-2">
+                    <div
+                        class="w-6 h-6 sm:w-8 sm:h-8 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M7 4V2a1 1 0 011-1h4a1 1 0 011 1v2m-6 0h8m-8 0a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V6a2 2 0 00-2-2m-8 0V4">
+                            </path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-sm sm:text-base font-bold">Chọn số lượng</h3>
+                    </div>
+                </div>
+                <button @click="closeAddonQuantityModal()"
+                    class="w-6 h-6 sm:w-8 sm:h-8 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full flex items-center justify-center transition-all">
+                    <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Body - Mobile Optimized (Synced with Mini Cart) -->
+        <div class="flex-grow overflow-y-auto modal-scroll p-3 sm:p-4 space-y-3 sm:space-y-4">
+            <!-- Product Info -->
+            <div x-show="currentAddonForQuantity" class="bg-pink-50 border border-pink-200 rounded-lg p-2.5 sm:p-3">
+                <div class="flex items-center space-x-2.5 sm:space-x-3">
+                    <img :src="currentAddonForQuantity?.image"
+                        class="w-10 h-10 sm:w-12 sm:h-12 rounded object-cover border" loading="lazy">
+                    <div class="flex-1 min-w-0">
+                        <h4 class="font-semibold text-gray-800 text-sm leading-tight"
+                            x-text="currentAddonForQuantity?.name"></h4>
+                        <p class="text-pink-600 font-bold text-xs sm:text-sm mt-0.5"
+                            x-text="formatCurrency(currentAddonForQuantity?.price)"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quantity Selection -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-3">Chọn số lượng sản phẩm</label>
+                <div class="grid grid-cols-3 gap-2">
+                    <template x-for="qty in [1, 2, 3, 4, 5, 6]" :key="qty">
+                        <button @click="selectAddonQuantity(qty)" :class="addonQuantityOptions.quantity === qty ? 
+                                'bg-green-500 text-white border-green-500' : 
+                                'bg-white text-gray-700 border-gray-200 hover:border-green-300'"
+                            class="py-2.5 sm:py-3 px-3 sm:px-4 text-xs sm:text-sm font-medium border-2 rounded-lg transition-all duration-200 hover:shadow-sm">
+                            <span x-text="qty + ' sản phẩm'"></span>
+                        </button>
+                    </template>
+                </div>
+            </div>
+
+            <!-- Total Price Preview -->
+            <div x-show="currentAddonForQuantity" class="bg-gray-50 rounded-lg p-2.5 sm:p-3">
+                <div class="flex justify-between items-center">
+                    <span class="text-xs sm:text-sm text-gray-600">Tổng tiền:</span>
+                    <span class="font-bold text-green-600 text-sm sm:text-base"
+                        x-text="formatCurrency((currentAddonForQuantity?.price || 0) * addonQuantityOptions.quantity)"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer - Compact (Synced with Mini Cart) -->
+        <div class="flex-shrink-0 p-2 sm:p-4 border-t bg-white rounded-b-2xl">
+            <div class="flex space-x-2 sm:space-x-3">
+                <button @click="closeAddonQuantityModal()"
+                    class="flex-1 bg-gray-200 text-gray-700 font-medium py-2.5 sm:py-3 px-4 rounded-lg hover:bg-gray-300 transition-colors text-xs sm:text-sm">
+                    Hủy
+                </button>
+                <button @click="updateAddonQuantity()"
+                    class="flex-1 bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold py-2.5 sm:py-3 px-4 rounded-lg shadow-md text-xs sm:text-sm hover:from-pink-600 hover:to-purple-700 transition-colors">
+                    <span class="flex items-center justify-center">
+                        <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
+                            </path>
+                        </svg>
+                        Cập nhật
+                    </span>
                 </button>
             </div>
         </div>
