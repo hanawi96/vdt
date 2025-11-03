@@ -3836,8 +3836,10 @@
                                 <div
                                     class="flex justify-between items-start text-sm bg-green-50 rounded-md p-2 border border-green-100">
                                     <div class="flex items-start space-x-2 flex-1 pr-2">
-                                        <img :src="addon.image" class="w-8 h-8 rounded object-cover flex-shrink-0"
-                                            :alt="addon.name" loading="lazy">
+                                        <img :src="addon.image"
+                                            class="w-8 h-8 rounded object-cover flex-shrink-0 cursor-pointer hover:opacity-80 transition-opacity"
+                                            :alt="addon.name" loading="lazy" @click.stop="openAddonDetail(addon)"
+                                            title="Xem chi tiết sản phẩm">
                                         <div class="flex-1 min-w-0">
                                             <p class="font-medium text-gray-800 leading-tight text-xs sm:text-sm"
                                                 x-text="addon.name"></p>
