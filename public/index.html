@@ -3839,7 +3839,8 @@
                                         <img :src="addon.image" class="w-8 h-8 rounded object-cover flex-shrink-0"
                                             :alt="addon.name" loading="lazy">
                                         <div class="flex-1 min-w-0">
-                                            <p class="font-medium text-gray-800 leading-tight" x-text="addon.name"></p>
+                                            <p class="font-medium text-gray-800 leading-tight text-xs sm:text-sm"
+                                                x-text="addon.name"></p>
                                             <p class="text-xs text-green-600 font-medium flex items-center">
                                                 <span x-text="'SL: ' + addon.quantity + ' (bán kèm)'"></span>
                                                 <button @click.stop="openAddonQuantityModal(addon)"
