@@ -1,0 +1,1042 @@
+/* Custom CSS for VDT Shop - Tối ưu cho mẹ bỉm sữa */
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Category Card Enhancements */
+.category-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Removed hover effects for category cards */
+
+/* Popular Badge Animation */
+.popular-badge {
+  animation: pulse-glow 2s infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(236, 72, 153, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(236, 72, 153, 0.8), 0 0 25px rgba(147, 51, 234, 0.4);
+  }
+}
+
+/* Featured Products & Combos Section */
+.featured-combo-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.featured-combo-card:hover {
+  transform: translateY(-4px) scale(1.02);
+}
+
+/* Combo Cards Styling */
+.combo-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.combo-card:hover {
+  transform: translateY(-4px);
+}
+
+.combo-buy-button {
+  transition: all 0.2s ease;
+}
+
+.combo-buy-button:hover {
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+}
+
+.combo-buy-button:active {
+  transform: scale(0.98);
+}
+
+/* Mobile optimizations for combo cards */
+@media (max-width: 640px) {
+  .combo-card {
+    margin-bottom: 1rem;
+  }
+
+  .combo-card:hover {
+    transform: translateY(-2px);
+  }
+
+  .combo-buy-button {
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+  }
+
+  .combo-buy-button:hover {
+    box-shadow: 0 8px 20px -5px rgba(0, 0, 0, 0.15);
+  }
+
+  /* Tối ưu cho mẹ bỉm sữa - button lớn hơn, dễ bấm */
+  .combo-buy-button {
+    min-height: 48px; /* Touch-friendly size */
+    font-weight: 700;
+  }
+
+  /* Combo action buttons mobile optimization */
+  .combo-card .flex.gap-2 button {
+    min-height: 48px; /* Touch-friendly for both buttons */
+    font-size: 0.875rem;
+    padding: 0.75rem 0.5rem; /* Adjust padding for 2-button layout */
+  }
+
+  /* Ensure text doesn't wrap on mobile */
+  .combo-card .flex.gap-2 button span {
+    white-space: nowrap;
+  }
+}
+
+/* Enhanced Combo Modal Styles */
+.combo-modal-content {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.combo-product-image {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.combo-product-image:hover {
+  transform: scale(1.05);
+}
+
+/* Smooth animations for modal elements */
+.combo-modal-enter {
+  animation: comboModalSlideIn 0.3s ease-out;
+}
+
+@keyframes comboModalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Enhanced button interactions */
+.combo-action-button {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.combo-action-button:active {
+  transform: scale(0.98);
+}
+
+/* Price highlight animation */
+.combo-price-highlight {
+  animation: priceGlow 2s ease-in-out infinite;
+}
+
+@keyframes priceGlow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(16, 185, 129, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.6);
+  }
+}
+
+/* Mobile-specific optimizations for combo modal */
+@media (max-width: 640px) {
+  /* Larger product images on mobile for better viewing */
+  .combo-product-image {
+    min-height: 200px;
+  }
+
+  /* Touch-friendly buttons */
+  .combo-action-button {
+    min-height: 48px;
+    font-size: 0.875rem;
+  }
+
+  /* Improved text readability */
+  .combo-modal-content h2 {
+    font-size: 1rem;
+    line-height: 1.3;
+  }
+
+  .combo-modal-content h4 {
+    font-size: 0.875rem;
+    line-height: 1.4;
+  }
+
+  /* Better spacing for mobile */
+  .combo-modal-content .grid {
+    gap: 0.75rem;
+  }
+}
+
+/* Enhanced visual feedback */
+.combo-action-button:hover {
+  box-shadow: 0 10px 25px -5px rgba(236, 72, 153, 0.4);
+}
+
+/* Smooth transitions for all interactive elements */
+.combo-modal-content * {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Loading state for images */
+.combo-product-image {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Confirmation Modal Enhancements */
+.confirm-modal-gradient {
+  background: linear-gradient(135deg, rgba(236, 72, 153, 0.1) 0%, rgba(147, 51, 234, 0.1) 50%, rgba(79, 70, 229, 0.1) 100%);
+}
+
+.section-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.section-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Icon containers */
+.icon-container {
+  transition: all 0.3s ease;
+}
+
+.icon-container:hover {
+  transform: scale(1.1);
+}
+
+/* Button enhancements */
+.btn-confirm {
+  background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%) !important;
+  color: white !important;
+}
+
+.btn-edit {
+}
+
+/* Custom scrollbar cho modal */
+.modal-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+.modal-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+
+.modal-scroll::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 2px;
+  margin: 8px 0;
+}
+
+.modal-scroll::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 2px;
+  border: none;
+}
+
+.modal-scroll::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Ẩn scrollbar khi không cần thiết */
+.modal-scroll::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Fix scrollbar cho modal có footer fixed */
+.modal-with-fixed-footer .modal-scroll {
+  padding-right: 2px;
+  margin-right: -2px;
+}
+
+.modal-with-fixed-footer .modal-scroll::-webkit-scrollbar {
+  width: 3px;
+}
+
+.modal-with-fixed-footer .modal-scroll::-webkit-scrollbar-track {
+  margin-bottom: 80px; /* Tránh scrollbar thò ra dưới footer */
+}
+
+/* Cart items scroll container */
+.cart-items-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f1f1f1;
+}
+
+.cart-items-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.cart-items-scroll::-webkit-scrollbar-track {
+  background: #f8fafc;
+  border-radius: 4px;
+  margin: 4px 0;
+}
+
+.cart-items-scroll::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #ec4899, #8b5cf6);
+  border-radius: 4px;
+  border: 1px solid #f8fafc;
+}
+
+.cart-items-scroll::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #db2777, #7c3aed);
+}
+
+/* Scroll fade indicators */
+.scroll-fade-top {
+  background: linear-gradient(to bottom, rgba(248, 250, 252, 0.9) 0%, transparent 100%);
+  height: 8px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.scroll-fade-bottom {
+  background: linear-gradient(to top, rgba(248, 250, 252, 0.9) 0%, transparent 100%);
+  height: 8px;
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Hiệu ứng hover cho form elements */
+.form-input:focus {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 25px -5px rgba(236, 72, 153, 0.1), 0 10px 10px -5px rgba(236, 72, 153, 0.04);
+}
+
+/* Animation cho radio buttons */
+.radio-option {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.radio-option:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+/* Pulse animation cho button thanh toán */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(236, 72, 153, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(236, 72, 153, 0.6), 0 0 40px rgba(147, 51, 234, 0.4);
+  }
+}
+
+/* Custom spinner animation - đảm bảo hoạt động ngay khi load */
+@keyframes custom-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-spinner {
+  animation: custom-spin 1s linear infinite !important;
+  transform-origin: center;
+  will-change: transform;
+}
+
+/* Animation cho social proof dot - cart modal */
+@keyframes social-activity-pulse {
+  0%, 100% {
+    transform: scale(1);
+    background-color: rgb(74, 222, 128);
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+  }
+  50% {
+    transform: scale(1.3);
+    background-color: rgb(34, 197, 94);
+    box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.3);
+  }
+}
+
+/* Cart Item Weight Selection Styling */
+.cart-item-weight-section {
+  background: linear-gradient(135deg, #fef7ff 0%, #fdf2f8 100%);
+  border: 1px solid #f3e8ff;
+  border-radius: 8px;
+  padding: 8px;
+}
+
+.weight-selector {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.weight-selector:focus {
+  border-color: #ec4899;
+  box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1);
+  outline: none;
+}
+
+.weight-selector option {
+  padding: 4px 8px;
+}
+
+/* Custom weight input styling */
+.custom-weight-input {
+  background: #fef7ff;
+  border: 1px dashed #ec4899;
+  transition: all 0.2s ease;
+}
+
+.custom-weight-input:focus {
+  background: white;
+  border-style: solid;
+}
+
+/* Number input styling - remove spinner arrows */
+.custom-weight-input[type="number"] {
+  -moz-appearance: textfield; /* Firefox */
+}
+
+.custom-weight-input[type="number"]::-webkit-outer-spin-button,
+.custom-weight-input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Custom number input styling */
+.custom-weight-input[type="number"] {
+  background: white;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.custom-weight-input[type="number"]:focus {
+  border-color: #ec4899;
+  box-shadow: 0 0 0 3px rgba(236, 72, 153, 0.1);
+  outline: none;
+}
+
+.social-activity-dot {
+  animation: social-activity-pulse 2s ease-in-out infinite !important;
+  /* Override Tailwind classes */
+  background-color: rgb(74, 222, 128) !important;
+  transform-origin: center !important;
+}
+
+.btn-checkout {
+  animation: pulse-glow 2s infinite;
+}
+
+.btn-checkout:hover {
+  animation: none;
+}
+
+/* Floating labels */
+.floating-label {
+  position: relative;
+}
+
+.floating-label input:focus + label,
+.floating-label input:not(:placeholder-shown) + label {
+  transform: translateY(-1.5rem) scale(0.85);
+  color: #ec4899;
+}
+
+.floating-label label {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  transition: all 0.2s ease;
+  pointer-events: none;
+  background: white;
+  padding: 0 0.25rem;
+}
+
+/* Mobile optimizations with safe area support */
+@media (max-width: 640px) {
+  .modal-content {
+    margin: 0.5rem;
+    max-height: calc(100vh - 1rem);
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .btn-group {
+    flex-direction: column;
+  }
+
+  .btn-group button {
+    width: 100%;
+    margin: 0.25rem 0;
+  }
+
+  /* Safe area support for iOS */
+  .pt-safe-top {
+    padding-top: max(1rem, env(safe-area-inset-top));
+  }
+
+  .pb-safe-bottom {
+    padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  }
+
+  /* New floating buttons responsive positioning */
+  .fixed.right-4.bottom-20 {
+    bottom: 6rem !important; /* 96px - safe distance above mobile cart bar */
+    right: 1rem !important;
+  }
+
+  /* Modal footer responsive improvements */
+  .modal-fixed-footer {
+    min-height: 80px; /* Chiều cao vừa phải cho mobile */
+  }
+
+  /* Confirm modal footer specific optimization */
+  .modal-fixed-footer .flex.flex-row button {
+    min-height: 40px; /* Touch-friendly height */
+    font-size: 0.75rem; /* Smaller text on mobile */
+  }
+
+  /* Button spacing improvements for mobile */
+  .flex.flex-col.sm\\:flex-row button {
+    min-height: 44px; /* Touch-friendly button height */
+  }
+
+  /* Input field improvements for mobile */
+  input, select, textarea {
+    font-size: 16px; /* Prevent zoom on iOS */
+    min-height: 44px; /* Touch-friendly */
+  }
+
+  /* Modal content padding adjustments */
+  .modal-scroll {
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  }
+}
+}
+
+/* Loading states */
+.loading {
+  position: relative;
+  overflow: hidden;
+}
+
+.loading::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  animation: loading-shimmer 1.5s infinite;
+}
+
+@keyframes loading-shimmer {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* Success checkmark animation */
+.checkmark {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: block;
+  stroke-width: 2;
+  stroke: #fff;
+  stroke-miterlimit: 10;
+  margin: 10% auto;
+  box-shadow: inset 0px 0px 0px #10b981;
+  animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+}
+
+.checkmark__circle {
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  stroke-width: 2;
+  stroke-miterlimit: 10;
+  stroke: #10b981;
+  fill: none;
+  animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.checkmark__check {
+  transform-origin: 50% 50%;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+}
+
+@keyframes stroke {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes scale {
+  0%, 100% {
+    transform: none;
+  }
+  50% {
+    transform: scale3d(1.1, 1.1, 1);
+  }
+}
+
+@keyframes fill {
+  100% {
+    box-shadow: inset 0px 0px 0px 30px #10b981;
+  }
+}
+
+/* Gentle floating animation for modal */
+@keyframes gentle-float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.modal-float {
+  animation: gentle-float 6s ease-in-out infinite;
+}
+
+/* Soft glow effect for important elements */
+@keyframes soft-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(236, 72, 153, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(236, 72, 153, 0.4), 0 0 40px rgba(147, 51, 234, 0.2);
+  }
+}
+
+.soft-glow {
+  animation: soft-glow 3s ease-in-out infinite;
+}
+
+/* Heartbeat animation for special elements */
+@keyframes heartbeat {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.heartbeat {
+  animation: heartbeat 2s ease-in-out infinite;
+}
+
+/* Slide in animation for sections */
+@keyframes slide-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.slide-in-up {
+  animation: slide-in-up 0.5s ease-out;
+}
+
+/* Staggered animation delays */
+.delay-100 { animation-delay: 0.1s; }
+.delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
+.delay-400 { animation-delay: 0.4s; }
+
+/* Fixed footer modal adjustments */
+.modal-fixed-footer {
+  min-height: 80px; /* Đảm bảo footer có chiều cao tối thiểu */
+}
+
+/* Smooth scroll behavior for modal content */
+.modal-scroll {
+  scroll-behavior: smooth;
+}
+
+/* FAQ Modal Improvements */
+.faq-answer {
+  transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+  will-change: max-height, opacity;
+}
+
+/* Prevent modal flicker */
+[x-cloak] {
+  display: none !important;
+}
+
+/* Product Detail Modal Enhancements */
+.product-detail-modal {
+  backdrop-filter: blur(8px);
+}
+
+.product-detail-content {
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.quantity-selector button:hover {
+  transform: scale(1.05);
+}
+
+.trust-badge {
+  transition: all 0.3s ease;
+}
+
+.trust-badge:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px -8px rgba(0, 0, 0, 0.2);
+}
+
+/* Preset note buttons */
+.preset-note-btn {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 0.75rem;
+  line-height: 1rem;
+  white-space: nowrap;
+}
+
+.preset-note-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.preset-note-btn:active {
+  transform: translateY(0);
+}
+
+/* Mobile optimization for preset buttons */
+@media (max-width: 640px) {
+  .preset-note-btn {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.5rem;
+    min-height: 32px; /* Touch-friendly */
+  }
+
+  /* Category card mobile optimization - hover effects removed */
+
+  /* Popular badge mobile optimization */
+  .popular-badge {
+    font-size: 9px;
+    padding: 0.25rem 0.5rem;
+  }
+
+  .popular-badge svg {
+    width: 0.625rem;
+    height: 0.625rem;
+  }
+
+  /* Form section spacing */
+  .space-y-4 > * + * {
+    margin-top: 1rem; /* Consistent spacing */
+  }
+
+  /* Payment method cards mobile optimization */
+  .border-2.rounded-lg.p-2\.5 {
+    padding: 0.75rem; /* Better touch area */
+  }
+
+  /* Bank info section mobile optimization */
+  .bg-gradient-to-r.from-blue-50.to-indigo-50 {
+    padding: 0.75rem; /* Better mobile padding */
+  }
+}
+
+/* Form validation styles */
+.form-error {
+  animation: shake 0.3s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-2px); }
+  75% { transform: translateX(2px); }
+}
+
+/* Error message animation */
+.error-message {
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #ec4899, #8b5cf6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Card hover effects */
+.card-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Input focus ring animation */
+.input-focus-ring {
+  position: relative;
+}
+
+.input-focus-ring::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #ec4899, #8b5cf6, #ec4899);
+  border-radius: inherit;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.input-focus-ring:focus-within::before {
+  opacity: 1;
+}
+
+/* Responsive typography */
+@media (max-width: 640px) {
+  .text-responsive-xl {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+  }
+
+  .text-responsive-lg {
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+  }
+
+  /* Modal specific mobile improvements */
+  .rounded-3xl {
+    border-radius: 1.5rem; /* Consistent rounded corners */
+  }
+
+  /* Confirm modal section cards mobile optimization */
+  .bg-gradient-to-r.from-pink-50.to-purple-50,
+  .bg-gradient-to-r.from-blue-50.to-indigo-50,
+  .bg-gradient-to-r.from-green-50.to-emerald-50,
+  .bg-gradient-to-r.from-amber-50.to-orange-50 {
+    padding: 1rem; /* Better mobile padding for section cards */
+    margin-bottom: 0.75rem;
+  }
+
+  /* Icon containers in confirm modal */
+  .w-6.h-6.bg-pink-100,
+  .w-6.h-6.bg-blue-100,
+  .w-6.h-6.bg-green-100,
+  .w-6.h-6.bg-amber-100 {
+    width: 1.25rem;
+    height: 1.25rem;
+    flex-shrink: 0;
+  }
+
+  /* Product cards in confirm modal */
+  .bg-white.p-3.rounded-xl {
+    padding: 0.75rem;
+  }
+
+  /* Summary section mobile optimization */
+  .bg-white.p-3.rounded-xl.border {
+    padding: 0.75rem;
+  }
+}
+
+/* Smooth transitions for all interactive elements */
+button, input, select, textarea, a {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Custom focus styles */
+.focus-ring:focus {
+  outline: none;
+  ring: 2px;
+  ring-color: #ec4899;
+  ring-offset: 2px;
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .border-gray-200 {
+    border-color: #000;
+  }
+
+  .text-gray-600 {
+    color: #000;
+  }
+
+  .bg-gray-50 {
+    background-color: #fff;
+  }
+}
+
+/* Dot pulse animation for social proof */
+@keyframes dotPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 0.7;
+  }
+}
+
+/* Product Action Buttons Optimization - New 2:3 Ratio Layout */
+.product-action-buttons {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  gap: 0.5rem;
+}
+
+.product-action-buttons button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.5rem;
+  font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  white-space: nowrap;
+}
+
+.product-action-buttons button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.product-action-buttons button svg {
+  flex-shrink: 0;
+  margin-right: 0.25rem;
+}
+
+.product-action-buttons button span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Mobile optimizations */
+@media (max-width: 480px) {
+  .product-action-buttons button {
+    min-height: 2.25rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  .product-action-buttons button svg {
+    width: 0.875rem;
+    height: 0.875rem;
+    margin-right: 0.125rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .product-action-buttons button {
+    font-size: 0.6875rem;
+    min-height: 2rem;
+  }
+
+  .product-action-buttons button svg {
+    width: 0.75rem;
+    height: 0.75rem;
+  }
+}
+
+
+
+
+/* Real Silver Badge */
+.real-silver-badge {
+  position: absolute;
+  bottom: 0.5rem; /* 8px */
+  right: 0.5rem; /* 8px */
+  background: linear-gradient(135deg, #e0e0e0, #ffffff);
+  color: #4a5568;
+  font-size: 0.625rem; /* 10px */
+  font-weight: 700;
+  padding: 0.125rem 0.375rem; /* 2px 6px */
+  border-radius: 0.25rem; /* 4px */
+  border: 1px solid #d1d5db;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem; /* 4px */
+  z-index: 10;
+  opacity: 0.9;
+  transition: all 0.2s ease-in-out;
+}
+
+.product-card:hover .real-silver-badge {
+  opacity: 1;
+  transform: scale(1.05);
+}
+
+.real-silver-badge svg {
+  width: 0.625rem; /* 10px */
+  height: 0.625rem; /* 10px */
+  fill: currentColor;
+}
