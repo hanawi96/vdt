@@ -6,6 +6,16 @@ document.addEventListener('alpine:init', () => {
     /* ========= STATE ========= */
     view: 'products',
 
+    /* ========= REFERRAL SYSTEM ========= */
+    referralCode: '',
+    
+    // Partners data - hardcoded để tránh lỗi JSON loading
+    partners: {
+      "PARTNER001": { "name": "Nguyen Van A", "commission": 10, "status": "active" },
+      "PARTNER002": { "name": "Tran Thi B", "commission": 15, "status": "active" },
+      "PARTNER003": { "name": "Le Van C", "commission": 12, "status": "active" }
+    },
+
     /* ========= BABY NAME MODAL STATE ========= */
     isBabyNameModalOpen: false,
     babyNameInput: '',
@@ -929,8 +939,15 @@ document.addEventListener('alpine:init', () => {
 
     /* ========= LIFECYCLE ========= */
     async init() {
+      // Xử lý referral code từ URL trước khi tải dữ liệu
+      this.handleReferralFromURL();
+      
       // Tải dữ liệu
       await this.loadData();
+      
+      // Revalidate referral sau khi partners data đã được load
+      this.revalidateReferralAfterLoad();
+      
       this.revalidateAppliedDiscount(); // Re-apply discount on load
       this.startNotificationLoop();
       this.startFreeshipCountdown();
@@ -1223,7 +1240,6 @@ document.addEventListener('alpine:init', () => {
 
         if (!prodRes.ok) throw new Error('Không thể tải sản phẩm.');
         if (!infoRes.ok) throw new Error('Không thể tải thông tin shop.');
-
         if (!discountRes.ok) throw new Error('Không thể tải mã giảm giá.');
         if (!sharedRes.ok) throw new Error('Không thể tải thông tin chi tiết.');
 
@@ -1254,6 +1270,8 @@ document.addEventListener('alpine:init', () => {
 
         this.availableDiscounts = await discountRes.json();
         this.sharedDetails = await sharedRes.json();
+        
+        // Partners data đã được hardcode ở trên, không cần load từ file
 
 
 
@@ -3006,8 +3024,16 @@ document.addEventListener('alpine:init', () => {
       // Ẩn Quick Buy Modal
       this.isQuickBuyModalOpen = false;
 
+
+
       // Hiển thị Success Modal (cho cả COD và Bank Transfer)
       this.isSuccessModalOpen = true;
+    },
+
+    // Helper: Xóa referral khỏi localStorage
+    clearReferralStorage() {
+      localStorage.removeItem('referralData');
+      localStorage.removeItem('referralCode'); // Legacy cleanup
     },
 
     // Helper: Đóng tất cả modal
@@ -3111,7 +3137,11 @@ document.addEventListener('alpine:init', () => {
           shipping: shippingFee === 0 ? 'Miễn phí' : this.formatCurrency(shippingFee),
           discount: this.discountAmount > 0 ? `-${this.formatCurrency(this.discountAmount)} (${this.appliedDiscountCode})` : 'Không có',
           total: this.formatCurrency(total),
-          paymentMethod: 'Chuyển khoản ngân hàng'
+          paymentMethod: 'Chuyển khoản ngân hàng',
+          // Thêm thông tin referral với validation
+          referralCode: (this.referralCode && this.validateReferralCode(this.referralCode)) ? this.referralCode : '',
+          referralPartner: (this.referralCode && this.validateReferralCode(this.referralCode)) ? (this.getPartnerInfo(this.referralCode)?.name || '') : '',
+          referralCommission: (this.referralCode && this.validateReferralCode(this.referralCode)) ? this.calculateCommission(total, this.referralCode) : 0
         };
 
         // Gửi đơn hàng
@@ -3434,6 +3464,8 @@ document.addEventListener('alpine:init', () => {
         const newOrderId = this.generateOrderId();
         this.lastOrderId = newOrderId;
 
+
+
         const orderDetails = {
           orderId: newOrderId,
           cart: cartItems,
@@ -3450,8 +3482,14 @@ document.addEventListener('alpine:init', () => {
           shipping: shippingFee === 0 ? 'Miễn phí' : this.formatCurrency(shippingFee),
           discount: this.discountAmount > 0 ? `-${this.formatCurrency(this.discountAmount)} (${this.appliedDiscountCode})` : 'Không có',
           total: this.formatCurrency(total),
-          paymentMethod: this.quickBuyPaymentMethod === 'cod' ? 'Thanh toán khi nhận hàng (COD)' : 'Chuyển khoản ngân hàng'
+          paymentMethod: this.quickBuyPaymentMethod === 'cod' ? 'Thanh toán khi nhận hàng (COD)' : 'Chuyển khoản ngân hàng',
+          // Thêm thông tin referral với validation
+          referralCode: (this.referralCode && this.validateReferralCode(this.referralCode)) ? this.referralCode : '',
+          referralPartner: (this.referralCode && this.validateReferralCode(this.referralCode)) ? (this.getPartnerInfo(this.referralCode)?.name || '') : '',
+          referralCommission: (this.referralCode && this.validateReferralCode(this.referralCode)) ? this.calculateCommission(total, this.referralCode) : 0
         };
+
+
 
         // Gửi đơn hàng
         const workerUrl = 'https://hidden-bonus-76d2.yendev96.workers.dev';
@@ -4023,6 +4061,8 @@ document.addEventListener('alpine:init', () => {
       const newOrderId = this.generateOrderId();
       this.lastOrderId = newOrderId;
 
+
+
       const orderDetails = {
         orderId: newOrderId,
         cart: (() => {
@@ -4039,8 +4079,14 @@ document.addEventListener('alpine:init', () => {
         shipping: this.shippingFee() === 0 ? (this.freeShipping ? 'Miễn phí (FREESHIP)' : 'Miễn phí') : this.formatCurrency(this.shippingFee()),
         discount: this.discountAmount > 0 ? `-${this.formatCurrency(this.discountAmount)} (${this.appliedDiscountCode})` : 'Không có',
         total: this.formatCurrency(this.cartTotal()),
-        paymentMethod: this.paymentMethod === 'cod' ? 'Thanh toán khi nhận hàng (COD)' : 'Chuyển khoản ngân hàng'
+        paymentMethod: this.paymentMethod === 'cod' ? 'Thanh toán khi nhận hàng (COD)' : 'Chuyển khoản ngân hàng',
+        // Thêm thông tin referral với validation
+        referralCode: (this.referralCode && this.validateReferralCode(this.referralCode)) ? this.referralCode : '',
+        referralPartner: (this.referralCode && this.validateReferralCode(this.referralCode)) ? (this.getPartnerInfo(this.referralCode)?.name || '') : '',
+        referralCommission: (this.referralCode && this.validateReferralCode(this.referralCode)) ? this.calculateCommission(this.cartTotal(), this.referralCode) : 0
       };
+
+
 
       const workerUrl = 'https://hidden-bonus-76d2.yendev96.workers.dev';
 
@@ -4358,6 +4404,236 @@ document.addEventListener('alpine:init', () => {
       if (this.selectedProvince && this.selectedDistrict && this.selectedWard && this.streetAddress) {
         this.updateFullAddress();
       }
+    },
+
+    /* ========= REFERRAL FUNCTIONS ========= */
+    
+    // Xử lý referral code từ URL
+    handleReferralFromURL() {
+      const SEVEN_DAYS = 7 * 24 * 60 * 60 * 1000;
+      
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const refCode = urlParams.get('ref');
+        
+        if (refCode?.trim() && /^[A-Z0-9_-]+$/i.test(refCode)) {
+          // Có referral mới từ URL
+          const cleanCode = refCode.trim().toUpperCase();
+          this.referralCode = cleanCode;
+          
+          const referralData = {
+            code: cleanCode,
+            expiry: Date.now() + SEVEN_DAYS
+          };
+          
+          try {
+            localStorage.setItem('referralData', JSON.stringify(referralData));
+            // Clean URL
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.delete('ref');
+            window.history.replaceState({}, document.title, newUrl.toString());
+          } catch (e) {
+            // Silent fail
+          }
+        } else {
+          // Không có referral trong URL, kiểm tra localStorage
+          this.loadStoredReferral();
+        }
+      } catch (error) {
+        // Silent fail
+      }
+    },
+
+    // Load referral từ localStorage
+    loadStoredReferral() {
+      try {
+        const storedData = localStorage.getItem('referralData');
+        if (storedData) {
+          const data = JSON.parse(storedData);
+          if (data.expiry && Date.now() < data.expiry) {
+            this.referralCode = data.code;
+          } else {
+            // Hết hạn, xóa
+            this.clearReferralStorage();
+          }
+        }
+      } catch (error) {
+        this.clearReferralStorage();
+      }
+    },
+
+    // Revalidate referral sau khi partners data đã được load
+    revalidateReferralAfterLoad() {
+      if (this.referralCode && !this.validateReferralCode(this.referralCode)) {
+        this.referralCode = '';
+        this.clearReferralStorage();
+      }
+    },
+
+    // Validate referral code
+    validateReferralCode(code) {
+      try {
+        if (!code || !this.partners || typeof this.partners !== 'object') return false;
+        const partner = this.partners[code.toUpperCase()];
+        return partner && partner.status === 'active';
+      } catch (error) {
+        return false;
+      }
+    },
+
+    // Lấy thông tin partner
+    getPartnerInfo(code) {
+      try {
+        if (!code || !this.partners || typeof this.partners !== 'object') return null;
+        return this.partners[code.toUpperCase()] || null;
+      } catch (error) {
+        return null;
+      }
+    },
+
+    // Tính hoa hồng
+    calculateCommission(total, code) {
+      try {
+        const partner = this.getPartnerInfo(code);
+        if (!partner) return 0;
+        
+        // Convert total to number if it's a string
+        let numericTotal = total;
+        if (typeof total === 'string') {
+          // Remove currency formatting and convert to number
+          numericTotal = parseInt(total.replace(/[^\d]/g, '')) || 0;
+        }
+        
+        if (typeof numericTotal !== 'number' || numericTotal <= 0) return 0;
+        
+        const commission = Math.floor(numericTotal * partner.commission / 100);
+        return commission;
+      } catch (error) {
+        return 0;
+      }
+    },
+
+    /* ========= PARTNER MANAGEMENT ========= */
+    
+    // Thêm partner mới (dành cho admin)
+    addPartner(code, name, commission) {
+      if (!code || !name || !commission) {
+        console.error('❌ Missing required fields for partner');
+        return false;
+      }
+      
+      this.partners[code.toUpperCase()] = {
+        name: name,
+        commission: commission,
+        status: 'active'
+      };
+      
+      console.log(`✅ Added partner: ${code} - ${name} (${commission}%)`);
+      return true;
+    },
+    
+    // Vô hiệu hóa partner
+    deactivatePartner(code) {
+      if (this.partners[code.toUpperCase()]) {
+        this.partners[code.toUpperCase()].status = 'inactive';
+        console.log(`🔒 Deactivated partner: ${code}`);
+        return true;
+      }
+      return false;
+    },
+    
+    // Kích hoạt lại partner
+    activatePartner(code) {
+      if (this.partners[code.toUpperCase()]) {
+        this.partners[code.toUpperCase()].status = 'active';
+        console.log(`🔓 Activated partner: ${code}`);
+        return true;
+      }
+      return false;
+    },
+
+    /* ========= DEBUG FUNCTIONS ========= */
+    
+    // Quick referral status check
+    showReferralStatus() {
+      console.log('📊 === QUICK REFERRAL STATUS ===');
+      console.log('Current Code:', this.referralCode || 'NONE');
+      console.log('localStorage (old):', localStorage.getItem('referralCode') || 'NONE');
+      console.log('Is Valid:', this.referralCode ? this.validateReferralCode(this.referralCode) : false);
+      
+      // Hiển thị thông tin thời hạn từ referralData
+      try {
+        const referralData = localStorage.getItem('referralData');
+        if (referralData) {
+          const data = JSON.parse(referralData);
+          const now = Date.now();
+          const timeRemaining = data.expiry - now;
+          const daysRemaining = Math.round(timeRemaining / (1000 * 60 * 60 * 24) * 10) / 10;
+          
+          console.log('📅 Referral Data:');
+          console.log('  - Code:', data.code);
+          console.log('  - Created:', new Date(data.timestamp).toLocaleString());
+          console.log('  - Expires:', new Date(data.expiry).toLocaleString());
+          console.log('  - Days remaining:', daysRemaining > 0 ? daysRemaining : 'EXPIRED');
+          console.log('  - Status:', timeRemaining > 0 ? '✅ ACTIVE' : '❌ EXPIRED');
+        } else {
+          console.log('📅 No referralData found in localStorage');
+        }
+      } catch (error) {
+        console.error('❌ Error reading referralData:', error);
+      }
+      
+      if (this.referralCode && this.validateReferralCode(this.referralCode)) {
+        const partner = this.getPartnerInfo(this.referralCode);
+        console.log('👤 Partner:', partner?.name || 'Unknown');
+        console.log('💰 Commission:', partner?.commission + '%' || 'Unknown');
+      }
+      console.log('📊 === END STATUS ===');
+    },
+
+    // Manual set referral for testing
+    setTestReferral(code) {
+      console.log('🧪 === MANUAL SET REFERRAL ===');
+      console.log('Setting referral code to:', code);
+      
+      if (this.validateReferralCode(code)) {
+        this.referralCode = code;
+        
+        // Lưu với cấu trúc mới (7 ngày)
+        const referralData = {
+          code: code,
+          timestamp: Date.now(),
+          expiry: Date.now() + (7 * 24 * 60 * 60 * 1000) // 7 ngày
+        };
+        
+        try {
+          localStorage.setItem('referralData', JSON.stringify(referralData));
+          localStorage.setItem('referralCode', code); // Tương thích
+          console.log('✅ Referral code set successfully with 7-day expiry:', code);
+        } catch (error) {
+          console.error('❌ Error saving referral data:', error);
+        }
+        
+        const partner = this.getPartnerInfo(code);
+        console.log('👤 Partner info:', partner);
+      } else {
+        console.log('❌ Invalid referral code:', code);
+      }
+      console.log('🧪 === END MANUAL SET ===');
+    },
+
+    // Test URL parsing manually
+    testUrlParsing() {
+      console.log('🧪 === URL PARSING TEST ===');
+      console.log('window.location.href:', window.location.href);
+      console.log('window.location.search:', window.location.search);
+      console.log('window.location.pathname:', window.location.pathname);
+      console.log('window.location.hash:', window.location.hash);
+      
+      const urlParams = new URLSearchParams(window.location.search);
+      console.log('URLSearchParams entries:', Array.from(urlParams.entries()));
+      console.log('ref parameter:', urlParams.get('ref'));
+      console.log('🧪 === END URL TEST ===');
     },
 
     /* ========= BABY NAME MODAL FUNCTIONS ========= */

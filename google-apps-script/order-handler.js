@@ -26,7 +26,9 @@ const HEADERS = [
   "Chi Tiết Sản Phẩm",
   "💰 TỔNG KHÁCH PHẢI TRẢ",
   "Phương Thức Thanh Toán",
-  "Ghi Chú"
+  "Ghi Chú",
+  "Mã Referral",
+  "Hoa Hồng"
 ];
 
 // ==================== HÀM CHÍNH ====================
@@ -149,6 +151,8 @@ function setupSheetHeaders(sheet) {
   sheet.setColumnWidth(7, 150);  // Tổng tiền
   sheet.setColumnWidth(8, 150);  // Phương thức thanh toán
   sheet.setColumnWidth(9, 200);  // Ghi chú
+  sheet.setColumnWidth(10, 120); // Mã Referral
+  sheet.setColumnWidth(11, 120); // Hoa Hồng
   
   Logger.log("✅ Đã thiết lập headers và format cho sheet");
 }
@@ -199,6 +203,13 @@ function formatProductDetails(cartItems) {
  * Thêm đơn hàng vào sheet
  */
 function addOrderToSheet(sheet, orderData) {
+  // Debug log để kiểm tra referral data
+  Logger.log('🔍 REFERRAL DEBUG - Received order data:');
+  Logger.log('- referralCode: ' + (orderData.referralCode || 'EMPTY'));
+  Logger.log('- referralPartner: ' + (orderData.referralPartner || 'EMPTY'));
+  Logger.log('- referralCommission: ' + (orderData.referralCommission || 'EMPTY'));
+  Logger.log('- referralCommission type: ' + typeof orderData.referralCommission);
+
   // Format chi tiết sản phẩm
   const productDetails = formatProductDetails(orderData.cart);
   
@@ -212,7 +223,11 @@ function addOrderToSheet(sheet, orderData) {
     productDetails,
     orderData.total, // TỔNG KHÁCH PHẢI TRẢ
     getPaymentMethodText(orderData.paymentMethod),
-    orderData.customer.notes || ""
+    orderData.customer.notes || "",
+    orderData.referralCode || "", // Mã Referral
+    (orderData.referralCommission && typeof orderData.referralCommission === 'number' && orderData.referralCommission > 0) 
+      ? `${orderData.referralCommission.toLocaleString('vi-VN')}đ` 
+      : "" // Hoa Hồng
   ];
   
   // Thêm vào sheet
@@ -400,6 +415,16 @@ function createTelegramMessage(orderData) {
       message += `\n`;
     }
   });
+
+  // Thông tin referral (nếu có)
+  if (orderData.referralCode && orderData.referralPartner) {
+    message += `\n🤝 <b>REFERRAL</b>\n`;
+    message += `📋 Mã: <code>${orderData.referralCode}</code>\n`;
+    message += `👤 Partner: ${orderData.referralPartner}\n`;
+    if (orderData.referralCommission && typeof orderData.referralCommission === 'number' && orderData.referralCommission > 0) {
+      message += `💰 Hoa hồng: <b>${orderData.referralCommission.toLocaleString('vi-VN')}đ</b>\n`;
+    }
+  }
 
   // Footer
   message += `\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
