@@ -1101,9 +1101,9 @@
 
                                 <!-- Badge "Bạc S999/S925" - Bottom right corner -->
                                 <div x-show="hasRealSilver(product)"
-                                    class="absolute bottom-2 right-2 bg-transparent text-white text-[9px] font-bold px-2 py-1 rounded-lg border-2 border-white shadow-lg backdrop-blur-sm z-20 flex items-center space-x-1">
+                                    class="absolute bottom-2 right-2 bg-transparent text-white text-[9px] sm:text-[10px] font-bold px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-lg border-2 border-white shadow-lg backdrop-blur-sm z-20 flex items-center space-x-0.5 sm:space-x-1">
                                     <!-- Shield Check Icon -->
-                                    <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white" fill="currentColor" viewBox="0 0 24 24">
                                         <path fill-rule="evenodd"
                                             d="M12.516 2.17a.75.75 0 0 0-1.032 0 11.209 11.209 0 0 1-7.877 3.08.75.75 0 0 0-.722.515A12.74 12.74 0 0 0 2.25 9.75c0 5.942 4.064 10.933 9.563 12.348a.749.749 0 0 0 .374 0c5.499-1.415 9.563-6.406 9.563-12.348 0-1.39-.223-2.73-.635-3.985a.75.75 0 0 0-.722-.516l-.143.001c-2.996 0-5.717-1.17-7.734-3.08Zm3.094 8.016a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z"
                                             clip-rule="evenodd" />
@@ -3060,10 +3060,7 @@
                                         actualWeight = quickBuyCustomWeight + 'kg';
                                     }
                                     const priceData = calculateDynamicPrice(quickBuyProduct, actualWeight);
-                                    if (quickBuyProduct?.category === 'hat_dau_tam_mai_san') {
-                                        return (quickBuyProduct?.price || 0) * quickBuyQuantity;
-                                    }
-                                    // Hiển thị giá gốc, không bao gồm phụ phí
+                                    // Hiển thị giá đơn vị (không nhân với số lượng)
                                     return quickBuyProduct?.price || 0;
                                 })())"></span>
                                     <span x-show="(() => {
@@ -4238,16 +4235,17 @@
                                 <img :src="currentProductDetail.image" :alt="currentProductDetail.name"
                                     class="w-full h-full object-cover rounded-xl shadow-lg" loading="lazy">
 
-                                <!-- Badge "Bạc thật" -->
+                                <!-- Badge "Bạc S999/S925" -->
                                 <div x-show="hasRealSilver(currentProductDetail)"
-                                    class="absolute bottom-2 right-2 bg-gradient-to-br from-green-400 via-green-500 to-green-600 text-white text-[9px] font-bold px-2 py-1 rounded-lg border-2 border-green-300 shadow-lg backdrop-blur-sm z-20 flex items-center space-x-1">
+                                    class="absolute bottom-2 right-2 bg-transparent text-white text-[9px] font-bold px-2 py-1 rounded-lg border-2 border-white shadow-lg backdrop-blur-sm z-20 flex items-center space-x-1">
                                     <!-- Shield Check Icon -->
                                     <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 24 24">
                                         <path fill-rule="evenodd"
                                             d="M12.516 2.17a.75.75 0 0 0-1.032 0 11.209 11.209 0 0 1-7.877 3.08.75.75 0 0 0-.722.515A12.74 12.74 0 0 0 2.25 9.75c0 5.942 4.064 10.933 9.563 12.348a.749.749 0 0 0 .374 0c5.499-1.415 9.563-6.406 9.563-12.348 0-1.39-.223-2.73-.635-3.985a.75.75 0 0 0-.722-.516l-.143.001c-2.996 0-5.717-1.17-7.734-3.08Zm3.094 8.016a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z"
                                             clip-rule="evenodd" />
                                     </svg>
-                                    <span class="font-extrabold tracking-tight">BẠC THẬT</span>
+                                    <span class="font-extrabold tracking-tight"
+                                        x-text="getSilverType(currentProductDetail) ? 'BẠC ' + getSilverType(currentProductDetail) : 'BẠC THẬT'"></span>
                                 </div>
 
                                 <!-- Sale Badge -->
