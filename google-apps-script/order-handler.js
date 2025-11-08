@@ -1,7 +1,7 @@
 /**
  * Google Apps Script cho xử lý đơn hàng Vòng Dâu Tằm An Nhiên
  * File: order-handler.js
- * Tác giả: Augment Agent
+ * Tác giả: Yendev96
  * Ngày tạo: 2025-09-01
  */
 
@@ -77,6 +77,9 @@ function handleOrderFromWebsite(orderData) {
       sendTelegramNotification(orderData);
     }
 
+    // Gửi email thông báo
+    sendEmailNotification(orderData);
+
     // Trả về kết quả thành công
     return createJsonResponse({
       result: 'success',
@@ -104,18 +107,18 @@ function handleOrderFromWebsite(orderData) {
 function initializeSheet() {
   const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
   let sheet = spreadsheet.getSheetByName(SHEET_NAME);
-  
+
   // Tạo sheet mới nếu chưa có
   if (!sheet) {
     sheet = spreadsheet.insertSheet(SHEET_NAME);
     Logger.log(`✅ Đã tạo sheet mới: ${SHEET_NAME}`);
   }
-  
+
   // Thêm headers nếu sheet trống
   if (sheet.getLastRow() === 0) {
     setupSheetHeaders(sheet);
   }
-  
+
   return sheet;
 }
 
@@ -125,7 +128,7 @@ function initializeSheet() {
 function setupSheetHeaders(sheet) {
   // Thêm dòng headers
   sheet.appendRow(HEADERS);
-  
+
   // Format headers
   const headerRange = sheet.getRange(1, 1, 1, HEADERS.length);
   headerRange
@@ -134,13 +137,13 @@ function setupSheetHeaders(sheet) {
     .setBackground("#4F46E5") // Màu xanh đậm
     .setFontColor("#FFFFFF")  // Chữ trắng
     .setFontSize(11);
-  
+
   // Highlight cột tổng tiền
   const totalColumn = HEADERS.indexOf("💰 TỔNG KHÁCH PHẢI TRẢ") + 1;
   sheet.getRange(1, totalColumn)
     .setBackground("#F59E0B") // Màu vàng
     .setFontColor("#000000"); // Chữ đen
-  
+
   // Thiết lập độ rộng cột
   sheet.setColumnWidth(1, 120);  // Mã đơn hàng
   sheet.setColumnWidth(2, 100);  // Ngày đặt
@@ -153,7 +156,7 @@ function setupSheetHeaders(sheet) {
   sheet.setColumnWidth(9, 200);  // Ghi chú
   sheet.setColumnWidth(10, 120); // Mã Referral
   sheet.setColumnWidth(11, 120); // Hoa Hồng
-  
+
   Logger.log("✅ Đã thiết lập headers và format cho sheet");
 }
 
@@ -203,16 +206,9 @@ function formatProductDetails(cartItems) {
  * Thêm đơn hàng vào sheet
  */
 function addOrderToSheet(sheet, orderData) {
-  // Debug log để kiểm tra referral data
-  Logger.log('🔍 REFERRAL DEBUG - Received order data:');
-  Logger.log('- referralCode: ' + (orderData.referralCode || 'EMPTY'));
-  Logger.log('- referralPartner: ' + (orderData.referralPartner || 'EMPTY'));
-  Logger.log('- referralCommission: ' + (orderData.referralCommission || 'EMPTY'));
-  Logger.log('- referralCommission type: ' + typeof orderData.referralCommission);
-
   // Format chi tiết sản phẩm
   const productDetails = formatProductDetails(orderData.cart);
-  
+
   // Tạo dòng dữ liệu mới
   const newRow = [
     orderData.orderId,
@@ -225,18 +221,16 @@ function addOrderToSheet(sheet, orderData) {
     getPaymentMethodText(orderData.paymentMethod),
     orderData.customer.notes || "",
     orderData.referralCode || "", // Mã Referral
-    (orderData.referralCommission && typeof orderData.referralCommission === 'number' && orderData.referralCommission > 0) 
-      ? `${orderData.referralCommission.toLocaleString('vi-VN')}đ` 
-      : "" // Hoa Hồng
+    orderData.referralCommission ? `${orderData.referralCommission.toLocaleString('vi-VN')}đ` : "" // Hoa Hồng
   ];
-  
+
   // Thêm vào sheet
   const newRowIndex = sheet.getLastRow() + 1;
   sheet.appendRow(newRow);
-  
+
   // Format dòng mới
   formatNewOrderRow(sheet, newRowIndex);
-  
+
   Logger.log(`✅ Đã thêm đơn hàng ${orderData.orderId} vào sheet`);
 }
 
@@ -245,20 +239,20 @@ function addOrderToSheet(sheet, orderData) {
  */
 function formatNewOrderRow(sheet, rowIndex) {
   const range = sheet.getRange(rowIndex, 1, 1, HEADERS.length);
-  
+
   // Format chung
   range
     .setVerticalAlignment("top")
     .setWrap(true)
     .setBorder(true, true, true, true, true, true);
-  
+
   // Highlight cột tổng tiền
   const totalColumn = HEADERS.indexOf("💰 TỔNG KHÁCH PHẢI TRẢ") + 1;
   sheet.getRange(rowIndex, totalColumn)
     .setBackground("#FEF3C7") // Nền vàng nhạt
     .setFontWeight("bold")
     .setFontColor("#92400E"); // Chữ vàng đậm
-  
+
 
 }
 
@@ -266,7 +260,7 @@ function formatNewOrderRow(sheet, rowIndex) {
  * Chuyển đổi payment method thành text dễ đọc
  */
 function getPaymentMethodText(paymentMethod) {
-  switch(paymentMethod) {
+  switch (paymentMethod) {
     case 'cod':
       return "💰 COD (Thanh toán khi nhận)";
     case 'bank_transfer':
@@ -311,7 +305,7 @@ function testScript() {
       {
         name: "Vòng Mix Bạc",
         quantity: 1,
-        price: "200.000đ", 
+        price: "200.000đ",
         weight: "12kg",
         notes: ""
       }
@@ -319,7 +313,7 @@ function testScript() {
     total: "520.000đ",
     paymentMethod: "cod"
   };
-  
+
   try {
     const sheet = initializeSheet();
     addOrderToSheet(sheet, testData);
@@ -421,7 +415,7 @@ function createTelegramMessage(orderData) {
     message += `\n🤝 <b>REFERRAL</b>\n`;
     message += `📋 Mã: <code>${orderData.referralCode}</code>\n`;
     message += `👤 Partner: ${orderData.referralPartner}\n`;
-    if (orderData.referralCommission && typeof orderData.referralCommission === 'number' && orderData.referralCommission > 0) {
+    if (orderData.referralCommission && orderData.referralCommission > 0) {
       message += `💰 Hoa hồng: <b>${orderData.referralCommission.toLocaleString('vi-VN')}đ</b>\n`;
     }
   }
@@ -431,6 +425,161 @@ function createTelegramMessage(orderData) {
   message += `🏪 <i>Vòng Dâu Tằm An Nhiên</i>`;
 
   return message;
+}
+
+/**
+ * Gửi email thông báo đơn hàng mới
+ */
+function sendEmailNotification(orderData) {
+  try {
+    const emailAddress = "yendev96@gmail.com";
+    const subject = `🔔 Đơn hàng mới #${orderData.orderId} - ${orderData.customer.name}`;
+
+    // Tạo nội dung email HTML
+    const htmlBody = createEmailHtmlBody(orderData);
+
+    // Gửi email
+    MailApp.sendEmail({
+      to: emailAddress,
+      subject: subject,
+      htmlBody: htmlBody
+    });
+
+    Logger.log(`📧 Đã gửi email thông báo đơn hàng ${orderData.orderId} đến ${emailAddress}`);
+
+  } catch (error) {
+    Logger.log(`❌ Lỗi gửi email: ${error.message}`);
+    // Không throw error để không ảnh hưởng đến việc lưu đơn hàng
+  }
+}
+
+/**
+ * Tạo nội dung email HTML
+ */
+function createEmailHtmlBody(orderData) {
+  // Format sản phẩm
+  let productsHtml = '';
+  orderData.cart.forEach((item, index) => {
+    productsHtml += `
+      <tr style="border-bottom: 1px solid #e5e7eb;">
+        <td style="padding: 12px 8px;">
+          <strong>${index + 1}. ${item.name}</strong><br>
+          <span style="color: #6b7280; font-size: 14px;">Số lượng: ${item.quantity}</span>
+          ${item.weight && item.weight !== 'Không có' ? `<br><span style="color: #6b7280; font-size: 14px;">Cân nặng: ${item.weight}</span>` : ''}
+          ${item.notes && item.notes.trim() ? `<br><span style="color: #059669; font-size: 14px;">📝 ${item.notes.trim()}</span>` : ''}
+        </td>
+      </tr>
+    `;
+  });
+
+  // Thông tin referral (nếu có)
+  let referralHtml = '';
+  if (orderData.referralCode && orderData.referralPartner) {
+    referralHtml = `
+      <div style="background-color: #fef3c7; border-left: 4px solid #f59e0b; padding: 16px; margin-top: 20px; border-radius: 4px;">
+        <h3 style="margin: 0 0 8px 0; color: #92400e; font-size: 16px;">🤝 Thông tin Referral</h3>
+        <p style="margin: 4px 0; color: #78350f;"><strong>Mã:</strong> ${orderData.referralCode}</p>
+        <p style="margin: 4px 0; color: #78350f;"><strong>Partner:</strong> ${orderData.referralPartner}</p>
+        ${orderData.referralCommission && orderData.referralCommission > 0 ? `<p style="margin: 4px 0; color: #78350f;"><strong>Hoa hồng:</strong> ${orderData.referralCommission.toLocaleString('vi-VN')}đ</p>` : ''}
+      </div>
+    `;
+  }
+
+  const html = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f3f4f6;">
+      <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff;">
+        
+        <!-- Header -->
+        <div style="background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%); padding: 30px 20px; text-align: center;">
+          <h1 style="margin: 0; color: #ffffff; font-size: 24px;">🔔 Đơn Hàng Mới</h1>
+          <p style="margin: 8px 0 0 0; color: #fce7f3; font-size: 14px;">Vòng Dâu Tằm An Nhiên</p>
+        </div>
+
+        <!-- Content -->
+        <div style="padding: 30px 20px;">
+          
+          <!-- Order Info -->
+          <div style="background-color: #f9fafb; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+            <h2 style="margin: 0 0 16px 0; color: #1f2937; font-size: 18px;">📋 Thông tin đơn hàng</h2>
+            <table style="width: 100%; border-collapse: collapse;">
+              <tr>
+                <td style="padding: 8px 0; color: #6b7280; width: 40%;">Mã đơn hàng:</td>
+                <td style="padding: 8px 0; color: #1f2937; font-weight: bold;">${orderData.orderId}</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 0; color: #6b7280;">Thời gian:</td>
+                <td style="padding: 8px 0; color: #1f2937;">${new Date(orderData.orderDate).toLocaleString('vi-VN')}</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 0; color: #6b7280;">Tổng tiền:</td>
+                <td style="padding: 8px 0; color: #dc2626; font-weight: bold; font-size: 18px;">${orderData.total}</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 0; color: #6b7280;">Thanh toán:</td>
+                <td style="padding: 8px 0; color: #1f2937;">${getPaymentMethodText(orderData.paymentMethod).replace(/🏦|💰/g, '')}</td>
+              </tr>
+            </table>
+          </div>
+
+          <!-- Customer Info -->
+          <div style="background-color: #eff6ff; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+            <h2 style="margin: 0 0 16px 0; color: #1f2937; font-size: 18px;">👤 Thông tin khách hàng</h2>
+            <table style="width: 100%; border-collapse: collapse;">
+              <tr>
+                <td style="padding: 8px 0; color: #6b7280; width: 40%;">Tên khách hàng:</td>
+                <td style="padding: 8px 0; color: #1f2937; font-weight: bold;">${orderData.customer.name}</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 0; color: #6b7280;">Số điện thoại:</td>
+                <td style="padding: 8px 0; color: #1f2937;">${orderData.customer.phone}</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 0; color: #6b7280; vertical-align: top;">Địa chỉ:</td>
+                <td style="padding: 8px 0; color: #1f2937;">${orderData.customer.address}</td>
+              </tr>
+              ${orderData.customer.notes && orderData.customer.notes.trim() ? `
+              <tr>
+                <td style="padding: 8px 0; color: #6b7280; vertical-align: top;">Ghi chú:</td>
+                <td style="padding: 8px 0; color: #059669; font-style: italic;">${orderData.customer.notes.trim()}</td>
+              </tr>
+              ` : ''}
+            </table>
+          </div>
+
+          <!-- Products -->
+          <div style="background-color: #fef3c7; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+            <h2 style="margin: 0 0 16px 0; color: #1f2937; font-size: 18px;">🛍️ Chi tiết sản phẩm</h2>
+            <table style="width: 100%; border-collapse: collapse;">
+              ${productsHtml}
+            </table>
+          </div>
+
+          ${referralHtml}
+
+        </div>
+
+        <!-- Footer -->
+        <div style="background-color: #f9fafb; padding: 20px; text-align: center; border-top: 1px solid #e5e7eb;">
+          <p style="margin: 0; color: #6b7280; font-size: 14px;">
+            Email tự động từ hệ thống Vòng Dâu Tằm An Nhiên
+          </p>
+          <p style="margin: 8px 0 0 0; color: #9ca3af; font-size: 12px;">
+            © 2024 Vòng Dâu Tằm By Ánh. All rights reserved.
+          </p>
+        </div>
+
+      </div>
+    </body>
+    </html>
+  `;
+
+  return html;
 }
 
 // ==================== TELEGRAM BOT ADMIN COMMANDS ====================
@@ -519,7 +668,7 @@ function handleAdminCommand(chatId, command) {
 
     Logger.log(`🔍 Command parsed: "${cmd}"`);
 
-    switch(cmd) {
+    switch (cmd) {
       case '/start':
       case '/help':
         Logger.log(`✅ Executing help command`);
@@ -728,7 +877,7 @@ function sendStatistics(chatId, sheet) {
   message += `📈 <b>TỔNG CỘNG:</b>\n`;
   message += `📦 Tổng đơn hàng: <b>${orders.length}</b>\n`;
   message += `💰 Tổng doanh thu: <b>${totalRevenue.toLocaleString('vi-VN')}đ</b>\n\n`;
-  message += `📊 Trung bình: <b>${Math.round(totalRevenue/orders.length).toLocaleString('vi-VN')}đ</b>/đơn`;
+  message += `📊 Trung bình: <b>${Math.round(totalRevenue / orders.length).toLocaleString('vi-VN')}đ</b>/đơn`;
 
   sendTelegramMessage(chatId, message);
 }
@@ -887,7 +1036,7 @@ function sendWeeklyStats(chatId, sheet) {
   message += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
   message += `📦 Tổng đơn hàng: <b>${weekOrders.length}</b>\n`;
   message += `💰 Doanh thu: <b>${totalRevenue.toLocaleString('vi-VN')}đ</b>\n`;
-  message += `📊 Trung bình: <b>${Math.round(totalRevenue/weekOrders.length).toLocaleString('vi-VN')}đ</b>/đơn\n\n`;
+  message += `📊 Trung bình: <b>${Math.round(totalRevenue / weekOrders.length).toLocaleString('vi-VN')}đ</b>/đơn\n\n`;
   message += `💡 Gõ <code>/today</code> để xem chi tiết hôm nay`;
 
   sendTelegramMessage(chatId, message);
@@ -928,7 +1077,7 @@ function sendMonthlyStats(chatId, sheet) {
   message += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n\n`;
   message += `📦 Tổng đơn hàng: <b>${monthOrders.length}</b>\n`;
   message += `💰 Doanh thu: <b>${totalRevenue.toLocaleString('vi-VN')}đ</b>\n`;
-  message += `📊 Trung bình: <b>${Math.round(totalRevenue/monthOrders.length).toLocaleString('vi-VN')}đ</b>/đơn\n\n`;
+  message += `📊 Trung bình: <b>${Math.round(totalRevenue / monthOrders.length).toLocaleString('vi-VN')}đ</b>/đơn\n\n`;
   message += `💡 Gõ <code>/week</code> để xem thống kê tuần`;
 
   sendTelegramMessage(chatId, message);

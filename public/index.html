@@ -22,10 +22,31 @@
     
     <!-- Performance -->
     <link rel="preload" href="./assets/css/styles.min.css" as="style">
-    <link rel="preload" href="./assets/js/app.min.js" as="script">
 </head>
 
 <body class="bg-gray-50 font-sans" x-data="shop" x-cloak>
+
+    <!-- Fixed Header - Tuyển CTV -->
+    <div class="fixed top-0 left-0 right-0 bg-gradient-to-r from-pink-500 via-purple-500 to-pink-500 shadow-md" style="z-index: 99999 !important;">
+        <div class="container mx-auto px-3 py-2 flex items-center justify-between gap-2">
+            <!-- Text Content -->
+            <div class="flex items-center gap-2 flex-1 min-w-0">
+                <span class="text-lg sm:text-xl">🎉</span>
+                <p class="text-white text-xs sm:text-sm font-semibold truncate">
+                    <span class="hidden sm:inline">Tuyển cộng tác viên bán vòng dâu tằm - Hoa hồng 12%</span>
+                    <span class="sm:hidden">Tuyển CTV - Hoa hồng 12%</span>
+                </p>
+            </div>
+            <!-- Button -->
+            <a href="https://ctv.shopvd.store" target="_blank" rel="noopener noreferrer"
+                class="flex-shrink-0 bg-white text-pink-600 hover:bg-pink-50 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-bold shadow-lg hover:shadow-xl transition-all duration-200 whitespace-nowrap">
+                Đăng ký ngay
+            </a>
+        </div>
+    </div>
+
+    <!-- Spacer để tránh content bị che bởi fixed header -->
+    <div class="h-[44px] sm:h-[48px]"></div>
 
     <div class="container mx-auto p-2">
 
@@ -1102,7 +1123,7 @@
 
                                 <!-- Badge "Bạc S999/S925" - Bottom right corner -->
                                 <div x-show="hasRealSilver(product)"
-                                    class="absolute bottom-2 right-2 bg-gradient-to-br from-green-400 via-green-500 to-green-600 text-white text-[9px] font-bold px-2 py-1 rounded-lg border-2 border-green-300 shadow-lg backdrop-blur-sm z-20 flex items-center space-x-1">
+                                    class="absolute bottom-2 right-2 bg-transparent text-white text-[9px] font-bold px-2 py-1 rounded-lg border-2 border-white shadow-lg backdrop-blur-sm z-20 flex items-center space-x-1">
                                     <!-- Shield Check Icon -->
                                     <svg class="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 24 24">
                                         <path fill-rule="evenodd"

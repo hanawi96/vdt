@@ -880,13 +880,8 @@ document.addEventListener('alpine:init', () => {
       if (!gift) return 'Quà tặng';
 
       // Debug log để kiểm tra cấu trúc
-      console.log('🎁 Debug appliedGift structure:', gift);
-      console.log('🎁 gift.name:', gift.name);
-      console.log('🎁 gift.value?.name:', gift.value?.name);
-      console.log('🎁 gift.title:', gift.title);
 
       const name = gift.name || gift.value?.name || gift.title || 'Quà tặng';
-      console.log('🎁 Final gift name:', name);
 
       return name;
     },
@@ -1427,7 +1422,6 @@ document.addEventListener('alpine:init', () => {
 
     // Function để mở modal xem ảnh combo - Enhanced for Mom-Friendly Experience
     openComboImageModal(comboType) {
-      console.log('🔍 openComboImageModal() được gọi với comboType:', comboType);
       const comboData = {
         'vong_tron_tui': {
           title: 'Combo Vòng Trơn + Túi Dâu Tằm Để Giường',
@@ -1529,7 +1523,6 @@ document.addEventListener('alpine:init', () => {
         this.currentComboImages = combo;
         this.currentComboType = comboType;
         this.isComboImageModalOpen = true;
-        console.log('[object Object]sComboImageModalOpen set to true');
         // Thêm hash vào URL cho deep linking
         history.pushState(null, null, '#combo=' + comboType);
         document.body.style.overflow = 'hidden';
@@ -1538,9 +1531,6 @@ document.addEventListener('alpine:init', () => {
 
     // Function để đóng modal xem ảnh combo - Enhanced
     closeComboImageModal() {
-      console.log('🔍 closeComboImageModal() được gọi');
-      console.log('🔍 - isComboImageModalOpen trước:', this.isComboImageModalOpen);
-      console.trace('🔍 Stack trace cho closeComboImageModal');
       this.isComboImageModalOpen = false;
       // Xóa hash khỏi URL
       if (history.state === null) {
@@ -1853,7 +1843,6 @@ document.addEventListener('alpine:init', () => {
     },
 
     showBestSellers() {
-      console.log('🔍 showBestSellers() đóng isMiniCartOpen');
       this.isMiniCartOpen = false;
       this.currentCategory = { id: 'all', name: 'Top bán chạy' };
       this.activeFilter = 'best_selling';
@@ -2010,12 +1999,6 @@ document.addEventListener('alpine:init', () => {
 
     /* ========= ADDON DETAIL MODAL ========= */
     openAddonDetail(addon) {
-      console.log('🔍 openAddonDetail() - Trước khi mở:');
-      console.log('🔍 - isMiniCartOpen:', this.isMiniCartOpen);
-      console.log('🔍 - isCheckoutModalOpen:', this.isCheckoutModalOpen);
-      console.log('🔍 - isQuickBuyModalOpen:', this.isQuickBuyModalOpen);
-      console.log('🔍 - isProductDetailOpen:', this.isProductDetailOpen);
-      console.log('🔍 - document.body.style.overflow:', document.body.style.overflow);
 
       if (this.isMiniCartOpen) this.preventMiniCartCloseOnClickOutside = true;
 
@@ -2025,7 +2008,6 @@ document.addEventListener('alpine:init', () => {
           this.isQuickBuyModalOpen ? 'quickBuy' :
             this.isProductDetailOpen ? 'productDetail' : 'homepage';
 
-      console.log('🔍 - addonDetailOpenedFrom:', this.addonDetailOpenedFrom);
 
       this.currentAddonDetail = addon;
       this.isAddonDetailModalOpen = true;
@@ -2036,36 +2018,22 @@ document.addEventListener('alpine:init', () => {
       });
 
       document.body.style.overflow = 'hidden';
-      console.log('🔍 - Sau khi set overflow hidden:', document.body.style.overflow);
     },
     closeAddonDetail() {
-      console.log('🔍 closeAddonDetail() - Trước khi đóng:');
-      console.log('🔍 - isAddonDetailModalOpen:', this.isAddonDetailModalOpen);
-      console.log('🔍 - addonDetailOpenedFrom:', this.addonDetailOpenedFrom);
-      console.log('🔍 - isMiniCartOpen:', this.isMiniCartOpen);
-      console.log('🔍 - isCheckoutModalOpen:', this.isCheckoutModalOpen);
-      console.log('🔍 - isQuickBuyModalOpen:', this.isQuickBuyModalOpen);
-      console.log('🔍 - isProductDetailOpen:', this.isProductDetailOpen);
-      console.log('🔍 - document.body.style.overflow trước:', document.body.style.overflow);
 
       this.isAddonDetailModalOpen = false;
       setTimeout(() => { this.preventMiniCartCloseOnClickOutside = false; }, 100);
 
       // Restore overflow dựa trên nơi modal được mở
       if (this.addonDetailOpenedFrom === 'homepage') {
-        console.log('🔍 - Mở từ homepage, restore overflow = auto');
         document.body.style.overflow = 'auto';
       } else {
-        console.log('🔍 - Mở từ modal khác, kiểm tra điều kiện...');
         if (!this.isMiniCartOpen && !this.isCheckoutModalOpen && !this.isQuickBuyModalOpen && !this.isProductDetailOpen) {
-          console.log('🔍 - Không có modal nào mở, restore overflow = auto');
           document.body.style.overflow = 'auto';
         } else {
-          console.log('🔍 - Vẫn có modal khác mở, giữ overflow = hidden');
         }
       }
 
-      console.log('🔍 - document.body.style.overflow sau:', document.body.style.overflow);
 
       setTimeout(() => {
         this.currentAddonDetail = null;
@@ -2469,26 +2437,20 @@ document.addEventListener('alpine:init', () => {
     },
     checkoutSelected() {
       if (!this.selectedCartItems.length) { this.miniCartError = 'Vui lòng chọn 1 sản phẩm để mua hàng'; return; }
-      console.log('🔍 checkoutSelected() đóng isMiniCartOpen');
       this.miniCartError = ''; this.view = 'cart'; this.isMiniCartOpen = false;
     },
     get selectedCartProducts() { return this.cart.filter(i => this.selectedCartItems.includes(i.cartId || i.id)); },
 
     addAddonToCart(addon) {
-      console.log('🔍 addAddonToCart called with:', addon);
-      console.log('🔍 isQuickBuyModalOpen:', this.isQuickBuyModalOpen);
-      console.log('🔍 isProductDetailOpen:', this.isProductDetailOpen);
 
       // Khi modal Quick Buy đang mở, thêm vào Quick Buy thay vì giỏ hàng
       if (this.isQuickBuyModalOpen) {
-        console.log('🔍 Calling addAddonToQuickBuy');
         this.addAddonToQuickBuy(addon);
         return;
       }
 
       // Khi modal Product Detail đang mở, thêm vào Product Detail thay vì giỏ hàng
       if (this.isProductDetailOpen) {
-        console.log('🔍 Calling addAddonToProductDetail');
         this.addAddonToProductDetail(addon);
         return;
       }
@@ -2526,46 +2488,33 @@ document.addEventListener('alpine:init', () => {
 
     // Thêm addon vào Quick Buy (cho combo)
     addAddonToQuickBuy(addon) {
-      console.log('🔍 addAddonToQuickBuy called with:', addon);
-      console.log('🔍 Current cart before:', this.cart);
-      console.log('🔍 Current quickBuySelectedAddons before:', this.quickBuySelectedAddons);
 
       const existing = this.quickBuySelectedAddons.find(a => a.id === addon.id);
-      console.log('🔍 Existing addon in quickbuy:', existing);
 
       if (!existing) {
         // Thêm vào quickbuy
         this.quickBuySelectedAddons.push({ ...addon, quantity: 1 });
-        console.log('🔍 Added to quickbuy, new quickBuySelectedAddons:', this.quickBuySelectedAddons);
 
         // Đồng thời thêm vào giỏ hàng
         const ex = this.cart.find(i => i.id === addon.id);
-        console.log('🔍 Existing addon in cart:', ex);
 
         if (ex) {
           ex.quantity++;
-          console.log('🔍 Increased quantity of existing cart item:', ex);
           // Đảm bảo item được select nếu chưa có trong selectedCartItems
           const itemId = ex.cartId || ex.id;
           if (!this.selectedCartItems.includes(itemId)) {
             this.selectedCartItems.push(itemId);
-            console.log('🔍 Added to selectedCartItems:', itemId);
           }
         } else {
           const cartId = `${addon.id}-${Date.now()}`;
           const newItem = { ...addon, cartId: cartId, quantity: 1, weight: '', isAddon: true };
-          console.log('🔍 Creating new cart item:', newItem);
           this.cart.push(newItem);
           this.selectedCartItems.push(cartId);
-          console.log('🔍 Added new item to cart, new cart:', this.cart);
-          console.log('🔍 Added to selectedCartItems:', cartId);
         }
         this.triggerCartAnimation();
-        console.log('🔍 Cart animation triggered');
 
         this.showAlert(`Đã thêm ${addon.name}! 💰 Giảm 5K!`, 'success');
       } else {
-        console.log('🔍 Addon already exists in quickbuy, skipping');
       }
     },
 
@@ -2588,42 +2537,30 @@ document.addEventListener('alpine:init', () => {
 
     // Thêm addon vào Product Detail (tách biệt với giỏ hàng)
     addAddonToProductDetail(addon) {
-      console.log('🔍 addAddonToProductDetail called with:', addon);
-      console.log('🔍 Current productDetailSelectedAddons before:', this.productDetailSelectedAddons);
-      console.log('🔍 Current cart before:', this.cart);
 
       const existing = this.productDetailSelectedAddons.find(a => a.id === addon.id);
-      console.log('🔍 Existing addon in productDetail:', existing);
 
       if (!existing) {
         // Thêm vào product detail selected addons
         this.productDetailSelectedAddons.push({ ...addon, quantity: 1 });
-        console.log('🔍 Added to productDetailSelectedAddons:', this.productDetailSelectedAddons);
 
         // Đồng thời thêm vào giỏ hàng
         const ex = this.cart.find(i => i.id === addon.id);
-        console.log('🔍 Existing addon in cart:', ex);
 
         if (ex) {
           ex.quantity++;
-          console.log('🔍 Increased quantity of existing cart item:', ex);
           // Đảm bảo item được select nếu chưa có trong selectedCartItems
           const itemId = ex.cartId || ex.id;
           if (!this.selectedCartItems.includes(itemId)) {
             this.selectedCartItems.push(itemId);
-            console.log('🔍 Added to selectedCartItems:', itemId);
           }
         } else {
           const cartId = `${addon.id}-${Date.now()}`;
           const newItem = { ...addon, cartId: cartId, quantity: 1, weight: '', isAddon: true };
-          console.log('🔍 Creating new cart item:', newItem);
           this.cart.push(newItem);
           this.selectedCartItems.push(cartId);
-          console.log('🔍 Added new item to cart, new cart:', this.cart);
-          console.log('🔍 Added to selectedCartItems:', cartId);
         }
         this.triggerCartAnimation();
-        console.log('🔍 Cart animation triggered');
 
         if (addon.id === 'addon_tui_dau_tam') {
           this.showAlert(`Đã thêm ${addon.name}! 🚚 Bạn được miễn phí ship!`, 'success');
@@ -2637,30 +2574,22 @@ document.addEventListener('alpine:init', () => {
           this.showAlert(`Đã thêm ${addon.name}!`, 'success');
         }
       } else {
-        console.log('🔍 Addon already exists in productDetail, skipping');
       }
     },
 
     // Xóa addon khỏi Product Detail
     removeAddonFromProductDetail(addonId) {
-      console.log('🔍 removeAddonFromProductDetail called with:', addonId);
-      console.log('🔍 Current productDetailSelectedAddons before:', this.productDetailSelectedAddons);
-      console.log('🔍 Current cart before:', this.cart);
 
       // Xóa khỏi product detail selected addons
       this.productDetailSelectedAddons = this.productDetailSelectedAddons.filter(a => a.id !== addonId);
-      console.log('🔍 Removed from productDetailSelectedAddons:', this.productDetailSelectedAddons);
 
       // Đồng thời xóa khỏi giỏ hàng
       const cartItem = this.cart.find(i => i.id === addonId && i.isAddon);
-      console.log('🔍 Found cart item to remove:', cartItem);
 
       if (cartItem) {
         const itemId = cartItem.cartId || cartItem.id;
         this.cart = this.cart.filter(i => i !== cartItem);
         this.selectedCartItems = this.selectedCartItems.filter(id => id !== itemId);
-        console.log('🔍 Removed from cart, new cart:', this.cart);
-        console.log('🔍 Updated selectedCartItems:', this.selectedCartItems);
       }
 
       const addon = this.addonProducts.find(a => a.id === addonId);
@@ -2936,10 +2865,6 @@ document.addEventListener('alpine:init', () => {
         return;
       }
 
-      console.log('🔍 buyNow() được gọi');
-      console.log('🔍 - isProductDetailOpen trước buyNow:', this.isProductDetailOpen);
-      console.log('🔍 - isQuickBuyModalOpen trước buyNow:', this.isQuickBuyModalOpen);
-      console.trace('🔍 Stack trace cho buyNow');
 
       // Mua ngay - bỏ qua giỏ hàng hoàn toàn
       this.quickBuyProduct = { ...product };
@@ -2960,14 +2885,9 @@ document.addEventListener('alpine:init', () => {
       this.isQuickBuyModalOpen = true;
       this.startSocialProofTimer();
 
-      console.log('🔍 - isProductDetailOpen sau set QuickBuy:', this.isProductDetailOpen);
-      console.log('🔍 - isQuickBuyModalOpen sau set QuickBuy:', this.isQuickBuyModalOpen);
 
       // Revalidate mã giảm giá với sản phẩm và số lượng mới
       this.$nextTick(() => {
-        console.log('🔍 Revalidating discount for Quick Buy:');
-        console.log('- quickBuySubtotal:', this.quickBuySubtotal);
-        console.log('- appliedDiscountCode:', this.appliedDiscountCode);
         this.revalidateQuickBuyDiscount();
       });
 
@@ -2982,11 +2902,6 @@ document.addEventListener('alpine:init', () => {
       });
     },
     closeQuickBuyModal() {
-      console.log('🔍 closeQuickBuyModal() được gọi');
-      console.log('🔍 - isQuickBuyModalOpen trước:', this.isQuickBuyModalOpen);
-      console.log('🔍 - isProductDetailOpen trước:', this.isProductDetailOpen);
-      console.log('🔍 - isComboImageModalOpen trước:', this.isComboImageModalOpen);
-      console.trace('🔍 Stack trace cho closeQuickBuyModal');
 
       this.isQuickBuyModalOpen = false;
       this.isBuyingCombo = false; // Reset combo flag
@@ -3012,9 +2927,6 @@ document.addEventListener('alpine:init', () => {
 
       // Giữ nguyên discount state để có thể tái sử dụng
 
-      console.log('🔍 - isQuickBuyModalOpen sau:', this.isQuickBuyModalOpen);
-      console.log('🔍 - isProductDetailOpen sau:', this.isProductDetailOpen);
-      console.log('🔍 - isComboImageModalOpen sau:', this.isComboImageModalOpen);
     },
 
 
@@ -3038,9 +2950,6 @@ document.addEventListener('alpine:init', () => {
 
     // Helper: Đóng tất cả modal
     closeAllModals() {
-      console.log('🔍 closeAllModals() được gọi');
-      console.log('🔍 Trước khi đóng tất cả - isMiniCartOpen:', this.isMiniCartOpen);
-      console.log('🔍 Trước khi đóng tất cả - isCheckoutModalOpen:', this.isCheckoutModalOpen);
 
       this.isImageModalOpen = false;
       this.isAlertModalOpen = false;
@@ -3059,8 +2968,6 @@ document.addEventListener('alpine:init', () => {
 
 
 
-      console.log('🔍 Sau khi đóng tất cả - isMiniCartOpen:', this.isMiniCartOpen);
-      console.log('🔍 Sau khi đóng tất cả - isCheckoutModalOpen:', this.isCheckoutModalOpen);
     },
 
     // Mở modal Quick View
@@ -3218,7 +3125,6 @@ document.addEventListener('alpine:init', () => {
 
     // Scroll to first error in Checkout modal
     scrollToFirstCheckoutError() {
-      console.log('🔍 Scrolling to first checkout error');
 
       // Priority order for error fields (top to bottom in checkout form layout)
       const errorPriority = ['name', 'phone', 'province', 'district', 'ward', 'streetAddress', 'paymentMethod'];
@@ -3233,11 +3139,9 @@ document.addEventListener('alpine:init', () => {
       }
 
       if (!firstErrorField) {
-        console.log('🔍 No error field found to scroll to');
         return;
       }
 
-      console.log('🔍 First error field:', firstErrorField);
 
       // Map field names to their corresponding input selectors in checkout modal
       const fieldSelectors = {
@@ -3252,28 +3156,24 @@ document.addEventListener('alpine:init', () => {
 
       const selector = fieldSelectors[firstErrorField];
       if (!selector) {
-        console.log('🔍 No selector found for field:', firstErrorField);
         return;
       }
 
       // Find the checkout modal container
       const checkoutModal = document.querySelector('[x-show="isCheckoutModalOpen"]');
       if (!checkoutModal) {
-        console.log('🔍 Checkout modal not found');
         return;
       }
 
       // Find the scrollable content area within checkout modal
       const scrollContainer = checkoutModal.querySelector('.overflow-y-auto');
       if (!scrollContainer) {
-        console.log('🔍 Scroll container not found in checkout modal');
         return;
       }
 
       // Find the target element within the checkout modal
       const targetElement = checkoutModal.querySelector(selector);
       if (!targetElement) {
-        console.log('🔍 Target element not found:', selector);
         return;
       }
 
@@ -3285,7 +3185,6 @@ document.addEventListener('alpine:init', () => {
       // Calculate the position to scroll to (with some offset for better visibility)
       const targetScrollPosition = scrollTop + (targetRect.top - containerRect.top) - 20;
 
-      console.log('🔍 Scrolling to position:', targetScrollPosition);
 
       // Smooth scroll to the target position
       scrollContainer.scrollTo({
@@ -3309,12 +3208,6 @@ document.addEventListener('alpine:init', () => {
       this.updateFullAddress();
 
       // Debug logging for address validation
-      console.log('🔍 Quick Buy Validation Debug:');
-      console.log('selectedProvince:', this.selectedProvince);
-      console.log('selectedDistrict:', this.selectedDistrict);
-      console.log('selectedWard:', this.selectedWard);
-      console.log('streetAddress:', this.streetAddress);
-      console.log('customer.address:', this.customer.address);
 
       // Validate form using formErrors system
       let isValid = true;
@@ -3993,7 +3886,6 @@ document.addEventListener('alpine:init', () => {
       } else {
         const phoneRegex = /(0[3|5|7|8|9])+([0-9]{8})\b/;
         if (!phoneRegex.test(this.customer.phone)) {
-          console.log('🔍 Phone validation failed - invalid format');
           this.formErrors.phone = 'Số điện thoại không hợp lệ';
           isValid = false;
         }
@@ -4001,38 +3893,31 @@ document.addEventListener('alpine:init', () => {
 
       // Validate address - check for empty string, null, undefined, or just whitespace
       if (!this.selectedProvince || String(this.selectedProvince).trim() === '') {
-        console.log('[object Object] validation failed - selectedProvince:', this.selectedProvince);
         this.formErrors.province = 'Vui lòng chọn tỉnh/thành phố';
         isValid = false;
       }
 
       if (!this.selectedDistrict || String(this.selectedDistrict).trim() === '') {
-        console.log('🔍 District validation failed - selectedDistrict:', this.selectedDistrict);
         this.formErrors.district = 'Vui lòng chọn quận/huyện';
         isValid = false;
       }
 
       if (!this.selectedWard || String(this.selectedWard).trim() === '') {
-        console.log('🔍 Ward validation failed - selectedWard:', this.selectedWard);
         this.formErrors.ward = 'Vui lòng chọn phường/xã';
         isValid = false;
       }
 
       if (!this.streetAddress.trim()) {
-        console.log('🔍 Street address validation failed');
         this.formErrors.streetAddress = 'Vui lòng nhập địa chỉ cụ thể';
         isValid = false;
       }
 
       // Validate payment method
       if (!this.paymentMethod) {
-        console.log('🔍 Payment method validation failed');
         this.formErrors.paymentMethod = 'Vui lòng chọn phương thức thanh toán';
         isValid = false;
       }
 
-      console.log('🔍 Form validation result:', isValid);
-      console.log('🔍 Form errors:', this.formErrors);
 
       // If validation failed, scroll to first error
       if (!isValid) {
@@ -4123,24 +4008,18 @@ document.addEventListener('alpine:init', () => {
 
     // Hàm đóng success modal và reset state
     closeSuccessModal() {
-      console.log('🔍 closeSuccessModal() được gọi');
-      console.log('🔍 Trước khi đóng success - isMiniCartOpen:', this.isMiniCartOpen);
-      console.log('🔍 Trước khi đóng success - isCheckoutModalOpen:', this.isCheckoutModalOpen);
 
       // Đóng Success Modal trước
       this.isSuccessModalOpen = false;
 
       // Sử dụng $nextTick để đảm bảo DOM được cập nhật
       this.$nextTick(() => {
-        console.log('🔍 Trong $nextTick - đóng tất cả modal shopping flow');
         // Đóng tất cả modal liên quan đến shopping flow
         this.isConfirmModalOpen = false;
         this.isCheckoutModalOpen = false;
         this.isMiniCartOpen = false;
         this.closeQuickBuyModal(); // Reset toàn bộ Quick Buy state
 
-        console.log('🔍 Sau khi đóng trong $nextTick - isMiniCartOpen:', this.isMiniCartOpen);
-        console.log('🔍 Sau khi đóng trong $nextTick - isCheckoutModalOpen:', this.isCheckoutModalOpen);
       });
     },
 
@@ -4245,11 +4124,6 @@ document.addEventListener('alpine:init', () => {
       this.startProductDetailViewersTimer();
     },
     closeProductDetail() {
-      console.log('🔍 closeProductDetail() được gọi');
-      console.log('🔍 - isProductDetailOpen trước:', this.isProductDetailOpen);
-      console.log('🔍 - isQuickBuyModalOpen:', this.isQuickBuyModalOpen);
-      console.log('🔍 - isDiscountModalOpen:', this.isDiscountModalOpen);
-      console.trace('🔍 Stack trace cho closeProductDetail');
 
       this.isProductDetailOpen = false;
       if (history.state === null) { // Chỉ xóa hash nếu nó được thêm bởi app
@@ -4259,13 +4133,8 @@ document.addEventListener('alpine:init', () => {
       // Chỉ restore overflow nếu không có modal nào khác đang mở
       if (!this.isQuickBuyModalOpen && !this.isDiscountModalOpen && !this.isMiniCartOpen &&
         !this.isCheckoutModalOpen && !this.isAddonDetailModalOpen) {
-        console.log('🔍 - Không có modal nào khác, restore overflow = auto');
         document.body.style.overflow = 'auto';
       } else {
-        console.log('🔍 - Vẫn có modal khác mở, giữ overflow = hidden');
-        console.log('🔍 - isQuickBuyModalOpen:', this.isQuickBuyModalOpen);
-        console.log('🔍 - isDiscountModalOpen:', this.isDiscountModalOpen);
-        console.log('🔍 - isMiniCartOpen:', this.isMiniCartOpen);
       }
 
       // Dừng timer
@@ -4277,7 +4146,6 @@ document.addEventListener('alpine:init', () => {
         this.productDetailSelectedAddons = []; // Reset addon được chọn
       }, 300);
 
-      console.log('🔍 - isProductDetailOpen sau:', this.isProductDetailOpen);
     },
     addProductDetailToCart() {
       if (this.currentProductDetail) {
@@ -4345,20 +4213,14 @@ document.addEventListener('alpine:init', () => {
     revalidateQuickBuyDiscount() {
       // Chỉ revalidate khi đang trong Quick Buy modal và có mã được áp dụng
       if (!this.isQuickBuyModalOpen || (!this.appliedDiscountCode && !this.appliedGift)) {
-        console.log('🔍 Revalidate skipped - no modal or no discount');
         return;
       }
 
       if (this.appliedDiscountCode) {
         const raw = this.availableDiscounts.find(d => (d.code || '').toUpperCase() === this.appliedDiscountCode);
         const promotion = this._normalizeDiscount(raw);
-        console.log('🔍 Checking discount:', this.appliedDiscountCode);
-        console.log('- promotion:', promotion);
-        console.log('- quickBuySubtotal:', this.quickBuySubtotal);
-        console.log('- minOrder:', promotion?.minOrder);
 
         if (!promotion || !promotion.active) {
-          console.log('🔍 Discount invalid - resetting');
           this.resetDiscount();
           this.showAlert('Mã giảm giá đã hết hạn và được gỡ bỏ.', 'info');
           return;
@@ -4367,13 +4229,9 @@ document.addEventListener('alpine:init', () => {
         // Kiểm tra điều kiện với Quick Buy subtotal
         const subtotalCheck = this.quickBuySubtotal >= promotion.minOrder;
         const itemsCheck = !promotion.minItems || this.quickBuyQuantity >= promotion.minItems;
-        console.log('🔍 Condition checks:');
-        console.log('- subtotalCheck:', subtotalCheck, `(${this.quickBuySubtotal} >= ${promotion.minOrder})`);
-        console.log('- itemsCheck:', itemsCheck, `(${this.quickBuyQuantity} >= ${promotion.minItems || 'no requirement'})`);
 
         if (!subtotalCheck || !itemsCheck) {
           const promotionTitle = promotion.title || promotion.code;
-          console.log('🔍 Discount not eligible - resetting');
           this.resetDiscount();
           this.showAlert(`Ưu đãi "${promotionTitle}" đã được gỡ bỏ vì không còn đủ điều kiện.`, 'info');
           return;
@@ -4528,7 +4386,6 @@ document.addEventListener('alpine:init', () => {
         status: 'active'
       };
       
-      console.log(`✅ Added partner: ${code} - ${name} (${commission}%)`);
       return true;
     },
     
@@ -4536,7 +4393,6 @@ document.addEventListener('alpine:init', () => {
     deactivatePartner(code) {
       if (this.partners[code.toUpperCase()]) {
         this.partners[code.toUpperCase()].status = 'inactive';
-        console.log(`🔒 Deactivated partner: ${code}`);
         return true;
       }
       return false;
@@ -4546,7 +4402,6 @@ document.addEventListener('alpine:init', () => {
     activatePartner(code) {
       if (this.partners[code.toUpperCase()]) {
         this.partners[code.toUpperCase()].status = 'active';
-        console.log(`🔓 Activated partner: ${code}`);
         return true;
       }
       return false;
@@ -4556,10 +4411,6 @@ document.addEventListener('alpine:init', () => {
     
     // Quick referral status check
     showReferralStatus() {
-      console.log('📊 === QUICK REFERRAL STATUS ===');
-      console.log('Current Code:', this.referralCode || 'NONE');
-      console.log('localStorage (old):', localStorage.getItem('referralCode') || 'NONE');
-      console.log('Is Valid:', this.referralCode ? this.validateReferralCode(this.referralCode) : false);
       
       // Hiển thị thông tin thời hạn từ referralData
       try {
@@ -4570,14 +4421,7 @@ document.addEventListener('alpine:init', () => {
           const timeRemaining = data.expiry - now;
           const daysRemaining = Math.round(timeRemaining / (1000 * 60 * 60 * 24) * 10) / 10;
           
-          console.log('📅 Referral Data:');
-          console.log('  - Code:', data.code);
-          console.log('  - Created:', new Date(data.timestamp).toLocaleString());
-          console.log('  - Expires:', new Date(data.expiry).toLocaleString());
-          console.log('  - Days remaining:', daysRemaining > 0 ? daysRemaining : 'EXPIRED');
-          console.log('  - Status:', timeRemaining > 0 ? '✅ ACTIVE' : '❌ EXPIRED');
         } else {
-          console.log('📅 No referralData found in localStorage');
         }
       } catch (error) {
         console.error('❌ Error reading referralData:', error);
@@ -4585,16 +4429,11 @@ document.addEventListener('alpine:init', () => {
       
       if (this.referralCode && this.validateReferralCode(this.referralCode)) {
         const partner = this.getPartnerInfo(this.referralCode);
-        console.log('👤 Partner:', partner?.name || 'Unknown');
-        console.log('💰 Commission:', partner?.commission + '%' || 'Unknown');
       }
-      console.log('📊 === END STATUS ===');
     },
 
     // Manual set referral for testing
     setTestReferral(code) {
-      console.log('🧪 === MANUAL SET REFERRAL ===');
-      console.log('Setting referral code to:', code);
       
       if (this.validateReferralCode(code)) {
         this.referralCode = code;
@@ -4609,31 +4448,19 @@ document.addEventListener('alpine:init', () => {
         try {
           localStorage.setItem('referralData', JSON.stringify(referralData));
           localStorage.setItem('referralCode', code); // Tương thích
-          console.log('✅ Referral code set successfully with 7-day expiry:', code);
         } catch (error) {
           console.error('❌ Error saving referral data:', error);
         }
         
         const partner = this.getPartnerInfo(code);
-        console.log('👤 Partner info:', partner);
       } else {
-        console.log('❌ Invalid referral code:', code);
       }
-      console.log('🧪 === END MANUAL SET ===');
     },
 
     // Test URL parsing manually
     testUrlParsing() {
-      console.log('🧪 === URL PARSING TEST ===');
-      console.log('window.location.href:', window.location.href);
-      console.log('window.location.search:', window.location.search);
-      console.log('window.location.pathname:', window.location.pathname);
-      console.log('window.location.hash:', window.location.hash);
       
       const urlParams = new URLSearchParams(window.location.search);
-      console.log('URLSearchParams entries:', Array.from(urlParams.entries()));
-      console.log('ref parameter:', urlParams.get('ref'));
-      console.log('🧪 === END URL TEST ===');
     },
 
     /* ========= BABY NAME MODAL FUNCTIONS ========= */
