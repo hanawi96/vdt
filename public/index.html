@@ -27,7 +27,7 @@
 <body class="bg-gray-50 font-sans" x-data="shop" x-cloak>
 
     <!-- Fixed Header - Tuyển CTV -->
-    <div class="fixed top-0 left-0 right-0 bg-gradient-to-r from-pink-500 via-purple-500 to-pink-500 shadow-md" style="z-index: 99999 !important;">
+    <div class="fixed top-0 left-0 right-0 bg-gradient-to-r from-pink-500 via-purple-500 to-pink-500 shadow-md" style="z-index: 100 !important;">
         <div class="container mx-auto px-3 py-2 flex items-center justify-between gap-2">
             <!-- Text Content -->
             <div class="flex items-center gap-2 flex-1 min-w-0">
@@ -57,7 +57,7 @@
             x-transition:leave="transition ease-in duration-150"
             x-transition:leave-start="opacity-100 transform translate-y-0"
             x-transition:leave-end="opacity-0 transform translate-y-[-10px]"
-            class="fixed top-4 left-1/2 -translate-x-1/2 sm:left-auto sm:translate-x-0 sm:right-4 z-[10002] w-11/12 max-w-sm">
+            class="fixed top-16 left-1/2 -translate-x-1/2 sm:left-auto sm:translate-x-0 sm:right-4 w-11/12 max-w-sm" style="z-index: 10002 !important;">
             <div class="bg-white/95 backdrop-blur-sm rounded-lg shadow-lg border overflow-hidden" :class="{
                    'border-green-200 bg-green-50/95': alertModalType === 'success',
                    'border-red-200 bg-red-50/95': alertModalType === 'error',
