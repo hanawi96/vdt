@@ -1,25 +1,25 @@
-# Cloudflare Pages headers
+# CSS files - MUST be first for correct MIME type
+/assets/css/*.css
+  Content-Type: text/css; charset=utf-8
+  Cache-Control: public, max-age=31536000, immutable
+
+# JavaScript files
+/assets/js/*.js
+  Content-Type: application/javascript; charset=utf-8
+  Cache-Control: public, max-age=31536000, immutable
+
+# Images
+/assets/images/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Other static assets
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Global security headers
 /*
   X-Frame-Options: DENY
   X-XSS-Protection: 1; mode=block
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
-
-# CSS files - Set correct MIME type
-/assets/css/*.css
-  Content-Type: text/css
-  Cache-Control: public, max-age=31536000, immutable
-
-# JavaScript files - Set correct MIME type
-/assets/js/*.js
-  Content-Type: application/javascript
-  Cache-Control: public, max-age=31536000, immutable
-
-# Cache static assets
-/assets/*
-  Cache-Control: public, max-age=31536000, immutable
-
-# Cache images
-/assets/images/*
-  Cache-Control: public, max-age=31536000, immutable

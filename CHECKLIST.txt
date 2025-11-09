@@ -1,0 +1,114 @@
+═══════════════════════════════════════════════════════════
+  CHECKLIST FIX LỖI MIME TYPE - SHOPVD.STORE
+═══════════════════════════════════════════════════════════
+
+BƯỚC 1: XÓA WORKER CŨ (BẮT BUỘC!)
+═══════════════════════════════════════════════════════════
+[ ] 1. Vào https://dash.cloudflare.com
+[ ] 2. Click "Workers & Pages"
+[ ] 3. Tìm worker: "shopvd-worker" hoặc "hidden-bonus-76d2"
+[ ] 4. Click vào worker → Settings → Delete
+[ ] 5. Xác nhận xóa
+
+⚠️  QUAN TRỌNG: Phải xóa worker cũ trước khi làm các bước tiếp theo!
+
+
+BƯỚC 2: CẤU HÌNH CLOUDFLARE PAGES
+═══════════════════════════════════════════════════════════
+[ ] 1. Vào "Workers & Pages"
+[ ] 2. Click vào project Pages (tên: shopvd hoặc tương tự)
+[ ] 3. Kiểm tra Settings → Build configuration:
+        - Build command: (để trống)
+        - Build output directory: public
+        - Root directory: /
+
+
+BƯỚC 3: SET ENVIRONMENT VARIABLE
+═══════════════════════════════════════════════════════════
+[ ] 1. Trong project Pages → Settings → Environment variables
+[ ] 2. Click "Add variable"
+[ ] 3. Thêm:
+        Variable name: GOOGLE_SCRIPT_URL
+        Value: (URL Google Apps Script của bạn)
+        Environment: Production
+[ ] 4. Click "Save"
+
+
+BƯỚC 4: KIỂM TRA CUSTOM DOMAIN
+═══════════════════════════════════════════════════════════
+[ ] 1. Trong project Pages → Custom domains
+[ ] 2. Kiểm tra "shopvd.store" đã được add chưa
+[ ] 3. Nếu chưa → "Set up a custom domain" → Add "shopvd.store"
+
+
+BƯỚC 5: PUSH CODE MỚI
+═══════════════════════════════════════════════════════════
+[ ] 1. Mở terminal/command prompt
+[ ] 2. Chạy lệnh:
+        git add .
+        git commit -m "Fix MIME type - Use Cloudflare Pages Functions"
+        git push origin main
+[ ] 3. Đợi Cloudflare Pages tự động deploy (1-2 phút)
+
+
+BƯỚC 6: PURGE CACHE
+═══════════════════════════════════════════════════════════
+[ ] 1. Vào Cloudflare Dashboard
+[ ] 2. Click vào domain "shopvd.store" (trong Websites)
+[ ] 3. Vào Caching → Configuration
+[ ] 4. Click "Purge Everything"
+[ ] 5. Xác nhận
+
+
+BƯỚC 7: XÓA CACHE TRÌNH DUYỆT
+═══════════════════════════════════════════════════════════
+[ ] 1. Bấm Ctrl + Shift + Delete
+[ ] 2. Chọn "All time"
+[ ] 3. Chọn "Cached images and files"
+[ ] 4. Click "Clear data"
+
+
+BƯỚC 8: TEST WEBSITE
+═══════════════════════════════════════════════════════════
+[ ] 1. Mở trình duyệt Incognito (Ctrl + Shift + N)
+[ ] 2. Vào https://shopvd.store
+[ ] 3. Bấm F12 → Console
+[ ] 4. Kiểm tra:
+        ✅ Không còn lỗi MIME type
+        ✅ CSS load thành công
+        ✅ Website hiển thị đúng
+
+
+BƯỚC 9: TEST ĐẶT HÀNG
+═══════════════════════════════════════════════════════════
+[ ] 1. Thêm sản phẩm vào giỏ hàng
+[ ] 2. Click "Đặt hàng"
+[ ] 3. Điền thông tin khách hàng
+[ ] 4. Submit đơn hàng
+[ ] 5. Kiểm tra nhận được thông báo thành công
+
+
+═══════════════════════════════════════════════════════════
+  KẾT QUẢ MONG ĐỢI
+═══════════════════════════════════════════════════════════
+
+✅ Website hiển thị đúng, có CSS
+✅ Không còn lỗi MIME type trong Console
+✅ Đặt hàng thành công
+✅ Nhận được thông báo trong Google Sheets/Telegram
+
+
+═══════════════════════════════════════════════════════════
+  NẾU VẪN LỖI
+═══════════════════════════════════════════════════════════
+
+1. Kiểm tra lại đã xóa worker cũ chưa (Bước 1)
+2. Kiểm tra lại đã purge cache chưa (Bước 6)
+3. Thử lại trong Incognito mode
+4. Xem file FIX_MIME_TYPE.md để biết thêm chi tiết
+5. Chụp screenshot lỗi và cấu hình Cloudflare
+
+
+═══════════════════════════════════════════════════════════
+  HOÀN THÀNH! 🎉
+═══════════════════════════════════════════════════════════

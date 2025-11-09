@@ -1,0 +1,27 @@
+# Cloudflare Pages ignore file
+# Các file/folder này sẽ KHÔNG được deploy
+
+# Documentation
+*.md
+DEPLOY.md
+FIX_MIME_TYPE.md
+HUONG_DAN_DEPLOY.md
+COMMIT_MESSAGE.txt
+
+# Worker files (không dùng nữa)
+worker/
+
+# Config files
+wrangler.toml
+.gitignore
+
+# Development
+node_modules/
+.vscode/
+.idea/
+
+# Source files (chỉ deploy build output)
+src/
+tailwind.config.js
+package.json
+package-lock.json
