@@ -3,7 +3,10 @@
     "id": "vong_tron_002",
     "name": "Vòng trơn buộc mối",
     "category": "vong_tron",
-    "categories": ["vong_tron", "san_pham_hot"],
+    "categories": [
+      "vong_tron",
+      "san_pham_hot"
+    ],
     "price": 79000,
     "original_price": 99000,
     "image": "./assets/images/product_img/Vong tron/vong-tron-buoc-moi.webp",
@@ -16,7 +19,11 @@
     "id": "vong_tron_003",
     "name": "Trơn mix 1 bi bạc",
     "category": "vong_tron",
-    "categories": ["vong_tron", "mix_bi_bac", "khuyen_mai"],
+    "categories": [
+      "vong_tron",
+      "mix_bi_bac",
+      "khuyen_mai"
+    ],
     "price": 69000,
     "original_price": 89000,
     "image": "./assets/images/product_img/Vong tron/vong_dau_tam_tron_1_bi_bac.webp",
@@ -63,7 +70,10 @@
     "id": "mix_charm_ran_001",
     "name": "Trơn + Charm rắn",
     "category": "mix_charm_ran",
-    "categories": ["mix_charm_ran", "san_pham_hot"],
+    "categories": [
+      "mix_charm_ran",
+      "san_pham_hot"
+    ],
     "price": 139000,
     "original_price": 149000,
     "image": "./assets/images/product_img/charm ran/vong-dau-tam-tron-charm-ran.webp",
@@ -77,7 +87,10 @@
     "id": "mix_charm_ran_002",
     "name": "Mix bạc 3ly + Charm rắn",
     "category": "mix_charm_ran",
-    "categories": ["mix_charm_ran", "khuyen_mai"],
+    "categories": [
+      "mix_charm_ran",
+      "khuyen_mai"
+    ],
     "price": 239000,
     "original_price": 249000,
     "image": "./assets/images/product_img/charm ran/vong-sole-bac-3ly-charm-ran.webp",
@@ -91,7 +104,10 @@
     "id": "mix_charm_ran_003",
     "name": "Mix bạc 3ly + Charm rắn co giãn",
     "category": "mix_charm_ran",
-    "categories": ["mix_charm_ran", "vong_co_gian"],
+    "categories": [
+      "mix_charm_ran",
+      "vong_co_gian"
+    ],
     "price": 239000,
     "original_price": 249000,
     "image": "./assets/images/product_img/charm ran/vong-mix-3ly-charm-ran-co-gian.webp",
@@ -105,7 +121,10 @@
     "id": "mix_charm_ran_004",
     "name": "Mix bạc 4ly + Charm rắn",
     "category": "mix_charm_ran",
-    "categories": ["mix_charm_ran", "san_pham_hot"],
+    "categories": [
+      "mix_charm_ran",
+      "san_pham_hot"
+    ],
     "price": 249000,
     "original_price": 269000,
     "image": "./assets/images/product_img/charm ran/vong-sole-bac-4ly-charm-ran.webp",
@@ -119,7 +138,10 @@
     "id": "mix_charm_ran_005",
     "name": "Mix bạc 4ly + Charm rắn co giãn",
     "category": "mix_charm_ran",
-    "categories": ["mix_charm_ran", "vong_co_gian"],
+    "categories": [
+      "mix_charm_ran",
+      "vong_co_gian"
+    ],
     "price": 249000,
     "original_price": 259000,
     "image": "./assets/images/product_img/charm ran/vong-mix-4ly-charm-ran-co-gian.webp",
@@ -133,7 +155,10 @@
     "id": "mix_charm_ran_006",
     "name": "Mix 7 bi bạc + Charm rắn",
     "category": "mix_charm_ran",
-    "categories": ["mix_charm_ran", "san_pham_hot"],
+    "categories": [
+      "mix_charm_ran",
+      "san_pham_hot"
+    ],
     "price": 229000,
     "original_price": 249000,
     "image": "./assets/images/product_img/charm ran/vong-7-bi-bac-charm-ran.webp",
@@ -147,7 +172,10 @@
     "id": "mix_charm_ran_007",
     "name": "Mix 9 bi bạc + Charm rắn",
     "category": "mix_charm_ran",
-    "categories": ["mix_charm_ran", "khuyen_mai"],
+    "categories": [
+      "mix_charm_ran",
+      "khuyen_mai"
+    ],
     "price": 249000,
     "original_price": 299000,
     "image": "./assets/images/product_img/charm ran/vong-9-bi-bac-charm-ran.webp",
@@ -161,7 +189,11 @@
     "id": "mix_charm_ran_008",
     "name": "Mix bạc 3ly + Charm rắn + Chuông",
     "category": "mix_charm_ran",
-    "categories": ["mix_charm_ran", "san_pham_hot", "khuyen_mai"],
+    "categories": [
+      "mix_charm_ran",
+      "san_pham_hot",
+      "khuyen_mai"
+    ],
     "price": 289000,
     "original_price": 299000,
     "image": "./assets/images/product_img/charm ran/vong-sole-bac-3ly-charm-ran-chuong.webp",
@@ -175,7 +207,11 @@
     "id": "mix_charm_ran_013",
     "name": "Mix bạc 3ly + Charm rắn + Chuông co giãn",
     "category": "mix_charm_ran",
-    "categories": ["mix_charm_ran", "mix_charm_chuong", "vong_co_gian"],
+    "categories": [
+      "mix_charm_ran",
+      "mix_charm_chuong",
+      "vong_co_gian"
+    ],
     "price": 289000,
     "original_price": 299000,
     "image": "./assets/images/product_img/charm ran/vong-sole-bac-3ly-charm-ran-chuong-co-gian.webp",
@@ -189,7 +225,11 @@
     "id": "mix_charm_ran_014",
     "name": "Mix bạc 3ly + Charm rắn + 2 Chuông co giãn",
     "category": "mix_charm_ran",
-    "categories": ["mix_charm_ran", "mix_charm_chuong", "vong_co_gian"],
+    "categories": [
+      "mix_charm_ran",
+      "mix_charm_chuong",
+      "vong_co_gian"
+    ],
     "price": 339000,
     "original_price": 359000,
     "image": "./assets/images/product_img/charm ran/vong-sole-bac-3ly-charm-ran-2-chuong-co-gian.webp",
@@ -203,7 +243,11 @@
     "id": "mix_charm_ran_015",
     "name": "Mix bạc 3ly + Charm rắn + Thẻ tên co giãn",
     "category": "mix_charm_ran",
-    "categories": ["mix_charm_ran", "mix_charm_chuong", "vong_co_gian"],
+    "categories": [
+      "mix_charm_ran",
+      "mix_charm_chuong",
+      "vong_co_gian"
+    ],
     "price": 309000,
     "original_price": 319000,
     "image": "./assets/images/product_img/charm ran/sole-3ly-charm-ran-the-ten-co-gian.webp",
@@ -217,7 +261,11 @@
     "id": "mix_charm_ran_016",
     "name": "Mix bạc 3ly + Charm rắn + Chuông + Thẻ tên co giãn",
     "category": "mix_charm_ran",
-    "categories": ["mix_charm_ran", "mix_charm_chuong", "vong_co_gian"],
+    "categories": [
+      "mix_charm_ran",
+      "mix_charm_chuong",
+      "vong_co_gian"
+    ],
     "price": 359000,
     "original_price": 369000,
     "image": "./assets/images/product_img/charm ran/sole-3ly-charm-ran-the-ten-chuong-co-gian.webp",
@@ -231,7 +279,10 @@
     "id": "mix_charm_ran_010",
     "name": "Mix bạc 4ly + Charm rắn + Chuông",
     "category": "mix_charm_ran",
-    "categories": ["mix_charm_ran", "san_pham_hot"],
+    "categories": [
+      "mix_charm_ran",
+      "san_pham_hot"
+    ],
     "price": 299000,
     "original_price": 309000,
     "image": "./assets/images/product_img/charm ran/vong-sole-3ly-charm-ran-the-ten-chuong.webp",
@@ -241,11 +292,14 @@
     "stock_quantity": 15,
     "hasSilver": true
   },
- {
+  {
     "id": "mix_charm_ran_009",
     "name": "Mix bạc 3ly + Charm rắn + Thẻ tên + Chuông",
     "category": "mix_charm_ran",
-    "categories": ["mix_charm_ran", "san_pham_hot"],
+    "categories": [
+      "mix_charm_ran",
+      "san_pham_hot"
+    ],
     "price": 359000,
     "original_price": 369000,
     "image": "./assets/images/product_img/charm ran/vong-sole-4li-chamr-ran-mix-chuong.webp",
@@ -258,7 +312,10 @@
     "id": "mix_day_ngu_sac_001",
     "name": "Vòng ngũ sắc mix 1 hạt dâu",
     "category": "mix_day_ngu_sac",
-    "categories": ["mix_day_ngu_sac", "san_pham_hot"],
+    "categories": [
+      "mix_day_ngu_sac",
+      "san_pham_hot"
+    ],
     "price": 29000,
     "original_price": 35000,
     "image": "./assets/images/product_img/vong-ngu-sac/vong-ngu-sac-mix-1-hat-dau.webp",
@@ -271,7 +328,10 @@
     "id": "mix_day_ngu_sac_002",
     "name": "Vòng ngũ sắc mix 1 hạt dâu + 2 bi bạc 4ly",
     "category": "mix_day_ngu_sac",
-    "categories": ["mix_day_ngu_sac", "san_pham_hot"],
+    "categories": [
+      "mix_day_ngu_sac",
+      "san_pham_hot"
+    ],
     "price": 48000,
     "original_price": 59000,
     "image": "./assets/images/product_img/vong-ngu-sac/vong-ngu-sac-mix-1-hat-dau.webp",
@@ -280,12 +340,15 @@
     "purchases": 345,
     "stock_quantity": 15
   },
-
   {
     "id": "hat_dau_tam_mai_san_002",
     "name": "Hạt dâu tằm loại đẹp + chỉ đỏ",
     "category": "hat_dau_tam_mai_san",
-    "categories": ["hat_dau_tam_mai_san", "san_pham_hot", "khuyen_mai"],
+    "categories": [
+      "hat_dau_tam_mai_san",
+      "san_pham_hot",
+      "khuyen_mai"
+    ],
     "price": 4000,
     "original_price": 4500,
     "image": "./assets/images/product_img/hat_dau_tam.webp",
@@ -298,7 +361,9 @@
     "id": "hat_dau_tam_mai_san_003",
     "name": "Hạt dâu tằm loại thường + chỉ đỏ",
     "category": "hat_dau_tam_mai_san",
-    "categories": ["hat_dau_tam_mai_san"],
+    "categories": [
+      "hat_dau_tam_mai_san"
+    ],
     "price": 2500,
     "original_price": 3000,
     "image": "./assets/images/product_img/hat_dau_tam.webp",
@@ -307,12 +372,14 @@
     "purchases": 534,
     "stock_quantity": 15
   },
-
   {
     "id": "mix_ho_phach_001",
     "name": "Trơn + 2 hổ phách vàng cam",
     "category": "mix_ho_phach",
-    "categories": ["mix_ho_phach", "san_pham_hot"],
+    "categories": [
+      "mix_ho_phach",
+      "san_pham_hot"
+    ],
     "price": 79000,
     "original_price": 89000,
     "image": "./assets/images/product_img/Sole ho phach/vong-tron-mix-2-ho-phach-vang-cam.webp",
@@ -325,7 +392,10 @@
     "id": "mix_ho_phach_002",
     "name": "Trơn + 2 hổ phách nâu đỏ",
     "category": "mix_ho_phach",
-    "categories": ["mix_ho_phach", "khuyen_mai"],
+    "categories": [
+      "mix_ho_phach",
+      "khuyen_mai"
+    ],
     "price": 79000,
     "original_price": 89000,
     "image": "./assets/images/product_img/Sole ho phach/vong-tron-mix-2-ho-phach-nau-do.webp",
@@ -338,7 +408,10 @@
     "id": "mix_ho_phach_003",
     "name": "Sole hổ phách vàng cam",
     "category": "mix_ho_phach",
-    "categories": ["mix_ho_phach", "san_pham_hot"],
+    "categories": [
+      "mix_ho_phach",
+      "san_pham_hot"
+    ],
     "price": 189000,
     "original_price": 199000,
     "image": "./assets/images/product_img/Sole ho phach/mix-ho-phach-vang-cam.webp",
@@ -351,7 +424,9 @@
     "id": "mix_ho_phach_004",
     "name": "Sole hổ phách nâu đỏ",
     "category": "mix_ho_phach",
-    "categories": ["mix_ho_phach"],
+    "categories": [
+      "mix_ho_phach"
+    ],
     "price": 189000,
     "original_price": 199000,
     "image": "./assets/images/product_img/Sole ho phach/mix-ho-phach-nau-do.webp",
@@ -364,7 +439,10 @@
     "id": "mix_ho_phach_005",
     "name": "7 hổ phách vàng cam",
     "category": "mix_ho_phach",
-    "categories": ["mix_ho_phach", "khuyen_mai"],
+    "categories": [
+      "mix_ho_phach",
+      "khuyen_mai"
+    ],
     "price": 179000,
     "original_price": 189000,
     "image": "./assets/images/product_img/Sole ho phach/7-ho-phach-vang-cam.webp",
@@ -377,7 +455,10 @@
     "id": "mix_ho_phach_006",
     "name": "7 hổ phách nâu đỏ",
     "category": "mix_ho_phach",
-    "categories": ["mix_ho_phach", "san_pham_hot"],
+    "categories": [
+      "mix_ho_phach",
+      "san_pham_hot"
+    ],
     "price": 179000,
     "original_price": 189000,
     "image": "./assets/images/product_img/Sole ho phach/7-ho-phach-nau-do.webp",
@@ -390,7 +471,10 @@
     "id": "mix_ho_phach_007",
     "name": "9 hổ phách vàng cam",
     "category": "mix_ho_phach",
-    "categories": ["mix_ho_phach", "khuyen_mai"],
+    "categories": [
+      "mix_ho_phach",
+      "khuyen_mai"
+    ],
     "price": 189000,
     "original_price": 199000,
     "image": "./assets/images/product_img/Sole ho phach/9-ho-phach-nau-do.webp",
@@ -403,7 +487,10 @@
     "id": "mix_ho_phach_008",
     "name": "9 hổ phách vàng cam",
     "category": "mix_ho_phach",
-    "categories": ["mix_ho_phach", "san_pham_hot"],
+    "categories": [
+      "mix_ho_phach",
+      "san_pham_hot"
+    ],
     "price": 189000,
     "original_price": 199000,
     "image": "./assets/images/product_img/Sole ho phach/9-ho-phach-vang-cam.webp",
@@ -416,7 +503,10 @@
     "id": "mix_thanh_gia_001",
     "name": "Trơn + Thánh giá",
     "category": "mix_thanh_gia",
-    "categories": ["mix_thanh_gia", "san_pham_hot"],
+    "categories": [
+      "mix_thanh_gia",
+      "san_pham_hot"
+    ],
     "price": 129000,
     "original_price": 139000,
     "image": "./assets/images/product_img/thanh-gia/tron-thanh-gia.webp",
@@ -430,7 +520,10 @@
     "id": "mix_thanh_gia_002",
     "name": "Sole bạc 3ly + Thánh giá",
     "category": "mix_thanh_gia",
-    "categories": ["mix_thanh_gia", "khuyen_mai"],
+    "categories": [
+      "mix_thanh_gia",
+      "khuyen_mai"
+    ],
     "price": 239000,
     "original_price": 249000,
     "image": "./assets/images/product_img/thanh-gia/sole-3ly-thanh-gia.webp",
@@ -444,7 +537,10 @@
     "id": "mix_thanh_gia_003",
     "name": "Sole bạc 3ly + Thánh giá co giãn",
     "category": "mix_thanh_gia",
-    "categories": ["mix_thanh_gia", "vong_co_gian"],
+    "categories": [
+      "mix_thanh_gia",
+      "vong_co_gian"
+    ],
     "price": 229000,
     "original_price": 239000,
     "image": "./assets/images/product_img/thanh-gia/sole-3ly-thanh-gia-co-gian.webp",
@@ -458,7 +554,11 @@
     "id": "mix_thanh_gia_004",
     "name": "Sole bạc 3ly + Thánh giá + Chuông",
     "category": "mix_thanh_gia",
-    "categories": ["mix_thanh_gia", "mix_charm_chuong", "san_pham_hot"],
+    "categories": [
+      "mix_thanh_gia",
+      "mix_charm_chuong",
+      "san_pham_hot"
+    ],
     "price": 289000,
     "original_price": 299000,
     "image": "./assets/images/product_img/thanh-gia/sole-3ly-thanh-gia-chuong.webp",
@@ -472,7 +572,11 @@
     "id": "mix_thanh_gia_005",
     "name": "Sole bạc 3ly + Thánh giá + Thẻ tên",
     "category": "mix_thanh_gia",
-    "categories": ["mix_thanh_gia", "mix_charm_chuong", "mix_the_ten_be"],
+    "categories": [
+      "mix_thanh_gia",
+      "mix_charm_chuong",
+      "mix_the_ten_be"
+    ],
     "price": 309000,
     "original_price": 219000,
     "image": "./assets/images/product_img/thanh-gia/sole-3ly-thanh-gia-the-ten.webp",
@@ -485,7 +589,11 @@
     "id": "mix_thanh_gia_007",
     "name": "Sole bạc 3ly + Thánh giá + Chuông co giãn",
     "category": "mix_thanh_gia",
-    "categories": ["mix_thanh_gia", "mix_charm_chuong", "vong_co_gian"],
+    "categories": [
+      "mix_thanh_gia",
+      "mix_charm_chuong",
+      "vong_co_gian"
+    ],
     "price": 289000,
     "original_price": 299000,
     "image": "./assets/images/product_img/thanh-gia/sole-3ly-thanh-gia-chuong-co-gian.webp",
@@ -494,11 +602,14 @@
     "purchases": 267,
     "hasSilver": true
   },
-    {
+  {
     "id": "mix_thanh_gia_008",
     "name": "Sole bạc 4ly + Thánh giá co giãn",
     "category": "mix_thanh_gia",
-    "categories": ["mix_thanh_gia", "vong_co_gian"],
+    "categories": [
+      "mix_thanh_gia",
+      "vong_co_gian"
+    ],
     "price": 249000,
     "original_price": 269000,
     "image": "./assets/images/product_img/thanh-gia/sole-4ly-thanh-gia-co-gian.webp",
@@ -511,7 +622,10 @@
     "id": "mix_hoa_sen_001",
     "name": "Vòng trơn mix hoa sen",
     "category": "mix_hoa_sen",
-    "categories": ["mix_hoa_sen", "san_pham_hot"],
+    "categories": [
+      "mix_hoa_sen",
+      "san_pham_hot"
+    ],
     "price": 139000,
     "original_price": 149000,
     "image": "./assets/images/product_img/hoa-sen/vong-tron-hoa-sen.webp",
@@ -524,7 +638,10 @@
     "id": "mix_hoa_sen_002",
     "name": "Vòng sole bạc 3ly + Hoa sen",
     "category": "mix_hoa_sen",
-    "categories": ["mix_hoa_sen", "khuyen_mai"],
+    "categories": [
+      "mix_hoa_sen",
+      "khuyen_mai"
+    ],
     "price": 239000,
     "original_price": 249000,
     "image": "./assets/images/product_img/hoa-sen/vong-sole-3ly-hoa-sen.webp",
@@ -537,7 +654,10 @@
     "id": "mix_hoa_sen_003",
     "name": "Vòng sole bạc 4ly + Hoa sen",
     "category": "mix_hoa_sen",
-    "categories": ["mix_hoa_sen", "san_pham_hot"],
+    "categories": [
+      "mix_hoa_sen",
+      "san_pham_hot"
+    ],
     "price": 249000,
     "original_price": 259000,
     "image": "./assets/images/product_img/vong_tron_co_dien_day_ngu_sac.webp",
@@ -550,7 +670,10 @@
     "id": "mix_hoa_sen_004",
     "name": "Vòng sole bạc 3ly + Hoa sen co giãn",
     "category": "mix_hoa_sen",
-    "categories": ["mix_hoa_sen", "vong_co_gian"],
+    "categories": [
+      "mix_hoa_sen",
+      "vong_co_gian"
+    ],
     "price": 229000,
     "original_price": 239000,
     "image": "./assets/images/product_img/hoa-sen/sole-bac-3ly-hoa-sen-co-gian.webp",
@@ -563,7 +686,11 @@
     "id": "mix_hoa_sen_005",
     "name": "Vòng sole bạc 4ly + Hoa sen co giãn",
     "category": "mix_hoa_sen",
-    "categories": ["mix_hoa_sen", "vong_co_gian", "khuyen_mai"],
+    "categories": [
+      "mix_hoa_sen",
+      "vong_co_gian",
+      "khuyen_mai"
+    ],
     "price": 249000,
     "original_price": 269000,
     "image": "./assets/images/product_img/hoa-sen/sole-bac-4ly-hoa-sen-co-gian.webp",
@@ -576,7 +703,11 @@
     "id": "mix_hoa_sen_006",
     "name": "Vòng sole bạc 3ly + Hoa sen + Chuông co giãn",
     "category": "mix_hoa_sen",
-    "categories": ["mix_hoa_sen", "vong_co_gian", "mix_charm_chuong"],
+    "categories": [
+      "mix_hoa_sen",
+      "vong_co_gian",
+      "mix_charm_chuong"
+    ],
     "price": 279000,
     "original_price": 289000,
     "image": "./assets/images/product_img/hoa-sen/sole-bac-3ly-hoa-sen-chuong-co-gian.webp",
@@ -585,11 +716,14 @@
     "purchases": 267,
     "hasSilver": true
   },
-    {
+  {
     "id": "mix_hoa_sen_007",
     "name": "Vòng sole bạc 3ly + Hoa sen + Chuông",
     "category": "mix_hoa_sen",
-    "categories": ["mix_hoa_sen", "mix_charm_chuong"],
+    "categories": [
+      "mix_hoa_sen",
+      "mix_charm_chuong"
+    ],
     "price": 289000,
     "original_price": 299000,
     "image": "./assets/images/product_img/hoa-sen/sole-bac-3ly-hoa-sen-chuong.webp",
@@ -602,7 +736,10 @@
     "id": "mix_da_do_tu_nhien_001",
     "name": "Vòng trơn mix đá đỏ",
     "category": "mix_da_do_tu_nhien",
-    "categories": ["mix_da_do_tu_nhien", "san_pham_hot"],
+    "categories": [
+      "mix_da_do_tu_nhien",
+      "san_pham_hot"
+    ],
     "price": 99000,
     "original_price": 109000,
     "image": "./assets/images/product_img/da do/vong_dau_tam_tron_da_do.webp",
@@ -615,7 +752,10 @@
     "id": "mix_da_do_tu_nhien_002",
     "name": "Sole bạc 3ly mix đá đỏ",
     "category": "mix_da_do_tu_nhien",
-    "categories": ["mix_da_do_tu_nhien", "khuyen_mai"],
+    "categories": [
+      "mix_da_do_tu_nhien",
+      "khuyen_mai"
+    ],
     "price": 199000,
     "original_price": 219000,
     "image": "./assets/images/product_img/da do/vong_dau_tam_sole_3ly_da_do.webp",
@@ -628,7 +768,11 @@
     "id": "mix_da_do_tu_nhien_003",
     "name": "Sole bạc 4ly mix đá đỏ",
     "category": "mix_da_do_tu_nhien",
-    "categories": ["mix_da_do_tu_nhien", "san_pham_hot", "khuyen_mai"],
+    "categories": [
+      "mix_da_do_tu_nhien",
+      "san_pham_hot",
+      "khuyen_mai"
+    ],
     "price": 219000,
     "original_price": 229000,
     "image": "./assets/images/product_img/da do/vong_dau_tam_sole_4ly_da_do.webp",
@@ -641,7 +785,11 @@
     "id": "mix_chi_mau_cac_loai_001",
     "name": "Vòng trơn cổ điển dây đỏ",
     "category": "mix_chi_mau_cac_loai",
-    "categories": ["mix_chi_mau_cac_loai", "vong_tron", "san_pham_hot"],
+    "categories": [
+      "mix_chi_mau_cac_loai",
+      "vong_tron",
+      "san_pham_hot"
+    ],
     "price": 59000,
     "original_price": 69000,
     "image": "./assets/images/product_img/vong_tron_co_dien_day_do.webp",
@@ -655,7 +803,11 @@
     "id": "mix_chi_mau_cac_loai_003",
     "name": "Vòng trơn cổ điển dây vàng",
     "category": "mix_chi_mau_cac_loai",
-    "categories": ["mix_chi_mau_cac_loai", "vong_tron", "san_pham_hot"],
+    "categories": [
+      "mix_chi_mau_cac_loai",
+      "vong_tron",
+      "san_pham_hot"
+    ],
     "price": 59000,
     "original_price": 69000,
     "image": "./assets/images/product_img/vong_tron_co_dien_day_vang.webp",
@@ -668,7 +820,10 @@
     "id": "mix_chi_mau_cac_loai_004",
     "name": "Vòng trơn cổ điển màu xanh lá",
     "category": "mix_chi_mau_cac_loai",
-    "categories": ["mix_chi_mau_cac_loai", "vong_tron"],
+    "categories": [
+      "mix_chi_mau_cac_loai",
+      "vong_tron"
+    ],
     "price": 59000,
     "original_price": 69000,
     "image": "./assets/images/product_img/vong_tron_co_dien_day_xanh.webp",
@@ -681,7 +836,11 @@
     "id": "mix_chi_mau_cac_loai_005",
     "name": "Vòng trơn cổ điển màu tím",
     "category": "mix_chi_mau_cac_loai",
-    "categories": ["mix_chi_mau_cac_loai", "vong_tron", "khuyen_mai"],
+    "categories": [
+      "mix_chi_mau_cac_loai",
+      "vong_tron",
+      "khuyen_mai"
+    ],
     "price": 59000,
     "original_price": 69000,
     "image": "./assets/images/product_img/vong_tron_co_dien_day_tim.webp",
@@ -694,7 +853,11 @@
     "id": "mix_chi_mau_cac_loai_006",
     "name": "Vòng trơn cổ điển chỉ hồng",
     "category": "mix_chi_mau_cac_loai",
-    "categories": ["mix_chi_mau_cac_loai", "vong_tron", "san_pham_hot"],
+    "categories": [
+      "mix_chi_mau_cac_loai",
+      "vong_tron",
+      "san_pham_hot"
+    ],
     "price": 59000,
     "original_price": 69000,
     "image": "./assets/images/product_img/vong_tron_co_dien_day_hong.webp",
@@ -707,7 +870,10 @@
     "id": "mix_chi_mau_cac_loai_007",
     "name": "Vòng trơn dây ngũ sắc",
     "category": "mix_chi_mau_cac_loai",
-    "categories": ["mix_chi_mau_cac_loai", "vong_tron"],
+    "categories": [
+      "mix_chi_mau_cac_loai",
+      "vong_tron"
+    ],
     "price": 59000,
     "original_price": 69000,
     "image": "./assets/images/product_img/vong_tron_co_dien_day_ngu_sac.webp",
@@ -720,7 +886,10 @@
     "id": "mix_the_ten_be_001",
     "name": "Vòng trơn mix thẻ tên tròn",
     "category": "mix_the_ten_be",
-    "categories": ["mix_the_ten_be", "san_pham_hot"],
+    "categories": [
+      "mix_the_ten_be",
+      "san_pham_hot"
+    ],
     "price": 129000,
     "original_price": 139000,
     "image": "./assets/images/product_img/the-ten/vong-tron-mix-the-ten-tron.webp",
@@ -733,7 +902,10 @@
     "id": "mix_the_ten_be_002",
     "name": "Trơn mix 1 bi bạc + thẻ tên tròn",
     "category": "mix_the_ten_be",
-    "categories": ["mix_the_ten_be", "khuyen_mai"],
+    "categories": [
+      "mix_the_ten_be",
+      "khuyen_mai"
+    ],
     "price": 139000,
     "original_price": 149000,
     "image": "./assets/images/product_img/the-ten/vong-tron-2-mix-the-ten-tron.webp",
@@ -746,7 +918,9 @@
     "id": "mix_the_ten_be_003",
     "name": "Trơn mix 2 bi bạc + thẻ tên tròn",
     "category": "mix_the_ten_be",
-    "categories": ["mix_the_ten_be"],
+    "categories": [
+      "mix_the_ten_be"
+    ],
     "price": 149000,
     "original_price": 159000,
     "image": "./assets/images/product_img/the-ten/vong-tron-3-mix-the-ten-tron.webp",
@@ -755,12 +929,14 @@
     "purchases": 345,
     "hasSilver": true
   },
-  
   {
     "id": "mix_the_ten_be_004",
     "name": "Trơn mix 3 bi bạc + thẻ tên tròn",
     "category": "mix_the_ten_be",
-    "categories": ["mix_the_ten_be", "san_pham_hot"],
+    "categories": [
+      "mix_the_ten_be",
+      "san_pham_hot"
+    ],
     "price": 169000,
     "original_price": 179000,
     "image": "./assets/images/product_img/the-ten/vong-tron-5-mix-the-ten-tron.webp",
@@ -773,7 +949,9 @@
     "id": "mix_the_ten_be_009",
     "name": "7 bi bạc + thẻ tên bé",
     "category": "mix_the_ten_be",
-    "categories": ["mix_the_ten_be"],
+    "categories": [
+      "mix_the_ten_be"
+    ],
     "price": 229000,
     "original_price": 239000,
     "image": "./assets/images/product_img/the-ten/7-bi-bac-the-ten-be.webp",
@@ -786,7 +964,9 @@
     "id": "mix_the_ten_be_010",
     "name": "Sole 10 bi bạc 3ly + thẻ tên rắn (Khắc tên mặt sau)",
     "category": "mix_the_ten_be",
-    "categories": ["mix_the_ten_be"],
+    "categories": [
+      "mix_the_ten_be"
+    ],
     "price": 199000,
     "original_price": 219000,
     "image": "./assets/images/product_img/the-ten/sole-10-bac-3ly-the-hinh-ran.webp",
@@ -799,7 +979,10 @@
     "id": "mix_the_ten_be_005",
     "name": "Trơn + thẻ tên hình rắn",
     "category": "mix_the_ten_be",
-    "categories": ["mix_the_ten_be", "khuyen_mai"],
+    "categories": [
+      "mix_the_ten_be",
+      "khuyen_mai"
+    ],
     "price": 129000,
     "original_price": 139000,
     "image": "./assets/images/product_img/the-ten/vong-tron-mix-the-hinh-ran.webp",
@@ -812,7 +995,9 @@
     "id": "mix_the_ten_be_006",
     "name": "Trơn mix 1 bi bạc + thẻ tên rắn",
     "category": "mix_the_ten_be",
-    "categories": ["mix_the_ten_be"],
+    "categories": [
+      "mix_the_ten_be"
+    ],
     "price": 139000,
     "original_price": 149000,
     "image": "./assets/images/product_img/the-ten/vong-tron-2-mix-the-hinh-ran.webp",
@@ -825,7 +1010,10 @@
     "id": "mix_the_ten_be_007",
     "name": "Trơn mix 2 bi bạc + thẻ tên rắn",
     "category": "mix_the_ten_be",
-    "categories": ["mix_the_ten_be", "san_pham_hot"],
+    "categories": [
+      "mix_the_ten_be",
+      "san_pham_hot"
+    ],
     "price": 149000,
     "original_price": 159000,
     "image": "./assets/images/product_img/the-ten/vong-tron-3-mix-the-hinh-ran.webp",
@@ -838,7 +1026,10 @@
     "id": "mix_the_ten_be_008",
     "name": "Trơn mix 3 bi bạc + thẻ tên rắn",
     "category": "mix_the_ten_be",
-    "categories": ["mix_the_ten_be", "khuyen_mai"],
+    "categories": [
+      "mix_the_ten_be",
+      "khuyen_mai"
+    ],
     "price": 159000,
     "original_price": 169000,
     "image": "./assets/images/product_img/the-ten/vong-tron-5-mix-the-hinh-ran.webp",
@@ -851,7 +1042,10 @@
     "id": "mix_the_ten_be_011",
     "name": "Trơn + thẻ tên hoa 4 cánh",
     "category": "mix_the_ten_be",
-    "categories": ["mix_the_ten_be", "khuyen_mai"],
+    "categories": [
+      "mix_the_ten_be",
+      "khuyen_mai"
+    ],
     "price": 129000,
     "original_price": 139000,
     "image": "./assets/images/product_img/the-ten/vong-tron-mix-the-ten-hoa-4-canh.webp",
@@ -864,7 +1058,9 @@
     "id": "mix_the_ten_be_012",
     "name": "Trơn mix 1 bi bạc + thẻ tên hoa 4 cánh",
     "category": "mix_the_ten_be",
-    "categories": ["mix_the_ten_be"],
+    "categories": [
+      "mix_the_ten_be"
+    ],
     "price": 139000,
     "original_price": 149000,
     "image": "./assets/images/product_img/the-ten/vong-tron-2-mix-the-ten-hoa-4-canh.webp",
@@ -877,7 +1073,10 @@
     "id": "mix_the_ten_be_013",
     "name": "Trơn mix 2 bi bạc + thẻ tên hoa 4 cánh",
     "category": "mix_the_ten_be",
-    "categories": ["mix_the_ten_be", "san_pham_hot"],
+    "categories": [
+      "mix_the_ten_be",
+      "san_pham_hot"
+    ],
     "price": 149000,
     "original_price": 159000,
     "image": "./assets/images/product_img/the-ten/vong-tron-3-mix-the-hoa-4-canh.webp",
@@ -890,7 +1089,10 @@
     "id": "mix_the_ten_be_014",
     "name": "Trơn mix 3 bi bạc + thẻ tên hoa 4 cánh",
     "category": "mix_the_ten_be",
-    "categories": ["mix_the_ten_be", "khuyen_mai"],
+    "categories": [
+      "mix_the_ten_be",
+      "khuyen_mai"
+    ],
     "price": 159000,
     "original_price": 169000,
     "image": "./assets/images/product_img/the-ten/vong-tron-5-mix-the-ten-hoa-4-canh.webp",
@@ -903,7 +1105,10 @@
     "id": "mix_the_ten_be_015",
     "name": "Vòng sole 3ly + Thẻ tên tròn",
     "category": "mix_the_ten_be",
-    "categories": ["mix_the_ten_be", "khuyen_mai"],
+    "categories": [
+      "mix_the_ten_be",
+      "khuyen_mai"
+    ],
     "price": 239000,
     "original_price": 259000,
     "image": "./assets/images/product_img/the-ten/sole-3ly-mix-the-tron.webp",
@@ -916,7 +1121,10 @@
     "id": "mix_the_ten_be_016",
     "name": "Vòng sole 3ly + Thẻ tên hình rắn",
     "category": "mix_the_ten_be",
-    "categories": ["mix_the_ten_be", "khuyen_mai"],
+    "categories": [
+      "mix_the_ten_be",
+      "khuyen_mai"
+    ],
     "price": 239000,
     "original_price": 259000,
     "image": "./assets/images/product_img/the-ten/sole-3ly-mix-the-hinh-ran.webp",
@@ -929,7 +1137,10 @@
     "id": "mix_the_ten_be_017",
     "name": "Vòng sole 3ly + Thẻ tên hình hoa 4 cánh",
     "category": "mix_the_ten_be",
-    "categories": ["mix_the_ten_be", "khuyen_mai"],
+    "categories": [
+      "mix_the_ten_be",
+      "khuyen_mai"
+    ],
     "price": 239000,
     "original_price": 259000,
     "image": "./assets/images/product_img/the-ten/sole-3ly-khac-the-ten-hoa-4-canh.webp",
@@ -942,7 +1153,11 @@
     "id": "mix_the_ten_be_018",
     "name": "Vòng sole 3ly + Chuông + Thẻ tên bé",
     "category": "mix_the_ten_be",
-    "categories": ["mix_the_ten_be", "mix_charm_chuong","khuyen_mai"],
+    "categories": [
+      "mix_the_ten_be",
+      "mix_charm_chuong",
+      "khuyen_mai"
+    ],
     "price": 299000,
     "original_price": 319000,
     "image": "./assets/images/product_img/the-ten/vong-sole-3ly-charm-chuong-the-ten.webp",
@@ -955,7 +1170,10 @@
     "id": "vong_nguoi_lon_001",
     "name": "[NGƯỜI LỚN] Vòng trơn co giãn",
     "category": "vong_nguoi_lon",
-    "categories": ["vong_nguoi_lon", "san_pham_hot"],
+    "categories": [
+      "vong_nguoi_lon",
+      "san_pham_hot"
+    ],
     "price": 89000,
     "original_price": 99000,
     "image": "./assets/images/product_img/nguoi-lon/vong-tron-nguoi-lon.webp",
@@ -963,11 +1181,14 @@
     "rating": 4.8,
     "purchases": 567
   },
-{
+  {
     "id": "vong_nguoi_lon_002",
     "name": "[NGƯỜI LỚN] Vòng mix bi bạc 3ly co giãn",
     "category": "vong_nguoi_lon",
-    "categories": ["vong_nguoi_lon", "san_pham_hot"],
+    "categories": [
+      "vong_nguoi_lon",
+      "san_pham_hot"
+    ],
     "price": 149000,
     "original_price": 189000,
     "image": "./assets/images/product_img/nguoi-lon/mix-bac-3ly-mau-1.webp",
@@ -980,7 +1201,10 @@
     "id": "vong_nguoi_lon_003",
     "name": "[NGƯỜI LỚN] Vòng mix bi bạc 3ly co giãn mẫu 2",
     "category": "vong_nguoi_lon",
-    "categories": ["vong_nguoi_lon", "san_pham_hot"],
+    "categories": [
+      "vong_nguoi_lon",
+      "san_pham_hot"
+    ],
     "price": 149000,
     "original_price": 189000,
     "image": "./assets/images/product_img/nguoi-lon/mix-bac-3ly-mau-2.webp",
@@ -989,11 +1213,14 @@
     "purchases": 567,
     "hasSilver": true
   },
-    {
+  {
     "id": "vong_nguoi_lon_004",
     "name": "[NGƯỜI LỚN] Vòng mix bi bạc 4ly co giãn",
     "category": "vong_nguoi_lon",
-    "categories": ["vong_nguoi_lon", "san_pham_hot"],
+    "categories": [
+      "vong_nguoi_lon",
+      "san_pham_hot"
+    ],
     "price": 149000,
     "original_price": 189000,
     "image": "./assets/images/product_img/nguoi-lon/mix-bac-4ly-co-gian.webp",
@@ -1006,7 +1233,10 @@
     "id": "san_pham_ban_kem_001",
     "name": "Túi Dâu Tằm Để Giường",
     "category": "san_pham_ban_kem",
-    "categories": ["san_pham_ban_kem", "san_pham_hot"],
+    "categories": [
+      "san_pham_ban_kem",
+      "san_pham_hot"
+    ],
     "price": 39000,
     "original_price": 45000,
     "image": "./assets/images/product_img/tui_dau_tam.webp",
@@ -1018,7 +1248,10 @@
     "id": "san_pham_ban_kem_002",
     "name": "Móc chìa khóa dâu tằm",
     "category": "san_pham_ban_kem",
-    "categories": ["san_pham_ban_kem", "khuyen_mai"],
+    "categories": [
+      "san_pham_ban_kem",
+      "khuyen_mai"
+    ],
     "price": 29000,
     "original_price": 39000,
     "image": "./assets/images/product_img/moc_chia_khoa_dau_tam_ko_hop_kim.webp",
@@ -1030,7 +1263,10 @@
     "id": "bi_charm_bac_001",
     "name": "Bi bạc ta 3ly trơn (3mm)",
     "category": "bi_charm_bac",
-    "categories": ["bi_charm_bac", "san_pham_hot"],
+    "categories": [
+      "bi_charm_bac",
+      "san_pham_hot"
+    ],
     "price": 6000,
     "original_price": 6500,
     "image": "./assets/images/product_img/bi-bac/bi-bac-ta-3ly.webp",
@@ -1044,7 +1280,10 @@
     "id": "bi_charm_bac_002",
     "name": "Bi bạc ta 4ly khía (4mm)",
     "category": "bi_charm_bac",
-    "categories": ["bi_charm_bac", "khuyen_mai"],
+    "categories": [
+      "bi_charm_bac",
+      "khuyen_mai"
+    ],
     "price": 8500,
     "original_price": 9000,
     "image": "./assets/images/product_img/bi-bac/bi-bac-ta-4ly.webp",
@@ -1058,7 +1297,10 @@
     "id": "bi_charm_bac_003",
     "name": "Bi bạc ta 5ly khía (5mm)",
     "category": "bi_charm_bac",
-    "categories": ["bi_charm_bac", "san_pham_hot"],
+    "categories": [
+      "bi_charm_bac",
+      "san_pham_hot"
+    ],
     "price": 120000,
     "original_price": 13000,
     "image": "./assets/images/product_img/bi-bac/bi-bac-ta-5ly.webp",
@@ -1072,7 +1314,10 @@
     "id": "bi_charm_bac_004",
     "name": "Charm rồng bạc ta",
     "category": "bi_charm_bac",
-    "categories": ["bi_charm_bac", "khuyen_mai"],
+    "categories": [
+      "bi_charm_bac",
+      "khuyen_mai"
+    ],
     "price": 75000,
     "original_price": 89000,
     "image": "./assets/images/product_img/charm-bac/charm-rong.webp",
@@ -1086,7 +1331,9 @@
     "id": "bi_charm_bac_005",
     "name": "Charm rắn bạc ta",
     "category": "bi_charm_bac",
-    "categories": ["bi_charm_bac"],
+    "categories": [
+      "bi_charm_bac"
+    ],
     "price": 7500,
     "original_price": 89000,
     "image": "./assets/images/product_img/charm-bac/charm-ran.webp",
@@ -1100,7 +1347,10 @@
     "id": "bi_charm_bac_006",
     "name": "Thẻ 4 lá khắc tên bé (2 mặt)",
     "category": "bi_charm_bac",
-    "categories": ["bi_charm_bac", "san_pham_hot"],
+    "categories": [
+      "bi_charm_bac",
+      "san_pham_hot"
+    ],
     "price": 85000,
     "original_price": 99000,
     "image": "./assets/images/product_img/charm-bac/co-4-la.webp",
@@ -1114,7 +1364,10 @@
     "id": "bi_charm_bac_007",
     "name": "Thẻ 4 lá khắc tên bé (2 mặt)",
     "category": "bi_charm_bac",
-    "categories": ["bi_charm_bac", "khuyen_mai"],
+    "categories": [
+      "bi_charm_bac",
+      "khuyen_mai"
+    ],
     "price": 75000,
     "original_price": 99000,
     "image": "./assets/images/product_img/charm-bac/the-hinh-ran.webp",
@@ -1128,7 +1381,10 @@
     "id": "bi_charm_bac_013",
     "name": "Thẻ tròn khắc tên bé (2 mặt)",
     "category": "bi_charm_bac",
-    "categories": ["bi_charm_bac", "khuyen_mai"],
+    "categories": [
+      "bi_charm_bac",
+      "khuyen_mai"
+    ],
     "price": 75000,
     "original_price": 99000,
     "image": "./assets/images/product_img/charm-bac/the-ten-tron.webp",
@@ -1142,7 +1398,10 @@
     "id": "bi_charm_bac_008",
     "name": "Charm cỏ 4 lá bạc S925 (13.3x11.6x2mm)",
     "category": "bi_charm_bac",
-    "categories": ["bi_charm_bac", "san_pham_hot"],
+    "categories": [
+      "bi_charm_bac",
+      "san_pham_hot"
+    ],
     "price": 75000,
     "original_price": 99000,
     "image": "./assets/images/product_img/charm-bac/co-4-la-dac.webp",
@@ -1156,7 +1415,9 @@
     "id": "bi_charm_bac_009",
     "name": "Charm cỏ 4 lá 2 bạc S925 (Size 8*10,9mm)",
     "category": "bi_charm_bac",
-    "categories": ["bi_charm_bac"],
+    "categories": [
+      "bi_charm_bac"
+    ],
     "price": 159000,
     "original_price": 189000,
     "image": "./assets/images/product_img/charm-bac/co-4-la-rong.webp",
@@ -1170,7 +1431,9 @@
     "id": "bi_charm_bac_010",
     "name": "Charm thánh giá xỏ ngang (Size 9.3x7.3x4mm)",
     "category": "bi_charm_bac",
-    "categories": ["bi_charm_bac"],
+    "categories": [
+      "bi_charm_bac"
+    ],
     "price": 65000,
     "original_price": 69000,
     "image": "./assets/images/product_img/charm-bac/thanh-gia-xo-ngang.webp",
@@ -1180,11 +1443,14 @@
     "hasSilver": true,
     "silverType": "s925"
   },
-    {
+  {
     "id": "mix_bi_bac_011",
     "name": "Sole 10 bi bạc 3ly tai dâu",
     "category": "mix_bi_bac",
-    "categories": ["mix_bi_bac", "san_pham_hot"],
+    "categories": [
+      "mix_bi_bac",
+      "san_pham_hot"
+    ],
     "price": 139000,
     "original_price": 149000,
     "image": "./assets/images/product_img/Sole bac/mix-10-bi-bac-3ly.webp",
@@ -1197,7 +1463,10 @@
     "id": "mix_bi_bac_006",
     "name": "Mix bi bạc 3ly",
     "category": "mix_bi_bac",
-    "categories": ["mix_bi_bac", "san_pham_hot"],
+    "categories": [
+      "mix_bi_bac",
+      "san_pham_hot"
+    ],
     "price": 189000,
     "original_price": 199000,
     "image": "./assets/images/product_img/Sole bac/vong_dau_tam_sole_bac_3ly.webp",
@@ -1210,7 +1479,10 @@
     "id": "mix_bi_bac_007",
     "name": "Mix bi bạc 3ly co giãn",
     "category": "mix_bi_bac",
-    "categories": ["mix_bi_bac", "vong_co_gian"],
+    "categories": [
+      "mix_bi_bac",
+      "vong_co_gian"
+    ],
     "price": 179000,
     "original_price": 189000,
     "image": "./assets/images/product_img/Sole bac/vong_dau_tam_sole_bac_3ly_co_gian.webp",
@@ -1223,7 +1495,10 @@
     "id": "mix_bi_bac_008",
     "name": "Mix bi bạc 4ly",
     "category": "mix_bi_bac",
-    "categories": ["mix_bi_bac", "khuyen_mai"],
+    "categories": [
+      "mix_bi_bac",
+      "khuyen_mai"
+    ],
     "price": 209000,
     "original_price": 219000,
     "image": "./assets/images/product_img/Sole bac/vong_dau_tam_sole_bac_4ly.webp",
@@ -1236,7 +1511,10 @@
     "id": "mix_bi_bac_009",
     "name": "Mix bi bạc 4ly co giãn",
     "category": "mix_bi_bac",
-    "categories": ["mix_bi_bac", "vong_co_gian"],
+    "categories": [
+      "mix_bi_bac",
+      "vong_co_gian"
+    ],
     "price": 199000,
     "image": "./assets/images/product_img/Sole bac/vong_dau_tam_sole_bac_4ly_co_gian.webp",
     "description": "Vòng dâu tằm mix bi bạc 4 lớp với dây co giãn bền bỉ, thoải mái cả ngày.",
@@ -1248,7 +1526,11 @@
     "id": "mix_bi_bac_012",
     "name": "Mix bi bạc 3ly + bi 6ly",
     "category": "mix_bi_bac",
-    "categories": ["mix_bi_bac", "san_pham_hot", "khuyen_mai"],
+    "categories": [
+      "mix_bi_bac",
+      "san_pham_hot",
+      "khuyen_mai"
+    ],
     "price": 209000,
     "original_price": 219000,
     "image": "./assets/images/product_img/Sole bac/vong_dau_tam_sole_3ly_mix_bac_6ly.webp",
@@ -1261,7 +1543,10 @@
     "id": "mix_bi_bac_013",
     "name": "Mix 7 bi bạc",
     "category": "mix_bi_bac",
-    "categories": ["mix_bi_bac", "san_pham_hot"],
+    "categories": [
+      "mix_bi_bac",
+      "san_pham_hot"
+    ],
     "price": 159000,
     "original_price": 169000,
     "image": "./assets/images/product_img/Sole bac/vong_dau_tam_7_bi_bac.webp",
@@ -1274,7 +1559,11 @@
     "id": "mix_bi_bac_014",
     "name": "Mix 9 bi bạc",
     "category": "mix_bi_bac",
-    "categories": ["mix_bi_bac", "san_pham_hot", "khuyen_mai"],
+    "categories": [
+      "mix_bi_bac",
+      "san_pham_hot",
+      "khuyen_mai"
+    ],
     "price": 169000,
     "original_price": 179000,
     "image": "./assets/images/product_img/Sole bac/vong_dau_tam_9_bi_bac.webp",
@@ -1287,7 +1576,10 @@
     "id": "mix_bi_bac_010",
     "name": "Mix bi bạc 3ly + bi 6ly + chuông",
     "category": "mix_bi_bac",
-    "categories": ["mix_bi_bac", "san_pham_hot"],
+    "categories": [
+      "mix_bi_bac",
+      "san_pham_hot"
+    ],
     "price": 219000,
     "original_price": 269000,
     "image": "./assets/images/product_img/Sole bac/vong-sole-3ly-mix-6ly-chuong.webp",
@@ -1300,7 +1592,10 @@
     "id": "mix_da_do_tu_nhien_004",
     "name": "Sole bạc 3ly mix đá đỏ co giãn",
     "category": "mix_da_do_tu_nhien",
-    "categories": ["mix_da_do_tu_nhien", "vong_co_gian"],
+    "categories": [
+      "mix_da_do_tu_nhien",
+      "vong_co_gian"
+    ],
     "price": 239000,
     "original_price": 289000,
     "image": "./assets/images/product_img/da do/vong-sole-3ly-co-gian-da-do.webp",
@@ -1313,7 +1608,9 @@
     "id": "mix_da_do_tu_nhien_005",
     "name": "Sole bạc 3ly mix đá đỏ + chuông",
     "category": "mix_da_do_tu_nhien",
-    "categories": ["mix_da_do_tu_nhien"],
+    "categories": [
+      "mix_da_do_tu_nhien"
+    ],
     "price": 239000,
     "original_price": 289000,
     "image": "./assets/images/product_img/da do/vong-sole-3ly-da-do-chuong.webp",
@@ -1322,11 +1619,14 @@
     "purchases": 123,
     "hasSilver": true
   },
-    {
+  {
     "id": "mix_da_do_tu_nhien_006",
     "name": "Sole bạc 3ly mix đá đỏ + chuông co giãn",
     "category": "mix_da_do_tu_nhien",
-    "categories": ["mix_da_do_tu_nhien", "mix_charm_chuong"],
+    "categories": [
+      "mix_da_do_tu_nhien",
+      "mix_charm_chuong"
+    ],
     "price": 239000,
     "original_price": 289000,
     "image": "./assets/images/product_img/da do/vong-sole-3ly-co-gian-da-do-chuong.webp",
@@ -1339,7 +1639,10 @@
     "id": "vong_co_gian_001",
     "name": "Trơn co giãn",
     "category": "vong_co_gian",
-    "categories": ["vong_co_gian", "san_pham_hot"],
+    "categories": [
+      "vong_co_gian",
+      "san_pham_hot"
+    ],
     "price": 69000,
     "original_price": 79000,
     "image": "./assets/images/product_img/co gian/vong_tron_co_gian.webp",
@@ -1347,12 +1650,14 @@
     "rating": 4.8,
     "purchases": 567
   },
-
   {
     "id": "vong_co_gian_003",
     "name": "Mix hổ phách vàng cam co giãn",
     "category": "vong_co_gian",
-    "categories": ["vong_co_gian", "mix_ho_phach"],
+    "categories": [
+      "vong_co_gian",
+      "mix_ho_phach"
+    ],
     "price": 189000,
     "original_price": 199000,
     "image": "./assets/images/product_img/Sole ho phach/sole-ho-phach-vang-cam-co-gian.webp",
@@ -1364,7 +1669,10 @@
     "id": "vong_co_gian_004",
     "name": "Mix hổ phách nâu đỏ co giãn",
     "category": "vong_co_gian",
-    "categories": ["vong_co_gian", "mix_ho_phach"],
+    "categories": [
+      "vong_co_gian",
+      "mix_ho_phach"
+    ],
     "price": 189000,
     "original_price": 199000,
     "image": "./assets/images/product_img/Sole ho phach/sole-ho-phach-nau-do-co-gian.webp",
@@ -1376,7 +1684,10 @@
     "id": "vong_co_gian_005",
     "name": "Mix bạc 3ly + Charm rồng co giãn",
     "category": "vong_co_gian",
-    "categories": ["vong_co_gian", "san_pham_hot"],
+    "categories": [
+      "vong_co_gian",
+      "san_pham_hot"
+    ],
     "price": 239000,
     "original_price": 249000,
     "image": "./assets/images/product_img/co gian/sole-3ly-charm-rong-co-gian.webp",
@@ -1389,7 +1700,10 @@
     "id": "vong_co_gian_006",
     "name": "Mix bạc 4ly + Charm rồng co giãn",
     "category": "vong_co_gian",
-    "categories": ["vong_co_gian", "khuyen_mai"],
+    "categories": [
+      "vong_co_gian",
+      "khuyen_mai"
+    ],
     "price": 259000,
     "original_price": 269000,
     "image": "./assets/images/product_img/vong_tron_co_dien_day_ngu_sac.webp",
@@ -1402,7 +1716,10 @@
     "id": "vong_co_gian_007",
     "name": "Mix hạt bồ đề co giãn",
     "category": "vong_co_gian",
-    "categories": ["vong_co_gian", "mix_hat_bo_de"],
+    "categories": [
+      "vong_co_gian",
+      "mix_hat_bo_de"
+    ],
     "price": 99000,
     "original_price": 109000,
     "image": "./assets/images/product_img/bo de/vong_dau_tam_mix_hat_bo_de_co_gian.webp",
@@ -1414,7 +1731,11 @@
     "id": "vong_co_gian_008",
     "name": "Sole bạc 4ly mix đá đỏ co giãn",
     "category": "vong_co_gian",
-    "categories": ["vong_co_gian", "mix_da_do_tu_nhien", "san_pham_hot"],
+    "categories": [
+      "vong_co_gian",
+      "mix_da_do_tu_nhien",
+      "san_pham_hot"
+    ],
     "price": 219000,
     "original_price": 229000,
     "image": "./assets/images/product_img/da do/vong-sole-4ly-co-gian-da-do.webp",
@@ -1423,12 +1744,14 @@
     "purchases": 156,
     "hasSilver": true
   },
-
   {
     "id": "mix_hat_bo_de_007",
     "name": "Mix 7 hạt bồ đề",
     "category": "mix_hat_bo_de",
-    "categories": ["mix_hat_bo_de", "khuyen_mai"],
+    "categories": [
+      "mix_hat_bo_de",
+      "khuyen_mai"
+    ],
     "price": 89000,
     "original_price": 99000,
     "image": "./assets/images/product_img/bo de/vong_dau_tam_7_hat_bo_de.webp",
@@ -1440,7 +1763,11 @@
     "id": "mix_hat_bo_de_008",
     "name": "Mix 9 hạt bồ đề",
     "category": "mix_hat_bo_de",
-    "categories": ["mix_hat_bo_de", "san_pham_hot", "khuyen_mai"],
+    "categories": [
+      "mix_hat_bo_de",
+      "san_pham_hot",
+      "khuyen_mai"
+    ],
     "price": 99000,
     "original_price": 109000,
     "image": "./assets/images/product_img/bo de/vong_dau_tam_sole_9_hat_bo_de.webp",
@@ -1452,7 +1779,10 @@
     "id": "mix_hat_bo_de_009",
     "name": "Mix 7 hạt bồ đề chỉ vàng",
     "category": "mix_hat_bo_de",
-    "categories": ["mix_hat_bo_de", "san_pham_hot"],
+    "categories": [
+      "mix_hat_bo_de",
+      "san_pham_hot"
+    ],
     "price": 89000,
     "original_price": 99000,
     "image": "./assets/images/product_img/bo de/vong_dau_tam_7_hat_bo_de_day_vang.webp",
@@ -1464,7 +1794,11 @@
     "id": "mix_hat_bo_de_010",
     "name": "Mix 9 hạt bồ đề chỉ vàng",
     "category": "mix_hat_bo_de",
-    "categories": ["mix_hat_bo_de", "san_pham_hot", "khuyen_mai"],
+    "categories": [
+      "mix_hat_bo_de",
+      "san_pham_hot",
+      "khuyen_mai"
+    ],
     "price": 99000,
     "original_price": 99000,
     "image": "./assets/images/product_img/bo de/vong_dau_tam_9_hat_bo_de_chi_vang.webp",
@@ -1476,7 +1810,10 @@
     "id": "mix_charm_chuong_001",
     "name": "Trơn + Charm chuông",
     "category": "mix_charm_chuong",
-    "categories": ["mix_charm_chuong", "san_pham_hot"],
+    "categories": [
+      "mix_charm_chuong",
+      "san_pham_hot"
+    ],
     "price": 119000,
     "original_price": 129000,
     "image": "./assets/images/product_img/chuong/vong-tron-charm-chuong.webp",
@@ -1485,11 +1822,14 @@
     "purchases": 456,
     "hasSilver": true
   },
-   {
+  {
     "id": "mix_charm_chuong_0011",
     "name": "Sole 10 bi bạc 3y + Chuông",
     "category": "mix_charm_chuong",
-    "categories": ["mix_charm_chuong", "san_pham_hot"],
+    "categories": [
+      "mix_charm_chuong",
+      "san_pham_hot"
+    ],
     "price": 189000,
     "original_price": 199000,
     "image": "./assets/images/product_img/chuong/sole-10bi-bac-3ly-chuong.webp",
@@ -1502,7 +1842,10 @@
     "id": "mix_charm_chuong_003",
     "name": "Mix bạc 3ly + Charm chuông",
     "category": "mix_charm_chuong",
-    "categories": ["mix_charm_chuong", "san_pham_hot"],
+    "categories": [
+      "mix_charm_chuong",
+      "san_pham_hot"
+    ],
     "price": 229000,
     "original_price": 239000,
     "image": "./assets/images/product_img/chuong/vong_dau_tam_sole_3ly_chuong.webp",
@@ -1515,7 +1858,10 @@
     "id": "mix_charm_chuong_0043",
     "name": "Mix bạc 4ly khía + Charm chuông",
     "category": "mix_charm_chuong",
-    "categories": ["mix_charm_chuong", "san_pham_hot"],
+    "categories": [
+      "mix_charm_chuong",
+      "san_pham_hot"
+    ],
     "price": 239000,
     "original_price": 249000,
     "image": "./assets/images/product_img/chuong/vong-mix-bac-4ly-charm-chuong.webp",
@@ -1524,11 +1870,14 @@
     "purchases": 345,
     "hasSilver": true
   },
-    {
+  {
     "id": "mix_charm_chuong_00431",
     "name": "Mix bạc 3ly + Bi bạc 6ly + Charm chuông",
     "category": "mix_charm_chuong",
-    "categories": ["mix_charm_chuong", "san_pham_hot"],
+    "categories": [
+      "mix_charm_chuong",
+      "san_pham_hot"
+    ],
     "price": 249000,
     "original_price": 259000,
     "image": "./assets/images/product_img/chuong/vong-sole-3ly-mix-bac-6ly-chuong.webp",
@@ -1541,7 +1890,10 @@
     "id": "mix_charm_chuong_004",
     "name": "Mix bạc 3ly + 2 chuông co giãn",
     "category": "mix_charm_chuong",
-    "categories": ["mix_charm_chuong", "vong_co_gian"],
+    "categories": [
+      "mix_charm_chuong",
+      "vong_co_gian"
+    ],
     "price": 289000,
     "original_price": 299000,
     "image": "./assets/images/product_img/chuong/sole-3ly-mix-2-chuong-co-gian.webp",
@@ -1554,7 +1906,10 @@
     "id": "mix_charm_chuong_005",
     "name": "Mix bạc 3ly + 2 chuông",
     "category": "mix_charm_chuong",
-    "categories": ["mix_charm_chuong", "khuyen_mai"],
+    "categories": [
+      "mix_charm_chuong",
+      "khuyen_mai"
+    ],
     "price": 299000,
     "original_price": 319000,
     "image": "./assets/images/product_img/chuong/vong-sole-3ly-mix-2-chuong.webp",
@@ -1567,7 +1922,10 @@
     "id": "mix_charm_chuong_010",
     "name": "Mix bạc 4ly + Charm chuông co giãn",
     "category": "mix_charm_chuong",
-    "categories": ["mix_charm_chuong", "vong_co_gian"],
+    "categories": [
+      "mix_charm_chuong",
+      "vong_co_gian"
+    ],
     "price": 249000,
     "original_price": 259000,
     "image": "./assets/images/product_img/chuong/sole-4ly-chuong-co-gian.webp",
@@ -1576,12 +1934,15 @@
     "purchases": 123,
     "hasSilver": true
   },
-  
   {
     "id": "mix_charm_chuong_016",
     "name": "Mix bạc 3ly + thẻ tên + 2 chuông",
     "category": "mix_charm_chuong",
-    "categories": ["mix_charm_chuong", "mix_the_ten_be", "san_pham_hot"],
+    "categories": [
+      "mix_charm_chuong",
+      "mix_the_ten_be",
+      "san_pham_hot"
+    ],
     "price": 339000,
     "original_price": 349000,
     "image": "./assets/images/product_img/the-ten/vong-sole-3ly-2-charm-chuong-the-ten.webp",
@@ -1594,7 +1955,11 @@
     "id": "mix_charm_chuong_013",
     "name": "Mix bạc 3ly + 4 chuông + thẻ tên",
     "category": "mix_charm_chuong",
-    "categories": ["mix_charm_chuong", "mix_the_ten_be", "san_pham_hot"],
+    "categories": [
+      "mix_charm_chuong",
+      "mix_the_ten_be",
+      "san_pham_hot"
+    ],
     "price": 439000,
     "original_price": 459000,
     "image": "./assets/images/product_img/chuong/vong-sole-3ly-mix-4-chuong-the-ten.webp",
@@ -1607,7 +1972,9 @@
     "id": "bi_charm_bac_0111",
     "name": "Charm cúc họa mi S925 (Size 2x10mm)",
     "category": "bi_charm_bac",
-    "categories": ["bi_charm_bac"],
+    "categories": [
+      "bi_charm_bac"
+    ],
     "price": 129000,
     "original_price": 159000,
     "image": "./assets/images/product_img/charm-bac/charm-cuc-hoa-mi.webp",
@@ -1617,11 +1984,13 @@
     "hasSilver": true,
     "silverType": "s925"
   },
-   {
+  {
     "id": "bi_charm_bac_0112",
     "name": "Charm hoa sen treo S925 (Size 2x10mm)",
     "category": "bi_charm_bac",
-    "categories": ["bi_charm_bac"],
+    "categories": [
+      "bi_charm_bac"
+    ],
     "price": 129000,
     "original_price": 159000,
     "image": "./assets/images/product_img/charm-bac/charm-hoa-sen-treo.webp",
@@ -1631,11 +2000,13 @@
     "hasSilver": true,
     "silverType": "s925"
   },
-     {
+  {
     "id": "bi_charm_bac_0113",
     "name": "Charm ngôi sao treo S925 (Size 2x10mm)",
     "category": "bi_charm_bac",
-    "categories": ["bi_charm_bac"],
+    "categories": [
+      "bi_charm_bac"
+    ],
     "price": 129000,
     "original_price": 159000,
     "image": "./assets/images/product_img/charm-bac/charm-ngoi-sao.webp",
@@ -1645,11 +2016,13 @@
     "hasSilver": true,
     "silverType": "s925"
   },
-    {
+  {
     "id": "bi_charm_bac_011",
     "name": "Charm hoa sen xỏ ngang S925 (Size 2x10mm)",
     "category": "bi_charm_bac",
-    "categories": ["bi_charm_bac"],
+    "categories": [
+      "bi_charm_bac"
+    ],
     "price": 129000,
     "original_price": 159000,
     "image": "./assets/images/product_img/charm-bac/charm-hoa-sen-xo-ngang.webp",
@@ -1659,12 +2032,13 @@
     "hasSilver": true,
     "silverType": "s925"
   },
-   
   {
     "id": "san_pham_ban_kem_004",
     "name": "Bó dâu 7 CÀNH (bé trai)",
     "category": "san_pham_ban_kem",
-    "categories": ["san_pham_ban_kem"],
+    "categories": [
+      "san_pham_ban_kem"
+    ],
     "price": 35000,
     "original_price": 55000,
     "image": "./assets/images/product_img/bo-dau-tam-de-phong.webp",
@@ -1676,7 +2050,9 @@
     "id": "san_pham_ban_kem_005",
     "name": "Bó dâu 9 CÀNH (bé gái)",
     "category": "san_pham_ban_kem",
-    "categories": ["san_pham_ban_kem"],
+    "categories": [
+      "san_pham_ban_kem"
+    ],
     "price": 39000,
     "original_price": 4200,
     "image": "./assets/images/product_img/bo-dau-tam-de-phong.webp",
@@ -1688,7 +2064,10 @@
     "id": "hat_dau_tam_mai_san_004",
     "name": "Hạt dâu tằm loại đẹp + chỉ cước co giãn",
     "category": "hat_dau_tam_mai_san",
-    "categories": ["hat_dau_tam_mai_san", "san_pham_hot"],
+    "categories": [
+      "hat_dau_tam_mai_san",
+      "san_pham_hot"
+    ],
     "price": 4000,
     "original_price": 4500,
     "image": "./assets/images/product_img/hat_dau_tam.webp",
@@ -1700,7 +2079,9 @@
     "id": "hat_dau_tam_mai_san_005",
     "name": "Hạt dâu tằm loại thường + chỉ cước co giãn",
     "category": "hat_dau_tam_mai_san",
-    "categories": ["hat_dau_tam_mai_san"],
+    "categories": [
+      "hat_dau_tam_mai_san"
+    ],
     "price": 2500,
     "original_price": 3000,
     "image": "./assets/images/product_img/hat_dau_tam.webp",
@@ -1712,7 +2093,9 @@
     "id": "hat_dau_tam_mai_san_006",
     "name": "[NGƯỜI LỚN] Hạt dâu tằm size to cho người lớn",
     "category": "hat_dau_tam_mai_san",
-    "categories": ["hat_dau_tam_mai_san"],
+    "categories": [
+      "hat_dau_tam_mai_san"
+    ],
     "price": 4000,
     "original_price": 4500,
     "image": "./assets/images/product_img/hat_dau_tam.webp",

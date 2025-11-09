@@ -16,7 +16,10 @@
     "title": "Tặng Bó dâu 7 cành (bé trai)",
     "description": "Nhận ngay 1 Bó dâu 7 cành (bé trai) trị giá 109.000đ khi mua từ 2 sản phẩm",
     "type": "gift",
-    "value": { "id": "addon_bo_dau_tam_7_canh", "name": "Bó dâu 7 cành (bé trai)" },
+    "value": {
+      "id": "addon_bo_dau_tam_7_canh",
+      "name": "Bó dâu 7 cành (bé trai)"
+    },
     "minOrder": 300000,
     "minItems": 2,
     "expiry": "31/12/2025",
@@ -28,7 +31,10 @@
     "title": "Tặng Bó dâu 9 cành (bé gái)",
     "description": "Nhận ngay 1 Bó dâu 9 cành (bé gái) trị giá 119.000đ khi mua từ 2 sản phẩm",
     "type": "gift",
-    "value": { "id": "addon_bo_dau_tam_9_canh", "name": "Bó dâu 9 cành (bé gái)" },
+    "value": {
+      "id": "addon_bo_dau_tam_9_canh",
+      "name": "Bó dâu 9 cành (bé gái)"
+    },
     "minOrder": 300000,
     "minItems": 2,
     "expiry": "31/12/2025",
@@ -40,7 +46,10 @@
     "title": "Tặng 1 Túi Dâu Tằm Để Giường",
     "description": "Nhận ngay 1 Túi Dâu Tằm Để Giường trị giá 45.000đ khi mua từ 2 sản phẩm",
     "type": "gift",
-    "value": { "id": "addon_tui_dau_tam", "name": "Túi Dâu Tằm Để Giường" },
+    "value": {
+      "id": "addon_tui_dau_tam",
+      "name": "Túi Dâu Tằm Để Giường"
+    },
     "minOrder": 300000,
     "minItems": 2,
     "expiry": "31/12/2025",
@@ -52,7 +61,10 @@
     "title": "Tặng 1 Móc chìa khóa dâu tằm",
     "description": "Nhận ngay 1 Móc chìa khóa dâu tằm trị giá 49.000đ khi mua từ 2 sản phẩm",
     "type": "gift",
-    "value": { "id": "addon_moc_chia_khoa", "name": "Móc chìa khóa dâu tằm" },
+    "value": {
+      "id": "addon_moc_chia_khoa",
+      "name": "Móc chìa khóa dâu tằm"
+    },
     "minOrder": 300000,
     "minItems": 2,
     "expiry": "31/12/2025",
@@ -130,8 +142,7 @@
     "expiry": "31/12/2025",
     "active": true,
     "visible": false
-  }
-,
+  },
   {
     "code": "VDT4K",
     "title": "Giảm 4.000đ",
@@ -143,8 +154,7 @@
     "expiry": "31/12/2025",
     "active": true,
     "visible": true
-  }
-,
+  },
   {
     "code": "VDT6K",
     "title": "Giảm 6.000đ",
@@ -156,8 +166,7 @@
     "expiry": "31/12/2025",
     "active": true,
     "visible": true
-  }
-,
+  },
   {
     "code": "VDT8K",
     "title": "Giảm 8.000đ",
