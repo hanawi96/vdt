@@ -1,15 +1,12 @@
-name = "shopvd-worker"
-compatibility_date = "2024-01-01"
+# File này KHÔNG dùng cho Cloudflare Pages
+# Chỉ giữ lại để tham khảo
 
-# Cấu hình cho Cloudflare Pages
-pages_build_output_dir = "public"
+# Nếu bạn deploy qua GitHub → Cloudflare Pages:
+# - KHÔNG cần file này
+# - KHÔNG cần deploy worker riêng
+# - Chỉ cần file functions/api/order.js
 
-# Worker chỉ xử lý route /api/*
-# Static files sẽ được serve bởi Cloudflare Pages
-[env.production]
-routes = [
-  { pattern = "shopvd.store/api/*", zone_name = "shopvd.store" }
-]
-
-# Biến môi trường (cần set trong Cloudflare Dashboard)
-# GOOGLE_SCRIPT_URL = "your-google-apps-script-url"
+# Nếu muốn deploy worker riêng (KHÔNG khuyến nghị):
+# name = "shopvd-worker"
+# compatibility_date = "2024-01-01"
+# main = "worker/worker.js"
