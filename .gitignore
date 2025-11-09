@@ -7,7 +7,7 @@ yarn-error.log*
 # Build outputs
 dist/
 build/
-public/assets/css/styles.min.css
+# public/assets/css/styles.min.css - KHÔNG ignore để deploy lên Cloudflare
 public/assets/js/app.min.js
 
 # Environment variables
