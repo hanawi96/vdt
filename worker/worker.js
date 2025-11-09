@@ -2,12 +2,25 @@
 
 export default {
   async fetch(request, env) {
-    // Handle CORS preflight requests
+    const url = new URL(request.url);
+    
+    // Chỉ xử lý API endpoint /api/order
+    // Các request khác (static files) sẽ được pass-through
+    if (!url.pathname.startsWith('/api/')) {
+      return env.ASSETS.fetch(request);
+    }
+
+    // Handle CORS preflight requests cho API
     if (request.method === 'OPTIONS') {
       return handleOptions(request);
     }
 
-    // Only allow POST requests
+    // Chỉ xử lý route /api/order
+    if (url.pathname !== '/api/order') {
+      return new Response('API endpoint không tồn tại', { status: 404 });
+    }
+
+    // Only allow POST requests for API
     if (request.method !== 'POST') {
       return new Response('Chỉ chấp nhận phương thức POST', { status: 405 });
     }

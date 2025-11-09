@@ -1,0 +1,9 @@
+Fix: Sửa lỗi MIME type và cấu hình routing cho Cloudflare Pages
+
+- Tách API endpoint /api/order ra Cloudflare Pages Function
+- Static files (CSS, JS) được serve trực tiếp với MIME type đúng
+- Thêm headers configuration trong public/_headers
+- Cập nhật frontend để gọi API endpoint mới
+- Thêm hướng dẫn deploy chi tiết
+
+Fixes: MIME type ('text/html') is not a supported stylesheet MIME type error

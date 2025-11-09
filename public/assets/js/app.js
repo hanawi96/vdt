@@ -3973,10 +3973,11 @@ document.addEventListener('alpine:init', () => {
 
 
 
-      const workerUrl = 'https://hidden-bonus-76d2.yendev96.workers.dev';
+      // Gọi API endpoint thay vì worker URL trực tiếp
+      const apiUrl = '/api/order';
 
       try {
-        const res = await fetch(workerUrl, {
+        const res = await fetch(apiUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(orderDetails)
