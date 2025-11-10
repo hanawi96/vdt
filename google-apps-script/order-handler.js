@@ -13,6 +13,10 @@ const TELEGRAM_BOT_TOKEN = "7585519498:AAFHt6QMqI-zfVVnbQW1E_fxzQ1kNUsiEQU";
 const TELEGRAM_CHAT_ID = "5816975483";           // Chat ID của Yên Nguyễn
 const SECRET_KEY = "VDT_SECRET_2025_ANHIEN";     // Secret key để bảo mật
 
+// CẤU HÌNH FILE DANH SÁCH CTV
+const CTV_SHEET_ID = "1QOXBlIcX1Th1ZnNKulnbxEJDD-HfAiKfOFKHn2pBo4o";
+const CTV_SHEET_NAME = "DS REF";
+
 // Lưu trữ message ID đã xử lý để tránh duplicate
 const PROCESSED_MESSAGES = new Set();
 
@@ -28,7 +32,8 @@ const HEADERS = [
   "Phương Thức Thanh Toán",
   "Ghi Chú",
   "Mã Referral",
-  "Hoa Hồng"
+  "Hoa Hồng",
+  "SĐT CTV"
 ];
 
 // ==================== HÀM CHÍNH ====================
@@ -156,6 +161,7 @@ function setupSheetHeaders(sheet) {
   sheet.setColumnWidth(9, 200);  // Ghi chú
   sheet.setColumnWidth(10, 120); // Mã Referral
   sheet.setColumnWidth(11, 120); // Hoa Hồng
+  sheet.setColumnWidth(12, 120); // SĐT CTV
 
   Logger.log("✅ Đã thiết lập headers và format cho sheet");
 }
@@ -209,6 +215,9 @@ function addOrderToSheet(sheet, orderData) {
   // Format chi tiết sản phẩm
   const productDetails = formatProductDetails(orderData.cart);
 
+  // Lấy số điện thoại CTV từ mã referral
+  const ctvPhone = getCTVPhoneByReferralCode(orderData.referralCode);
+
   // Tạo dòng dữ liệu mới
   const newRow = [
     orderData.orderId,
@@ -221,7 +230,8 @@ function addOrderToSheet(sheet, orderData) {
     getPaymentMethodText(orderData.paymentMethod),
     orderData.customer.notes || "",
     orderData.referralCode || "", // Mã Referral
-    orderData.referralCommission ? `${orderData.referralCommission.toLocaleString('vi-VN')}đ` : "" // Hoa Hồng
+    orderData.referralCommission ? `${orderData.referralCommission.toLocaleString('vi-VN')}đ` : "", // Hoa Hồng
+    ctvPhone // SĐT CTV
   ];
 
   // Thêm vào sheet
@@ -254,6 +264,56 @@ function formatNewOrderRow(sheet, rowIndex) {
     .setFontColor("#92400E"); // Chữ vàng đậm
 
 
+}
+
+/**
+ * Lấy số điện thoại CTV từ mã referral
+ */
+function getCTVPhoneByReferralCode(referralCode) {
+  try {
+    // Nếu không có mã referral, trả về N/A
+    if (!referralCode || referralCode.trim() === "") {
+      return "N/A";
+    }
+
+    // Mở file Google Sheets danh sách CTV
+    const ctvSpreadsheet = SpreadsheetApp.openById(CTV_SHEET_ID);
+    const ctvSheet = ctvSpreadsheet.getSheetByName(CTV_SHEET_NAME);
+
+    if (!ctvSheet) {
+      Logger.log(`❌ Không tìm thấy sheet "${CTV_SHEET_NAME}" trong file CTV`);
+      return "N/A";
+    }
+
+    // Lấy tất cả dữ liệu từ sheet CTV
+    const ctvData = ctvSheet.getDataRange().getValues();
+
+    // Bỏ qua dòng header (dòng đầu tiên)
+    const ctvRows = ctvData.slice(1);
+
+    // Tìm CTV có mã referral khớp
+    // Cột H (index 7) là "Mã Ref"
+    // Cột C (index 2) là "Số điện thoại"
+    for (let i = 0; i < ctvRows.length; i++) {
+      const row = ctvRows[i];
+      const maRef = row[7] ? row[7].toString().trim() : ""; // Cột H - Mã Ref
+      const soDienThoai = row[2] ? row[2].toString().trim() : ""; // Cột C - Số điện thoại
+
+      // So sánh mã referral (không phân biệt hoa thường)
+      if (maRef.toLowerCase() === referralCode.toLowerCase()) {
+        Logger.log(`✅ Tìm thấy CTV: ${maRef} - SĐT: ${soDienThoai}`);
+        return soDienThoai || "N/A";
+      }
+    }
+
+    // Không tìm thấy mã referral
+    Logger.log(`⚠️ Không tìm thấy mã referral: ${referralCode}`);
+    return "N/A";
+
+  } catch (error) {
+    Logger.log(`❌ Lỗi tra cứu CTV: ${error.message}`);
+    return "N/A";
+  }
 }
 
 /**
