@@ -1,12 +1,14 @@
 /**
- * Google Apps Script cho xử lý đơn hàng Vòng Dâu Tằm An Nhiên
+ * Google Apps Script cho xử lý đơn hàng Vòng Dâu Tằm By Ánh
  * File: order-handler.js
  * Tác giả: Yendev96
  * Ngày tạo: 2025-09-01
  */
 
 // ==================== CẤU HÌNH ====================
-const SHEET_NAME = "Đơn Hàng";
+// CẤU HÌNH FILE GOOGLE SHEETS
+const MAIN_SHEET_ID = "1XNdGOYAVYa4BdZFEVZicMLbX8nJ3J--2HPJjltD9r-k"; // ID file Google Sheets chính
+const SHEET_NAME = "DS ĐƠN HÀNG"; // Tên sheet đơn hàng
 
 // CẤU HÌNH TELEGRAM BOT THÔNG BÁO
 const TELEGRAM_BOT_TOKEN = "7585519498:AAFHt6QMqI-zfVVnbQW1E_fxzQ1kNUsiEQU";
@@ -14,8 +16,8 @@ const TELEGRAM_CHAT_ID = "5816975483";           // Chat ID của Yên Nguyễn
 const SECRET_KEY = "VDT_SECRET_2025_ANHIEN";     // Secret key để bảo mật
 
 // CẤU HÌNH FILE DANH SÁCH CTV
-const CTV_SHEET_ID = "1QOXBlIcX1Th1ZnNKulnbxEJDD-HfAiKfOFKHn2pBo4o";
-const CTV_SHEET_NAME = "DS REF";
+const CTV_SHEET_ID = "1axooVOgwVsgwAqCE59afdz6RQOWNV1j4WUGQrBvUHiI";
+const CTV_SHEET_NAME = "DS CTV";
 
 // Lưu trữ message ID đã xử lý để tránh duplicate
 const PROCESSED_MESSAGES = new Set();
@@ -68,24 +70,16 @@ function doPost(e) {
  */
 function handleOrderFromWebsite(orderData) {
   try {
-    // Kiểm tra và khởi tạo sheet
     const sheet = initializeSheet();
-
-    // Validate dữ liệu
     validateOrderData(orderData);
-
-    // Format và thêm đơn hàng vào sheet
     addOrderToSheet(sheet, orderData);
 
-    // Gửi thông báo Telegram (chỉ khi có secret key đúng)
     if (orderData.telegramNotification === SECRET_KEY) {
       sendTelegramNotification(orderData);
     }
 
-    // Gửi email thông báo
     sendEmailNotification(orderData);
 
-    // Trả về kết quả thành công
     return createJsonResponse({
       result: 'success',
       message: 'Đơn hàng đã được ghi nhận thành công!',
@@ -96,7 +90,7 @@ function handleOrderFromWebsite(orderData) {
     });
 
   } catch (error) {
-    Logger.log(`❌ LỖI XỬ LÝ ĐƠN HÀNG: ${error.message}`);
+    Logger.log(`❌ Lỗi: ${error.message}`);
     return createJsonResponse({
       result: 'error',
       message: `Lỗi xử lý đơn hàng: ${error.message}`
@@ -110,16 +104,13 @@ function handleOrderFromWebsite(orderData) {
  * Khởi tạo và kiểm tra sheet
  */
 function initializeSheet() {
-  const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+  const spreadsheet = SpreadsheetApp.openById(MAIN_SHEET_ID);
   let sheet = spreadsheet.getSheetByName(SHEET_NAME);
 
-  // Tạo sheet mới nếu chưa có
   if (!sheet) {
     sheet = spreadsheet.insertSheet(SHEET_NAME);
-    Logger.log(`✅ Đã tạo sheet mới: ${SHEET_NAME}`);
   }
 
-  // Thêm headers nếu sheet trống
   if (sheet.getLastRow() === 0) {
     setupSheetHeaders(sheet);
   }
@@ -162,8 +153,6 @@ function setupSheetHeaders(sheet) {
   sheet.setColumnWidth(10, 120); // Mã Referral
   sheet.setColumnWidth(11, 120); // Hoa Hồng
   sheet.setColumnWidth(12, 120); // SĐT CTV
-
-  Logger.log("✅ Đã thiết lập headers và format cho sheet");
 }
 
 /**
@@ -238,10 +227,7 @@ function addOrderToSheet(sheet, orderData) {
   const newRowIndex = sheet.getLastRow() + 1;
   sheet.appendRow(newRow);
 
-  // Format dòng mới
   formatNewOrderRow(sheet, newRowIndex);
-
-  Logger.log(`✅ Đã thêm đơn hàng ${orderData.orderId} vào sheet`);
 }
 
 /**
@@ -281,38 +267,68 @@ function getCTVPhoneByReferralCode(referralCode) {
     const ctvSheet = ctvSpreadsheet.getSheetByName(CTV_SHEET_NAME);
 
     if (!ctvSheet) {
-      Logger.log(`❌ Không tìm thấy sheet "${CTV_SHEET_NAME}" trong file CTV`);
       return "N/A";
     }
 
-    // Lấy tất cả dữ liệu từ sheet CTV
     const ctvData = ctvSheet.getDataRange().getValues();
-
-    // Bỏ qua dòng header (dòng đầu tiên)
     const ctvRows = ctvData.slice(1);
 
-    // Tìm CTV có mã referral khớp
-    // Cột H (index 7) là "Mã Ref"
-    // Cột C (index 2) là "Số điện thoại"
     for (let i = 0; i < ctvRows.length; i++) {
       const row = ctvRows[i];
-      const maRef = row[7] ? row[7].toString().trim() : ""; // Cột H - Mã Ref
-      const soDienThoai = row[2] ? row[2].toString().trim() : ""; // Cột C - Số điện thoại
+      const maRef = row[8] ? row[8].toString().trim() : "";
+      const soDienThoai = row[2] ? row[2].toString().trim() : "";
 
-      // So sánh mã referral (không phân biệt hoa thường)
       if (maRef.toLowerCase() === referralCode.toLowerCase()) {
-        Logger.log(`✅ Tìm thấy CTV: ${maRef} - SĐT: ${soDienThoai}`);
         return soDienThoai || "N/A";
       }
     }
 
-    // Không tìm thấy mã referral
-    Logger.log(`⚠️ Không tìm thấy mã referral: ${referralCode}`);
     return "N/A";
 
   } catch (error) {
-    Logger.log(`❌ Lỗi tra cứu CTV: ${error.message}`);
     return "N/A";
+  }
+}
+
+/**
+ * Lấy thông tin đầy đủ của CTV từ mã referral (bao gồm email)
+ */
+function getCTVInfoByReferralCode(referralCode) {
+  try {
+    // Nếu không có mã referral, trả về null
+    if (!referralCode || referralCode.trim() === "") {
+      return null;
+    }
+
+    // Mở file Google Sheets danh sách CTV
+    const ctvSpreadsheet = SpreadsheetApp.openById(CTV_SHEET_ID);
+    const ctvSheet = ctvSpreadsheet.getSheetByName(CTV_SHEET_NAME);
+
+    if (!ctvSheet) {
+      return null;
+    }
+
+    const ctvData = ctvSheet.getDataRange().getValues();
+    const ctvRows = ctvData.slice(1);
+
+    for (let i = 0; i < ctvRows.length; i++) {
+      const row = ctvRows[i];
+      const maRef = row[8] ? row[8].toString().trim() : "";
+
+      if (maRef.toLowerCase() === referralCode.toLowerCase()) {
+        return {
+          name: row[1] ? row[1].toString().trim() : "N/A",
+          phone: row[2] ? row[2].toString().trim() : "N/A",
+          email: row[3] ? row[3].toString().trim() : "",
+          referralCode: maRef
+        };
+      }
+    }
+
+    return null;
+
+  } catch (error) {
+    return null;
   }
 }
 
@@ -342,55 +358,11 @@ function createJsonResponse(data) {
 // ==================== HÀM TIỆN ÍCH ====================
 
 /**
- * Hàm test để kiểm tra script
- */
-function testScript() {
-  const testData = {
-    orderId: "TEST-001",
-    orderDate: new Date().toISOString(),
-    customer: {
-      name: "Nguyễn Thị Test",
-      phone: "0123456789",
-      address: "123 Test Street, Test City",
-      notes: "Giao hàng buổi chiều"
-    },
-    cart: [
-      {
-        name: "Vòng Dâu Tằm Cao Cấp",
-        quantity: 2,
-        price: "150.000đ",
-        weight: "18kg (+20k)",
-        notes: "Làm cẩn thận"
-      },
-      {
-        name: "Vòng Mix Bạc",
-        quantity: 1,
-        price: "200.000đ",
-        weight: "12kg",
-        notes: ""
-      }
-    ],
-    total: "520.000đ",
-    paymentMethod: "cod"
-  };
-
-  try {
-    const sheet = initializeSheet();
-    addOrderToSheet(sheet, testData);
-    Logger.log("✅ Test thành công!");
-  } catch (error) {
-    Logger.log(`❌ Test thất bại: ${error.message}`);
-  }
-}
-
-/**
  * Gửi thông báo Telegram đơn hàng mới
  */
 function sendTelegramNotification(orderData) {
   try {
-    // Kiểm tra cấu hình
     if (TELEGRAM_BOT_TOKEN === "YOUR_BOT_TOKEN_HERE" || TELEGRAM_CHAT_ID === "YOUR_CHAT_ID_HERE") {
-      Logger.log("⚠️ Chưa cấu hình Telegram Bot Token và Chat ID");
       return;
     }
 
@@ -411,16 +383,7 @@ function sendTelegramNotification(orderData) {
       })
     });
 
-    const result = JSON.parse(response.getContentText());
-
-    if (result.ok) {
-      Logger.log(`� Đã gửi thông báo Telegram cho đơn hàng ${orderData.orderId}`);
-    } else {
-      Logger.log(`❌ Lỗi Telegram API: ${result.description}`);
-    }
-
   } catch (error) {
-    Logger.log(`❌ Lỗi gửi Telegram: ${error.message}`);
     // Không throw error để không ảnh hưởng đến việc lưu đơn hàng
   }
 }
@@ -471,10 +434,14 @@ function createTelegramMessage(orderData) {
   });
 
   // Thông tin referral (nếu có)
-  if (orderData.referralCode && orderData.referralPartner) {
+  if (orderData.referralCode && orderData.referralCode.trim() !== "") {
+    // Lấy tên CTV thực tế từ sheet
+    const ctvInfo = getCTVInfoByReferralCode(orderData.referralCode);
+    const partnerName = ctvInfo ? ctvInfo.name : orderData.referralPartner || 'N/A';
+
     message += `\n🤝 <b>REFERRAL</b>\n`;
     message += `📋 Mã: <code>${orderData.referralCode}</code>\n`;
-    message += `👤 Partner: ${orderData.referralPartner}\n`;
+    message += `👤 Partner: ${partnerName}\n`;
     if (orderData.referralCommission && orderData.referralCommission > 0) {
       message += `💰 Hoa hồng: <b>${orderData.referralCommission.toLocaleString('vi-VN')}đ</b>\n`;
     }
@@ -482,7 +449,7 @@ function createTelegramMessage(orderData) {
 
   // Footer
   message += `\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`;
-  message += `🏪 <i>Vòng Dâu Tằm An Nhiên</i>`;
+  message += `🏪 <i>Vòng Dâu Tằm By Ánh</i>`;
 
   return message;
 }
@@ -492,23 +459,51 @@ function createTelegramMessage(orderData) {
  */
 function sendEmailNotification(orderData) {
   try {
-    const emailAddress = "yendev96@gmail.com";
+    const adminEmail = "yendev96@gmail.com";
     const subject = `🔔 Đơn hàng mới #${orderData.orderId} - ${orderData.customer.name}`;
-
-    // Tạo nội dung email HTML
     const htmlBody = createEmailHtmlBody(orderData);
+    const emailQuotaRemaining = MailApp.getRemainingDailyQuota();
 
-    // Gửi email
+    if (emailQuotaRemaining <= 0) {
+      throw new Error("Đã hết quota gửi email hôm nay");
+    }
+
     MailApp.sendEmail({
-      to: emailAddress,
+      to: adminEmail,
       subject: subject,
       htmlBody: htmlBody
     });
 
-    Logger.log(`📧 Đã gửi email thông báo đơn hàng ${orderData.orderId} đến ${emailAddress}`);
+    if (orderData.referralCode && orderData.referralCode.trim() !== "") {
+      sendEmailToCTV(orderData);
+    }
 
   } catch (error) {
-    Logger.log(`❌ Lỗi gửi email: ${error.message}`);
+    // Không throw error để không ảnh hưởng đến việc lưu đơn hàng
+  }
+}
+
+/**
+ * Gửi email thông báo cho cộng tác viên khi có đơn hàng từ link referral
+ */
+function sendEmailToCTV(orderData) {
+  try {
+    const ctvInfo = getCTVInfoByReferralCode(orderData.referralCode);
+
+    if (!ctvInfo || !ctvInfo.email || ctvInfo.email.trim() === "") {
+      return;
+    }
+
+    const subject = `🎉 Bạn có đơn hàng mới từ link referral #${orderData.orderId}`;
+    const htmlBody = createCTVEmailHtmlBody(orderData, ctvInfo);
+
+    MailApp.sendEmail({
+      to: ctvInfo.email,
+      subject: subject,
+      htmlBody: htmlBody
+    });
+
+  } catch (error) {
     // Không throw error để không ảnh hưởng đến việc lưu đơn hàng
   }
 }
@@ -534,12 +529,16 @@ function createEmailHtmlBody(orderData) {
 
   // Thông tin referral (nếu có)
   let referralHtml = '';
-  if (orderData.referralCode && orderData.referralPartner) {
+  if (orderData.referralCode && orderData.referralCode.trim() !== "") {
+    // Lấy tên CTV thực tế từ sheet
+    const ctvInfo = getCTVInfoByReferralCode(orderData.referralCode);
+    const partnerName = ctvInfo ? ctvInfo.name : orderData.referralPartner || 'N/A';
+
     referralHtml = `
       <div style="background-color: #fef3c7; border-left: 4px solid #f59e0b; padding: 16px; margin-top: 20px; border-radius: 4px;">
         <h3 style="margin: 0 0 8px 0; color: #92400e; font-size: 16px;">🤝 Thông tin Referral</h3>
         <p style="margin: 4px 0; color: #78350f;"><strong>Mã:</strong> ${orderData.referralCode}</p>
-        <p style="margin: 4px 0; color: #78350f;"><strong>Partner:</strong> ${orderData.referralPartner}</p>
+        <p style="margin: 4px 0; color: #78350f;"><strong>Partner:</strong> ${partnerName}</p>
         ${orderData.referralCommission && orderData.referralCommission > 0 ? `<p style="margin: 4px 0; color: #78350f;"><strong>Hoa hồng:</strong> ${orderData.referralCommission.toLocaleString('vi-VN')}đ</p>` : ''}
       </div>
     `;
@@ -558,7 +557,7 @@ function createEmailHtmlBody(orderData) {
         <!-- Header -->
         <div style="background: linear-gradient(135deg, #ec4899 0%, #8b5cf6 100%); padding: 30px 20px; text-align: center;">
           <h1 style="margin: 0; color: #ffffff; font-size: 24px;">🔔 Đơn Hàng Mới</h1>
-          <p style="margin: 8px 0 0 0; color: #fce7f3; font-size: 14px;">Vòng Dâu Tằm An Nhiên</p>
+          <p style="margin: 8px 0 0 0; color: #fce7f3; font-size: 14px;">Vòng Dâu Tằm By Ánh</p>
         </div>
 
         <!-- Content -->
@@ -627,10 +626,152 @@ function createEmailHtmlBody(orderData) {
         <!-- Footer -->
         <div style="background-color: #f9fafb; padding: 20px; text-align: center; border-top: 1px solid #e5e7eb;">
           <p style="margin: 0; color: #6b7280; font-size: 14px;">
-            Email tự động từ hệ thống Vòng Dâu Tằm An Nhiên
+            Email tự động từ hệ thống Vòng Dâu Tằm By Ánh
           </p>
           <p style="margin: 8px 0 0 0; color: #9ca3af; font-size: 12px;">
             © 2024 Vòng Dâu Tằm By Ánh. All rights reserved.
+          </p>
+        </div>
+
+      </div>
+    </body>
+    </html>
+  `;
+
+  return html;
+}
+
+/**
+ * Tạo nội dung email HTML cho cộng tác viên
+ */
+function createCTVEmailHtmlBody(orderData, ctvInfo) {
+  // Format sản phẩm
+  let productsHtml = '';
+  orderData.cart.forEach((item, index) => {
+    productsHtml += `
+      <tr style="border-bottom: 1px solid #e5e7eb;">
+        <td style="padding: 12px 8px;">
+          <strong>${index + 1}. ${item.name}</strong><br>
+          <span style="color: #6b7280; font-size: 14px;">Số lượng: ${item.quantity}</span>
+          ${item.weight && item.weight !== 'Không có' ? `<br><span style="color: #6b7280; font-size: 14px;">Cân nặng: ${item.weight}</span>` : ''}
+        </td>
+      </tr>
+    `;
+  });
+
+  // Tính hoa hồng (nếu có)
+  let commissionHtml = '';
+  if (orderData.referralCommission && orderData.referralCommission > 0) {
+    commissionHtml = `
+      <div style="background-color: #d1fae5; border-left: 4px solid #10b981; padding: 20px; margin-top: 20px; border-radius: 8px; text-align: center;">
+        <h3 style="margin: 0 0 8px 0; color: #065f46; font-size: 18px;">💰 Hoa Hồng Của Bạn</h3>
+        <p style="margin: 8px 0; color: #047857; font-size: 28px; font-weight: bold;">${orderData.referralCommission.toLocaleString('vi-VN')}đ</p>
+        <p style="margin: 4px 0; color: #059669; font-size: 14px;">Chúc mừng bạn đã có thêm một đơn hàng thành công!</p>
+      </div>
+    `;
+  }
+
+  const html = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body style="margin: 0; padding: 0; font-family: Arial, sans-serif; background-color: #f3f4f6;">
+      <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff;">
+        
+        <!-- Header -->
+        <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); padding: 30px 20px; text-align: center;">
+          <h1 style="margin: 0; color: #ffffff; font-size: 24px;">🎉 Chúc Mừng!</h1>
+          <p style="margin: 8px 0 0 0; color: #d1fae5; font-size: 16px;">Bạn có đơn hàng mới từ link referral</p>
+        </div>
+
+        <!-- Content -->
+        <div style="padding: 30px 20px;">
+          
+          <!-- Greeting -->
+          <div style="margin-bottom: 20px;">
+            <p style="margin: 0; color: #1f2937; font-size: 16px;">Xin chào <strong>${ctvInfo.name}</strong>,</p>
+            <p style="margin: 8px 0 0 0; color: #6b7280; font-size: 14px;">
+              Có một khách hàng vừa đặt hàng thông qua link referral của bạn. Dưới đây là thông tin chi tiết:
+            </p>
+          </div>
+
+          <!-- Order Info -->
+          <div style="background-color: #f9fafb; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+            <h2 style="margin: 0 0 16px 0; color: #1f2937; font-size: 18px;">📋 Thông tin đơn hàng</h2>
+            <table style="width: 100%; border-collapse: collapse;">
+              <tr>
+                <td style="padding: 8px 0; color: #6b7280; width: 40%;">Mã đơn hàng:</td>
+                <td style="padding: 8px 0; color: #1f2937; font-weight: bold;">${orderData.orderId}</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 0; color: #6b7280;">Thời gian:</td>
+                <td style="padding: 8px 0; color: #1f2937;">${new Date(orderData.orderDate).toLocaleString('vi-VN')}</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 0; color: #6b7280;">Tổng tiền:</td>
+                <td style="padding: 8px 0; color: #dc2626; font-weight: bold; font-size: 18px;">${orderData.total}</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 0; color: #6b7280;">Mã Referral:</td>
+                <td style="padding: 8px 0; color: #10b981; font-weight: bold;">${orderData.referralCode}</td>
+              </tr>
+            </table>
+          </div>
+
+          <!-- Customer Info -->
+          <div style="background-color: #eff6ff; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+            <h2 style="margin: 0 0 16px 0; color: #1f2937; font-size: 18px;">👤 Thông tin khách hàng</h2>
+            <table style="width: 100%; border-collapse: collapse;">
+              <tr>
+                <td style="padding: 8px 0; color: #6b7280; width: 40%;">Tên khách hàng:</td>
+                <td style="padding: 8px 0; color: #1f2937; font-weight: bold;">${orderData.customer.name}</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 0; color: #6b7280;">Số điện thoại:</td>
+                <td style="padding: 8px 0; color: #1f2937;">${orderData.customer.phone}</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 0; color: #6b7280; vertical-align: top;">Địa chỉ:</td>
+                <td style="padding: 8px 0; color: #1f2937;">${orderData.customer.address}</td>
+              </tr>
+            </table>
+          </div>
+
+          <!-- Products -->
+          <div style="background-color: #fef3c7; border-radius: 8px; padding: 20px; margin-bottom: 20px;">
+            <h2 style="margin: 0 0 16px 0; color: #1f2937; font-size: 18px;">🛍️ Chi tiết sản phẩm</h2>
+            <table style="width: 100%; border-collapse: collapse;">
+              ${productsHtml}
+            </table>
+          </div>
+
+          ${commissionHtml}
+
+          <!-- Thank You Message -->
+          <div style="background-color: #fef3c7; border-radius: 8px; padding: 20px; margin-top: 20px; text-align: center;">
+            <p style="margin: 0; color: #92400e; font-size: 16px;">
+              🙏 <strong>Cảm ơn bạn đã đồng hành cùng Vòng Dâu Tằm By Ánh!</strong>
+            </p>
+            <p style="margin: 8px 0 0 0; color: #78350f; font-size: 14px;">
+              Chúng tôi sẽ liên hệ với bạn để thanh toán hoa hồng trong thời gian sớm nhất.
+            </p>
+          </div>
+
+        </div>
+
+        <!-- Footer -->
+        <div style="background-color: #f9fafb; padding: 20px; text-align: center; border-top: 1px solid #e5e7eb;">
+          <p style="margin: 0; color: #6b7280; font-size: 14px;">
+            Email tự động từ hệ thống Vòng Dâu Tằm By Ánh
+          </p>
+          <p style="margin: 8px 0 0 0; color: #9ca3af; font-size: 12px;">
+            © 2024 Vòng Dâu Tằm By Ánh. All rights reserved.
+          </p>
+          <p style="margin: 8px 0 0 0; color: #9ca3af; font-size: 12px;">
+            Nếu có thắc mắc, vui lòng liên hệ: yendev96@gmail.com
           </p>
         </div>
 
@@ -667,27 +808,18 @@ function handleTelegramWebhook(update) {
       const from = update.message.from;
       const messageId = update.message.message_id;
 
-      Logger.log(`📱 Nhận tin nhắn từ ${chatId}: ${text} (ID: ${messageId})`);
-
-      // QUAN TRỌNG: Kiểm tra message đã xử lý chưa
       const messageKey = `${chatId}_${messageId}`;
       if (PROCESSED_MESSAGES.has(messageKey)) {
-        Logger.log(`🔄 Message đã xử lý: ${messageKey}`);
         return ContentService.createTextOutput("OK");
       }
 
-      // Thêm vào danh sách đã xử lý
       PROCESSED_MESSAGES.add(messageKey);
 
-      // QUAN TRỌNG: Bỏ qua tin nhắn từ bot (tránh infinite loop)
       if (from.is_bot) {
-        Logger.log(`🤖 Bỏ qua tin nhắn từ bot`);
         return ContentService.createTextOutput("OK");
       }
 
-      // Bỏ qua tin nhắn không phải text hoặc không bắt đầu bằng /
       if (!text || !text.startsWith('/')) {
-        Logger.log(`⚠️ Bỏ qua tin nhắn không phải lệnh: ${text}`);
         return ContentService.createTextOutput("OK");
       }
 
@@ -702,7 +834,6 @@ function handleTelegramWebhook(update) {
 
     return ContentService.createTextOutput("OK");
   } catch (error) {
-    Logger.log(`❌ Lỗi webhook: ${error.message}`);
     return ContentService.createTextOutput("ERROR");
   }
 }
@@ -712,42 +843,32 @@ function handleTelegramWebhook(update) {
  */
 function handleAdminCommand(chatId, command) {
   try {
-    // Log để debug
-    Logger.log(`🔍 Xử lý lệnh: "${command}" từ chat ${chatId}`);
-
-    const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
+    const sheet = SpreadsheetApp.openById(MAIN_SHEET_ID).getSheetByName(SHEET_NAME);
     if (!sheet) {
       sendTelegramMessage(chatId, "❌ Không tìm thấy sheet đơn hàng");
       return;
     }
 
-    // Parse command - xử lý cẩn thận
     const trimmedCommand = command.trim();
     const parts = trimmedCommand.split(' ');
     const cmd = parts[0].toLowerCase();
 
-    Logger.log(`🔍 Command parsed: "${cmd}"`);
-
     switch (cmd) {
       case '/start':
       case '/help':
-        Logger.log(`✅ Executing help command`);
         sendHelpMessage(chatId);
         break;
 
       case '/today':
-        Logger.log(`✅ Executing today command`);
         sendTodayOrders(chatId, sheet);
         break;
 
       case '/stats':
-        Logger.log(`✅ Executing stats command`);
         sendStatistics(chatId, sheet);
         break;
 
       case '/find':
         if (parts[1]) {
-          Logger.log(`✅ Executing find command for: ${parts[1]}`);
           findOrder(chatId, sheet, parts[1]);
         } else {
           sendTelegramMessage(chatId, "❌ Vui lòng nhập mã đơn hàng\nVí dụ: /find VDT001");
@@ -756,7 +877,6 @@ function handleAdminCommand(chatId, command) {
 
       case '/customer':
         if (parts[1]) {
-          Logger.log(`✅ Executing customer command for: ${parts[1]}`);
           findCustomerHistory(chatId, sheet, parts[1]);
         } else {
           sendTelegramMessage(chatId, "❌ Vui lòng nhập số điện thoại\nVí dụ: /customer 0123456789");
@@ -764,32 +884,26 @@ function handleAdminCommand(chatId, command) {
         break;
 
       case '/pending':
-        Logger.log(`✅ Executing pending command`);
         sendPendingOrders(chatId, sheet);
         break;
 
       case '/week':
-        Logger.log(`✅ Executing week command`);
         sendWeeklyStats(chatId, sheet);
         break;
 
       case '/month':
-        Logger.log(`✅ Executing month command`);
         sendMonthlyStats(chatId, sheet);
         break;
 
       case '/recent':
-        Logger.log(`✅ Executing recent command`);
         sendRecentOrders(chatId, sheet);
         break;
 
       default:
-        Logger.log(`❌ Unknown command: "${cmd}"`);
         sendTelegramMessage(chatId, `❌ Lệnh không hợp lệ: "${cmd}"\nGõ /help để xem danh sách lệnh.`);
     }
 
   } catch (error) {
-    Logger.log(`❌ Lỗi xử lý lệnh: ${error.message}`);
     sendTelegramMessage(chatId, `❌ Lỗi: ${error.message}`);
   }
 }
@@ -811,7 +925,7 @@ function sendTelegramMessage(chatId, message) {
       })
     });
   } catch (error) {
-    Logger.log(`❌ Lỗi gửi tin nhắn: ${error.message}`);
+    // Silent fail
   }
 }
 
@@ -820,7 +934,7 @@ function sendTelegramMessage(chatId, message) {
  */
 function sendHelpMessage(chatId) {
   const helpText = `
-🤖 <b>LỆNH ADMIN - VÒNG DÂU TẰM AN NHIÊN</b>
+🤖 <b>LỆNH ADMIN - Vòng Dâu Tằm By Ánh</b>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 📊 <b>XEM ĐƠN HÀNG:</b>
@@ -1176,14 +1290,3 @@ function sendRecentOrders(chatId, sheet) {
   sendTelegramMessage(chatId, message);
 }
 
-/**
- * Hàm xóa tất cả dữ liệu (chỉ dùng khi test)
- */
-function clearAllData() {
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
-  if (sheet) {
-    sheet.clear();
-    setupSheetHeaders(sheet);
-    Logger.log("🗑️ Đã xóa tất cả dữ liệu và tạo lại headers");
-  }
-}

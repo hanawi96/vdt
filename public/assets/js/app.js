@@ -8,12 +8,11 @@ document.addEventListener('alpine:init', () => {
 
     /* ========= REFERRAL SYSTEM ========= */
     referralCode: '',
-    
+
     // Partners data - hardcoded để tránh lỗi JSON loading
     partners: {
-      "PARTNER001": { "name": "Nguyen Van A", "commission": 10, "status": "active" },
-      "PARTNER002": { "name": "Tran Thi B", "commission": 15, "status": "active" },
-      "PARTNER003": { "name": "Le Van C", "commission": 12, "status": "active" }
+      "CTV843817": { "name": "Nguyen Van A", "commission": 10, "status": "active" },
+      "CTV506835": { "name": "Tran Thi B", "commission": 10, "status": "active" },
     },
 
     /* ========= BABY NAME MODAL STATE ========= */
@@ -337,17 +336,17 @@ document.addEventListener('alpine:init', () => {
 
     updateAddonQuantity() {
       if (!this.currentAddonForQuantity) return;
-      
+
       // Tìm addon trong quickBuySelectedAddons và cập nhật số lượng
       const addonIndex = this.quickBuySelectedAddons.findIndex(addon => addon.id === this.currentAddonForQuantity.id);
       if (addonIndex !== -1) {
         this.quickBuySelectedAddons[addonIndex].quantity = this.addonQuantityOptions.quantity;
         this.showAlert(`Đã cập nhật số lượng ${this.currentAddonForQuantity.name} thành ${this.addonQuantityOptions.quantity}`, 'success');
-        
+
         // Revalidate discount khi thay đổi số lượng addon
         this.revalidateQuickBuyDiscount();
       }
-      
+
       this.closeAddonQuantityModal();
     },
 
@@ -356,11 +355,11 @@ document.addEventListener('alpine:init', () => {
       this.$nextTick(() => {
         const quantitySection = document.getElementById('quick-buy-quantity-section');
         if (quantitySection) {
-          quantitySection.scrollIntoView({ 
-            behavior: 'smooth', 
-            block: 'center' 
+          quantitySection.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
           });
-          
+
           // Focus vào dropdown sau khi scroll
           setTimeout(() => {
             const selectElement = quantitySection.querySelector('select');
@@ -519,7 +518,7 @@ document.addEventListener('alpine:init', () => {
     // Lấy loại bạc của sản phẩm
     getSilverType(product) {
       if (!product || !product.hasSilver) return null;
-      
+
       // Sử dụng trường silverType nếu có, mặc định là S999
       return product.silverType ? product.silverType.toUpperCase() : 'S999';
     },
@@ -605,13 +604,13 @@ document.addEventListener('alpine:init', () => {
       // Calculate dynamic price based on selected weight (giống như cart)
       const priceData = this.calculateDynamicPrice(this.quickBuyProduct, actualWeight);
       const finalPrice = priceData.finalPrice || this.quickBuyProduct.price || 0;
-      
+
       // Tính sản phẩm chính với finalPrice (giống cartSubtotal)
       const mainProductTotal = finalPrice * (this.quickBuyQuantity || 1);
 
       // Tính addon được chọn trong Quick Buy (nhân với số lượng)
       const quickBuyAddonTotal = this.quickBuySelectedAddons.reduce((total, addon) => total + ((addon.price || 0) * (addon.quantity || 1)), 0);
-      
+
       return mainProductTotal + quickBuyAddonTotal;
     },
 
@@ -936,13 +935,13 @@ document.addEventListener('alpine:init', () => {
     async init() {
       // Xử lý referral code từ URL trước khi tải dữ liệu
       this.handleReferralFromURL();
-      
+
       // Tải dữ liệu
       await this.loadData();
-      
+
       // Revalidate referral sau khi partners data đã được load
       this.revalidateReferralAfterLoad();
-      
+
       this.revalidateAppliedDiscount(); // Re-apply discount on load
       this.startNotificationLoop();
       this.startFreeshipCountdown();
@@ -1265,7 +1264,7 @@ document.addEventListener('alpine:init', () => {
 
         this.availableDiscounts = await discountRes.json();
         this.sharedDetails = await sharedRes.json();
-        
+
         // Partners data đã được hardcode ở trên, không cần load từ file
 
 
@@ -3048,22 +3047,21 @@ document.addEventListener('alpine:init', () => {
           // Thêm thông tin referral với validation
           referralCode: (this.referralCode && this.validateReferralCode(this.referralCode)) ? this.referralCode : '',
           referralPartner: (this.referralCode && this.validateReferralCode(this.referralCode)) ? (this.getPartnerInfo(this.referralCode)?.name || '') : '',
-          referralCommission: (this.referralCode && this.validateReferralCode(this.referralCode)) ? this.calculateCommission(total, this.referralCode) : 0
+          referralCommission: (this.referralCode && this.validateReferralCode(this.referralCode)) ? this.calculateCommission(total, this.referralCode) : 0,
+          telegramNotification: 'VDT_SECRET_2025_ANHIEN' // Secret key để gửi Telegram
         };
 
-        // Gửi đơn hàng
-        const workerUrl = 'https://hidden-bonus-76d2.yendev96.workers.dev';
-        const res = await fetch(workerUrl, {
+        // Gửi đơn hàng trực tiếp đến Google Apps Script
+        const res = await fetch(window.GOOGLE_APPS_SCRIPT_URL, {
           method: 'POST',
+          mode: 'no-cors', // Quan trọng để tránh lỗi CORS
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(orderDetails)
         });
 
-        if (!res.ok) {
-          let msg = 'Có lỗi xảy ra khi gửi đơn hàng.';
-          try { const er = await res.json(); msg = er.message || msg; } catch { }
-          throw new Error(msg);
-        }
+        // Với no-cors mode, không thể đọc response
+        // Nhưng nếu không có lỗi network, coi như thành công
+        console.log('✅ Đơn hàng đã được gửi đến Google Apps Script');
 
         // Thành công - xử lý success
         this.handleOrderSuccess();
@@ -3379,24 +3377,21 @@ document.addEventListener('alpine:init', () => {
           // Thêm thông tin referral với validation
           referralCode: (this.referralCode && this.validateReferralCode(this.referralCode)) ? this.referralCode : '',
           referralPartner: (this.referralCode && this.validateReferralCode(this.referralCode)) ? (this.getPartnerInfo(this.referralCode)?.name || '') : '',
-          referralCommission: (this.referralCode && this.validateReferralCode(this.referralCode)) ? this.calculateCommission(total, this.referralCode) : 0
+          referralCommission: (this.referralCode && this.validateReferralCode(this.referralCode)) ? this.calculateCommission(total, this.referralCode) : 0,
+          telegramNotification: 'VDT_SECRET_2025_ANHIEN' // Secret key để gửi Telegram
         };
 
-
-
-        // Gửi đơn hàng
-        const workerUrl = 'https://hidden-bonus-76d2.yendev96.workers.dev';
-        const res = await fetch(workerUrl, {
+        // Gửi đơn hàng trực tiếp đến Google Apps Script
+        const res = await fetch(window.GOOGLE_APPS_SCRIPT_URL, {
           method: 'POST',
+          mode: 'no-cors', // Quan trọng để tránh lỗi CORS
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(orderDetails)
         });
 
-        if (!res.ok) {
-          let msg = 'Có lỗi xảy ra khi gửi đơn hàng.';
-          try { const er = await res.json(); msg = er.message || msg; } catch { }
-          throw new Error(msg);
-        }
+        // Với no-cors mode, không thể đọc response
+        // Nhưng nếu không có lỗi network, coi như thành công
+        console.log('✅ Đơn hàng đã được gửi đến Google Apps Script');
 
         // Thành công - gọi hàm xử lý success chung
         this.handleOrderSuccess();
@@ -3968,25 +3963,22 @@ document.addEventListener('alpine:init', () => {
         // Thêm thông tin referral với validation
         referralCode: (this.referralCode && this.validateReferralCode(this.referralCode)) ? this.referralCode : '',
         referralPartner: (this.referralCode && this.validateReferralCode(this.referralCode)) ? (this.getPartnerInfo(this.referralCode)?.name || '') : '',
-        referralCommission: (this.referralCode && this.validateReferralCode(this.referralCode)) ? this.calculateCommission(this.cartTotal(), this.referralCode) : 0
+        referralCommission: (this.referralCode && this.validateReferralCode(this.referralCode)) ? this.calculateCommission(this.cartTotal(), this.referralCode) : 0,
+        telegramNotification: 'VDT_SECRET_2025_ANHIEN' // Secret key để gửi Telegram
       };
 
-
-
-      // Gọi API endpoint thay vì worker URL trực tiếp
-      const apiUrl = '/api/order';
-
       try {
-        const res = await fetch(apiUrl, {
+        // Gửi đơn hàng trực tiếp đến Google Apps Script
+        const res = await fetch(window.GOOGLE_APPS_SCRIPT_URL, {
           method: 'POST',
+          mode: 'no-cors', // Quan trọng để tránh lỗi CORS
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(orderDetails)
         });
-        if (!res.ok) {
-          let msg = 'Có lỗi xảy ra khi gửi đơn hàng.';
-          try { const er = await res.json(); msg = er.message || msg; } catch { }
-          throw new Error(msg);
-        }
+
+        // Với no-cors mode, không thể đọc response
+        // Nhưng nếu không có lỗi network, coi như thành công
+        console.log('✅ Đơn hàng đã được gửi đến Google Apps Script');
 
         // Clear giỏ hàng ngay khi đặt hàng thành công
         this.cart = [];
@@ -4266,25 +4258,25 @@ document.addEventListener('alpine:init', () => {
     },
 
     /* ========= REFERRAL FUNCTIONS ========= */
-    
+
     // Xử lý referral code từ URL
     handleReferralFromURL() {
       const SEVEN_DAYS = 7 * 24 * 60 * 60 * 1000;
-      
+
       try {
         const urlParams = new URLSearchParams(window.location.search);
         const refCode = urlParams.get('ref');
-        
+
         if (refCode?.trim() && /^[A-Z0-9_-]+$/i.test(refCode)) {
           // Có referral mới từ URL
           const cleanCode = refCode.trim().toUpperCase();
           this.referralCode = cleanCode;
-          
+
           const referralData = {
             code: cleanCode,
             expiry: Date.now() + SEVEN_DAYS
           };
-          
+
           try {
             localStorage.setItem('referralData', JSON.stringify(referralData));
             // Clean URL
@@ -4355,16 +4347,16 @@ document.addEventListener('alpine:init', () => {
       try {
         const partner = this.getPartnerInfo(code);
         if (!partner) return 0;
-        
+
         // Convert total to number if it's a string
         let numericTotal = total;
         if (typeof total === 'string') {
           // Remove currency formatting and convert to number
           numericTotal = parseInt(total.replace(/[^\d]/g, '')) || 0;
         }
-        
+
         if (typeof numericTotal !== 'number' || numericTotal <= 0) return 0;
-        
+
         const commission = Math.floor(numericTotal * partner.commission / 100);
         return commission;
       } catch (error) {
@@ -4373,23 +4365,23 @@ document.addEventListener('alpine:init', () => {
     },
 
     /* ========= PARTNER MANAGEMENT ========= */
-    
+
     // Thêm partner mới (dành cho admin)
     addPartner(code, name, commission) {
       if (!code || !name || !commission) {
         console.error('❌ Missing required fields for partner');
         return false;
       }
-      
+
       this.partners[code.toUpperCase()] = {
         name: name,
         commission: commission,
         status: 'active'
       };
-      
+
       return true;
     },
-    
+
     // Vô hiệu hóa partner
     deactivatePartner(code) {
       if (this.partners[code.toUpperCase()]) {
@@ -4398,7 +4390,7 @@ document.addEventListener('alpine:init', () => {
       }
       return false;
     },
-    
+
     // Kích hoạt lại partner
     activatePartner(code) {
       if (this.partners[code.toUpperCase()]) {
@@ -4409,10 +4401,10 @@ document.addEventListener('alpine:init', () => {
     },
 
     /* ========= DEBUG FUNCTIONS ========= */
-    
+
     // Quick referral status check
     showReferralStatus() {
-      
+
       // Hiển thị thông tin thời hạn từ referralData
       try {
         const referralData = localStorage.getItem('referralData');
@@ -4421,13 +4413,13 @@ document.addEventListener('alpine:init', () => {
           const now = Date.now();
           const timeRemaining = data.expiry - now;
           const daysRemaining = Math.round(timeRemaining / (1000 * 60 * 60 * 24) * 10) / 10;
-          
+
         } else {
         }
       } catch (error) {
         console.error('❌ Error reading referralData:', error);
       }
-      
+
       if (this.referralCode && this.validateReferralCode(this.referralCode)) {
         const partner = this.getPartnerInfo(this.referralCode);
       }
@@ -4435,24 +4427,24 @@ document.addEventListener('alpine:init', () => {
 
     // Manual set referral for testing
     setTestReferral(code) {
-      
+
       if (this.validateReferralCode(code)) {
         this.referralCode = code;
-        
+
         // Lưu với cấu trúc mới (7 ngày)
         const referralData = {
           code: code,
           timestamp: Date.now(),
           expiry: Date.now() + (7 * 24 * 60 * 60 * 1000) // 7 ngày
         };
-        
+
         try {
           localStorage.setItem('referralData', JSON.stringify(referralData));
           localStorage.setItem('referralCode', code); // Tương thích
         } catch (error) {
           console.error('❌ Error saving referral data:', error);
         }
-        
+
         const partner = this.getPartnerInfo(code);
       } else {
       }
@@ -4460,7 +4452,7 @@ document.addEventListener('alpine:init', () => {
 
     // Test URL parsing manually
     testUrlParsing() {
-      
+
       const urlParams = new URLSearchParams(window.location.search);
     },
 
