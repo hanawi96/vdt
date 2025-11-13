@@ -3054,8 +3054,8 @@ document.addEventListener('alpine:init', () => {
           telegramNotification: 'VDT_SECRET_2025_ANHIEN' // Secret key để gửi Telegram
         };
 
-        // Gửi đơn hàng đến Cloudflare Worker API
-        const res = await fetch('https://ctv-api.yendev96.workers.dev/api/order/create', {
+        // Gửi đơn hàng đến Cloudflare Pages Function API
+        const res = await fetch('/api/order/create', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(orderDetails)
@@ -3387,8 +3387,8 @@ document.addEventListener('alpine:init', () => {
           telegramNotification: 'VDT_SECRET_2025_ANHIEN' // Secret key để gửi Telegram
         };
 
-        // Gửi đơn hàng đến Cloudflare Worker API
-        const res = await fetch('https://ctv-api.yendev96.workers.dev/api/order/create', {
+        // Gửi đơn hàng đến Cloudflare Pages Function API
+        const res = await fetch('/api/order/create', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(orderDetails)
@@ -3977,8 +3977,8 @@ document.addEventListener('alpine:init', () => {
       };
 
       try {
-        // Gửi đơn hàng đến Cloudflare Worker API
-        const res = await fetch('https://ctv-api.yendev96.workers.dev/api/order/create', {
+        // Gửi đơn hàng đến Cloudflare Pages Function API
+        const res = await fetch('/api/order/create', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(orderDetails)

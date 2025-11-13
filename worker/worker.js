@@ -408,10 +408,16 @@ async function createOrder(data, env, corsHeaders) {
                     total: data.total || `${totalAmountNumber.toLocaleString('vi-VN')}đ`,
                     paymentMethod: data.paymentMethod || 'cod',
                     referralCode: validReferralCode || '',
-                    referralCommission: finalCommission,
+                    referralCommission: finalCommission || 0,
                     referralPartner: data.referralPartner || '',
                     telegramNotification: env.SECRET_KEY || 'VDT_SECRET_2025_ANHIEN'
                 };
+
+                console.log('📤 Sending to Google Sheets:', {
+                    orderId: sheetsData.orderId,
+                    referralCode: sheetsData.referralCode,
+                    referralCommission: sheetsData.referralCommission
+                });
 
                 const sheetsResponse = await fetch(googleScriptUrl, {
                     method: 'POST',
@@ -421,10 +427,13 @@ async function createOrder(data, env, corsHeaders) {
                     body: JSON.stringify(sheetsData)
                 });
 
+                const responseText = await sheetsResponse.text();
+                console.log('📥 Google Sheets response:', responseText);
+
                 if (sheetsResponse.ok) {
                     console.log('✅ Saved order to Google Sheets');
                 } else {
-                    console.warn('⚠️ Failed to save to Google Sheets, but D1 saved successfully');
+                    console.warn('⚠️ Failed to save to Google Sheets:', sheetsResponse.status, responseText);
                 }
             }
         } catch (sheetsError) {

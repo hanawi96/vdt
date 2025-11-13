@@ -202,6 +202,12 @@ function addOrderToSheet(sheet, orderData) {
   // Format chi tiết sản phẩm
   const productDetails = formatProductDetails(orderData.cart);
 
+  // Debug logging
+  Logger.log('📝 Order Data Received:');
+  Logger.log('- Order ID: ' + orderData.orderId);
+  Logger.log('- Referral Code: ' + (orderData.referralCode || 'EMPTY'));
+  Logger.log('- Referral Commission: ' + (orderData.referralCommission || 0));
+
   // Tạo dòng dữ liệu mới
   const newRow = [
     orderData.orderId,
