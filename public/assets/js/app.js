@@ -3040,7 +3040,6 @@ document.addEventListener('alpine:init', () => {
             weight: orderItem.weight,
             notes: orderItem.notes || ''
           }],
-          telegramNotification: 'VDT_SECRET_2025_ANHIEN', // Secret key cho Telegram
           customer: {
             name: this.customer.name,
             phone: this.customer.phone,
@@ -3053,12 +3052,12 @@ document.addEventListener('alpine:init', () => {
           shipping: shippingFee === 0 ? 'Miễn phí' : this.formatCurrency(shippingFee),
           discount: this.discountAmount > 0 ? `-${this.formatCurrency(this.discountAmount)} (${this.appliedDiscountCode})` : 'Không có',
           total: this.formatCurrency(total),
+          totalAmount: total, // Số nguyên không format
           paymentMethod: 'Chuyển khoản ngân hàng',
-          // Thêm thông tin referral với validation
           referralCode: (this.referralCode && this.validateReferralCode(this.referralCode)) ? this.referralCode : '',
           referralPartner: (this.referralCode && this.validateReferralCode(this.referralCode)) ? (this.getPartnerInfo(this.referralCode)?.name || '') : '',
           referralCommission: (this.referralCode && this.validateReferralCode(this.referralCode)) ? this.calculateCommission(total, this.referralCode) : 0,
-          telegramNotification: 'VDT_SECRET_2025_ANHIEN' // Secret key để gửi Telegram
+          telegramNotification: 'VDT_SECRET_2025_ANHIEN'
         };
 
         // Gửi đơn hàng đến API (tự động phát hiện môi trường)
@@ -3374,7 +3373,6 @@ document.addEventListener('alpine:init', () => {
         const orderDetails = {
           orderId: newOrderId,
           cart: cartItems,
-          telegramNotification: 'VDT_SECRET_2025_ANHIEN', // Secret key cho Telegram
           customer: {
             name: this.customer.name,
             phone: this.customer.phone,
@@ -3387,12 +3385,12 @@ document.addEventListener('alpine:init', () => {
           shipping: shippingFee === 0 ? 'Miễn phí' : this.formatCurrency(shippingFee),
           discount: this.discountAmount > 0 ? `-${this.formatCurrency(this.discountAmount)} (${this.appliedDiscountCode})` : 'Không có',
           total: this.formatCurrency(total),
+          totalAmount: total, // Số nguyên không format
           paymentMethod: this.quickBuyPaymentMethod === 'cod' ? 'Thanh toán khi nhận hàng (COD)' : 'Chuyển khoản ngân hàng',
-          // Thêm thông tin referral với validation
           referralCode: (this.referralCode && this.validateReferralCode(this.referralCode)) ? this.referralCode : '',
           referralPartner: (this.referralCode && this.validateReferralCode(this.referralCode)) ? (this.getPartnerInfo(this.referralCode)?.name || '') : '',
           referralCommission: (this.referralCode && this.validateReferralCode(this.referralCode)) ? this.calculateCommission(total, this.referralCode) : 0,
-          telegramNotification: 'VDT_SECRET_2025_ANHIEN' // Secret key để gửi Telegram
+          telegramNotification: 'VDT_SECRET_2025_ANHIEN'
         };
 
         // Gửi đơn hàng đến API (tự động phát hiện môi trường)
@@ -3970,19 +3968,18 @@ document.addEventListener('alpine:init', () => {
           if (this.appliedGift) items.push({ name: this.appliedGift.title, price: 'Miễn phí', quantity: 1, weight: 0, notes: '' });
           return items;
         })(),
-        telegramNotification: 'VDT_SECRET_2025_ANHIEN', // Secret key cho Telegram
         customer: { name: this.customer.name, phone: this.customer.phone, email: this.customer.email, address: this.customer.address, notes: this.customer.notes },
         orderDate: new Date().toISOString(),
         subtotal: this.formatCurrency(this.cartSubtotal()),
         shipping: this.shippingFee() === 0 ? (this.freeShipping ? 'Miễn phí (FREESHIP)' : 'Miễn phí') : this.formatCurrency(this.shippingFee()),
         discount: this.discountAmount > 0 ? `-${this.formatCurrency(this.discountAmount)} (${this.appliedDiscountCode})` : 'Không có',
         total: this.formatCurrency(this.cartTotal()),
+        totalAmount: this.cartTotal(), // Số nguyên không format
         paymentMethod: this.paymentMethod === 'cod' ? 'Thanh toán khi nhận hàng (COD)' : 'Chuyển khoản ngân hàng',
-        // Thêm thông tin referral với validation
         referralCode: (this.referralCode && this.validateReferralCode(this.referralCode)) ? this.referralCode : '',
         referralPartner: (this.referralCode && this.validateReferralCode(this.referralCode)) ? (this.getPartnerInfo(this.referralCode)?.name || '') : '',
         referralCommission: (this.referralCode && this.validateReferralCode(this.referralCode)) ? this.calculateCommission(this.cartTotal(), this.referralCode) : 0,
-        telegramNotification: 'VDT_SECRET_2025_ANHIEN' // Secret key để gửi Telegram
+        telegramNotification: 'VDT_SECRET_2025_ANHIEN'
       };
 
       try {
