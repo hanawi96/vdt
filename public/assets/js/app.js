@@ -7,7 +7,7 @@ document.addEventListener('alpine:init', () => {
     getApiUrl(endpoint) {
       // LUÔN LUÔN dùng Worker URL cho tất cả API calls
       // Worker có full access đến D1 database
-      return `https://ctv-api.yendev96.workers.dev${endpoint}`;
+      return `https://shop-order-api.yendev96.workers.dev${endpoint}`;
     },
 
     /* ========= STATE ========= */
