@@ -3,6 +3,22 @@ document.addEventListener('alpine:init', () => {
     /* ========= CẤU HÌNH ========= */
     SHIPPING_FEE: 21000,
 
+    // Helper: Lấy API URL dựa trên môi trường
+    getApiUrl(endpoint) {
+      // Nếu đang ở local development (localhost hoặc 127.0.0.1)
+      const isLocal = window.location.hostname === 'localhost' || 
+                      window.location.hostname === '127.0.0.1' ||
+                      window.location.port === '5500';
+      
+      if (isLocal) {
+        // Local: Dùng Worker URL (hoặc có thể dùng Wrangler Pages Dev)
+        return `https://ctv-api.yendev96.workers.dev${endpoint}`;
+      } else {
+        // Production: Dùng Pages Function
+        return endpoint;
+      }
+    },
+
     /* ========= STATE ========= */
     view: 'products',
 
@@ -3054,8 +3070,9 @@ document.addEventListener('alpine:init', () => {
           telegramNotification: 'VDT_SECRET_2025_ANHIEN' // Secret key để gửi Telegram
         };
 
-        // Gửi đơn hàng đến Cloudflare Pages Function API
-        const res = await fetch('/api/order/create', {
+        // Gửi đơn hàng đến API (tự động phát hiện môi trường)
+        const apiUrl = this.getApiUrl('/api/order/create');
+        const res = await fetch(apiUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(orderDetails)
@@ -3387,8 +3404,9 @@ document.addEventListener('alpine:init', () => {
           telegramNotification: 'VDT_SECRET_2025_ANHIEN' // Secret key để gửi Telegram
         };
 
-        // Gửi đơn hàng đến Cloudflare Pages Function API
-        const res = await fetch('/api/order/create', {
+        // Gửi đơn hàng đến API (tự động phát hiện môi trường)
+        const apiUrl = this.getApiUrl('/api/order/create');
+        const res = await fetch(apiUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(orderDetails)
@@ -3977,8 +3995,9 @@ document.addEventListener('alpine:init', () => {
       };
 
       try {
-        // Gửi đơn hàng đến Cloudflare Pages Function API
-        const res = await fetch('/api/order/create', {
+        // Gửi đơn hàng đến API (tự động phát hiện môi trường)
+        const apiUrl = this.getApiUrl('/api/order/create');
+        const res = await fetch(apiUrl, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(orderDetails)
