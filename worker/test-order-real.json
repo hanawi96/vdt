@@ -1,0 +1,22 @@
+{
+  "orderId": "VDT20250113TEST001",
+  "orderDate": "2025-01-13T14:30:00Z",
+  "customer": {
+    "name": "Nguyen Van A",
+    "phone": "0123456789",
+    "address": "123 Duong Le Loi, Quan 1, TP.HCM",
+    "notes": "Giao hang buoi sang"
+  },
+  "cart": [
+    {
+      "name": "Vong Dau Tam Size M",
+      "quantity": 2,
+      "weight": "50g",
+      "notes": "Mau do"
+    }
+  ],
+  "total": "500000d",
+  "paymentMethod": "cod",
+  "referralCode": "CTV230201",
+  "referralPartner": "yen"
+}

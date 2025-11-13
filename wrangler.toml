@@ -1,12 +1,16 @@
-# File này KHÔNG dùng cho Cloudflare Pages
-# Chỉ giữ lại để tham khảo
+name = "ctv-api"
+main = "worker/worker.js"
+compatibility_date = "2024-01-01"
 
-# Nếu bạn deploy qua GitHub → Cloudflare Pages:
-# - KHÔNG cần file này
-# - KHÔNG cần deploy worker riêng
-# - Chỉ cần file functions/api/order.js
+# Cloudflare D1 Database Binding
+[[d1_databases]]
+binding = "DB"
+database_name = "vdt"
+database_id = "19917e57-ced3-4fc3-adad-368a2e989ea7"
 
-# Nếu muốn deploy worker riêng (KHÔNG khuyến nghị):
-# name = "shopvd-worker"
-# compatibility_date = "2024-01-01"
-# main = "worker/worker.js"
+# Environment Variables
+[vars]
+# URL của Google Apps Script để đồng bộ dữ liệu
+GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwh4Az3BjmNMan7Ik_FxcsmDSSuUE4lWMBgcPBlsITYN39bWfHztZK9VOS930rrin3dEA/exec"
+# Secret key để bảo mật thông báo Telegram
+SECRET_KEY = "VDT_SECRET_2025_ANHIEN"

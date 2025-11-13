@@ -9,10 +9,13 @@ document.addEventListener('alpine:init', () => {
     /* ========= REFERRAL SYSTEM ========= */
     referralCode: '',
 
-    // Partners data - hardcoded để tránh lỗi JSON loading
+    // Partners data - CHỈ DÙNG CHO HIỂN THỊ UI
+    // Dữ liệu thực sự được lấy từ Cloudflare D1 database qua Worker API
+    // Validation và tính hoa hồng thực tế được xử lý bởi Worker
     partners: {
       "CTV843817": { "name": "Nguyen Van A", "commission": 10, "status": "active" },
       "CTV506835": { "name": "Tran Thi B", "commission": 10, "status": "active" },
+      "CTV865123": { "name": "Tran Thi B", "commission": 10, "status": "active" },
     },
 
     /* ========= BABY NAME MODAL STATE ========= */
@@ -3051,17 +3054,20 @@ document.addEventListener('alpine:init', () => {
           telegramNotification: 'VDT_SECRET_2025_ANHIEN' // Secret key để gửi Telegram
         };
 
-        // Gửi đơn hàng trực tiếp đến Google Apps Script
-        const res = await fetch(window.GOOGLE_APPS_SCRIPT_URL, {
+        // Gửi đơn hàng đến Cloudflare Worker API
+        const res = await fetch('https://ctv-api.yendev96.workers.dev/api/order/create', {
           method: 'POST',
-          mode: 'no-cors', // Quan trọng để tránh lỗi CORS
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(orderDetails)
         });
 
-        // Với no-cors mode, không thể đọc response
-        // Nhưng nếu không có lỗi network, coi như thành công
-        console.log('✅ Đơn hàng đã được gửi đến Google Apps Script');
+        const result = await res.json();
+
+        if (!result.success) {
+          throw new Error(result.error || 'Không thể tạo đơn hàng');
+        }
+
+        console.log('✅ Đơn hàng đã được lưu:', result);
 
         // Thành công - xử lý success
         this.handleOrderSuccess();
@@ -3381,17 +3387,20 @@ document.addEventListener('alpine:init', () => {
           telegramNotification: 'VDT_SECRET_2025_ANHIEN' // Secret key để gửi Telegram
         };
 
-        // Gửi đơn hàng trực tiếp đến Google Apps Script
-        const res = await fetch(window.GOOGLE_APPS_SCRIPT_URL, {
+        // Gửi đơn hàng đến Cloudflare Worker API
+        const res = await fetch('https://ctv-api.yendev96.workers.dev/api/order/create', {
           method: 'POST',
-          mode: 'no-cors', // Quan trọng để tránh lỗi CORS
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(orderDetails)
         });
 
-        // Với no-cors mode, không thể đọc response
-        // Nhưng nếu không có lỗi network, coi như thành công
-        console.log('✅ Đơn hàng đã được gửi đến Google Apps Script');
+        const result = await res.json();
+
+        if (!result.success) {
+          throw new Error(result.error || 'Không thể tạo đơn hàng');
+        }
+
+        console.log('✅ Đơn hàng đã được lưu:', result);
 
         // Thành công - gọi hàm xử lý success chung
         this.handleOrderSuccess();
@@ -3968,17 +3977,20 @@ document.addEventListener('alpine:init', () => {
       };
 
       try {
-        // Gửi đơn hàng trực tiếp đến Google Apps Script
-        const res = await fetch(window.GOOGLE_APPS_SCRIPT_URL, {
+        // Gửi đơn hàng đến Cloudflare Worker API
+        const res = await fetch('https://ctv-api.yendev96.workers.dev/api/order/create', {
           method: 'POST',
-          mode: 'no-cors', // Quan trọng để tránh lỗi CORS
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(orderDetails)
         });
 
-        // Với no-cors mode, không thể đọc response
-        // Nhưng nếu không có lỗi network, coi như thành công
-        console.log('✅ Đơn hàng đã được gửi đến Google Apps Script');
+        const result = await res.json();
+
+        if (!result.success) {
+          throw new Error(result.error || 'Không thể tạo đơn hàng');
+        }
+
+        console.log('✅ Đơn hàng đã được lưu:', result);
 
         // Clear giỏ hàng ngay khi đặt hàng thành công
         this.cart = [];
@@ -4321,24 +4333,25 @@ document.addEventListener('alpine:init', () => {
       }
     },
 
-    // Validate referral code
+    // Validate referral code - Chỉ dùng cho UI, validation thực sự ở Worker API
     validateReferralCode(code) {
       try {
-        if (!code || !this.partners || typeof this.partners !== 'object') return false;
-        const partner = this.partners[code.toUpperCase()];
-        return partner && partner.status === 'active';
+        if (!code || code.trim() === '') return false;
+        // Chấp nhận mọi mã có format CTVxxxxxx
+        return code.toUpperCase().startsWith('CTV') && code.length >= 6;
       } catch (error) {
         return false;
       }
     },
 
-    // Lấy thông tin partner
+    // Lấy thông tin partner - Chỉ dùng cho UI, dữ liệu thực sự từ database
     getPartnerInfo(code) {
       try {
         if (!code || !this.partners || typeof this.partners !== 'object') return null;
-        return this.partners[code.toUpperCase()] || null;
+        // Trả về thông tin từ partners object nếu có (cho UI)
+        return this.partners[code.toUpperCase()] || { name: 'CTV', commission: 10 };
       } catch (error) {
-        return null;
+        return { name: 'CTV', commission: 10 };
       }
     },
 

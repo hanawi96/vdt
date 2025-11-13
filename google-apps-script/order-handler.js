@@ -34,8 +34,7 @@ const HEADERS = [
   "Phương Thức Thanh Toán",
   "Ghi Chú",
   "Mã Referral",
-  "Hoa Hồng",
-  "SĐT CTV"
+  "Hoa Hồng"
 ];
 
 // ==================== HÀM CHÍNH ====================
@@ -152,7 +151,6 @@ function setupSheetHeaders(sheet) {
   sheet.setColumnWidth(9, 200);  // Ghi chú
   sheet.setColumnWidth(10, 120); // Mã Referral
   sheet.setColumnWidth(11, 120); // Hoa Hồng
-  sheet.setColumnWidth(12, 120); // SĐT CTV
 }
 
 /**
@@ -204,9 +202,6 @@ function addOrderToSheet(sheet, orderData) {
   // Format chi tiết sản phẩm
   const productDetails = formatProductDetails(orderData.cart);
 
-  // Lấy số điện thoại CTV từ mã referral
-  const ctvPhone = getCTVPhoneByReferralCode(orderData.referralCode);
-
   // Tạo dòng dữ liệu mới
   const newRow = [
     orderData.orderId,
@@ -219,8 +214,7 @@ function addOrderToSheet(sheet, orderData) {
     getPaymentMethodText(orderData.paymentMethod),
     orderData.customer.notes || "",
     orderData.referralCode || "", // Mã Referral
-    orderData.referralCommission ? `${orderData.referralCommission.toLocaleString('vi-VN')}đ` : "", // Hoa Hồng
-    ctvPhone // SĐT CTV
+    orderData.referralCommission ? `${orderData.referralCommission.toLocaleString('vi-VN')}đ` : "" // Hoa Hồng
   ];
 
   // Thêm vào sheet
