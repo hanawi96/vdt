@@ -3,10 +3,10 @@
   Content-Type: text/css; charset=utf-8
   Cache-Control: public, max-age=31536000, immutable
 
-# JavaScript files
+# JavaScript files - Cache ngắn hơn để dễ update
 /assets/js/*.js
   Content-Type: application/javascript; charset=utf-8
-  Cache-Control: public, max-age=31536000, immutable
+  Cache-Control: public, max-age=3600, must-revalidate
 
 # Images
 /assets/images/*

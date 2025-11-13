@@ -1,176 +1,220 @@
-# Vòng Dâu Tằm An Nhiên - Modal Checkout
+# Vòng Dâu Tằm By Ánh - E-commerce Platform
 
-## Tổng Quan
+Website bán hàng vòng dâu tằm với hệ thống CTV (Cộng tác viên) và quản lý đơn hàng tự động.
 
-Dự án này là một trang web bán hàng về sản phẩm dâu tằm, được thiết kế đặc biệt cho đối tượng mẹ bỉm sữa. Modal checkout mới được tối ưu hóa cho trải nghiệm mobile và thiết kế chuyên nghiệp.
+## 🚀 Tech Stack
 
-## Tính Năng Modal Checkout
+- **Frontend**: HTML, TailwindCSS, Alpine.js
+- **Backend**: Cloudflare Workers
+- **Database**: Cloudflare D1 (SQLite)
+- **Backup**: Google Sheets (via Apps Script)
+- **Hosting**: Cloudflare Pages
+- **Notifications**: Telegram Bot
 
-### 🎯 **Thiết Kế Chuyên Nghiệp**
-- **Gradient header** với màu sắc ấm áp (pink-purple)
-- **Icon trực quan** cho từng section
-- **Màu sắc phân biệt** cho các loại thông tin khác nhau
-- **Typography rõ ràng** và dễ đọc
+## 📁 Cấu trúc Project
 
-### 📱 **Tối Ưu Mobile**
-- **Responsive design** hoàn toàn
-- **Touch-friendly** buttons và form elements
-- **Grid layout** thích ứng với màn hình nhỏ
-- **Spacing tối ưu** cho mobile
-
-### ✨ **Trải Nghiệm Người Dùng**
-- **Smooth animations** và transitions
-- **Visual feedback** khi tương tác
-- **Form validation** real-time
-- **Loading states** và success animations
-
-## Cấu Trúc Modal
-
-### 1. **Header Section**
-- Logo và tiêu đề
-- Button đóng modal
-- Gradient background đẹp mắt
-
-### 2. **Thông Tin Người Nhận**
-- Họ và tên (bắt buộc)
-- Số điện thoại (bắt buộc)
-- Email (không bắt buộc)
-
-### 3. **Địa Chỉ Nhận Hàng**
-- Tỉnh/Thành phố (bắt buộc)
-- Quận/Huyện (bắt buộc)
-- Phường/Xã (bắt buộc)
-- Địa chỉ cụ thể (bắt buộc)
-
-### 4. **Ghi Chú Đơn Hàng**
-- Textarea cho ghi chú
-- Placeholder gợi ý hữu ích
-- Không bắt buộc
-
-### 5. **Phương Thức Thanh Toán**
-- **COD**: Thanh toán khi nhận hàng
-- **Chuyển khoản**: Giảm phí vận chuyển
-
-### 6. **Tóm Tắt Đơn Hàng**
-- Tạm tính
-- Phí vận chuyển
-- Ưu đãi (nếu có)
-- Tổng cộng
-
-### 7. **Cam Kết Từ Shop**
-- 100% tự nhiên, an toàn
-- Giao hàng toàn quốc, COD
-- Đổi trả trong 7 ngày
-- Hỗ trợ 24/7
-
-## Cách Sử Dụng
-
-### **Mở Modal Checkout**
-```javascript
-// Từ button "Thanh toán" trong giỏ hàng
-@click="openCheckout()"
+```
+.
+├── public/                 # Static files (HTML, CSS, JS, Images)
+│   ├── assets/
+│   │   ├── css/           # TailwindCSS compiled
+│   │   ├── js/            # Alpine.js app logic
+│   │   └── images/        # Product images
+│   ├── data/              # JSON data files
+│   ├── _headers           # Cloudflare headers config
+│   ├── _routes.json       # Cloudflare routing config
+│   └── index.html         # Main page
+├── worker/                # Cloudflare Worker (API backend)
+│   └── worker.js          # Worker logic (D1 + API)
+├── google-apps-script/    # Google Apps Script
+│   └── order-handler.js   # Handle orders in Google Sheets
+├── src/                   # Source files
+│   └── input.css          # TailwindCSS source
+├── wrangler.toml          # Cloudflare Worker config
+└── package.json           # Dependencies
 ```
 
-### **Validation**
-```javascript
-// Kiểm tra form trước khi submit
-validateAndShowConfirmModal()
+## 🛠️ Development
+
+### Prerequisites
+
+- Node.js 18+
+- npm hoặc yarn
+- Cloudflare account
+- Wrangler CLI
+
+### Setup
+
+1. **Clone repository**
+```bash
+git clone <repo-url>
+cd vdt
 ```
 
-### **Đóng Modal**
-```javascript
-// Click button đóng hoặc click outside
-@click="isCheckoutModalOpen = false"
+2. **Install dependencies**
+```bash
+npm install
 ```
 
-## Công Nghệ Sử Dụng
+3. **Configure environment**
+- Cập nhật `wrangler.toml` với D1 database ID
+- Cập nhật Google Apps Script URL
 
-- **Alpine.js**: State management và reactivity
-- **Tailwind CSS**: Styling và responsive design
-- **Vanilla JavaScript**: Logic xử lý
-- **CSS Custom**: Animations và hiệu ứng
+4. **Development**
+```bash
+# Watch CSS changes
+npm run watch
 
-## Tối Ưu Hóa
-
-### **Performance**
-- Lazy loading cho modal
-- Debounced form validation
-- Optimized animations
-
-### **Accessibility**
-- ARIA labels
-- Keyboard navigation
-- Screen reader support
-- High contrast mode
-
-### **Mobile First**
-- Touch gestures
-- Swipe actions
-- Responsive breakpoints
-- Mobile-friendly inputs
-
-## Cấu Hình
-
-### **Màu Sắc Chủ Đạo**
-```css
---primary: #ec4899 (pink-500)
---secondary: #8b5cf6 (purple-600)
---accent: #10b981 (emerald-500)
---success: #059669 (emerald-600)
---warning: #d97706 (amber-600)
---error: #dc2626 (red-600)
+# Build production
+npm run build
 ```
 
-### **Breakpoints**
-```css
-sm: 640px
-md: 768px
-lg: 1024px
-xl: 1280px
-2xl: 1536px
+### Deploy
+
+**Deploy Worker:**
+```bash
+npx wrangler deploy
 ```
 
-## Hướng Dẫn Phát Triển
+**Deploy Pages:**
+```bash
+npx wrangler pages deploy public
+```
 
-### **Thêm Trường Mới**
-1. Cập nhật HTML form
-2. Thêm vào customer object trong JavaScript
-3. Cập nhật validation logic
-4. Test trên mobile và desktop
+Hoặc push lên Git để auto-deploy (nếu đã cấu hình).
 
-### **Tùy Chỉnh Styling**
-1. Sử dụng Tailwind classes
-2. Thêm custom CSS vào `style.css`
-3. Đảm bảo responsive design
-4. Test với các theme khác nhau
+## 🗄️ Database Schema
 
-### **Thêm Validation**
-1. Cập nhật `validateAndShowConfirmModal()`
-2. Thêm error messages
-3. Test edge cases
-4. Đảm bảo UX mượt mà
+### Table: `ctv`
+```sql
+CREATE TABLE ctv (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    full_name TEXT NOT NULL,
+    phone TEXT NOT NULL,
+    email TEXT,
+    city TEXT,
+    age INTEGER,
+    experience TEXT,
+    motivation TEXT,
+    referral_code TEXT UNIQUE NOT NULL,
+    status TEXT DEFAULT 'Mới',
+    commission_rate REAL DEFAULT 0.1,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+```
 
-## Troubleshooting
+### Table: `orders`
+```sql
+CREATE TABLE orders (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    order_id TEXT UNIQUE NOT NULL,
+    order_date DATETIME NOT NULL,
+    customer_name TEXT NOT NULL,
+    customer_phone TEXT NOT NULL,
+    address TEXT,
+    products TEXT,
+    total_amount INTEGER NOT NULL,
+    payment_method TEXT,
+    status TEXT DEFAULT 'Mới',
+    referral_code TEXT,
+    commission INTEGER DEFAULT 0,
+    ctv_phone TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+```
 
-### **Modal Không Hiển Thị**
-- Kiểm tra `isCheckoutModalOpen` state
-- Kiểm tra console errors
-- Đảm bảo Alpine.js đã load đúng cách
+## 🔗 API Endpoints
 
-### **Form Validation Lỗi**
-- Kiểm tra required fields
-- Validate phone number format
-- Kiểm tra email format (nếu có)
+### Worker API (`https://ctv-api.yendev96.workers.dev`)
 
-### **Mobile Issues**
-- Test trên các thiết bị thực
-- Kiểm tra viewport meta tag
-- Đảm bảo touch targets đủ lớn
+**Create Order:**
+```
+POST /api/order/create
+Content-Type: application/json
 
-## Liên Hệ
+{
+  "orderId": "DH251113XXX",
+  "customer": { "name": "...", "phone": "...", "address": "..." },
+  "cart": [...],
+  "total": "100.000đ",
+  "totalAmount": 100000,
+  "referralCode": "CTV123456",
+  "paymentMethod": "COD"
+}
+```
 
-Nếu có vấn đề hoặc cần hỗ trợ, vui lòng liên hệ team phát triển.
+**Get Orders by Referral:**
+```
+GET /?action=getOrders&referralCode=CTV123456
+```
 
----
+**Get All CTV:**
+```
+GET /?action=getAllCTV
+```
 
-**Lưu ý**: Modal checkout này được thiết kế đặc biệt cho đối tượng mẹ bỉm sữa, với giao diện thân thiện, dễ sử dụng và tối ưu cho mobile.
+## 🎨 Features
+
+### Customer Features
+- ✅ Browse products by categories
+- ✅ Quick buy with COD/Bank transfer
+- ✅ Shopping cart with discount codes
+- ✅ Referral tracking via URL (`?ref=CTV123456`)
+- ✅ Order confirmation via Telegram
+
+### CTV (Affiliate) Features
+- ✅ Unique referral code
+- ✅ Commission tracking
+- ✅ Order history by referral code
+- ✅ Email notifications for new orders
+
+### Admin Features
+- ✅ Order management in Google Sheets
+- ✅ CTV management in D1 database
+- ✅ Real-time Telegram notifications
+- ✅ Commission calculation
+
+## 🔐 Environment Variables
+
+Cấu hình trong `wrangler.toml`:
+
+```toml
+[vars]
+GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/..."
+SECRET_KEY = "YOUR_SECRET_KEY"
+```
+
+## 📝 Notes
+
+- Frontend luôn gọi Worker API (không dùng Pages Functions)
+- Worker xử lý validation và lưu vào D1
+- Google Sheets làm backup và notification
+- Commission được tính từ `commission_rate` trong D1
+
+## 🐛 Troubleshooting
+
+### Cache Issues
+Nếu thay đổi code không có hiệu lực:
+1. Clear Cloudflare cache: Dashboard → Caching → Purge Everything
+2. Hard refresh browser: `Ctrl + Shift + R`
+
+### D1 Database
+Kiểm tra dữ liệu:
+```bash
+npx wrangler d1 execute vdt --command "SELECT * FROM orders LIMIT 5"
+```
+
+### Worker Logs
+Xem logs real-time:
+```bash
+npx wrangler tail ctv-api --format pretty
+```
+
+## 📄 License
+
+Private project - All rights reserved.
+
+## 👤 Author
+
+Yendev96 - yendev96@gmail.com

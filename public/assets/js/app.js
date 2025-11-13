@@ -19,11 +19,7 @@ document.addEventListener('alpine:init', () => {
     // Partners data - CHỈ DÙNG CHO HIỂN THỊ UI
     // Dữ liệu thực sự được lấy từ Cloudflare D1 database qua Worker API
     // Validation và tính hoa hồng thực tế được xử lý bởi Worker
-    partners: {
-      "CTV843817": { "name": "Nguyen Van A", "commission": 10, "status": "active" },
-      "CTV506835": { "name": "Tran Thi B", "commission": 10, "status": "active" },
-      "CTV865123": { "name": "Tran Thi B", "commission": 10, "status": "active" },
-    },
+    partners: {},
 
     /* ========= BABY NAME MODAL STATE ========= */
     isBabyNameModalOpen: false,
