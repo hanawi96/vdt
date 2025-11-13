@@ -407,7 +407,9 @@ async function createOrder(data, env, corsHeaders) {
                     cart: data.cart,
                     total: data.total || `${totalAmountNumber.toLocaleString('vi-VN')}đ`,
                     paymentMethod: data.paymentMethod || 'cod',
-                    referralCode: validReferralCode || '',
+                    // Gửi referralCode từ frontend (không validate) để Google Sheets luôn nhận được
+                    referralCode: data.referralCode || '',
+                    // Commission đã validate từ D1
                     referralCommission: finalCommission || 0,
                     referralPartner: data.referralPartner || '',
                     telegramNotification: env.SECRET_KEY || 'VDT_SECRET_2025_ANHIEN'
