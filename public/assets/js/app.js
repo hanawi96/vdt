@@ -5,18 +5,9 @@ document.addEventListener('alpine:init', () => {
 
     // Helper: Lấy API URL dựa trên môi trường
     getApiUrl(endpoint) {
-      // Nếu đang ở local development (localhost hoặc 127.0.0.1)
-      const isLocal = window.location.hostname === 'localhost' || 
-                      window.location.hostname === '127.0.0.1' ||
-                      window.location.port === '5500';
-      
-      if (isLocal) {
-        // Local: Dùng Worker URL (hoặc có thể dùng Wrangler Pages Dev)
-        return `https://ctv-api.yendev96.workers.dev${endpoint}`;
-      } else {
-        // Production: Dùng Pages Function
-        return endpoint;
-      }
+      // LUÔN LUÔN dùng Worker URL cho tất cả API calls
+      // Worker có full access đến D1 database
+      return `https://ctv-api.yendev96.workers.dev${endpoint}`;
     },
 
     /* ========= STATE ========= */
