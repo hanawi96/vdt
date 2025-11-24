@@ -1,7 +1,8 @@
 document.addEventListener('alpine:init', () => {
   Alpine.data('shop', () => ({
     /* ========= CẤU HÌNH ========= */
-    SHIPPING_FEE: 21000,
+    SHIPPING_FEE: 0, // Sẽ được load từ API khi init
+    systemConfig: null, // Lưu config từ API
 
     // Helper: Lấy API URL dựa trên môi trường
     getApiUrl(endpoint) {
@@ -1228,25 +1229,54 @@ document.addEventListener('alpine:init', () => {
     async loadData() {
       this.loading = true; this.error = null;
       try {
-        const [prodRes, infoRes, discountRes, sharedRes] = await Promise.all([
-          fetch('./data/products.json'),
+        // Load sản phẩm, mã giảm giá và config từ D1 database qua Worker API
+        const productsApiUrl = this.getApiUrl('/api/products');
+        const discountsApiUrl = this.getApiUrl('/api/discounts');
+        const configApiUrl = this.getApiUrl('/api/config');
+        
+        const [prodRes, infoRes, discountRes, sharedRes, configRes] = await Promise.all([
+          fetch(productsApiUrl),
           fetch('./data/shop-info.json'),
-          fetch('./data/discounts.json'),
-          fetch('./data/shared-details.json')
+          fetch(discountsApiUrl),
+          fetch('./data/shared-details.json'),
+          fetch(configApiUrl)
         ]);
 
         // Load address data ngay từ đầu để tránh timing issue
         await this.getAddressData();
 
-        if (!prodRes.ok) throw new Error('Không thể tải sản phẩm.');
+        if (!prodRes.ok) throw new Error('Không thể tải sản phẩm từ database.');
         if (!infoRes.ok) throw new Error('Không thể tải thông tin shop.');
-        if (!discountRes.ok) throw new Error('Không thể tải mã giảm giá.');
+        if (!discountRes.ok) throw new Error('Không thể tải mã giảm giá từ database.');
         if (!sharedRes.ok) throw new Error('Không thể tải thông tin chi tiết.');
+        if (!configRes.ok) throw new Error('Không thể tải cấu hình hệ thống.');
 
+        // Parse response từ API
+        const productsData = await prodRes.json();
+        if (!productsData.success) {
+          throw new Error(productsData.error || 'Lỗi tải sản phẩm từ database');
+        }
 
+        const discountsData = await discountRes.json();
+        if (!discountsData.success) {
+          throw new Error(discountsData.error || 'Lỗi tải mã giảm giá từ database');
+        }
+
+        const configData = await configRes.json();
+        if (!configData.success) {
+          throw new Error(configData.error || 'Lỗi tải cấu hình hệ thống');
+        }
+
+        // Lưu config và cập nhật SHIPPING_FEE
+        this.systemConfig = configData.data;
+        this.SHIPPING_FEE = this.systemConfig.shipping_fee;
+        console.log('✅ System config loaded:', {
+          shipping_fee: this.SHIPPING_FEE,
+          tax_rate: this.systemConfig.tax_rate
+        });
 
         // Categories đã được khởi tạo tĩnh ở trên
-        this.products = await prodRes.json();
+        this.products = productsData.data;
         this.shopInfo = await infoRes.json();
 
 
@@ -1268,7 +1298,7 @@ document.addEventListener('alpine:init', () => {
           });
         });
 
-        this.availableDiscounts = await discountRes.json();
+        this.availableDiscounts = discountsData.data;
         this.sharedDetails = await sharedRes.json();
 
         // Partners data đã được hardcode ở trên, không cần load từ file
@@ -3041,7 +3071,11 @@ document.addEventListener('alpine:init', () => {
             phone: this.customer.phone,
             email: this.customer.email,
             address: this.customer.address,
-            notes: this.quickBuyNotes
+            notes: this.quickBuyNotes,
+            province_id: this.selectedProvince || null,
+            district_id: this.selectedDistrict || null,
+            ward_id: this.selectedWard || null,
+            street_address: this.streetAddress || null
           },
           orderDate: new Date().toISOString(),
           subtotal: this.formatCurrency(subtotal),
@@ -3374,7 +3408,11 @@ document.addEventListener('alpine:init', () => {
             phone: this.customer.phone,
             email: this.customer.email,
             address: this.customer.address,
-            notes: this.quickBuyNotes
+            notes: this.quickBuyNotes,
+            province_id: this.selectedProvince || null,
+            district_id: this.selectedDistrict || null,
+            ward_id: this.selectedWard || null,
+            street_address: this.streetAddress || null
           },
           orderDate: new Date().toISOString(),
           subtotal: this.formatCurrency(subtotal),
@@ -3964,7 +4002,17 @@ document.addEventListener('alpine:init', () => {
           if (this.appliedGift) items.push({ name: this.appliedGift.title, price: 'Miễn phí', quantity: 1, weight: 0, notes: '' });
           return items;
         })(),
-        customer: { name: this.customer.name, phone: this.customer.phone, email: this.customer.email, address: this.customer.address, notes: this.customer.notes },
+        customer: { 
+          name: this.customer.name, 
+          phone: this.customer.phone, 
+          email: this.customer.email, 
+          address: this.customer.address, 
+          notes: this.customer.notes,
+          province_id: this.selectedProvince || null,
+          district_id: this.selectedDistrict || null,
+          ward_id: this.selectedWard || null,
+          street_address: this.streetAddress || null
+        },
         orderDate: new Date().toISOString(),
         subtotal: this.formatCurrency(this.cartSubtotal()),
         shipping: this.shippingFee() === 0 ? (this.freeShipping ? 'Miễn phí (FREESHIP)' : 'Miễn phí') : this.formatCurrency(this.shippingFee()),
