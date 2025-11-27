@@ -612,13 +612,17 @@ document.addEventListener('alpine:init', () => {
       const priceData = this.calculateDynamicPrice(this.quickBuyProduct, actualWeight);
       const finalPrice = priceData.finalPrice || this.quickBuyProduct.price || 0;
 
-      // Tính sản phẩm chính với finalPrice (giống cartSubtotal)
+      // CHỈ tính sản phẩm chính, KHÔNG bao gồm addon (addon được tính riêng trong quickBuyTotal)
       const mainProductTotal = finalPrice * (this.quickBuyQuantity || 1);
 
-      // Tính addon được chọn trong Quick Buy (nhân với số lượng)
-      const quickBuyAddonTotal = this.quickBuySelectedAddons.reduce((total, addon) => total + ((addon.price || 0) * (addon.quantity || 1)), 0);
+      return mainProductTotal;
+    },
 
-      return mainProductTotal + quickBuyAddonTotal;
+    // Tổng giá trị đơn hàng (sản phẩm chính + addon) - dùng để tính discount
+    get quickBuyOrderValue() {
+      const mainProductTotal = this.quickBuySubtotal;
+      const addonTotal = this.quickBuySelectedAddons.reduce((total, addon) => total + ((addon.price || 0) * (addon.quantity || 1)), 0);
+      return mainProductTotal + addonTotal;
     },
 
     // Get addon products in cart for Quick Buy
@@ -722,13 +726,13 @@ document.addEventListener('alpine:init', () => {
           return { ...discount, availability: { available: false, reason: 'Mã không hợp lệ' } };
         }
 
-        // Tính theo Quick Buy subtotal thay vì cart subtotal
-        const available = this.quickBuySubtotal >= promotion.minOrder &&
+        // Tính theo Quick Buy order value (bao gồm cả addon) thay vì chỉ subtotal
+        const available = this.quickBuyOrderValue >= promotion.minOrder &&
           (!promotion.minItems || this.quickBuyQuantity >= promotion.minItems);
 
         const reason = !available
-          ? (this.quickBuySubtotal < promotion.minOrder
-            ? `Cần mua thêm ${this.formatCurrency(promotion.minOrder - this.quickBuySubtotal)}`
+          ? (this.quickBuyOrderValue < promotion.minOrder
+            ? `Cần mua thêm ${this.formatCurrency(promotion.minOrder - this.quickBuyOrderValue)}`
             : `Cần thêm ${promotion.minItems - this.quickBuyQuantity} sản phẩm`)
           : '';
 
@@ -742,8 +746,8 @@ document.addEventListener('alpine:init', () => {
 
     calculateQuickBuyDiscountValue(promotion) {
       if (promotion.type === 'shipping') return this.SHIPPING_FEE;
-      if (promotion.type === 'fixed') return Math.min(promotion.value, this.quickBuySubtotal);
-      if (promotion.type === 'percentage') return Math.floor(this.quickBuySubtotal * promotion.value / 100);
+      if (promotion.type === 'fixed') return Math.min(promotion.value, this.quickBuyOrderValue);
+      if (promotion.type === 'percentage') return Math.floor(this.quickBuyOrderValue * promotion.value / 100);
       return 0;
     },
 
@@ -771,13 +775,14 @@ document.addEventListener('alpine:init', () => {
     },
 
     get quickBuyTotal() {
-      const subtotal = this.quickBuySubtotal;
+      const subtotal = this.quickBuySubtotal; // Chỉ sản phẩm chính
+      const addonTotal = this.quickBuySelectedAddons.reduce((total, addon) => total + ((addon.price || 0) * (addon.quantity || 1)), 0); // Tổng addon
       const shipping = this.SHIPPING_FEE; // Luôn cộng phí ship đầy đủ
       const shippingDiscount = this.quickBuyShippingDiscount; // Rồi trừ freeship nếu có
       const comboShippingDiscount = (this.quickBuyProduct && this.quickBuyProduct.freeShipping) ? this.SHIPPING_FEE : 0; // Freeship cho combo
       const discount = this.discountAmount;
       const addonDiscount = this.quickBuyAddonDiscount; // Giảm giá từ addon
-      const total = subtotal + shipping - shippingDiscount - comboShippingDiscount - discount - addonDiscount;
+      const total = subtotal + addonTotal + shipping - shippingDiscount - comboShippingDiscount - discount - addonDiscount;
       return total > 0 ? total : 0;
     },
 
@@ -1461,10 +1466,10 @@ document.addEventListener('alpine:init', () => {
         'vong_tron_tui': {
           title: 'Combo Vòng Trơn + Túi Dâu Tằm Để Giường',
           originalPrice: 128000,
-          shippingFee: 30000,
-          totalWithoutCombo: 158000,
+          shippingFee: 28000,
+          totalWithoutCombo: 156000,
           comboPrice: 120000,
-          savings: 38000,
+          savings: 36000,
           customerCount: 689,
           product1: {
             image: './assets/images/product_img/vong_tron_co_dien_day_do.webp',
@@ -1484,10 +1489,10 @@ document.addEventListener('alpine:init', () => {
         'vong_7_bi_bac_tui': {
           title: 'Combo 7 Bi Bạc + Túi Dâu Tằm Để Giường',
           originalPrice: 258000,
-          shippingFee: 30000,
-          totalWithoutCombo: 288000,
+          shippingFee: 28000,
+          totalWithoutCombo: 286000,
           comboPrice: 230000,
-          savings: 58000,
+          savings: 56000,
           customerCount: 423,
           product1: {
             image: './assets/images/product_img/Sole bac/vong_dau_tam_7_bi_bac.webp',
@@ -1507,10 +1512,10 @@ document.addEventListener('alpine:init', () => {
         'vong_9_bi_bac_tui': {
           title: 'Combo 9 Bi Bạc + Túi Dâu Tằm Để Giường',
           originalPrice: 328000,
-          shippingFee: 30000,
-          totalWithoutCombo: 358000,
+          shippingFee: 28000,
+          totalWithoutCombo: 356000,
           comboPrice: 290000,
-          savings: 68000,
+          savings: 66000,
           customerCount: 312,
           product1: {
             image: './assets/images/product_img/Sole bac/vong_dau_tam_9_bi_bac.webp',
@@ -1530,10 +1535,10 @@ document.addEventListener('alpine:init', () => {
         'vong_co_gian_tui': {
           title: 'Vòng dâu tằm trơn co giãn + Túi dâu tằm để giường',
           originalPrice: 128000,
-          shippingFee: 30000,
-          totalWithoutCombo: 158000,
+          shippingFee: 28000,
+          totalWithoutCombo: 156000,
           comboPrice: 109000,
-          savings: 49000,
+          savings: 47000,
           customerCount: 578,
           product1: {
             image: './assets/images/product_img/co gian/vong_tron_co_gian.webp',
@@ -1657,7 +1662,7 @@ document.addEventListener('alpine:init', () => {
     getDiscountGuidance(discount) {
       if (discount.availability.available) return '';
 
-      const currentSubtotal = this.isDiscountModalFromQuickBuy ? this.quickBuySubtotal : this.cartSubtotal();
+      const currentSubtotal = this.isDiscountModalFromQuickBuy ? this.quickBuyOrderValue : this.cartSubtotal();
       const currentQuantity = this.isDiscountModalFromQuickBuy ? this.quickBuyQuantity : this.totalCartQuantity;
 
       const minItems = discount.minItems || 0;
@@ -3049,7 +3054,7 @@ document.addEventListener('alpine:init', () => {
           cartId: `quickbuy-${Date.now()}`
         };
 
-        const subtotal = this.quickBuySubtotal;
+        const subtotal = this.quickBuyOrderValue; // Tổng giá trị sản phẩm (bao gồm addon)
         const shippingFee = this.quickBuyShippingFee;
         const total = this.quickBuyTotal;
 
@@ -3390,7 +3395,7 @@ document.addEventListener('alpine:init', () => {
           });
         });
 
-        const subtotal = this.quickBuySubtotal;
+        const subtotal = this.quickBuyOrderValue; // Tổng giá trị sản phẩm (bao gồm addon)
         const shippingFee = this.quickBuyShippingFee; // Phí ship thực tế sau khi trừ freeship
         const total = this.quickBuyTotal;
 
@@ -3552,7 +3557,7 @@ document.addEventListener('alpine:init', () => {
       }
 
       const isFromQuickBuy = this.isDiscountModalFromQuickBuy;
-      const subtotal = isFromQuickBuy ? this.quickBuySubtotal : this.cartSubtotal();
+      const subtotal = isFromQuickBuy ? this.quickBuyOrderValue : this.cartSubtotal();
       const quantity = isFromQuickBuy ? this.quickBuyQuantity : this.totalCartQuantity;
 
       let appliedCodes = [];
@@ -3579,11 +3584,11 @@ document.addEventListener('alpine:init', () => {
           } else if (promotion.type === 'fixed') {
             this.discountAmount = promotion.value;
           } else if (promotion.type === 'percentage') {
-            const contextSubtotal = isFromQuickBuy ? this.quickBuySubtotal : this.cartSubtotal();
+            const contextSubtotal = isFromQuickBuy ? this.quickBuyOrderValue : this.cartSubtotal();
             this.discountAmount = Math.floor(contextSubtotal * promotion.value / 100);
           }
 
-          const maxDiscount = isFromQuickBuy ? this.quickBuySubtotal : this.cartSubtotal();
+          const maxDiscount = isFromQuickBuy ? this.quickBuyOrderValue : this.cartSubtotal();
           if (this.discountAmount > maxDiscount) this.discountAmount = maxDiscount;
 
           appliedCodes.push(selectedDiscountCode);
@@ -3688,15 +3693,15 @@ document.addEventListener('alpine:init', () => {
       const mapped = allVisible.map(d => {
         // Sử dụng logic khác nhau tùy theo context
         if (this.isDiscountModalFromQuickBuy) {
-          // Logic cho Quick Buy - tính theo sản phẩm mua ngay
+          // Logic cho Quick Buy - tính theo tổng giá trị đơn hàng (bao gồm addon)
           const promotion = this._normalizeDiscount(d);
           const available = promotion &&
-            this.quickBuySubtotal >= promotion.minOrder &&
+            this.quickBuyOrderValue >= promotion.minOrder &&
             (!promotion.minItems || this.quickBuyQuantity >= promotion.minItems);
 
           const reason = !available
-            ? (this.quickBuySubtotal < promotion.minOrder
-              ? `Cần mua thêm ${this.formatCurrency(promotion.minOrder - this.quickBuySubtotal)}`
+            ? (this.quickBuyOrderValue < promotion.minOrder
+              ? `Cần mua thêm ${this.formatCurrency(promotion.minOrder - this.quickBuyOrderValue)}`
               : `Cần thêm ${promotion.minItems - this.quickBuyQuantity} sản phẩm`)
             : '';
 
@@ -4282,8 +4287,8 @@ document.addEventListener('alpine:init', () => {
           return;
         }
 
-        // Kiểm tra điều kiện với Quick Buy subtotal
-        const subtotalCheck = this.quickBuySubtotal >= promotion.minOrder;
+        // Kiểm tra điều kiện với Quick Buy order value (bao gồm addon)
+        const subtotalCheck = this.quickBuyOrderValue >= promotion.minOrder;
         const itemsCheck = !promotion.minItems || this.quickBuyQuantity >= promotion.minItems;
 
         if (!subtotalCheck || !itemsCheck) {
@@ -4293,15 +4298,15 @@ document.addEventListener('alpine:init', () => {
           return;
         }
 
-        // Cập nhật lại giá trị giảm giá theo Quick Buy
+        // Cập nhật lại giá trị giảm giá theo Quick Buy order value
         if (promotion.type === 'percentage') {
-          this.discountAmount = Math.floor(this.quickBuySubtotal * promotion.value / 100);
+          this.discountAmount = Math.floor(this.quickBuyOrderValue * promotion.value / 100);
         } else if (promotion.type === 'fixed') {
           this.discountAmount = promotion.value;
         }
 
-        if (this.discountAmount > this.quickBuySubtotal) {
-          this.discountAmount = this.quickBuySubtotal;
+        if (this.discountAmount > this.quickBuyOrderValue) {
+          this.discountAmount = this.quickBuyOrderValue;
         }
       }
       // Gift không phụ thuộc vào subtotal nên giữ nguyên

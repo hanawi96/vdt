@@ -96,16 +96,17 @@ async function createOrder(data, env, corsHeaders) {
 
         // Lấy chi phí từ bảng cost_config TRƯỚC để dùng cho các tính toán
         const costConfig = await getCostConfig(env);
-        const defaultShippingCost = costConfig.default_shipping_cost; // Phí ship từ database
+        const customerShippingFee = costConfig.customer_shipping_fee; // Phí ship khách hàng trả
+        const defaultShippingCost = costConfig.default_shipping_cost; // Chi phí ship thực tế của shop
 
         // Parse shipping fee từ frontend (chỉ để check miễn phí hay không)
         const shippingFeeStr = data.shipping || '0đ';
         const isFreeShipping = typeof shippingFeeStr === 'string' && shippingFeeStr.includes('Miễn phí');
         
-        // Phí ship khách trả = default_shipping_cost (trừ khi miễn phí)
-        const shippingFee = isFreeShipping ? 0 : defaultShippingCost;
+        // Phí ship khách trả = customer_shipping_fee (trừ khi miễn phí)
+        const shippingFee = isFreeShipping ? 0 : customerShippingFee;
         
-        // Chi phí ship thực tế của shop (có thể khác với phí khách trả)
+        // Chi phí ship thực tế của shop (dùng cho tính toán lợi nhuận)
         const actualShippingCost = defaultShippingCost;
 
         // Parse discount code từ data.discount
@@ -859,7 +860,7 @@ async function getConfig(env, corsHeaders) {
         const costConfig = await getCostConfig(env);
         
         const config = {
-            shipping_fee: costConfig.default_shipping_cost,
+            shipping_fee: costConfig.customer_shipping_fee || 28000,
             tax_rate: costConfig.tax_rate || 0.015,
             packaging: {
                 bag_zip: costConfig.bag_zip || 200,
