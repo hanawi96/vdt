@@ -1125,7 +1125,8 @@ document.addEventListener('alpine:init', () => {
 
       // Check if process modal should be shown
       // TEMP: Always show modal for testing - remove this when ready for production
-      this.openProcessModal(); // Show immediately
+      // DISABLED: Modal quy trình thủ công đã được tắt tạm thời
+      // this.openProcessModal(); // Show immediately
 
       // PRODUCTION CODE (commented out for testing):
       // const processModalData = JSON.parse(localStorage.getItem('processModalViewed'));

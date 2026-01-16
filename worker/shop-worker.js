@@ -1,8 +1,10 @@
 // Cloudflare Worker API for Shop Order Management
-// Using D1 Database (SQLite on Edge)
+// Using Turso Database (LibSQL)
+
+import { createClient } from '@libsql/client';
 
 export default {
-    async fetch(request, env, ctx) {
+    async fetch(request, env) {
         // CORS headers
         const corsHeaders = {
             'Access-Control-Allow-Origin': '*',
@@ -18,6 +20,12 @@ export default {
             });
         }
 
+        // Create Turso client
+        const db = createClient({
+            url: env.TURSO_DATABASE_URL,
+            authToken: env.TURSO_AUTH_TOKEN,
+        });
+
         try {
             const url = new URL(request.url);
             const path = url.pathname;
@@ -25,22 +33,22 @@ export default {
             // Route handling
             if (request.method === 'POST' && path === '/api/order/create') {
                 const data = await request.json();
-                return await createOrder(data, env, corsHeaders);
+                return await createOrder(data, env, db, corsHeaders);
             }
 
-            // API lấy danh sách sản phẩm từ D1
+            // API lấy danh sách sản phẩm từ Turso
             if (request.method === 'GET' && path === '/api/products') {
-                return await getProducts(env, corsHeaders);
+                return await getProducts(env, db, corsHeaders);
             }
 
-            // API lấy danh sách mã giảm giá từ D1
+            // API lấy danh sách mã giảm giá từ Turso
             if (request.method === 'GET' && path === '/api/discounts') {
-                return await getDiscounts(env, corsHeaders);
+                return await getDiscounts(env, db, corsHeaders);
             }
 
             // API lấy cấu hình (shipping fee, tax rate, etc.)
             if (request.method === 'GET' && path === '/api/config') {
-                return await getConfig(env, corsHeaders);
+                return await getConfig(env, db, corsHeaders);
             }
 
             return jsonResponse({ success: false, error: 'Method not allowed' }, 405, corsHeaders);
@@ -59,8 +67,8 @@ export default {
 // ORDER FUNCTIONS
 // ============================================
 
-// Tạo đơn hàng mới - Lưu vào cả D1 và Google Sheets
-async function createOrder(data, env, corsHeaders) {
+// Tạo đơn hàng mới - Lưu vào cả Turso và Google Sheets
+async function createOrder(data, env, db, corsHeaders) {
     try {
         // Validate dữ liệu đơn hàng
         if (!data.orderId) {
@@ -95,17 +103,17 @@ async function createOrder(data, env, corsHeaders) {
             : subtotalStr;
 
         // Lấy chi phí từ bảng cost_config TRƯỚC để dùng cho các tính toán
-        const costConfig = await getCostConfig(env);
+        const costConfig = await getCostConfig(db);
         const customerShippingFee = costConfig.customer_shipping_fee; // Phí ship khách hàng trả
         const defaultShippingCost = costConfig.default_shipping_cost; // Chi phí ship thực tế của shop
 
         // Parse shipping fee từ frontend (chỉ để check miễn phí hay không)
         const shippingFeeStr = data.shipping || '0đ';
         const isFreeShipping = typeof shippingFeeStr === 'string' && shippingFeeStr.includes('Miễn phí');
-        
+
         // Phí ship khách trả = customer_shipping_fee (trừ khi miễn phí)
         const shippingFee = isFreeShipping ? 0 : customerShippingFee;
-        
+
         // Chi phí ship thực tế của shop (dùng cho tính toán lợi nhuận)
         const actualShippingCost = defaultShippingCost;
 
@@ -114,25 +122,24 @@ async function createOrder(data, env, corsHeaders) {
         const discountStr = data.discount || 'Không có';
         let discountCode = null;
         let discountAmount = 0;
-        
+
         if (discountStr && discountStr !== 'Không có' && discountStr.includes('(') && discountStr.includes(')')) {
             const match = discountStr.match(/\(([^)]+)\)/);
             if (match) {
                 discountCode = match[1]; // Lấy mã trong ngoặc (VD: "VDT15K")
             }
         }
-        
+
         // Nếu có discount code, lấy discount_value từ database (nguồn tin cậy duy nhất)
         if (discountCode) {
             try {
-                const discountInfo = await env.DB.prepare(`
-                    SELECT discount_value FROM discounts 
-                    WHERE code = ? AND active = 1
-                    LIMIT 1
-                `).bind(discountCode).first();
-                
-                if (discountInfo) {
-                    discountAmount = discountInfo.discount_value || 0;
+                const discountResult = await db.execute({
+                    sql: `SELECT discount_value FROM discounts WHERE code = ? AND active = 1 LIMIT 1`,
+                    args: [discountCode]
+                });
+
+                if (discountResult.rows.length > 0) {
+                    discountAmount = discountResult.rows[0].discount_value || 0;
                     console.log('✅ Discount from database:', {
                         code: discountCode,
                         amount: discountAmount
@@ -201,7 +208,7 @@ async function createOrder(data, env, corsHeaders) {
             wardName: null,
             streetAddress: data.customer.street_address || null
         };
-        
+
         // Nếu có ID, query database để lấy tên
         if (addressParts.provinceId || addressParts.districtId || addressParts.wardId) {
             // Parse từ full address string để lấy tên (fallback)
@@ -229,7 +236,7 @@ async function createOrder(data, env, corsHeaders) {
             }
 
             // Lấy cost_price từ database
-            const productInfo = await getProductInfo(env, item.name);
+            const productInfo = await getProductInfo(db, item.name);
 
             return {
                 ...item,
@@ -246,7 +253,7 @@ async function createOrder(data, env, corsHeaders) {
         // Parse referral info
         const referralCode = data.referralCode || null;
         const commission = data.referralCommission || 0;
-        const ctvPhone = referralCode ? await getCtvPhone(env, referralCode) : null;
+        const ctvPhone = referralCode ? await getCtvPhone(db, referralCode) : null;
 
         // Tính toán các giá trị
         // subtotal = tổng tiền sản phẩm
@@ -299,8 +306,8 @@ async function createOrder(data, env, corsHeaders) {
         const taxAmount = Math.round(taxableAmount * taxRate); // Làm tròn thuế
 
         // 1. Lưu vào bảng orders
-        const orderResult = await env.DB.prepare(`
-            INSERT INTO orders (
+        await db.execute({
+            sql: `INSERT INTO orders (
                 order_id, order_date, customer_name, customer_phone, 
                 address, products, payment_method, status,
                 referral_code, commission, ctv_phone, notes,
@@ -309,53 +316,51 @@ async function createOrder(data, env, corsHeaders) {
                 created_at_unix, province_id, province_name, 
                 district_id, district_name, ward_id, ward_name, street_address,
                 discount_code, discount_amount
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        `).bind(
-            data.orderId,
-            orderDate,
-            data.customer.name,
-            data.customer.phone,
-            data.customer.address || '',
-            productsJson,
-            paymentMethod,
-            'Mới',
-            referralCode,
-            commission,
-            ctvPhone,
-            data.customer.notes || '',
-            shippingFee, // Phí ship khách trả
-            actualShippingCost, // Chi phí ship thực tế
-            packagingCost, // Chi phí đóng gói
-            packagingDetailsJson, // packaging_details JSON
-            taxAmount, // tax_amount (thuế tính trên doanh thu TRƯỚC discount)
-            taxRate, // tax_rate (lấy từ cost_config)
-            finalTotalAmount, // Tổng tiền cuối cùng (SAU discount)
-            createdAtUnix,
-            addressParts.provinceId,
-            addressParts.provinceName,
-            addressParts.districtId,
-            addressParts.districtName,
-            addressParts.wardId,
-            addressParts.wardName,
-            addressParts.streetAddress,
-            discountCode, // Mã giảm giá
-            discountAmount // Số tiền giảm giá
-        ).run();
-
-        if (!orderResult.success) {
-            throw new Error('Failed to insert order into D1');
-        }
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            args: [
+                data.orderId,
+                orderDate,
+                data.customer.name,
+                data.customer.phone,
+                data.customer.address || '',
+                productsJson,
+                paymentMethod,
+                'Mới',
+                referralCode,
+                commission,
+                ctvPhone,
+                data.customer.notes || '',
+                shippingFee,
+                actualShippingCost,
+                packagingCost,
+                packagingDetailsJson,
+                taxAmount,
+                taxRate,
+                finalTotalAmount,
+                createdAtUnix,
+                addressParts.provinceId,
+                addressParts.provinceName,
+                addressParts.districtId,
+                addressParts.districtName,
+                addressParts.wardId,
+                addressParts.wardName,
+                addressParts.streetAddress,
+                discountCode,
+                discountAmount
+            ]
+        });
 
         // Lấy ID của order vừa tạo
-        const orderIdResult = await env.DB.prepare(`
-            SELECT id FROM orders WHERE order_id = ? LIMIT 1
-        `).bind(data.orderId).first();
+        const orderIdResult = await db.execute({
+            sql: `SELECT id FROM orders WHERE order_id = ? LIMIT 1`,
+            args: [data.orderId]
+        });
 
-        if (!orderIdResult) {
+        if (orderIdResult.rows.length === 0) {
             throw new Error('Failed to get order ID after insert');
         }
 
-        const orderId = orderIdResult.id;
+        const orderId = orderIdResult.rows[0].id;
 
         // 2. Lưu chi tiết sản phẩm vào bảng order_items
         for (const item of data.cart) {
@@ -370,40 +375,43 @@ async function createOrder(data, env, corsHeaders) {
                 : (item.price || 0);
 
             // Lấy thông tin sản phẩm từ database để có product_id và cost_price
-            const productInfo = await getProductInfo(env, item.name);
+            const productInfo = await getProductInfo(db, item.name);
 
             // Nếu không tìm thấy trong database, log warning
             if (!productInfo) {
                 console.warn(`⚠️ Product not found in database: ${item.name}`);
             }
 
-            await env.DB.prepare(`
-                INSERT INTO order_items (
+            await db.execute({
+                sql: `INSERT INTO order_items (
                     order_id, product_id, product_name, product_price, 
                     product_cost, quantity, size, notes, created_at_unix
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-            `).bind(
-                orderId,
-                productInfo?.id || null,
-                item.name,
-                productPrice,
-                productInfo?.cost_price || 0, // Giá vốn từ database
-                item.quantity || 1,
-                item.weight || null,
-                item.notes || null,
-                createdAtUnix
-            ).run();
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+                args: [
+                    orderId,
+                    productInfo?.id || null,
+                    item.name,
+                    productPrice,
+                    productInfo?.cost_price || 0,
+                    item.quantity || 1,
+                    item.weight || null,
+                    item.notes || null,
+                    createdAtUnix
+                ]
+            });
         }
 
         // 3. Lưu thông tin sử dụng mã giảm giá vào bảng discount_usage (nếu có)
         if (discountCode && discountAmount > 0) {
             try {
                 // Lấy discount_id từ bảng discounts
-                const discountInfo = await env.DB.prepare(`
-                    SELECT id FROM discounts WHERE code = ? LIMIT 1
-                `).bind(discountCode).first();
+                const discountResult = await db.execute({
+                    sql: `SELECT id FROM discounts WHERE code = ? LIMIT 1`,
+                    args: [discountCode]
+                });
 
-                if (discountInfo) {
+                if (discountResult.rows.length > 0) {
+                    const discountInfo = discountResult.rows[0];
                     // Debug TRƯỚC khi convert
                     console.log('🔍 DEBUG BEFORE conversion:', {
                         finalTotalAmount: finalTotalAmount,
@@ -453,22 +461,23 @@ async function createOrder(data, env, corsHeaders) {
                         discount_amount_type: typeof discountAmountNum
                     });
 
-                    await env.DB.prepare(`
-                        INSERT INTO discount_usage (
+                    await db.execute({
+                        sql: `INSERT INTO discount_usage (
                             discount_id, discount_code, order_id, 
                             customer_name, customer_phone, 
                             order_amount, discount_amount, 
                             used_at
-                        ) VALUES (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)
-                    `).bind(
-                        discountInfo.id,
-                        discountCode,
-                        data.orderId,
-                        data.customer.name,
-                        data.customer.phone,
-                        orderAmountBeforeDiscount, // Order amount TRƯỚC khi giảm giá (đã convert sang số)
-                        discountAmountNum // Discount amount (đã convert sang số)
-                    ).run();
+                        ) VALUES (?, ?, ?, ?, ?, ?, ?, CURRENT_TIMESTAMP)`,
+                        args: [
+                            discountInfo.id,
+                            discountCode,
+                            data.orderId,
+                            data.customer.name,
+                            data.customer.phone,
+                            orderAmountBeforeDiscount,
+                            discountAmountNum
+                        ]
+                    });
 
                     // Cập nhật usage_count và total_discount_amount trong bảng discounts
                     console.log('🔍 DEBUG UPDATE discounts:', {
@@ -477,12 +486,13 @@ async function createOrder(data, env, corsHeaders) {
                         discount_amount_type: typeof discountAmountNum
                     });
 
-                    await env.DB.prepare(`
-                        UPDATE discounts 
+                    await db.execute({
+                        sql: `UPDATE discounts 
                         SET usage_count = usage_count + 1,
                             total_discount_amount = total_discount_amount + ?
-                        WHERE id = ?
-                    `).bind(discountAmountNum, discountInfo.id).run();
+                        WHERE id = ?`,
+                        args: [discountAmountNum, discountInfo.id]
+                    });
 
                     console.log('✅ Saved discount usage:', discountCode, 'for order:', data.orderId);
                 } else {
@@ -494,7 +504,7 @@ async function createOrder(data, env, corsHeaders) {
             }
         }
 
-        console.log('✅ Saved order to D1:', data.orderId, 'with', data.cart.length, 'items');
+        console.log('✅ Saved order to Turso:', data.orderId, 'with', data.cart.length, 'items');
         console.log('💰 Order financials:', {
             subtotal: subtotal,
             shippingFee: shippingFee,
@@ -576,12 +586,12 @@ async function createOrder(data, env, corsHeaders) {
 // PRODUCT FUNCTIONS
 // ============================================
 
-// Lấy danh sách sản phẩm từ D1 database
-async function getProducts(env, corsHeaders) {
+// Lấy danh sách sản phẩm từ Turso database
+async function getProducts(env, db, corsHeaders) {
     try {
         // Query tất cả sản phẩm đang active
-        const result = await env.DB.prepare(`
-            SELECT 
+        const result = await db.execute({
+            sql: `SELECT 
                 id,
                 name,
                 price,
@@ -597,15 +607,12 @@ async function getProducts(env, corsHeaders) {
                 cost_price
             FROM products
             WHERE is_active = 1
-            ORDER BY id ASC
-        `).all();
+            ORDER BY id ASC`,
+            args: []
+        });
 
-        if (!result.success) {
-            throw new Error('Failed to fetch products from D1');
-        }
-
-        // Map dữ liệu từ D1 sang format frontend
-        const products = result.results.map(product => ({
+        // Map dữ liệu từ Turso sang format frontend
+        const products = result.rows.map(product => ({
             id: product.sku || `product_${product.id}`,
             name: product.name,
             category: getCategoryFromId(product.category_id),
@@ -619,7 +626,7 @@ async function getProducts(env, corsHeaders) {
             stock_quantity: product.stock_quantity || 0
         }));
 
-        console.log(`✅ Loaded ${products.length} products from D1`);
+        console.log(`✅ Loaded ${products.length} products from Turso`);
 
         return jsonResponse({
             success: true,
@@ -661,14 +668,14 @@ function getCategoryFromId(categoryId) {
 }
 
 // Helper function: Lấy thông tin sản phẩm từ database
-async function getProductInfo(env, productName) {
+async function getProductInfo(db, productName) {
     try {
-        const result = await env.DB.prepare(`
-            SELECT id, cost_price FROM products 
-            WHERE name = ? LIMIT 1
-        `).bind(productName).first();
+        const result = await db.execute({
+            sql: `SELECT id, cost_price FROM products WHERE name = ? LIMIT 1`,
+            args: [productName]
+        });
 
-        return result;
+        return result.rows.length > 0 ? result.rows[0] : null;
     } catch (error) {
         console.error('Error getting product info:', error);
         return null;
@@ -676,14 +683,14 @@ async function getProductInfo(env, productName) {
 }
 
 // Helper function: Lấy số điện thoại CTV từ referral code
-async function getCtvPhone(env, referralCode) {
+async function getCtvPhone(db, referralCode) {
     try {
-        const result = await env.DB.prepare(`
-            SELECT phone FROM ctv 
-            WHERE referral_code = ? LIMIT 1
-        `).bind(referralCode).first();
+        const result = await db.execute({
+            sql: `SELECT phone FROM ctv WHERE referral_code = ? LIMIT 1`,
+            args: [referralCode]
+        });
 
-        return result?.phone || null;
+        return result.rows.length > 0 ? result.rows[0].phone : null;
     } catch (error) {
         console.error('Error getting CTV phone:', error);
         return null;
@@ -709,22 +716,16 @@ function parseAddress(fullAddress) {
 }
 
 // Helper function: Lấy cấu hình chi phí từ database
-async function getCostConfig(env) {
+async function getCostConfig(db) {
     try {
-        const result = await env.DB.prepare(`
-            SELECT item_name, item_cost 
-            FROM cost_config 
-            WHERE is_default = 1
-        `).all();
-
-        if (!result.success) {
-            console.error('Failed to fetch cost config');
-            return getDefaultCostConfig();
-        }
+        const result = await db.execute({
+            sql: `SELECT item_name, item_cost FROM cost_config WHERE is_default = 1`,
+            args: []
+        });
 
         // Convert array to object for easy access
         const config = {};
-        result.results.forEach(row => {
+        result.rows.forEach(row => {
             config[row.item_name] = row.item_cost;
         });
 
@@ -754,12 +755,12 @@ function getDefaultCostConfig() {
 // DISCOUNT FUNCTIONS
 // ============================================
 
-// Lấy danh sách mã giảm giá từ D1 database
-async function getDiscounts(env, corsHeaders) {
+// Lấy danh sách mã giảm giá từ Turso database
+async function getDiscounts(env, db, corsHeaders) {
     try {
         // Query tất cả mã giảm giá đang active và chưa hết hạn
-        const result = await env.DB.prepare(`
-            SELECT 
+        const result = await db.execute({
+            sql: `SELECT 
                 id,
                 code,
                 title,
@@ -776,15 +777,12 @@ async function getDiscounts(env, corsHeaders) {
             FROM discounts
             WHERE active = 1 
             AND (expiry_date IS NULL OR expiry_date >= DATE('now'))
-            ORDER BY priority DESC, id ASC
-        `).all();
+            ORDER BY priority DESC, id ASC`,
+            args: []
+        });
 
-        if (!result.success) {
-            throw new Error('Failed to fetch discounts from D1');
-        }
-
-        // Map dữ liệu từ D1 sang format frontend (tương thích với discounts.json cũ)
-        const discounts = result.results.map(discount => {
+        // Map dữ liệu từ Turso sang format frontend (tương thích với discounts.json cũ)
+        const discounts = result.rows.map(discount => {
             // Xử lý type mapping
             let mappedType = discount.type;
             if (mappedType === 'free_shipping') mappedType = 'shipping';
@@ -818,7 +816,7 @@ async function getDiscounts(env, corsHeaders) {
             return discountObj;
         });
 
-        console.log(`✅ Loaded ${discounts.length} discounts from D1`);
+        console.log(`✅ Loaded ${discounts.length} discounts from Turso`);
 
         return jsonResponse({
             success: true,
@@ -855,10 +853,10 @@ function formatExpiryDate(dateString) {
 // ============================================
 
 // Lấy cấu hình hệ thống (shipping fee, tax rate, etc.)
-async function getConfig(env, corsHeaders) {
+async function getConfig(env, db, corsHeaders) {
     try {
-        const costConfig = await getCostConfig(env);
-        
+        const costConfig = await getCostConfig(db);
+
         const config = {
             shipping_fee: costConfig.customer_shipping_fee || 28000,
             tax_rate: costConfig.tax_rate || 0.015,

@@ -2,15 +2,34 @@ name = "shop-order-api"
 main = "worker/shop-worker.js"
 compatibility_date = "2024-01-01"
 
-# Cloudflare D1 Database Binding - DÙNG CHUNG DATABASE VỚI CTV
-[[d1_databases]]
-binding = "DB"
-database_name = "vdt"
-database_id = "19917e57-ced3-4fc3-adad-368a2e989ea7"
-
-# Environment Variables
+# ============================================
+# Turso Database Configuration
+# ============================================
 [vars]
+TURSO_DATABASE_URL = "libsql://vdt-yendev96.aws-ap-northeast-1.turso.io"
+TURSO_AUTH_TOKEN = "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJhIjoicnciLCJpYXQiOjE3Njg1NTg5NzksImlkIjoiYmUyMWFlNjItYjNjYi00MjVjLTkwYTQtNjc3NzczN2I0YjU3IiwicmlkIjoiNDk5MWI3YTgtYjQwYi00NTY1LWJhM2ItZjI3ZDM2NTkwY2UzIn0.ugDdWk_ce54D0RadRE3bOb5uX-_lecilme4gw2co2kcRLcZHvDMj_k6sV9Efr96xMBzsNdxqJSIhlpJr03OBAQ"
+
 # URL của Google Apps Script để đồng bộ dữ liệu
 GOOGLE_APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwh4Az3BjmNMan7Ik_FxcsmDSSuUE4lWMBgcPBlsITYN39bWfHztZK9VOS930rrin3dEA/exec"
 # Secret key để bảo mật thông báo Telegram
 SECRET_KEY = "VDT_SECRET_2025_ANHIEN"
+
+# ============================================
+# R2 Storage Configuration
+# ============================================
+[[r2_buckets]]
+binding = "R2_BUCKET"
+bucket_name = "vdt-image"
+
+[[r2_buckets]]
+binding = "R2_EXCEL_BUCKET"
+bucket_name = "excel-orders"
+
+# ============================================
+# Old D1 Configuration (backup - DO NOT DELETE)
+# ============================================
+# Keep this commented for rollback if needed
+# [[d1_databases]]
+# binding = "DB"
+# database_name = "vdt"
+# database_id = "19917e57-ced3-4fc3-adad-368a2e989ea7"
