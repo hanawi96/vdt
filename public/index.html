@@ -1307,6 +1307,27 @@
                                             x-text="paymentMethod === 'cod' ? 'Thanh toán khi nhận hàng (COD)' : 'Chuyển khoản ngân hàng'"></span>
                                     </div>
                                 </div>
+
+                                <!-- Badge thông báo đã thanh toán trước (chỉ hiện khi chuyển khoản) -->
+                                <template x-if="paymentMethod === 'bank_transfer'">
+                                    <div class="mt-3 bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200 rounded-xl p-3"
+                                         x-transition:enter="transition ease-out duration-200"
+                                         x-transition:enter-start="opacity-0 transform scale-95"
+                                         x-transition:enter-end="opacity-100 transform scale-100">
+                                        <div class="flex items-start space-x-2">
+                                            <svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                            </svg>
+                                            <div class="flex-1">
+                                                <p class="text-sm font-bold text-green-700">✓ Đã thanh toán trước</p>
+                                                <p class="text-xs text-green-600 mt-1 leading-relaxed">
+                                                    Tổng đơn hàng: <span class="font-bold" x-text="formatCurrency(cartTotal())"></span><br>
+                                                    <span class="font-bold">Tiền COD: 0đ</span> (không cần trả thêm khi nhận hàng)
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
                             </div>
 
                             <!-- Tổng kết đơn hàng - Thiết kế nhỏ gọn -->
@@ -1432,6 +1453,32 @@
                                             <span class="text-pink-600 font-bold text-lg"
                                                 x-text="formatCurrency(cartTotal())"></span>
                                         </div>
+
+                                        <!-- Tiền COD: 0đ (chỉ hiện khi chuyển khoản) -->
+                                        <template x-if="paymentMethod === 'bank_transfer'">
+                                            <div class="flex justify-between items-center py-2 bg-green-50 px-3 rounded-lg mt-2"
+                                                 x-transition:enter="transition ease-out duration-200"
+                                                 x-transition:enter-start="opacity-0 transform scale-95"
+                                                 x-transition:enter-end="opacity-100 transform scale-100">
+                                                <span class="text-gray-700 font-medium flex items-center">
+                                                    <svg class="w-4 h-4 mr-2 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                                    </svg>
+                                                    Tiền COD khi nhận hàng:
+                                                </span>
+                                                <span class="text-green-600 font-bold text-lg">0đ</span>
+                                            </div>
+                                        </template>
+
+                                        <!-- Text phụ giải thích -->
+                                        <template x-if="paymentMethod === 'bank_transfer'">
+                                            <p class="text-xs text-green-600 text-center mt-2 font-medium bg-green-50 py-2 px-3 rounded-lg"
+                                               x-transition:enter="transition ease-out duration-200"
+                                               x-transition:enter-start="opacity-0"
+                                               x-transition:enter-end="opacity-100">
+                                                ✓ Bạn đã thanh toán trước, không cần trả thêm khi nhận hàng
+                                            </p>
+                                        </template>
                                     </div>
                                 </div>
                             </div>
@@ -3688,6 +3735,27 @@
                                 </div>
                             </div>
 
+                            <!-- Badge thông báo đã thanh toán trước (Quick Buy - chỉ hiện khi chuyển khoản) -->
+                            <template x-if="quickBuyPaymentMethod === 'bank_transfer'">
+                                <div class="mt-3 bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200 rounded-xl p-3"
+                                     x-transition:enter="transition ease-out duration-200"
+                                     x-transition:enter-start="opacity-0 transform scale-95"
+                                     x-transition:enter-end="opacity-100 transform scale-100">
+                                    <div class="flex items-start space-x-2">
+                                        <svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                        </svg>
+                                        <div class="flex-1">
+                                            <p class="text-sm font-bold text-green-700">✓ Đã thanh toán trước</p>
+                                            <p class="text-xs text-green-600 mt-1 leading-relaxed">
+                                                Tổng đơn hàng: <span class="font-bold" x-text="formatCurrency(quickBuyTotal)"></span><br>
+                                                <span class="font-bold">Tiền COD: 0đ</span> (không cần trả thêm khi nhận hàng)
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+
                             <!-- Thông tin chuyển khoản - Hiển thị khi chọn Bank Transfer -->
                             <div x-show="quickBuyPaymentMethod === 'bank_transfer'"
                                 class="mt-3 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-3">
@@ -4050,6 +4118,32 @@
                                     <span class="text-pink-600 font-bold text-lg"
                                         x-text="formatCurrency(quickBuyTotal)"></span>
                                 </div>
+
+                                <!-- Tiền COD: 0đ (Quick Buy - chỉ hiện khi chuyển khoản) -->
+                                <template x-if="quickBuyPaymentMethod === 'bank_transfer'">
+                                    <div class="flex justify-between items-center py-2 bg-green-50 px-3 rounded-lg mt-2"
+                                         x-transition:enter="transition ease-out duration-200"
+                                         x-transition:enter-start="opacity-0 transform scale-95"
+                                         x-transition:enter-end="opacity-100 transform scale-100">
+                                        <span class="text-gray-700 font-medium flex items-center">
+                                            <svg class="w-4 h-4 mr-2 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                            </svg>
+                                            Tiền COD khi nhận hàng:
+                                        </span>
+                                        <span class="text-green-600 font-bold text-lg">0đ</span>
+                                    </div>
+                                </template>
+
+                                <!-- Text phụ giải thích (Quick Buy) -->
+                                <template x-if="quickBuyPaymentMethod === 'bank_transfer'">
+                                    <p class="text-xs text-green-600 text-center mt-2 font-medium bg-green-50 py-2 px-3 rounded-lg"
+                                       x-transition:enter="transition ease-out duration-200"
+                                       x-transition:enter-start="opacity-0"
+                                       x-transition:enter-end="opacity-100">
+                                        ✓ Bạn đã thanh toán trước, không cần trả thêm khi nhận hàng
+                                    </p>
+                                </template>
                             </div>
                         </div>
                     </div>
@@ -5617,6 +5711,27 @@
                                 </div>
                             </div>
 
+                            <!-- Badge thông báo đã thanh toán trước (Checkout - chỉ hiện khi chuyển khoản) -->
+                            <template x-if="paymentMethod === 'bank_transfer'">
+                                <div class="mt-3 bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200 rounded-xl p-3"
+                                     x-transition:enter="transition ease-out duration-200"
+                                     x-transition:enter-start="opacity-0 transform scale-95"
+                                     x-transition:enter-end="opacity-100 transform scale-100">
+                                    <div class="flex items-start space-x-2">
+                                        <svg class="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                        </svg>
+                                        <div class="flex-1">
+                                            <p class="text-sm font-bold text-green-700">✓ Đã thanh toán trước</p>
+                                            <p class="text-xs text-green-600 mt-1 leading-relaxed">
+                                                Tổng đơn hàng: <span class="font-bold" x-text="formatCurrency(cartTotal())"></span><br>
+                                                <span class="font-bold">Tiền COD: 0đ</span> (không cần trả thêm khi nhận hàng)
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+
                             <!-- Thông tin chuyển khoản - Hiển thị khi chọn Bank Transfer -->
                             <div x-show="paymentMethod === 'bank_transfer'"
                                 class="mt-3 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-3">
@@ -5861,6 +5976,32 @@
                                         <span class="text-pink-600 font-bold text-lg"
                                             x-text="formatCurrency(cartTotal())"></span>
                                     </div>
+
+                                    <!-- Tiền COD: 0đ (Checkout - chỉ hiện khi chuyển khoản) -->
+                                    <template x-if="paymentMethod === 'bank_transfer'">
+                                        <div class="flex justify-between items-center py-2 bg-green-50 px-3 rounded-lg mt-2"
+                                             x-transition:enter="transition ease-out duration-200"
+                                             x-transition:enter-start="opacity-0 transform scale-95"
+                                             x-transition:enter-end="opacity-100 transform scale-100">
+                                            <span class="text-gray-700 font-medium flex items-center">
+                                                <svg class="w-4 h-4 mr-2 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                                </svg>
+                                                Tiền COD khi nhận hàng:
+                                            </span>
+                                            <span class="text-green-600 font-bold text-lg">0đ</span>
+                                        </div>
+                                    </template>
+
+                                    <!-- Text phụ giải thích (Checkout) -->
+                                    <template x-if="paymentMethod === 'bank_transfer'">
+                                        <p class="text-xs text-green-600 text-center mt-2 font-medium bg-green-50 py-2 px-3 rounded-lg"
+                                           x-transition:enter="transition ease-out duration-200"
+                                           x-transition:enter-start="opacity-0"
+                                           x-transition:enter-end="opacity-100">
+                                            ✓ Bạn đã thanh toán trước, không cần trả thêm khi nhận hàng
+                                        </p>
+                                    </template>
                                 </div>
                             </div>
                         </div>

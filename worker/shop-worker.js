@@ -272,11 +272,8 @@ async function createOrder(data, env, db, corsHeaders) {
         }, 0);
 
         // Tạo packaging_details JSON
+        // NOTE: red_string và labor_cost đã được tính vào giá vốn (COGS), không còn nằm trong chi phí đóng gói
         const packagingDetails = {
-            per_product: {
-                red_string: costConfig.red_string || 1000,
-                labor_cost: costConfig.labor_cost || 8000
-            },
             per_order: {
                 bag_zip: costConfig.bag_zip || 200,
                 bag_red: costConfig.bag_red || 850,
@@ -285,7 +282,6 @@ async function createOrder(data, env, db, corsHeaders) {
                 paper_print: costConfig.paper_print || 150
             },
             total_products: totalProducts,
-            per_product_cost: (costConfig.red_string || 1000) + (costConfig.labor_cost || 8000), // Chi phí cho 1 sp
             per_order_cost: (costConfig.bag_zip || 200) +
                 (costConfig.bag_red || 850) +
                 (costConfig.box_shipping || 950) +
@@ -294,8 +290,8 @@ async function createOrder(data, env, db, corsHeaders) {
             total_cost: 0 // Sẽ tính sau
         };
 
-        // Tính tổng chi phí đóng gói
-        packagingDetails.total_cost = (packagingDetails.per_product_cost * totalProducts) + packagingDetails.per_order_cost;
+        // Tính tổng chi phí đóng gói (chỉ tính per_order_cost, không còn per_product_cost)
+        packagingDetails.total_cost = packagingDetails.per_order_cost;
 
         const packagingCost = packagingDetails.total_cost;
         const packagingDetailsJson = JSON.stringify(packagingDetails);

@@ -859,7 +859,7 @@ document.addEventListener('alpine:init', () => {
     productNotes: Alpine.$persist({}).as('productNotes'),
     customer: Alpine.$persist({ name: '', phone: '', email: '', address: '', notes: '' }).as('customerInfo'),
     paymentMethod: 'cod',
-    addressData: [],
+    addressData: {}, // Đổi từ Array sang Object để phù hợp với tree.json
     isAddressLoading: false,
     selectedProvince: Alpine.$persist('').as('selectedProvince'),
     selectedDistrict: Alpine.$persist('').as('selectedDistrict'),
@@ -1217,10 +1217,10 @@ document.addEventListener('alpine:init', () => {
     /* ========= DATA FETCH ========= */
     async getAddressData() {
       // Chỉ tải nếu dữ liệu chưa có và không đang trong quá trình tải
-      if (this.addressData.length === 0 && !this.isAddressLoading) {
+      if (Object.keys(this.addressData).length === 0 && !this.isAddressLoading) {
         this.isAddressLoading = true;
         try {
-          const response = await fetch('./data/vietnamAddress.json');
+          const response = await fetch('./data/tree.json');
           if (!response.ok) throw new Error('Không thể tải dữ liệu địa chỉ.');
           this.addressData = await response.json();
         } catch (error) {
@@ -1806,17 +1806,30 @@ document.addEventListener('alpine:init', () => {
     },
 
     /* ========= ADDRESS ========= */
-    get provinces() { return this.addressData.map(p => ({ Id: p.Id, Name: p.Name })); },
+    get provinces() { 
+      return Object.entries(this.addressData).map(([code, data]) => ({ 
+        Id: code, 
+        Name: data.name_with_type 
+      })); 
+    },
     get districts() {
       if (!this.selectedProvince) return [];
-      const p = this.addressData.find(p => p.Id === this.selectedProvince);
-      return p ? p.Districts.map(d => ({ Id: d.Id, Name: d.Name })) : [];
+      const province = this.addressData[this.selectedProvince];
+      if (!province || !province['quan-huyen']) return [];
+      return Object.entries(province['quan-huyen']).map(([code, data]) => ({ 
+        Id: code, 
+        Name: data.name_with_type 
+      }));
     },
     get wards() {
       if (!this.selectedProvince || !this.selectedDistrict) return [];
-      const p = this.addressData.find(p => p.Id === this.selectedProvince);
-      const d = p?.Districts?.find(d => d.Id === this.selectedDistrict);
-      return d ? d.Wards.map(w => ({ Id: w.Id, Name: w.Name })) : [];
+      const province = this.addressData[this.selectedProvince];
+      const district = province?.['quan-huyen']?.[this.selectedDistrict];
+      if (!district || !district['xa-phuong']) return [];
+      return Object.entries(district['xa-phuong']).map(([code, data]) => ({ 
+        Id: code, 
+        Name: data.name_with_type 
+      }));
     },
     get bestSellingProducts() {
       return [...this.products].sort((a, b) => (b.purchases || 0) - (a.purchases || 0)).slice(0, 8);
@@ -1824,10 +1837,15 @@ document.addEventListener('alpine:init', () => {
 
     updateFullAddress() {
       if (this.selectedProvince && this.selectedDistrict && this.selectedWard) {
-        const prov = this.provinces.find(p => p.Id === this.selectedProvince)?.Name || '';
-        const dist = this.districts.find(d => d.Id === this.selectedDistrict)?.Name || '';
-        const ward = this.wards.find(w => w.Id === this.selectedWard)?.Name || '';
-        this.customer.address = [this.streetAddress, ward, dist, prov].filter(Boolean).join(', ');
+        const province = this.addressData[this.selectedProvince];
+        const district = province?.['quan-huyen']?.[this.selectedDistrict];
+        const ward = district?.['xa-phuong']?.[this.selectedWard];
+        
+        const prov = province?.name_with_type || '';
+        const dist = district?.name_with_type || '';
+        const wardName = ward?.name_with_type || '';
+        
+        this.customer.address = [this.streetAddress, wardName, dist, prov].filter(Boolean).join(', ');
       } else {
         // FORCE CLEAR address khi bất kỳ dropdown nào trống
         this.customer.address = '';
