@@ -247,8 +247,11 @@ async function createOrder(data, env, db, corsHeaders) {
         // Format products thành JSON string (để tương thích với Google Sheets)
         const productsJson = JSON.stringify(cartWithCostPrice);
 
-        // Parse payment method
-        const paymentMethod = data.paymentMethod === 'Chuyển khoản ngân hàng' ? 'bank_transfer' : 'cod';
+        // Parse payment method - đơn giản: bank hoặc cod
+        const paymentMethod = (data.paymentMethod && String(data.paymentMethod).toLowerCase().includes('chuyển khoản')) ? 'bank' : 'cod';
+
+        // Status mặc định theo database
+        const orderStatus = 'pending';
 
         // Parse referral info
         const referralCode = data.referralCode || null;
@@ -331,7 +334,7 @@ async function createOrder(data, env, db, corsHeaders) {
                 data.customer.address || '',
                 productsJson,
                 paymentMethod,
-                'Mới',
+                orderStatus,
                 referralCode,
                 commission,
                 commissionRate,
