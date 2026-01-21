@@ -94,7 +94,7 @@ async function createOrder(data, env, db, corsHeaders) {
 
         // Parse các giá trị từ data
         const orderDate = data.orderDate || new Date().toISOString();
-        const createdAtUnix = Math.floor(new Date(orderDate).getTime() / 1000);
+        const createdAtUnix = new Date(orderDate).getTime(); // Milliseconds (13 chữ số) để khớp với dashboard
 
         // Parse subtotal (tổng tiền sản phẩm)
         const subtotalStr = data.subtotal || '0đ';
@@ -104,8 +104,8 @@ async function createOrder(data, env, db, corsHeaders) {
 
         // Lấy chi phí từ bảng cost_config TRƯỚC để dùng cho các tính toán
         const costConfig = await getCostConfig(db);
-        const customerShippingFee = costConfig.customer_shipping_fee; // Phí ship khách hàng trả
-        const defaultShippingCost = costConfig.default_shipping_cost; // Chi phí ship thực tế của shop
+        const customerShippingFee = costConfig.customer_shipping_fee?.cost || costConfig.customer_shipping_fee; // Phí ship khách hàng trả
+        const defaultShippingCost = costConfig.default_shipping_cost?.cost || costConfig.default_shipping_cost; // Chi phí ship thực tế của shop
 
         // Parse shipping fee từ frontend (chỉ để check miễn phí hay không)
         const shippingFeeStr = data.shipping || '0đ';
@@ -253,7 +253,14 @@ async function createOrder(data, env, db, corsHeaders) {
         // Parse referral info
         const referralCode = data.referralCode || null;
         const commission = data.referralCommission || 0;
-        const ctvPhone = referralCode ? await getCtvPhone(db, referralCode) : null;
+        let ctvPhone = null;
+        let commissionRate = 0;
+        
+        if (referralCode) {
+            const ctvInfo = await getCtvInfo(db, referralCode);
+            ctvPhone = ctvInfo?.phone || null;
+            commissionRate = ctvInfo?.commission_rate || 0;
+        }
 
         // Tính toán các giá trị
         // subtotal = tổng tiền sản phẩm
@@ -271,42 +278,46 @@ async function createOrder(data, env, db, corsHeaders) {
             return sum + quantity;
         }, 0);
 
-        // Tạo packaging_details JSON
+        // Tạo packaging_details JSON - Lấy động từ database theo category_id = 5
         // NOTE: red_string và labor_cost đã được tính vào giá vốn (COGS), không còn nằm trong chi phí đóng gói
         const packagingDetails = {
-            per_order: {
-                bag_zip: costConfig.bag_zip || 200,
-                bag_red: costConfig.bag_red || 850,
-                box_shipping: costConfig.box_shipping || 950,
-                thank_card: costConfig.thank_card || 1000,
-                paper_print: costConfig.paper_print || 150
-            },
+            per_order: {},
             total_products: totalProducts,
-            per_order_cost: (costConfig.bag_zip || 200) +
-                (costConfig.bag_red || 850) +
-                (costConfig.box_shipping || 950) +
-                (costConfig.thank_card || 1000) +
-                (costConfig.paper_print || 150),
-            total_cost: 0 // Sẽ tính sau
+            per_order_cost: 0,
+            total_cost: 0
         };
 
-        // Tính tổng chi phí đóng gói (chỉ tính per_order_cost, không còn per_product_cost)
-        packagingDetails.total_cost = packagingDetails.per_order_cost;
+        // Lấy tất cả chi phí đóng gói (category_id = 5) từ costConfig
+        let perOrderCost = 0;
+        Object.keys(costConfig).forEach(itemName => {
+            const item = costConfig[itemName];
+            const cost = item.cost || item; // Support cả format mới và cũ
+            const categoryId = item.category_id;
+            
+            // Chỉ lấy chi phí đóng gói (category_id = 5)
+            if (categoryId === 5) {
+                packagingDetails.per_order[itemName] = cost;
+                perOrderCost += cost;
+            }
+        });
+
+        packagingDetails.per_order_cost = perOrderCost;
+        packagingDetails.total_cost = perOrderCost; // Tổng chi phí = per_order_cost (không còn per_product)
 
         const packagingCost = packagingDetails.total_cost;
         const packagingDetailsJson = JSON.stringify(packagingDetails);
 
         // Tính thuế dựa trên doanh thu TRƯỚC khi trừ discount (subtotal + shipping)
-        const taxRate = costConfig.tax_rate || 0.015; // Lấy từ cost_config, mặc định 1.5%
+        const taxRate = costConfig.tax_rate?.cost || costConfig.tax_rate || 0.015; // Lấy từ cost_config, mặc định 1.5%
         const taxableAmount = subtotal + shippingFee; // Doanh thu chịu thuế (TRƯỚC discount)
         const taxAmount = Math.round(taxableAmount * taxRate); // Làm tròn thuế
 
         // 1. Lưu vào bảng orders
         await db.execute({
             sql: `INSERT INTO orders (
-                order_id, order_date, customer_name, customer_phone, 
+                order_id, customer_name, customer_phone, 
                 address, products, payment_method, status,
-                referral_code, commission, ctv_phone, notes,
+                referral_code, commission, commission_rate, ctv_phone, notes,
                 shipping_fee, shipping_cost, packaging_cost, packaging_details,
                 tax_amount, tax_rate, total_amount,
                 created_at_unix, province_id, province_name, 
@@ -315,7 +326,6 @@ async function createOrder(data, env, db, corsHeaders) {
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
             args: [
                 data.orderId,
-                orderDate,
                 data.customer.name,
                 data.customer.phone,
                 data.customer.address || '',
@@ -324,8 +334,9 @@ async function createOrder(data, env, db, corsHeaders) {
                 'Mới',
                 referralCode,
                 commission,
+                commissionRate,
                 ctvPhone,
-                data.customer.notes || '',
+                data.customer.notes || null,
                 shippingFee,
                 actualShippingCost,
                 packagingCost,
@@ -528,7 +539,7 @@ async function createOrder(data, env, db, corsHeaders) {
                         name: data.customer.name,
                         phone: data.customer.phone,
                         address: data.customer.address || '',
-                        notes: data.customer.notes || ''
+                        notes: data.customer.notes || null
                     },
                     cart: data.cart,
                     total: data.total || `${totalAmountNumber.toLocaleString('vi-VN')}đ`,
@@ -678,7 +689,22 @@ async function getProductInfo(db, productName) {
     }
 }
 
-// Helper function: Lấy số điện thoại CTV từ referral code
+// Helper function: Lấy thông tin CTV từ referral code
+async function getCtvInfo(db, referralCode) {
+    try {
+        const result = await db.execute({
+            sql: `SELECT phone, commission_rate FROM ctv WHERE referral_code = ? LIMIT 1`,
+            args: [referralCode]
+        });
+
+        return result.rows.length > 0 ? result.rows[0] : null;
+    } catch (error) {
+        console.error('Error getting CTV info:', error);
+        return null;
+    }
+}
+
+// Helper function: Lấy số điện thoại CTV từ referral code (deprecated - use getCtvInfo instead)
 async function getCtvPhone(db, referralCode) {
     try {
         const result = await db.execute({
@@ -715,14 +741,17 @@ function parseAddress(fullAddress) {
 async function getCostConfig(db) {
     try {
         const result = await db.execute({
-            sql: `SELECT item_name, item_cost FROM cost_config WHERE is_default = 1`,
+            sql: `SELECT item_name, item_cost, category_id FROM cost_config WHERE is_default = 1`,
             args: []
         });
 
         // Convert array to object for easy access
         const config = {};
         result.rows.forEach(row => {
-            config[row.item_name] = row.item_cost;
+            config[row.item_name] = {
+                cost: row.item_cost,
+                category_id: row.category_id
+            };
         });
 
         return config;
@@ -735,15 +764,15 @@ async function getCostConfig(db) {
 // Helper function: Trả về cấu hình chi phí mặc định (fallback)
 function getDefaultCostConfig() {
     return {
-        bag_zip: 200,
-        paper_print: 150,
-        bag_red: 850,
-        box_shipping: 950,
-        thank_card: 1000,
-        default_shipping_cost: 25000,
-        tax_rate: 0.015,
-        red_string: 1000,
-        labor_cost: 8000
+        bag_zip: { cost: 200, category_id: 5 },
+        paper_print: { cost: 150, category_id: 5 },
+        bag_red: { cost: 850, category_id: 5 },
+        box_shipping: { cost: 950, category_id: 5 },
+        thank_card: { cost: 1000, category_id: 5 },
+        default_shipping_cost: { cost: 25000, category_id: 9 },
+        tax_rate: { cost: 0.015, category_id: null },
+        red_string: { cost: 1000, category_id: 8 },
+        labor_cost: { cost: 8000, category_id: 8 }
     };
 }
 
@@ -853,19 +882,21 @@ async function getConfig(env, db, corsHeaders) {
     try {
         const costConfig = await getCostConfig(db);
 
+        // Helper function để lấy giá trị cost
+        const getCost = (item) => item?.cost || item || 0;
+
         const config = {
-            shipping_fee: costConfig.customer_shipping_fee || 28000,
-            tax_rate: costConfig.tax_rate || 0.015,
-            packaging: {
-                bag_zip: costConfig.bag_zip || 200,
-                paper_print: costConfig.paper_print || 150,
-                bag_red: costConfig.bag_red || 850,
-                box_shipping: costConfig.box_shipping || 950,
-                thank_card: costConfig.thank_card || 1000,
-                red_string: costConfig.red_string || 1000,
-                labor_cost: costConfig.labor_cost || 8000
-            }
+            shipping_fee: getCost(costConfig.customer_shipping_fee) || 28000,
+            tax_rate: getCost(costConfig.tax_rate) || 0.015,
+            packaging: {}
         };
+
+        // Lấy tất cả chi phí đóng gói (category_id = 5) và các chi phí khác
+        Object.keys(costConfig).forEach(itemName => {
+            const item = costConfig[itemName];
+            const cost = getCost(item);
+            config.packaging[itemName] = cost;
+        });
 
         console.log('✅ Config loaded:', config);
 
