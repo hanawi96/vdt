@@ -2992,13 +2992,17 @@ document.addEventListener('alpine:init', () => {
 
     // Hàm xử lý order success tập trung
     handleOrderSuccess() {
+      console.log('🎉 [ORDER] Order success!');
+      console.log('🔍 [ORDER] Current referralCode:', this.referralCode);
+      console.log('🔍 [ORDER] localStorage referralData:', localStorage.getItem('referralData'));
+      
       // Ẩn Quick Buy Modal
       this.isQuickBuyModalOpen = false;
 
-
-
       // Hiển thị Success Modal (cho cả COD và Bank Transfer)
       this.isSuccessModalOpen = true;
+      
+      console.log('✅ [ORDER] Success modal opened, referralCode preserved:', this.referralCode);
     },
 
     // Helper: Xóa referral khỏi localStorage
@@ -3266,6 +3270,15 @@ document.addEventListener('alpine:init', () => {
     },
 
     async quickBuySubmit() {
+      // Đảm bảo referral code được load từ localStorage trước khi submit
+      if (!this.referralCode || this.referralCode.trim() === '') {
+        console.log('🔄 [REFERRAL] Reloading from localStorage before Quick Buy submit...');
+        this.loadStoredReferral();
+        console.log('🔄 [REFERRAL] After reload:', this.referralCode);
+      } else {
+        console.log('✅ [REFERRAL] Already loaded:', this.referralCode);
+      }
+      
       // Clear previous errors
       this.clearFormErrors();
 
@@ -3450,6 +3463,15 @@ document.addEventListener('alpine:init', () => {
           referralCommission: (this.referralCode && this.validateReferralCode(this.referralCode)) ? this.calculateCommission(total, this.referralCode) : 0,
           telegramNotification: 'VDT_SECRET_2025_ANHIEN'
         };
+
+        console.log('📦 [QUICK BUY] Order details:', {
+          orderId: orderDetails.orderId,
+          referralCode: orderDetails.referralCode,
+          referralPartner: orderDetails.referralPartner,
+          referralCommission: orderDetails.referralCommission,
+          currentReferralCode: this.referralCode,
+          isValid: this.validateReferralCode(this.referralCode)
+        });
 
         // Gửi đơn hàng đến API (tự động phát hiện môi trường)
         const apiUrl = this.getApiUrl('/api/order/create');
@@ -3999,6 +4021,15 @@ document.addEventListener('alpine:init', () => {
     },
 
     async confirmAndSubmitOrder() {
+      // Đảm bảo referral code được load từ localStorage trước khi submit
+      if (!this.referralCode || this.referralCode.trim() === '') {
+        console.log('🔄 [REFERRAL] Reloading from localStorage before Checkout submit...');
+        this.loadStoredReferral();
+        console.log('🔄 [REFERRAL] After reload:', this.referralCode);
+      } else {
+        console.log('✅ [REFERRAL] Already loaded:', this.referralCode);
+      }
+      
       // Validate form again before submitting (double check)
       this.clearFormErrors();
       if (!this.validateForm()) {
@@ -4350,14 +4381,21 @@ document.addEventListener('alpine:init', () => {
     handleReferralFromURL() {
       const SEVEN_DAYS = 7 * 24 * 60 * 60 * 1000;
 
+      console.log('🔍 [REFERRAL] Starting handleReferralFromURL...');
+
       try {
         const urlParams = new URLSearchParams(window.location.search);
         const refCode = urlParams.get('ref');
 
+        console.log('🔍 [REFERRAL] URL params:', { refCode });
+
         if (refCode?.trim() && /^[A-Z0-9_-]+$/i.test(refCode)) {
           // Có referral mới từ URL
-          const cleanCode = refCode.trim().toUpperCase();
+          // GIỮ NGUYÊN case gốc để hỗ trợ custom_slug (có thể là chữ thường)
+          const cleanCode = refCode.trim();
           this.referralCode = cleanCode;
+
+          console.log('✅ [REFERRAL] Valid code from URL:', cleanCode);
 
           const referralData = {
             code: cleanCode,
@@ -4366,65 +4404,178 @@ document.addEventListener('alpine:init', () => {
 
           try {
             localStorage.setItem('referralData', JSON.stringify(referralData));
+            console.log('✅ [REFERRAL] Saved to localStorage:', referralData);
+            
             // Clean URL
             const newUrl = new URL(window.location);
             newUrl.searchParams.delete('ref');
             window.history.replaceState({}, document.title, newUrl.toString());
+            console.log('✅ [REFERRAL] Cleaned URL');
           } catch (e) {
-            // Silent fail
+            console.error('❌ [REFERRAL] Error saving to localStorage:', e);
           }
         } else {
+          console.log('ℹ️ [REFERRAL] No valid ref in URL, checking localStorage...');
           // Không có referral trong URL, kiểm tra localStorage
           this.loadStoredReferral();
         }
       } catch (error) {
-        // Silent fail
+        console.error('❌ [REFERRAL] Error in handleReferralFromURL:', error);
       }
     },
 
     // Load referral từ localStorage
     loadStoredReferral() {
+      console.log('🔍 [REFERRAL] Loading from localStorage...');
+      
       try {
         const storedData = localStorage.getItem('referralData');
+        console.log('🔍 [REFERRAL] Stored data:', storedData);
+        
         if (storedData) {
           const data = JSON.parse(storedData);
+          console.log('🔍 [REFERRAL] Parsed data:', data);
+          
           if (data.expiry && Date.now() < data.expiry) {
-            this.referralCode = data.code;
+            // FIX: Nếu code cũ là chữ HOA, convert sang chữ thường
+            let code = data.code;
+            if (code && code === code.toUpperCase() && code.length <= 10) {
+              // Có thể là custom_slug bị convert sai, thử lowercase
+              console.log('🔄 [REFERRAL] Converting old uppercase code to lowercase:', code);
+              code = code.toLowerCase();
+              
+              // Cập nhật lại localStorage với code mới
+              data.code = code;
+              localStorage.setItem('referralData', JSON.stringify(data));
+              console.log('✅ [REFERRAL] Updated localStorage with lowercase code');
+            }
+            
+            this.referralCode = code;
+            const daysRemaining = Math.round((data.expiry - Date.now()) / (1000 * 60 * 60 * 24));
+            console.log('✅ [REFERRAL] Loaded valid code:', {
+              code: code,
+              daysRemaining: daysRemaining
+            });
           } else {
+            console.log('⚠️ [REFERRAL] Code expired, clearing...');
             // Hết hạn, xóa
             this.clearReferralStorage();
           }
+        } else {
+          console.log('ℹ️ [REFERRAL] No stored data found');
         }
       } catch (error) {
+        console.error('❌ [REFERRAL] Error loading from localStorage:', error);
         this.clearReferralStorage();
       }
     },
 
     // Revalidate referral sau khi partners data đã được load
     revalidateReferralAfterLoad() {
+      console.log('🔍 [REFERRAL] Revalidating after data load...');
+      console.log('🔍 [REFERRAL] Current code:', this.referralCode);
+      
       if (this.referralCode && !this.validateReferralCode(this.referralCode)) {
+        console.log('❌ [REFERRAL] Code invalid, clearing:', this.referralCode);
         this.referralCode = '';
         this.clearReferralStorage();
+      } else if (this.referralCode) {
+        console.log('✅ [REFERRAL] Code valid:', this.referralCode);
+      } else {
+        console.log('ℹ️ [REFERRAL] No code to validate');
       }
     },
 
-    // Validate referral code - Chỉ dùng cho UI, validation thực sự ở Worker API
+    // Validate referral code - Chấp nhận cả referral_code (CTV001) và custom_slug (anhshop)
+    // Validation thực sự sẽ được thực hiện ở Worker API khi đặt hàng
     validateReferralCode(code) {
+      console.log('🔍 [REFERRAL] Validating code:', code);
+      
       try {
-        if (!code || code.trim() === '') return false;
-        // Chấp nhận mọi mã có format CTVxxxxxx
-        return code.toUpperCase().startsWith('CTV') && code.length >= 6;
+        if (!code || code.trim() === '') {
+          console.log('❌ [REFERRAL] Empty code');
+          return false;
+        }
+        
+        const cleanCode = code.trim();
+        
+        // Chấp nhận mọi mã có ít nhất 3 ký tự và chỉ chứa chữ, số, gạch ngang, gạch dưới
+        // Ví dụ hợp lệ: CTV001, anhshop, ctv-abc, my_shop_123
+        const validFormat = /^[a-zA-Z0-9_-]{3,}$/;
+        
+        const isValid = validFormat.test(cleanCode);
+        console.log(isValid ? '✅ [REFERRAL] Valid format' : '❌ [REFERRAL] Invalid format');
+        
+        return isValid;
       } catch (error) {
+        console.error('❌ [REFERRAL] Validation error:', error);
         return false;
       }
     },
 
+    // Validate CTV code từ API (realtime validation)
+    // Trả về Promise với thông tin CTV nếu hợp lệ
+    async validateCtvFromAPI(code) {
+      console.log('🔍 [REFERRAL API] Validating code from API:', code);
+      
+      try {
+        if (!code || !code.trim()) {
+          console.log('❌ [REFERRAL API] Empty code');
+          return { valid: false, error: 'Mã không được để trống' };
+        }
+
+        const apiUrl = this.getApiUrl(`/api/ctv/validate?code=${encodeURIComponent(code.trim())}`);
+        console.log('🔍 [REFERRAL API] Calling:', apiUrl);
+        
+        const response = await fetch(apiUrl);
+        const result = await response.json();
+
+        console.log('🔍 [REFERRAL API] Response:', result);
+
+        if (result.success && result.valid) {
+          console.log('✅ [REFERRAL API] Valid CTV:', {
+            name: result.data.name,
+            code: result.data.referral_code,
+            slug: result.data.custom_slug,
+            matched_by: result.data.matched_by
+          });
+          
+          return {
+            valid: true,
+            name: result.data.name,
+            referral_code: result.data.referral_code,
+            custom_slug: result.data.custom_slug,
+            commission_rate: result.data.commission_rate,
+            matched_by: result.data.matched_by
+          };
+        }
+
+        console.log('❌ [REFERRAL API] Invalid:', result.message);
+        return { valid: false, error: result.message || 'Mã không hợp lệ' };
+      } catch (error) {
+        console.error('❌ [REFERRAL API] Error:', error);
+        return { valid: false, error: 'Lỗi kết nối' };
+      }
+    },
+
     // Lấy thông tin partner - Chỉ dùng cho UI, dữ liệu thực sự từ database
+    // NOTE: Hàm này chỉ dùng để hiển thị UI, commission thực tế được tính ở backend
     getPartnerInfo(code) {
       try {
         if (!code || !this.partners || typeof this.partners !== 'object') return null;
         // Trả về thông tin từ partners object nếu có (cho UI)
-        return this.partners[code.toUpperCase()] || { name: 'CTV', commission: 10 };
+        // Mặc định commission_rate = 10% (0.1) nếu không có trong partners object
+        
+        // Thử tìm với code gốc trước, sau đó thử uppercase (tương thích ngược)
+        let partner = this.partners[code] || this.partners[code.toUpperCase()];
+        
+        if (partner) {
+          return {
+            name: partner.name || 'CTV',
+            commission: partner.commission_rate ? partner.commission_rate * 100 : (partner.commission || 10)
+          };
+        }
+        return { name: 'CTV', commission: 10 };
       } catch (error) {
         return { name: 'CTV', commission: 10 };
       }
@@ -4432,9 +4583,16 @@ document.addEventListener('alpine:init', () => {
 
     // Tính hoa hồng
     calculateCommission(total, code) {
+      console.log('🔍 [REFERRAL] Calculating commission:', { total, code });
+      
       try {
         const partner = this.getPartnerInfo(code);
-        if (!partner) return 0;
+        if (!partner) {
+          console.log('❌ [REFERRAL] No partner info found');
+          return 0;
+        }
+
+        console.log('🔍 [REFERRAL] Partner info:', partner);
 
         // Convert total to number if it's a string
         let numericTotal = total;
@@ -4443,11 +4601,21 @@ document.addEventListener('alpine:init', () => {
           numericTotal = parseInt(total.replace(/[^\d]/g, '')) || 0;
         }
 
-        if (typeof numericTotal !== 'number' || numericTotal <= 0) return 0;
+        if (typeof numericTotal !== 'number' || numericTotal <= 0) {
+          console.log('❌ [REFERRAL] Invalid total amount');
+          return 0;
+        }
 
         const commission = Math.floor(numericTotal * partner.commission / 100);
+        console.log('✅ [REFERRAL] Commission calculated:', {
+          total: numericTotal,
+          rate: partner.commission + '%',
+          commission: commission
+        });
+        
         return commission;
       } catch (error) {
+        console.error('❌ [REFERRAL] Error calculating commission:', error);
         return 0;
       }
     },
@@ -4492,6 +4660,10 @@ document.addEventListener('alpine:init', () => {
 
     // Quick referral status check
     showReferralStatus() {
+      console.log('═══════════════════════════════════════');
+      console.log('📊 [REFERRAL STATUS]');
+      console.log('═══════════════════════════════════════');
+      console.log('Current code:', this.referralCode || 'None');
 
       // Hiển thị thông tin thời hạn từ referralData
       try {
@@ -4502,7 +4674,14 @@ document.addEventListener('alpine:init', () => {
           const timeRemaining = data.expiry - now;
           const daysRemaining = Math.round(timeRemaining / (1000 * 60 * 60 * 24) * 10) / 10;
 
+          console.log('Stored data:', {
+            code: data.code,
+            expiry: new Date(data.expiry).toLocaleString('vi-VN'),
+            daysRemaining: daysRemaining + ' days',
+            isExpired: timeRemaining < 0
+          });
         } else {
+          console.log('No stored data in localStorage');
         }
       } catch (error) {
         console.error('❌ Error reading referralData:', error);
@@ -4510,11 +4689,39 @@ document.addEventListener('alpine:init', () => {
 
       if (this.referralCode && this.validateReferralCode(this.referralCode)) {
         const partner = this.getPartnerInfo(this.referralCode);
+        console.log('Partner info:', partner);
+        console.log('Commission rate:', partner.commission + '%');
+        
+        // Test commission calculation
+        const testAmount = 200000;
+        const testCommission = this.calculateCommission(testAmount, this.referralCode);
+        console.log('Test commission (200k):', testCommission.toLocaleString('vi-VN') + 'đ');
       }
+      
+      console.log('═══════════════════════════════════════');
+    },
+
+    // Test API validation
+    async testApiValidation(code) {
+      console.log('═══════════════════════════════════════');
+      console.log('🧪 [TEST API VALIDATION]');
+      console.log('═══════════════════════════════════════');
+      console.log('Testing code:', code);
+      
+      const result = await this.validateCtvFromAPI(code);
+      
+      console.log('Result:', result);
+      console.log('═══════════════════════════════════════');
+      
+      return result;
     },
 
     // Manual set referral for testing
     setTestReferral(code) {
+      console.log('═══════════════════════════════════════');
+      console.log('🧪 [SET TEST REFERRAL]');
+      console.log('═══════════════════════════════════════');
+      console.log('Setting code:', code);
 
       if (this.validateReferralCode(code)) {
         this.referralCode = code;
@@ -4529,19 +4736,32 @@ document.addEventListener('alpine:init', () => {
         try {
           localStorage.setItem('referralData', JSON.stringify(referralData));
           localStorage.setItem('referralCode', code); // Tương thích
+          console.log('✅ Saved to localStorage');
         } catch (error) {
           console.error('❌ Error saving referral data:', error);
         }
 
         const partner = this.getPartnerInfo(code);
+        console.log('✅ Code set successfully');
+        console.log('Partner info:', partner);
+        console.log('═══════════════════════════════════════');
       } else {
+        console.log('❌ Invalid code format');
+        console.log('═══════════════════════════════════════');
       }
     },
 
     // Test URL parsing manually
     testUrlParsing() {
-
+      console.log('═══════════════════════════════════════');
+      console.log('🧪 [TEST URL PARSING]');
+      console.log('═══════════════════════════════════════');
+      console.log('Current URL:', window.location.href);
+      
       const urlParams = new URLSearchParams(window.location.search);
+      console.log('URL params:', Object.fromEntries(urlParams));
+      console.log('ref param:', urlParams.get('ref'));
+      console.log('═══════════════════════════════════════');
     },
 
     /* ========= BABY NAME MODAL FUNCTIONS ========= */

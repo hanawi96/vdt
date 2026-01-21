@@ -51,6 +51,11 @@ export default {
                 return await getConfig(env, db, corsHeaders);
             }
 
+            // API validate CTV code/slug
+            if (request.method === 'GET' && path === '/api/ctv/validate') {
+                return await validateCtvCode(url, db, corsHeaders);
+            }
+
             return jsonResponse({ success: false, error: 'Method not allowed' }, 405, corsHeaders);
 
         } catch (error) {
@@ -254,15 +259,51 @@ async function createOrder(data, env, db, corsHeaders) {
         const orderStatus = 'pending';
 
         // Parse referral info
-        const referralCode = data.referralCode || null;
-        const commission = data.referralCommission || 0;
+        const referralCodeInput = data.referralCode || null; // Mã mà khách hàng nhập (có thể là code hoặc slug)
+        let commission = 0; // Khởi tạo = 0, chỉ tính khi tìm thấy CTV hợp lệ
         let ctvPhone = null;
         let commissionRate = 0;
+        let referralCodeActual = null; // Mã referral_code thực tế từ database
         
-        if (referralCode) {
-            const ctvInfo = await getCtvInfo(db, referralCode);
-            ctvPhone = ctvInfo?.phone || null;
-            commissionRate = ctvInfo?.commission_rate || 0;
+        console.log('🔍 [WORKER] Parsing referral info:', {
+            referralCodeInput: referralCodeInput,
+            hasInput: !!referralCodeInput,
+            inputTrimmed: referralCodeInput?.trim(),
+            inputLength: referralCodeInput?.length
+        });
+        
+        if (referralCodeInput && referralCodeInput.trim()) {
+            console.log('🔍 [WORKER] Calling getCtvInfo with:', referralCodeInput.trim());
+            const ctvInfo = await getCtvInfo(db, referralCodeInput);
+            
+            console.log('🔍 [WORKER] getCtvInfo result:', ctvInfo);
+            
+            if (ctvInfo) {
+                ctvPhone = ctvInfo.phone || null;
+                commissionRate = ctvInfo.commission_rate || 0;
+                referralCodeActual = ctvInfo.referral_code; // Lưu referral_code gốc, không phải custom_slug
+                
+                // Tính commission từ database, KHÔNG dùng giá trị từ frontend
+                commission = Math.floor(finalTotalAmount * commissionRate);
+                
+                console.log('✅ [WORKER] CTV validated:', {
+                    input: referralCodeInput,
+                    actual_code: referralCodeActual,
+                    name: ctvInfo.full_name,
+                    commission_rate: commissionRate,
+                    commission_amount: commission,
+                    ctv_phone: ctvPhone
+                });
+            } else {
+                console.warn('⚠️ [WORKER] Invalid referral code - CTV not found:', referralCodeInput);
+                // Reset tất cả về null/0 nếu không tìm thấy CTV
+                commission = 0;
+                ctvPhone = null;
+                commissionRate = 0;
+                referralCodeActual = null;
+            }
+        } else {
+            console.log('ℹ️ [WORKER] No referral code provided or empty');
         }
 
         // Tính toán các giá trị
@@ -335,7 +376,7 @@ async function createOrder(data, env, db, corsHeaders) {
                 productsJson,
                 paymentMethod,
                 orderStatus,
-                referralCode,
+                referralCodeActual, // Lưu referral_code gốc từ database, không phải input từ khách
                 commission,
                 commissionRate,
                 ctvPhone,
@@ -526,6 +567,8 @@ async function createOrder(data, env, db, corsHeaders) {
             taxRate: taxRate,
             taxAmount: taxAmount,
             commission: commission,
+            referralCode: referralCodeActual,
+            referralInput: referralCodeInput,
             packagingDetails: packagingDetails
         });
 
@@ -692,17 +735,71 @@ async function getProductInfo(db, productName) {
     }
 }
 
-// Helper function: Lấy thông tin CTV từ referral code
+// Helper function: Lấy thông tin CTV từ referral code hoặc custom slug
+// Hỗ trợ cả referral_code (CTV001) và custom_slug (anhshop)
+// Thứ tự ưu tiên: referral_code → custom_slug
 async function getCtvInfo(db, referralCode) {
+    console.log('🔍 [getCtvInfo] Called with:', referralCode);
+    
     try {
-        const result = await db.execute({
-            sql: `SELECT phone, commission_rate FROM ctv WHERE referral_code = ? LIMIT 1`,
-            args: [referralCode]
+        if (!referralCode || !referralCode.trim()) {
+            console.log('⚠️ [getCtvInfo] Empty or null referralCode');
+            return null;
+        }
+
+        const cleanCode = referralCode.trim();
+        console.log('🔍 [getCtvInfo] Clean code:', cleanCode);
+
+        // Bước 1: Tìm theo referral_code trước (ưu tiên cao nhất)
+        console.log('🔍 [getCtvInfo] Step 1: Searching by referral_code...');
+        let result = await db.execute({
+            sql: `SELECT id, full_name, phone, commission_rate, referral_code, custom_slug, status
+                  FROM ctv 
+                  WHERE referral_code = ? AND status != 'Từ chối'
+                  LIMIT 1`,
+            args: [cleanCode]
+        });
+        
+        console.log('🔍 [getCtvInfo] Step 1 result:', {
+            rowCount: result.rows.length,
+            rows: result.rows
         });
 
-        return result.rows.length > 0 ? result.rows[0] : null;
+        // Bước 2: Nếu không tìm thấy, tìm theo custom_slug
+        if (result.rows.length === 0) {
+            console.log('🔍 [getCtvInfo] Step 2: Searching by custom_slug...');
+            result = await db.execute({
+                sql: `SELECT id, full_name, phone, commission_rate, referral_code, custom_slug, status
+                      FROM ctv 
+                      WHERE custom_slug = ? AND status != 'Từ chối'
+                      LIMIT 1`,
+                args: [cleanCode]
+            });
+            
+            console.log('🔍 [getCtvInfo] Step 2 result:', {
+                rowCount: result.rows.length,
+                rows: result.rows
+            });
+        }
+
+        if (result.rows.length > 0) {
+            const ctvInfo = result.rows[0];
+            console.log('✅ [getCtvInfo] Found CTV:', {
+                id: ctvInfo.id,
+                name: ctvInfo.full_name,
+                referral_code: ctvInfo.referral_code,
+                custom_slug: ctvInfo.custom_slug,
+                commission_rate: ctvInfo.commission_rate,
+                status: ctvInfo.status,
+                matched_by: ctvInfo.referral_code === cleanCode ? 'referral_code' : 'custom_slug'
+            });
+            return ctvInfo;
+        }
+
+        console.warn('⚠️ [getCtvInfo] CTV not found for code:', cleanCode);
+        return null;
     } catch (error) {
-        console.error('Error getting CTV info:', error);
+        console.error('❌ [getCtvInfo] Error:', error);
         return null;
     }
 }
@@ -912,6 +1009,53 @@ async function getConfig(env, db, corsHeaders) {
         console.error('Error fetching config:', error);
         return jsonResponse({
             success: false,
+            error: error.message
+        }, 500, corsHeaders);
+    }
+}
+
+// Validate CTV code/slug - Kiểm tra tính hợp lệ của mã CTV
+async function validateCtvCode(url, db, corsHeaders) {
+    try {
+        const code = url.searchParams.get('code');
+
+        if (!code || !code.trim()) {
+            return jsonResponse({
+                success: false,
+                valid: false,
+                error: 'Thiếu mã CTV'
+            }, 400, corsHeaders);
+        }
+
+        // Sử dụng hàm getCtvInfo đã có (hỗ trợ cả referral_code và custom_slug)
+        const ctvInfo = await getCtvInfo(db, code.trim());
+
+        if (!ctvInfo) {
+            return jsonResponse({
+                success: true,
+                valid: false,
+                message: 'Mã CTV không tồn tại hoặc đã bị vô hiệu hóa'
+            }, 200, corsHeaders);
+        }
+
+        // Trả về thông tin CTV (không bao gồm thông tin nhạy cảm)
+        return jsonResponse({
+            success: true,
+            valid: true,
+            data: {
+                name: ctvInfo.full_name,
+                referral_code: ctvInfo.referral_code,
+                custom_slug: ctvInfo.custom_slug,
+                commission_rate: ctvInfo.commission_rate,
+                matched_by: ctvInfo.referral_code === code.trim() ? 'referral_code' : 'custom_slug'
+            }
+        }, 200, corsHeaders);
+
+    } catch (error) {
+        console.error('Error validating CTV code:', error);
+        return jsonResponse({
+            success: false,
+            valid: false,
             error: error.message
         }, 500, corsHeaders);
     }
